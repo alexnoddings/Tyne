@@ -1,0 +1,33 @@
+﻿@namespace Tyne.UI.Forms
+@typeparam TOpen
+@typeparam TModel
+@inherits TyneModalForm<TOpen, TModel>
+
+@{ base.BuildRenderTree(__builder); }
+
+@code
+{
+    protected virtual RenderFragment RenderTitle(TModel? model) => _ => { };
+
+    protected virtual RenderFragment RenderPanelBody(RenderFragment loadingContent, RenderFragment<TModel> content) =>
+        @<MudDrawerContainer Class="d-flex flex-column gap-4 px-4">
+            @RenderMetadata()
+            @base.Render(loadingContent, content)
+            <div class="d-flex flex-row align-end justify-end gap-4">
+                @RenderCancelButton()
+                @RenderSaveButton()
+            </div>
+        </MudDrawerContainer>;
+    
+    protected override RenderFragment Render(RenderFragment loadingContent, RenderFragment<TModel> content) =>
+        @<MudDrawer Class="@Classname" Width="@Width" Open="State is not FormState.Closed" OpenChanged="OnOpenChanged" Anchor="Anchor.End" Elevation="1" Variant="DrawerVariant.Temporary">
+            <MudDrawerHeader Class="d-flex flex-row align-center justify-space-between gap-2">
+                @RenderTitle(ModelInstance)
+                @RenderCloseButton()
+            </MudDrawerHeader>
+            <MudDrawerContainer>
+                @RenderPanelBody(loadingContent, content)
+            </MudDrawerContainer>
+        </MudDrawer>;
+}
+

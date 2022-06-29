@@ -1,0 +1,56 @@
+<Project>
+
+  <PropertyGroup Label="Project Info">
+    <Product>Tyne</Product>
+    <Authors>Alex Noddings</Authors>
+    <StrongNameKeyId>AlexNTyne</StrongNameKeyId>
+    <PackageProjectUrl>https://github.com/alexnoddings/Tyne</PackageProjectUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Version settings">
+    <TyneMajorVersion>1</TyneMajorVersion>
+    <TyneMinorVersion>0</TyneMinorVersion>
+    <TynePatchVersion>0</TynePatchVersion>
+    <Version>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</Version>
+    <AssemblyVersion>$(Version)</AssemblyVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Repository Info">
+    <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
+    <RepositoryUrl>https://github.com/alexnoddings/Tyne</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <!-- The SPDX name for the source license. See https://spdx.org/licenses/. -->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Conventions">
+    <LangVersion>preview</LangVersion>
+    <Features>strict</Features>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Analysers">
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <AnalysisMode>Default</AnalysisMode>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Project Types">
+    <IsUnitTestProject Condition=" '$(IsUnitTestProject)' == '' AND $(MSBuildProjectName.EndsWith('Tests')) ">true</IsUnitTestProject>
+    <IsUnitTestProject Condition=" '$(IsUnitTestProject)' == '' ">false</IsUnitTestProject>
+    <IsBlazorUnitTestProject Condition=" '$(IsUnitTestProject)' == 'true' AND '$(IsBlazorUnitTestProject)' == '' AND $(MSBuildProjectName.Contains('UI')) ">true</IsBlazorUnitTestProject>
+    <IsBlazorUnitTestProject Condition=" '$(IsBlazorUnitTestProject)' == '' ">false</IsBlazorUnitTestProject>
+</PropertyGroup>
+
+  <ItemGroup Condition=" '$(IsUnitTestProject)' == 'true' AND '$(ImplicitUsings)' == 'enable' ">
+    <Using Include="Moq" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(IsBlazorUnitTestProject)' == 'true' ">
+    <Using Include="Bunit" />
+  </ItemGroup>
+
+</Project>

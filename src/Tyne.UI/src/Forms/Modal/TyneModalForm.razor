@@ -1,0 +1,23 @@
+﻿@namespace Tyne.UI.Forms
+@typeparam TOpen
+@typeparam TModel
+@inherits TyneFormBase<TModel>
+
+@{ base.BuildRenderTree(__builder); }
+
+@code
+{
+    protected virtual RenderFragment RenderCancelButton() =>
+        @<MudButton OnClick="() => CloseAsync(ModalCloseReason.Cancelled)"
+                Variant="Variant.Outlined"
+                Color="Color.Default"
+                StartIcon="@Icons.Material.Filled.Close">
+            Cancel
+        </MudButton>;
+
+    protected virtual RenderFragment RenderCloseButton() =>
+        @<MudIconButton OnClick="() => CloseAsync(ModalCloseReason.Cancelled)"
+                        Variant="Variant.Text"
+                        Color="Color.Default"
+                        Icon="@Icons.Material.Filled.Close" />;
+}

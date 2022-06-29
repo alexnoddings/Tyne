@@ -1,0 +1,15 @@
+﻿@namespace Tyne.UI.Tables
+@typeparam TResult
+
+<MudTh>
+	@if (string.IsNullOrWhiteSpace(OrderByName))
+	{
+		@ChildContent
+	}
+	else
+	{
+		<MudTableSortLabel T="TResult" SortLabel="@OrderByName">
+			@ChildContent
+		</MudTableSortLabel>
+	}
+</MudTh>

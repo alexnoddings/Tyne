@@ -1,0 +1,21 @@
+﻿@namespace Tyne.UI.Forms
+@typeparam TModel
+@inherits TyneFormBase<TModel>
+
+@{ base.BuildRenderTree(__builder); }
+
+@code
+{
+    protected override RenderFragment Render(RenderFragment loadingContent, RenderFragment<TModel> content) =>
+        base.Render(
+            @<MudPaper Class="d-flex flex-column gap-4 pa-2">
+                @loadingContent
+            </MudPaper>, 
+            model => 
+            @<MudPaper Class="d-flex flex-column gap-4 pa-2">
+                @RenderMetadata()
+                @content(model)
+                @RenderSaveButton()
+            </MudPaper>
+        );
+}

@@ -1,0 +1,57 @@
+﻿@namespace Tyne.UI.Tables
+@typeparam TResult
+@typeparam TSearch
+@inherits TyneColumn<TResult>
+
+@{
+	throw new InvalidOperationException($"{GetType().Name} should implement {nameof(BuildRenderTree)}");
+}
+
+@code {
+	protected virtual RenderFragment RenderVisibilityButton() =>
+		@<MudTooltip Text="@(IsFilterVisible ? "Hide filter" : "Show filter")"
+					 Delay="400"
+					 Duration="200"
+					 Arrow="true">
+			<MudIconButton Class="pa-1 ma-0"
+						   Icon="@FilterIcon"
+						   Color="FilterIconColor"
+						   OnClick="ToggleFilterVisibility" />
+		</MudTooltip>;
+
+	protected virtual RenderFragment RenderColumnHeader() =>
+		OrderBy is null
+		? (ChildContent ?? (@<text></text>))
+		: @<MudTableSortLabel T="TResult" SortLabel="@OrderByName">
+			@ChildContent
+		</MudTableSortLabel>;
+
+	protected virtual RenderFragment RenderClearButton() =>
+		@<MudTooltip Text="Clear"
+					 Delay="400"
+					 Duration="200"
+					 Arrow="true">
+			<MudIconButton Class="pa-1"
+						   Icon="@Icons.Filled.Clear"
+						   Color="Color.Primary"
+						   OnClick="ClearAsync" />
+		</MudTooltip>;
+
+	protected virtual RenderFragment RenderPopover(RenderFragment content) =>
+		@<MudPopover Open="IsFilterVisible"
+					 Fixed="true"
+					 AnchorOrigin="Origin.TopLeft"
+					 TransformOrigin="Origin.BottomLeft">
+			<div class="d-flex align-end px-2 pb-2">
+				@RenderClearButton()
+				@content
+			</div>
+		</MudPopover>;
+
+	protected virtual RenderFragment Render(RenderFragment popoverContent) =>
+		@<MudTh>
+			@RenderVisibilityButton()
+			@RenderColumnHeader()
+			@RenderPopover(popoverContent)
+		</MudTh>;
+}

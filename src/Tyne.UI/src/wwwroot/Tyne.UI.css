@@ -1,0 +1,36 @@
+﻿.tyne-drawer-open-skip.mud-drawer.mud-drawer-temporary.mud-drawer--open:not(.mud-drawer--initial) {
+    animation-duration: 0ms;
+}
+
+.tyne-drawer-open-fast.mud-drawer.mud-drawer-temporary.mud-drawer--open:not(.mud-drawer--initial) {
+    animation-duration: 120ms;
+}
+
+.tyne-drawer-open-normal.mud-drawer.mud-drawer-temporary.mud-drawer--open:not(.mud-drawer--initial) {
+    animation-duration: 240ms;
+}
+
+.tyne-drawer-open-slow.mud-drawer.mud-drawer-temporary.mud-drawer--open:not(.mud-drawer--initial) {
+    animation-duration: 400ms;
+}
+
+.tyne-drawer-close-skip.mud-drawer.mud-drawer-temporary.mud-drawer--closed:not(.mud-drawer--initial) {
+    animation-duration: 0ms;
+}
+
+.tyne-drawer-close-fast.mud-drawer.mud-drawer-temporary.mud-drawer--closed:not(.mud-drawer--initial) {
+    animation-duration: 120ms;
+}
+
+.tyne-drawer-close-normal.mud-drawer.mud-drawer-temporary.mud-drawer--closed:not(.mud-drawer--initial) {
+    animation-duration: 240ms;
+}
+
+.tyne-drawer-close-slow.mud-drawer.mud-drawer-temporary.mud-drawer--closed:not(.mud-drawer--initial) {
+    animation-duration: 400ms;
+}
+
+.tyne-table.mud-table > .mud-table-toolbar {
+    height: unset;
+    padding: 8px 12px;
+}

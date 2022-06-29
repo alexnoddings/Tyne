@@ -1,0 +1,48 @@
+<Project>
+
+  <PropertyGroup Label='Packaging'>
+    <IsPackable Condition=" '$(IsPackable)' == '' AND '$(IsUnitTestProject)' == 'true' ">false</IsPackable>
+    <IsPackable Condition=" '$(IsPackable)' == '' ">true</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup Label='Default Test Package Flag'>
+    <UseDefaultUnitTestPackageReferences Condition=" '$(UseDefaultUnitTestPackageReferences)' == '' AND '$(IsUnitTestProject)' == 'true' ">true</UseDefaultUnitTestPackageReferences>
+  </PropertyGroup>
+
+  <ItemGroup Label="Default Unit Test Packages" Condition=" '$(UseDefaultUnitTestPackageReferences)' == 'true' ">
+    <PackageReference Include="coverlet.collector">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Moq" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Label="Package Versions">
+    <PackageReference Update="FluentValidation" Version="11.0.3" />
+    <PackageReference Update="Microsoft.AspNetCore.Components.Web" Version="6.0.6" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore" Version="6.0.6" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore.Relational" Version="6.0.6" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
+    <PackageReference Update="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Update="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
+    <PackageReference Update="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
+    <PackageReference Update="MudBlazor" Version="6.0.10" />
+  </ItemGroup>
+
+  <ItemGroup Label="Test Package Versions" Condition=" '$(IsUnitTestProject)' == 'true' ">
+    <PackageReference Update="bunit" Version="1.9.8" />
+    <PackageReference Update="coverlet.collector" Version="3.1.2" />
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+    <PackageReference Update="Moq" Version="4.18.1" />
+    <PackageReference Update="xunit" Version="2.4.1" />
+    <PackageReference Update="xunit.runner.visualstudio" Version="2.4.5" />
+  </ItemGroup>
+
+</Project>
