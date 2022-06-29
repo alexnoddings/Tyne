@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <AssemblyName>Tyne.Core</AssemblyName>
-    <RootNamespace>Tyne.Core</RootNamespace>
+    <AssemblyName>Tyne</AssemblyName>
+    <RootNamespace>Tyne</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

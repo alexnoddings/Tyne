@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <AssemblyName>Tyne.Searching.EntityFramework</AssemblyName>
-    <RootNamespace>Tyne.Searching.EntityFramework</RootNamespace>
+    <AssemblyName>Tyne.EntityFramework</AssemblyName>
+    <RootNamespace>Tyne.EntityFramework</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
