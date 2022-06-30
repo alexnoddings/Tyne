@@ -26,6 +26,7 @@
   <ItemGroup Label="Package Versions">
     <PackageReference Update="FluentValidation" Version="11.0.3" />
     <PackageReference Update="Microsoft.AspNetCore.Components.Web" Version="6.0.6" />
+    <PackageReference Update="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
     <PackageReference Update="Microsoft.EntityFrameworkCore" Version="6.0.6" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.Relational" Version="6.0.6" />
     <PackageReference Update="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
@@ -34,6 +35,7 @@
     <PackageReference Update="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
     <PackageReference Update="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
     <PackageReference Update="MudBlazor" Version="6.0.10" />
+    <PackageReference Update="System.Runtime.Experimental" Version="6.0.2" />
   </ItemGroup>
 
   <ItemGroup Label="Test Package Versions" Condition=" '$(IsUnitTestProject)' == 'true' ">
