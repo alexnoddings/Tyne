@@ -167,7 +167,11 @@ public abstract partial class TyneModalForm<TOpen, TModel> : TyneFormBase<TModel
         State = FormState.Ready;
         // Update the UI
 		StateHasChanged();
+
+		await OnOpenedAsync(openInput, loadModelResult.Success);
 	}
+
+	protected virtual Task OnOpenedAsync(TOpen openInput, bool openedSuccessfully) => Task.CompletedTask;
 
 	protected virtual async Task OnOpenChanged(bool shouldBeOpen)
 	{
@@ -179,6 +183,7 @@ public abstract partial class TyneModalForm<TOpen, TModel> : TyneFormBase<TModel
 	}
 
     protected virtual Task OnClosedAsync(ModalCloseReason reason) => Task.CompletedTask;
+
 	public async Task CloseAsync(ModalCloseReason reason)
 	{
         // Update the form state to closed
