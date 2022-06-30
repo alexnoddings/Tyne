@@ -143,4 +143,11 @@ public class Result<T>
 	public static Result<T> Failure(IEnumerable<IMetadata> metadata) =>
 		new(false, default, metadata);
 	#endregion
+
+	public static implicit operator Result<T>(T value)
+	{
+		if (value is null)
+			return Failure("No value.");
+		return Successful(value);
+	}
 }
