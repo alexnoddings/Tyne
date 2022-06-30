@@ -18,7 +18,7 @@ public abstract class BaseAction<TModel, TResult> : IAction<TModel, TResult>
 		Logger = logger;
 	}
 
-    public virtual async Task<Result<TResult>> RunAsync(TModel model)
+	public virtual async Task<Result<TResult>> RunAsync(TModel model)
 	{
 		Result<TResult> result;
 		try
@@ -34,10 +34,10 @@ public abstract class BaseAction<TModel, TResult> : IAction<TModel, TResult>
 		return result;
 	}
 
-    /// <summary>
-    ///     Executes the action.
-    /// </summary>
-    /// <param name="model">The model input.</param>
-    /// <remarks>This is wrapped by a try/catch block by <see cref="RunAsync(TModel)"/>, which handles logging any errors and returning a <see cref="Result{T}"/>.</remarks>
+	/// <summary>
+	///     Executes the action.
+	/// </summary>
+	/// <param name="model">The model input.</param>
+	/// <remarks>This is wrapped by a try/catch block by <see cref="RunAsync(TModel)"/>, which handles logging any errors and returning a <see cref="Result{T}"/>.</remarks>
 	protected abstract Task<Result<TResult>> ExecuteAsync(TModel model);
 }

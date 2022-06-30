@@ -11,27 +11,27 @@ namespace Tyne.Actions;
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
 public class RegisterActionAttribute : Attribute
 {
-    /// <summary>
-    ///     If the action should be registered. See <see cref="RegisterActionsMode"/> for more info.
-    /// </summary>
-    public bool ShouldRegister { get; }
+	/// <summary>
+	///     If the action should be registered. See <see cref="RegisterActionsMode"/> for more info.
+	/// </summary>
+	public bool ShouldRegister { get; }
 
-    /// <summary>
-    ///     The <see cref="ServiceLifetime"/> this action should use. Will use the default when <see langword="null"/>.
-    /// </summary>
-    public ServiceLifetime? ServiceLifetime { get; }
+	/// <summary>
+	///     The <see cref="ServiceLifetime"/> this action should use. Will use the default when <see langword="null"/>.
+	/// </summary>
+	public ServiceLifetime? ServiceLifetime { get; }
 
-    public RegisterActionAttribute(bool shouldRegister = true) : this(shouldRegister, null)
-    {
-    }
+	public RegisterActionAttribute(bool shouldRegister = true) : this(shouldRegister, null)
+	{
+	}
 
-    public RegisterActionAttribute(ServiceLifetime serviceLifetime) : this(true, serviceLifetime)
-    {
-    }
+	public RegisterActionAttribute(ServiceLifetime serviceLifetime) : this(true, serviceLifetime)
+	{
+	}
 
-    private RegisterActionAttribute(bool shouldRegister, ServiceLifetime? serviceLifetime)
-    {
-        ShouldRegister = shouldRegister;
-        ServiceLifetime = serviceLifetime;
-    }
+	private RegisterActionAttribute(bool shouldRegister, ServiceLifetime? serviceLifetime)
+	{
+		ShouldRegister = shouldRegister;
+		ServiceLifetime = serviceLifetime;
+	}
 }

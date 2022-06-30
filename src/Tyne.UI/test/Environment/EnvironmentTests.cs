@@ -80,7 +80,7 @@ public class EnvironmentTests : TestContext
 			Assert.DoesNotContain(environmentContentText, cut.Markup);
 		}
 	}
-	
+
 	public static object[][] ShouldRenderEnvironmentNameData() => new[]
 	{
 		new object[] { "Development" },

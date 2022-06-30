@@ -7,21 +7,21 @@ namespace Tyne.Utilities;
 /// </summary>
 public static class MethodHelper
 {
-    /// <summary>
-    ///     The default <see cref="BindingFlags"/> used by <see cref="Type.GetMethods(BindingFlags)"/>.
-    /// </summary>
-    /// <remarks>
-    ///     When no <see cref="BindingFlags"/> are passed to a <c>Get</c> method, these are used.
-    ///     They filter to only public, non-inherited members (either instance or static).
-    /// </remarks>
+	/// <summary>
+	///     The default <see cref="BindingFlags"/> used by <see cref="Type.GetMethods(BindingFlags)"/>.
+	/// </summary>
+	/// <remarks>
+	///     When no <see cref="BindingFlags"/> are passed to a <c>Get</c> method, these are used.
+	///     They filter to only public, non-inherited members (either instance or static).
+	/// </remarks>
 	public const BindingFlags DefaultBindingFlags =
-        // Do not consider inherited methods by default
+		// Do not consider inherited methods by default
 		BindingFlags.DeclaredOnly
-        // Include instance members
+		// Include instance members
 		| BindingFlags.Instance
-        // Include static members
+		// Include static members
 		| BindingFlags.Static
-        // Include public members
+		// Include public members
 		| BindingFlags.Public;
 
 	/// <summary>
@@ -104,12 +104,12 @@ public static class MethodHelper
 	/// <exception cref="ArgumentException">When no such method could be found.</exception>
 	public static MethodInfo Get(Type declaringType, string methodName, BindingFlags bindingFlags = DefaultBindingFlags, params Type[] parameterTypes)
 	{
-        // The names of the parameter types.
-        // These are calculated by Name rather than FullName or AssemblyQualifiedName
-        // as these can be null for generic parameters.
-        IEnumerable<string> parameterTypeNames = parameterTypes.Select(type => type.Name);
+		// The names of the parameter types.
+		// These are calculated by Name rather than FullName or AssemblyQualifiedName
+		// as these can be null for generic parameters.
+		IEnumerable<string> parameterTypeNames = parameterTypes.Select(type => type.Name);
 
-        MethodInfo[] methods =
+		MethodInfo[] methods =
 			declaringType
 			// Get all methods bound by bindingFlags
 			.GetMethods(bindingFlags)

@@ -6,9 +6,9 @@ public abstract partial class TyneInlineForm<TModel> : TyneFormBase<TModel> wher
 	{
 		State = FormState.Ready;
 	}
-	
+
 	protected abstract Task<TModel> LoadAsync();
-	
+
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		if (!firstRender) return;

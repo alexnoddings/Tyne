@@ -86,11 +86,11 @@ internal sealed class TyneFormFluentValidatorSubscriptions<TModel> : IDisposable
 
 	private void PopulateMessages(Result<Unit> result, string? fieldName)
 	{
-        var metadata = result.Metadata.OfType<IValidationErrorMetadata>();
-        if (!string.IsNullOrEmpty(fieldName))
-            metadata = metadata.Where(metadata => metadata.PropertyName == fieldName);
+		var metadata = result.Metadata.OfType<IValidationErrorMetadata>();
+		if (!string.IsNullOrEmpty(fieldName))
+			metadata = metadata.Where(metadata => metadata.PropertyName == fieldName);
 
-        foreach (var fieldErrors in metadata.GroupBy(error => error.PropertyName))
+		foreach (var fieldErrors in metadata.GroupBy(error => error.PropertyName))
 		{
 			var field = _editContext.Field(fieldErrors.Key);
 			var errorMessages = fieldErrors.Select(failure => failure.Message);

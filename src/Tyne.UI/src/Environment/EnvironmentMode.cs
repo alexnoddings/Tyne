@@ -2,6 +2,6 @@
 
 public enum EnvironmentMode
 {
-    Include,
-    Exclude
+	Include,
+	Exclude
 }

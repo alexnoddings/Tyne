@@ -26,11 +26,11 @@ public partial class TyneTable<TResult, TSearch> : ITyneTable where TSearch : IS
 	[Parameter]
 	public RenderFragment? Footer { get; set; }
 
-    [Parameter]
-    public RenderFragment<Result<SearchResults<TResult>>>? Result { get; set; }
+	[Parameter]
+	public RenderFragment<Result<SearchResults<TResult>>>? Result { get; set; }
 
-    /// <inheritdoc cref="MudTableBase.Dense" />
-    [Parameter]
+	/// <inheritdoc cref="MudTableBase.Dense" />
+	[Parameter]
 	public bool Dense { get; set; } = true;
 
 	/// <inheritdoc cref="MudTableBase.Hover" />
@@ -56,7 +56,7 @@ public partial class TyneTable<TResult, TSearch> : ITyneTable where TSearch : IS
 
 	private bool IsLoading { get; set; } = true;
 
-    private Result<SearchResults<TResult>>? LoadDataResult { get; set; }
+	private Result<SearchResults<TResult>>? LoadDataResult { get; set; }
 
 	public TyneTable()
 	{
@@ -85,11 +85,11 @@ public partial class TyneTable<TResult, TSearch> : ITyneTable where TSearch : IS
 			foreach (IFilteredColumn<TSearch> column in Facade.Columns)
 				column.Prepare(searchQuery);
 
-            LoadDataResult = await Search(searchQuery);
-            if (!LoadDataResult.Success)
-                return new TableData<TResult> { TotalItems = 0, Items = Enumerable.Empty<TResult>() };
+			LoadDataResult = await Search(searchQuery);
+			if (!LoadDataResult.Success)
+				return new TableData<TResult> { TotalItems = 0, Items = Enumerable.Empty<TResult>() };
 
-            SearchResults<TResult> searchResults = LoadDataResult.Value;
+			SearchResults<TResult> searchResults = LoadDataResult.Value;
 			return new TableData<TResult> { TotalItems = searchResults.TotalCount, Items = searchResults };
 		}
 		finally

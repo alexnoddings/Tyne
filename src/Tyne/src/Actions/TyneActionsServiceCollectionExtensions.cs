@@ -29,7 +29,7 @@ public static class TyneActionsServiceCollectionExtensions
 	/// <param name="otherAssemblies">The other <see cref="Assembly"/>s to scan.</param>
 	/// <returns><paramref name="services"/> to allow for chaining.</returns>
 	public static IServiceCollection AddActions(this IServiceCollection services, Assembly assembly, params Assembly[] otherAssemblies) =>
-        services.AddActions(ServiceLifetime.Scoped, RegisterActionsMode.Implicit, assembly, otherAssemblies);
+		services.AddActions(ServiceLifetime.Scoped, RegisterActionsMode.Implicit, assembly, otherAssemblies);
 
 	/// <summary>
 	///     Adds <see cref="IAction{TModel, TResult}"/>s from the <see cref="Assembly"/> containing <typeparamref name="T"/>.
@@ -63,12 +63,12 @@ public static class TyneActionsServiceCollectionExtensions
 	/// <param name="mode">The <see cref="RegisterActionsMode"/> to use when searching for actions.</param>
 	/// <returns><paramref name="services"/> to allow for chaining.</returns>
 	public static IServiceCollection AddActions(this IServiceCollection services, IEnumerable<Assembly> assemblies, ServiceLifetime defaultLifetime = ServiceLifetime.Scoped, RegisterActionsMode mode = RegisterActionsMode.Implicit)
-    {
-      var actionTypes = TyneAssemblyActionScanner.GetActionTypes(assemblies, defaultLifetime, mode);
-          foreach ((Type type, ServiceLifetime serviceLifetime) in actionTypes)
-              services.Add(ServiceDescriptor.Describe(type, type, serviceLifetime));
+	{
+		var actionTypes = TyneAssemblyActionScanner.GetActionTypes(assemblies, defaultLifetime, mode);
+		foreach ((Type type, ServiceLifetime serviceLifetime) in actionTypes)
+			services.Add(ServiceDescriptor.Describe(type, type, serviceLifetime));
 
-      return services;
-    }
+		return services;
+	}
 }
 

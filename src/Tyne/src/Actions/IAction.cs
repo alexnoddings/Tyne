@@ -9,8 +9,8 @@ namespace Tyne.Actions;
 /// <typeparam name="TResult">The type of result the action produces as an output.</typeparam>
 public interface IAction<TModel, TResult>
 {
-    /// <summary>
-    ///     Runs the action.
-    /// </summary>
+	/// <summary>
+	///     Runs the action.
+	/// </summary>
 	public Task<Result<TResult>> RunAsync(TModel model);
 }

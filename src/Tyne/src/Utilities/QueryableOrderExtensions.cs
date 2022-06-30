@@ -72,7 +72,7 @@ public static class QueryableOrderExtensions
 			return OrderByCore(source, propertyName, isDescending, throwForInvalidProperties);
 
 		if (!string.IsNullOrWhiteSpace(fallbackPropertyName))
-            return OrderByCore(source, fallbackPropertyName, isDescending, throwForInvalidProperties);
+			return OrderByCore(source, fallbackPropertyName, isDescending, throwForInvalidProperties);
 
 		return source;
 	}
@@ -95,7 +95,7 @@ public static class QueryableOrderExtensions
 	/// <exception cref="ArgumentNullException">When <paramref name="source"/> is null.</exception>
 	private static IQueryable<TSource> OrderByCore<TSource>(IQueryable<TSource> source, string propertyName, bool isDescending = false, bool throwForInvalidProperties = false)
 	{
-        Type sourceType = typeof(TSource);
+		Type sourceType = typeof(TSource);
 		PropertyInfo? propertyInfo = sourceType.GetProperty(propertyName);
 		if (propertyInfo is null)
 		{

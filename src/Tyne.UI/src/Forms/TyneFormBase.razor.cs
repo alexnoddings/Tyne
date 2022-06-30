@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Logging;
 using Tyne.Results;
-using FluentValidation;
 
 namespace Tyne.UI.Forms;
 
@@ -87,7 +87,7 @@ public abstract partial class TyneFormBase<TModel> where TModel : class
 			LoggerInstance.FormNotReadyToSave($"{nameof(ModelInstance)} is null");
 			return false;
 		}
-		
+
 		// If the EditForm or it's EditContext are null, then the form hasn't fully loaded yet
 		if (EditForm?.EditContext is null)
 		{

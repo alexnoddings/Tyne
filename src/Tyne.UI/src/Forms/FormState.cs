@@ -5,20 +5,20 @@
 /// </summary>
 public enum FormState
 {
-    /// <summary>
-    ///     The form is closed.
-    /// </summary>
+	/// <summary>
+	///     The form is closed.
+	/// </summary>
 	Closed,
-    /// <summary>
-    ///     The form is loading data before being <see cref="Ready"/>.
-    /// </summary>
+	/// <summary>
+	///     The form is loading data before being <see cref="Ready"/>.
+	/// </summary>
 	Loading,
-    /// <summary>
-    ///     The form is ready to be used.
-    /// </summary>
+	/// <summary>
+	///     The form is ready to be used.
+	/// </summary>
 	Ready,
-    /// <summary>
-    ///     The form is saving data.
-    /// </summary>
+	/// <summary>
+	///     The form is saving data.
+	/// </summary>
 	Saving
 }

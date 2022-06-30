@@ -18,10 +18,10 @@ public readonly struct Unit : IEquatable<Unit>, IComparable<Unit>, IComparable
 	/// </summary>
 	public static ref readonly Unit Value => ref _value;
 
-    [Obsolete($"Use {nameof(Unit.Value)} instead.", DiagnosticId = "TYN001")]
-    public Unit()
-    {
-    }
+	[Obsolete($"Use {nameof(Unit.Value)} instead.", DiagnosticId = "TYN001")]
+	public Unit()
+	{
+	}
 
 	/// <summary>
 	///		A <see cref="Task{TResult}"/> whose result is <see cref="Value"/>.
@@ -32,7 +32,7 @@ public readonly struct Unit : IEquatable<Unit>, IComparable<Unit>, IComparable
 	///		Creates a <see cref="ValueTask{TResult}"/> whose result is <see cref="Value"/>.
 	/// </summary>
 	public static ValueTask<Unit> AsValueTask => ValueTask.FromResult(_value);
-	
+
 	/// <summary>
 	///		Determines whether the specified <paramref name="obj"/> is equal to the current instance of the same type.
 	/// </summary>
@@ -88,9 +88,9 @@ public readonly struct Unit : IEquatable<Unit>, IComparable<Unit>, IComparable
 	/// <remarks>This is always <c>0</c>.</remarks>
 	public int CompareTo(Unit other) => 0;
 
-    /// <inheritdoc />
-    /// <remarks>This is always <c>0</c>.</remarks>
-    public int CompareTo(object? obj) => 0;
+	/// <inheritdoc />
+	/// <remarks>This is always <c>0</c>.</remarks>
+	public int CompareTo(object? obj) => 0;
 
 	/// <summary>
 	///		Determines whether the <paramref name="left"/> is less than the <paramref name="right"/>.

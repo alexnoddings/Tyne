@@ -11,23 +11,23 @@ namespace Tyne.EntityFramework;
 /// <typeparam name="TDbContext">The type of <see cref="DbContext"/> to pull <see cref="TEntity"/> from.</typeparam>
 /// <inheritdoc cref="BaseSearchAction{TQuery, TResult, TEntity}"/>
 public abstract class BaseSearchAction<TQuery, TResult, TEntity, TDbContext>
-    : BaseSearchAction<TQuery, TResult, TEntity>
-    where TQuery : ISearchQuery
-    where TEntity : class
-    where TDbContext : DbContext
+	: BaseSearchAction<TQuery, TResult, TEntity>
+	where TQuery : ISearchQuery
+	where TEntity : class
+	where TDbContext : DbContext
 {
-    private IDbContextFactory<TDbContext> DbContextFactory { get; }
+	private IDbContextFactory<TDbContext> DbContextFactory { get; }
 
-    protected BaseSearchAction(IDbContextFactory<TDbContext> dbContextFactory)
-    {
-        DbContextFactory = dbContextFactory ?? throw new ArgumentNullException(nameof(dbContextFactory));
-    }
+	protected BaseSearchAction(IDbContextFactory<TDbContext> dbContextFactory)
+	{
+		DbContextFactory = dbContextFactory ?? throw new ArgumentNullException(nameof(dbContextFactory));
+	}
 
-    public override async Task<Result<SearchResults<TResult>>> RunAsync(TQuery model)
-    {
-        await using var dbContext = await DbContextFactory.CreateDbContextAsync();
-        // We don't care about tracking for searching
-        var entityQueryable = dbContext.Set<TEntity>().AsNoTracking();
-        return await RunAsync(model, entityQueryable);
-    }
+	public override async Task<Result<SearchResults<TResult>>> RunAsync(TQuery model)
+	{
+		await using var dbContext = await DbContextFactory.CreateDbContextAsync();
+		// We don't care about tracking for searching
+		var entityQueryable = dbContext.Set<TEntity>().AsNoTracking();
+		return await RunAsync(model, entityQueryable);
+	}
 }
