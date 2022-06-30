@@ -6,6 +6,7 @@
 @{
     throw new NotImplementedException($"{nameof(BuildRenderTree)} should be overridden by {GetType().FullName}.");
 }
+
 @code
 {
     protected virtual RenderFragment RenderMetadata()
@@ -46,7 +47,7 @@
 
     protected virtual RenderFragment RenderSaveButton() =>
         @<MudButton OnClick="SaveAsync"
-                Disabled="State is not FormState.Ready || FormResult.Metadata.OfType<IFormValidationErrorMetadata>().Any(error => !string.IsNullOrWhiteSpace(error.PropertyName))"
+                Disabled="State is not FormState.Ready"
                 Variant="Variant.Filled"
                 Color="Color.Primary"
                 StartIcon="@(State is FormState.Ready ? Icons.Material.Filled.Save : string.Empty)">
