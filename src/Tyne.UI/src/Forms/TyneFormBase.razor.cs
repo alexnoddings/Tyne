@@ -12,7 +12,7 @@ namespace Tyne.UI.Forms;
 /// <typeparam name="TModel">The model being edited.</typeparam>
 public abstract partial class TyneFormBase<TModel> where TModel : class
 {
-	protected abstract ILogger<TyneFormBase<TModel>> LoggerInstance { get; }
+	protected abstract ILogger LoggerInstance { get; }
 
 	/// <summary>
 	///		An optional callback that is invoked after <see cref="SaveModelAsync(TModel)"/> returns a successful <see cref="FormResult"/>.
