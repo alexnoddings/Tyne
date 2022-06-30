@@ -66,7 +66,7 @@ public abstract partial class TyneFilteredColumn<TResult, TSearch> : TyneColumn<
 	protected override void OnInitialized()
 	{
 		if (TyneTableFacade is null)
-			throw new ArgumentNullException("Cascading facade parameter missing.", nameof(TyneTableFacade));
+			throw new ArgumentNullException(nameof(TyneTableFacade), "Cascading facade parameter missing.");
 
 		ColumnRegistration = TyneTableFacade.RegisterColumn(this);
 	}
