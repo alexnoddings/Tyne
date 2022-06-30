@@ -5,20 +5,54 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class TitleServiceCollectionExtensions
 {
-	public static IServiceCollection AddTyneTitle(this IServiceCollection services, IConfiguration configuration) =>
-		AddTyneTitleCore(services ,options => configuration.Bind(TitleOptions.ConfigurationSectionName, options));
+	public static IServiceCollection AddTyneTitle(this IServiceCollection services)
+	{
+		if (services is null)
+			throw new ArgumentNullException(nameof(services));
 
-	public static IServiceCollection AddTyneTitle(this IServiceCollection services, string appName, string divider = " | ", bool isSuffix = true) =>
-		AddTyneTitleCore(services, options => {
-			options.AppName = appName;
-			options.Divider = divider;
-			options.IsSuffix = isSuffix;
-		});
+		services
+			.AddOptions<TitleOptions>()
+			.Configure<IConfiguration>((options, configuration) => configuration.Bind(TitleOptions.ConfigurationSectionName, options));
 
-	public static IServiceCollection AddTyneTitle(this IServiceCollection services, Action<TitleOptions> configure) =>
-		AddTyneTitleCore(services, configure);
+		return services;
+	}
 
-	private static IServiceCollection AddTyneTitleCore(IServiceCollection services, Action<TitleOptions> configure) 
+	public static IServiceCollection AddTyneTitle(this IServiceCollection services, IConfiguration configuration)
+	{
+		if (services is null)
+			throw new ArgumentNullException(nameof(services));
+
+		if (configuration is null)
+			throw new ArgumentNullException(nameof(configuration));
+
+		services
+			.AddOptions<TitleOptions>()
+			.Configure(options => configuration.Bind(TitleOptions.ConfigurationSectionName, options));
+
+		return services;
+	}
+
+	public static IServiceCollection AddTyneTitle(this IServiceCollection services, string appName, string divider = " | ", bool isSuffix = true)
+	{
+		if (services is null)
+			throw new ArgumentNullException(nameof(services));
+
+		appName ??= string.Empty;
+		divider ??= string.Empty;
+
+		services
+			.AddOptions<TitleOptions>()
+			.Configure(options =>
+			{
+				options.AppName = appName;
+				options.Divider = divider;
+				options.IsSuffix = isSuffix;
+			});
+
+		return services;
+	}
+
+	public static IServiceCollection AddTyneTitle(this IServiceCollection services, Action<TitleOptions> configure)
 	{
 		if (services is null)
 			throw new ArgumentNullException(nameof(services));
@@ -26,6 +60,10 @@ public static class TitleServiceCollectionExtensions
 		if (configure is null)
 			throw new ArgumentNullException(nameof(configure));
 
-		return services.Configure<TitleOptions>(configure);
+		services
+			.AddOptions<TitleOptions>()
+			.Configure(configure);
+
+		return services;
 	}
 }
