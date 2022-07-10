@@ -3,7 +3,7 @@
 namespace Tyne.Actions;
 
 /// <summary>
-///     Controls an <see cref="IAction{TModel, TResult}"/>'s registration.
+///     Controls an <see cref="IAction{TInput, TOutput}"/>'s registration.
 /// </summary>
 /// <remarks>
 ///     Disable an action from being registered with <see cref="RegisterActionAttribute(bool)"/>, or override the default service lifetime with <see cref="RegisterActionAttribute(ServiceLifetime)"/>
