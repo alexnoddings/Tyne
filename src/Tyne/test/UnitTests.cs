@@ -1,4 +1,4 @@
-namespace Tyne.Core;
+namespace Tyne;
 
 public class UnitTests
 {
