@@ -16,7 +16,11 @@
                 .OfType<IMessageMetadata>()
                 // Ignore any metadata which is validation related as the fields components should have the error applied,
                 // unless the property is empty as no field component would pick it up
-                .Where(metadata => metadata is not IValidationErrorMetadata validationErrorMetadata || string.IsNullOrEmpty(validationErrorMetadata.PropertyName));
+                .Where(metadata => metadata is not IValidationErrorMetadata validationErrorMetadata || string.IsNullOrEmpty(validationErrorMetadata.PropertyName))
+                .ToList();
+
+        if (metadataExcludingValidationErrors.Count == 0)
+            return _ => { };
 
         return
             @<div class="d-flex flex-column gap-1">
