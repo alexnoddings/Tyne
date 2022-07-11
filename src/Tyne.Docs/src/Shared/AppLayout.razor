@@ -5,7 +5,7 @@
     <MudAppBar Color="Color.Transparent" Elevation="0"></MudAppBar>
     <MudAppBar Class="gap-4" Elevation="0">
         <MudIconButton OnClick="() => IsNavDrawerOpen = !IsNavDrawerOpen" Icon="@Icons.Rounded.Notes" Color="Color.Inherit" Edge="Edge.Start"/>
-        <NavLink ActiveClass="d-flex" href="/">
+        <NavLink ActiveClass="d-flex" href="">
             <MudText Color="Color.Primary" Typo="Typo.h5">Tyne Docs</MudText>
         </NavLink>
         <MudSpacer />
@@ -19,7 +19,7 @@
     <MudDrawer Open="IsNavDrawerOpen" OpenChanged="isOpen => IsNavDrawerOpen = isOpen" ClipMode="DrawerClipMode.Docked" Elevation="0" Breakpoint="Breakpoint.Md">
         <div class="d-xs-flex d-md-none mud-toolbar mud-toolbar-gutters mud-toolbar-appbar">
             <MudIconButton OnClick="() => IsNavDrawerOpen = !IsNavDrawerOpen" Icon="@Icons.Rounded.Notes" Color="Color.Inherit" Edge="Edge.Start"/>
-            <NavLink ActiveClass="d-flex me-4" href="/">
+            <NavLink ActiveClass="d-flex me-4" href="">
                 <MudText Color="Color.Primary" Typo="Typo.h5">Tyne Docs</MudText>
             </NavLink>
         </div>
