@@ -1,0 +1,38 @@
+﻿@using ME.Web.Infrastructure.Theme
+@inherits LayoutComponentBase
+
+<MudLayout>
+    <MudAppBar Color="Color.Transparent" Elevation="0"></MudAppBar>
+    <MudAppBar Class="gap-4" Elevation="0">
+        <MudIconButton OnClick="() => IsNavDrawerOpen = !IsNavDrawerOpen" Icon="@Icons.Rounded.Notes" Color="Color.Inherit" Edge="Edge.Start"/>
+        <NavLink ActiveClass="d-flex" href="/">
+            <MudText Color="Color.Primary" Typo="Typo.h5">Tyne Docs</MudText>
+        </NavLink>
+        <MudSpacer />
+        <MudTooltip Duration="1000" Text="Toggle Theme">
+            <MudIconButton Icon="@(ThemeService.ThemeType == AppThemeType.Light ? Icons.Filled.LightMode : Icons.Filled.DarkMode)" Color="Color.Inherit" Edge="Edge.End" OnClick="ToggleThemeAsync" />
+        </MudTooltip>
+        <MudTooltip Duration="1000" Text="GitHub Repository">
+            <MudIconButton Href="https://github.com/alexnoddings/Tyne/" Target="_blank" Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Edge="Edge.End" />
+        </MudTooltip>
+    </MudAppBar>
+    <MudDrawer Open="IsNavDrawerOpen" OpenChanged="isOpen => IsNavDrawerOpen = isOpen" ClipMode="DrawerClipMode.Docked" Elevation="0" Breakpoint="Breakpoint.Md">
+        <div class="d-xs-flex d-md-none mud-toolbar mud-toolbar-gutters mud-toolbar-appbar">
+            <MudIconButton OnClick="() => IsNavDrawerOpen = !IsNavDrawerOpen" Icon="@Icons.Rounded.Notes" Color="Color.Inherit" Edge="Edge.Start"/>
+            <NavLink ActiveClass="d-flex me-4" href="/">
+                <MudText Color="Color.Primary" Typo="Typo.h5">Tyne Docs</MudText>
+            </NavLink>
+        </div>
+        <MudNavMenu Color="Color.Primary" Rounded="true" Dense="true" Margin="Margin.Dense" Class="pa-2 overflow-auto mb-3">
+            <NavMenu />
+        </MudNavMenu>
+    </MudDrawer>
+    <MudMainContent>
+        <MudContainer Class="pt-6 pb-12" MaxWidth="MaxWidth.Medium">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+    <MudScrollToTop TopOffset="400" Style="z-index:2000;">
+        <MudFab Icon="@Icons.Material.Filled.KeyboardArrowUp" Color="Color.Primary" />
+    </MudScrollToTop>
+</MudLayout>

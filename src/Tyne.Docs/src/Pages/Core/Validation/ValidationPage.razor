@@ -1,0 +1,49 @@
+﻿@page "/tyne/validation"
+@attribute [DocsPage(PageCategory.Core, "Validation")]
+
+<TyneTitle Value="Validation" />
+
+<MudText Typo="Typo.h3">
+    Validation
+</MudText>
+
+<DocSection>
+    <Title>
+        <MudLink Href="/tyne/actions" Typo="Typo.h5">
+            Introduction
+        </MudLink>
+    </Title>
+    <ChildContent>
+        <MudText Typo="Typo.body1">
+            Tyne's validation is integrated with <MudLink Href="https://docs.fluentvalidation.net/en/latest/">FluentValidation</MudLink>.
+        </MudText>
+    </ChildContent>
+</DocSection>
+
+<DocSection>
+    <Title>
+        <MudLink Href="/tyne/actions" Typo="Typo.h5">
+            @Keyword("BaseValidatedAction")
+        </MudLink>
+    </Title>
+    <ChildContent>
+        <MudText Typo="Typo.body1">
+            @Keyword("BaseValidatedAction") provides an implementation of @Keyword("BaseAction") which only executes if some @Keyword("TValidator") is valid.
+        </MudText>
+        <SourceCode Type="typeof(CreateLocation1)"/>
+    </ChildContent>
+</DocSection>
+
+<DocSection>
+    <Title>
+        <MudLink Href="/tyne/actions" Typo="Typo.h5">
+            @Keyword("AbstractValidator<T>.IsValid")
+        </MudLink>
+    </Title>
+    <ChildContent>
+        <MudText Typo="Typo.body1">
+            The extension method @Keyword("AbstractValidator<T>.IsValid") can be used to check a validator and produce a result populated with form validation error metadatas if the validator fails.
+        </MudText>
+        <SourceCode Type="typeof(CreateLocation2)" />
+    </ChildContent>
+</DocSection>

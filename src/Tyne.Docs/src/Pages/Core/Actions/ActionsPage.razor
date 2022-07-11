@@ -1,0 +1,71 @@
+﻿@page "/tyne/actions"
+@using Tyne.Docs.Shared
+@attribute [DocsPage(PageCategory.Core, "Actions")]
+
+<TyneTitle Value="Actions" />
+
+<MudText Typo="Typo.h3">
+    Actions
+</MudText>
+
+<DocSection>
+    <Title>Overview</Title>
+    <ChildContent>
+        <MudText Typo="Typo.body1">
+            It is useful to <MudLink Href="/tyne/unit">understand the @Keyword("Unit") type</MudLink> before beginning.
+        </MudText>
+        <MudText Typo="Typo.body1">
+            Actions are an abstract process which take some @Keyword("TInput"), and return a @Keyword("TOutput").
+            Either generic parameter may be used to transfer data, or they may be replaced by the @Keyword("Unit") type to indicate a lack of data.
+            Below are some examples of when you may want to use a data transfer type or @Keyword("Unit").
+        </MudText>
+    </ChildContent>
+</DocSection>
+
+<DocSection>
+    <Title>
+        @Keyword("BaseAction<TInput, TOutput>")
+    </Title>
+    <ChildContent>
+        <MudText Typo="Typo.body1">
+            @Keyword("BaseAction") is a default implementation of @Keyword("IAction") which simply wraps the body of the action in a try/catch block, and handles logging and gracefully returning a failed @Keyword("Result") to the caller in the event of an unhandled exception.
+            Instead of implementing @Keyword("RunAsync"), instead override @Keyword("ExecuteAsync").
+        </MudText>
+    </ChildContent>
+</DocSection>
+
+<DocSection>
+    <Title>
+        @Keyword("IAction<TInput, Unit>")
+    </Title>
+    <ChildContent>
+        <MudText Typo="Typo.body1">
+            Some actions only need an input, and don't produce a meaningful result. For example, the @Keyword("CreateLocation") action creates a given Location, and doesn't have any result.
+        </MudText>
+        <SourceCode Type="typeof(CreateLocation)" />
+    </ChildContent>
+</DocSection>
+
+<DocSection>
+    <Title>
+        @Keyword("IAction<Unit, TOutput>")
+    </Title>
+    <ChildContent>
+        <MudText Typo="Typo.body1">
+            Some actions don't need any input, and produce an output. For example, the @Keyword("GetTopLocation") action gets the top location by item count. This doesn't require any input.
+        </MudText>
+        <SourceCode Type="typeof(GetTopLocation)" />
+    </ChildContent>
+</DocSection>
+
+<DocSection>
+    <Title>
+        @Keyword("IAction<TInput, TOutput>")
+    </Title>
+    <ChildContent>
+        <MudText Typo="Typo.body1">
+            Some actions need both an input and an output. For example, the @Keyword("LoadLocationInfo") action takes a @Keyword("Guid") id, and returns info about a @Keyword("Location").
+        </MudText>
+        <SourceCode Type="typeof(LoadLocationInfo)" />
+    </ChildContent>
+</DocSection>

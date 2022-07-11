@@ -1,0 +1,19 @@
+﻿@using ME.Web.Infrastructure.Theme
+@using Tyne.Docs.Shared
+
+<TyneTitle />
+<MudThemeProvider Theme="ThemeService.Theme" IsDarkMode="ThemeService.ThemeType == AppThemeType.Dark" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(AppLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout="@typeof(AppLayout)">
+            <p role="alert">Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>

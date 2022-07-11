@@ -1,0 +1,41 @@
+﻿@page "/tyne/results"
+@attribute [DocsPage(PageCategory.Core, "Results")]
+
+<TyneTitle Value="Results" />
+
+<MudText Typo="Typo.h3">
+    Results
+</MudText>
+
+<DocSection>
+    <Title>Introduction</Title>
+    <ChildContent>
+        <MudText Typo="Typo.body1">
+            @Keyword("Result<T>") represents the result of some action. When @Keyword("Successful"), it will have an associated @Keyword("Value").
+            Results can also have @Keyword("Metadata") - this is used to provide extra data on the result. The most common use for this is to return
+            information about errors which occurred.
+        </MudText>
+    </ChildContent>
+</DocSection>
+
+<DocSection>
+    <Title>Implicit casting</Title>
+    <ChildContent>
+        <MudText Typo="Typo.body1">
+            A @Keyword("T") can be implicitly cast to a @Keyword("Result<T>"). This saves a call to @Keyword("Result<T>.Successful(...)").
+            This implicit conversion works when @Keyword("T") is null, however it will return a failed result.
+            This result's error message isn't descriptive of what occurred, so you should aim to only use this implicit cast for successful results,
+            and instead use @Keyword("Result<T>.Failure(\"{some error}\")") for errors instead.
+        </MudText>
+        <SourceCode Type="typeof(CreateLocation)" />
+    </ChildContent>
+</DocSection>
+
+<DocSection>
+    <Title>Result&lt;Unit&gt;</Title>
+    <ChildContent>
+        <MudText Typo="Typo.body1">
+            The static class @Keyword("Result") can be used to create @Keyword("Result<Unit>")s.
+        </MudText>
+    </ChildContent>
+</DocSection>

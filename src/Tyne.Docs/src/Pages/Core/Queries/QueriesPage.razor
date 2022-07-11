@@ -1,0 +1,25 @@
+﻿@page "/tyne/queries"
+@attribute [DocsPage(PageCategory.Core, "Queries")]
+
+<TyneTitle Value="Queries" />
+
+<MudText Typo="Typo.h3">
+    Queries
+</MudText>
+
+<DocSection>
+    <Title>Introduction</Title>
+    <ChildContent>
+        <MudText Typo="Typo.body1">
+            Queries are an extension of an @Keyword("IAction") which returns a @Keyword("SearchResult").
+            By default, an @Keyword("ISearchQuery") includes pagination and ordering, though impementors can add additional fields to filter by.
+        </MudText>
+    </ChildContent>
+</DocSection>
+
+<DocSection>
+    <Title>Examples</Title>
+    <ChildContent>
+        <SourceCode Type="typeof(DemoQueries)" />
+    </ChildContent>
+</DocSection>
