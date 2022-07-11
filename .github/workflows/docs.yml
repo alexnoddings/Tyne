@@ -22,6 +22,9 @@ jobs:
     - name: Update base url
       run: sed -i 's/<base href="\/" \/>/<base href="\/Tyne\/" \/>/g' release/wwwroot/index.html
 
+    - name: Copy index to 404
+      run: cp release/wwwroot/index.html release/wwwroot/404.html
+
     - name: Add .nojekyll
       run: touch release/wwwroot/.nojekyll
       
