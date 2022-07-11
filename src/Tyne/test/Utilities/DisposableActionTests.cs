@@ -1,4 +1,4 @@
-namespace Tyne.Core;
+namespace Tyne.Utilities;
 
 public class DisposableActionTests
 {
@@ -36,7 +36,7 @@ public class DisposableActionTests
 
 		// Act
 		var disposableAction = new DisposableAction(mock.Object, onlyCallOnce: false);
-		for (int i = 0; i < disposalCallCount; i++)
+		for (var i = 0; i < disposalCallCount; i++)
 			disposableAction.Dispose();
 
 		// Assert

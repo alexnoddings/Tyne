@@ -4,12 +4,12 @@ using Tyne.Actions;
 namespace Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
-///     Extensions methods for adding <see cref="IAction{TModel, TResult}"/>s to an <see cref="IServiceCollection"/>.
+///     Extensions methods for adding <see cref="IAction{TInput, TOutput}"/>s to an <see cref="IServiceCollection"/>.
 /// </summary>
 public static class TyneActionsServiceCollectionExtensions
 {
 	/// <summary>
-	///     Adds <see cref="IAction{TModel, TResult}"/>s from the <see cref="Assembly"/> containing <typeparamref name="T"/>.
+	///     Adds <see cref="IAction{TInput, TOutput}"/>s from the <see cref="Assembly"/> containing <typeparamref name="T"/>.
 	///     Actions have a <see cref="ServiceLifetime.Scoped"/> lifetime by default.
 	///     Uses <see cref="RegisterActionsMode.Implicit"/>.
 	/// </summary>
@@ -20,7 +20,7 @@ public static class TyneActionsServiceCollectionExtensions
 		services.AddActions(typeof(T).Assembly);
 
 	/// <summary>
-	///     Adds <see cref="IAction{TModel, TResult}"/>s from <paramref name="assembly"/> and <paramref name="otherAssemblies"/>.
+	///     Adds <see cref="IAction{TInput, TOutput}"/>s from <paramref name="assembly"/> and <paramref name="otherAssemblies"/>.
 	///     Actions have a <see cref="ServiceLifetime.Scoped"/> lifetime by default.
 	///     Uses <see cref="RegisterActionsMode.Implicit"/>.
 	/// </summary>
@@ -32,7 +32,7 @@ public static class TyneActionsServiceCollectionExtensions
 		services.AddActions(ServiceLifetime.Scoped, RegisterActionsMode.Implicit, assembly, otherAssemblies);
 
 	/// <summary>
-	///     Adds <see cref="IAction{TModel, TResult}"/>s from the <see cref="Assembly"/> containing <typeparamref name="T"/>.
+	///     Adds <see cref="IAction{TInput, TOutput}"/>s from the <see cref="Assembly"/> containing <typeparamref name="T"/>.
 	/// </summary>
 	/// <typeparam name="T">Any type in the <see cref="Assembly"/> to scan.</typeparam>
 	/// <param name="services">The <see cref="IServiceCollection"/> to add the actions to.</param>
@@ -43,7 +43,7 @@ public static class TyneActionsServiceCollectionExtensions
 		services.AddActions(defaultLifetime, mode, typeof(T).Assembly);
 
 	/// <summary>
-	///     Adds <see cref="IAction{TModel, TResult}"/>s from the specified <paramref name="assemblies"/>.
+	///     Adds <see cref="IAction{TInput, TOutput}"/>s from the specified <paramref name="assemblies"/>.
 	/// </summary>
 	/// <param name="services">The <see cref="IServiceCollection"/> to add the actions to.</param>
 	/// <param name="defaultLifetime">The default <see cref="ServiceLifetime"/> for actions to be registered with if one is not specified by a <see cref="RegisterActionAttribute.ServiceLifetime"/>.</param>
@@ -55,7 +55,7 @@ public static class TyneActionsServiceCollectionExtensions
 		services.AddActions(otherAssemblies.Prepend(assembly), defaultLifetime, mode);
 
 	/// <summary>
-	///     Adds <see cref="IAction{TModel, TResult}"/>s from the specified <paramref name="assemblies"/>.
+	///     Adds <see cref="IAction{TInput, TOutput}"/>s from the specified <paramref name="assemblies"/>.
 	/// </summary>
 	/// <param name="services">The <see cref="IServiceCollection"/> to add the actions to.</param>
 	/// <param name="assemblies">The <see cref="Assembly"/>s to scan.</param>

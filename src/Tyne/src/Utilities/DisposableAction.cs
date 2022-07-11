@@ -1,4 +1,4 @@
-﻿namespace Tyne;
+﻿namespace Tyne.Utilities;
 
 /// <summary>
 ///     Executes an action when disposed.

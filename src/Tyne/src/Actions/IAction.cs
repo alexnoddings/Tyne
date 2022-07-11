@@ -3,14 +3,14 @@
 namespace Tyne.Actions;
 
 /// <summary>
-///     An action which is ran with a <typeparamref name="TModel"/> and produces a <see cref="Result{T}"/> of type <typeparamref name="TResult"/>.
+///     An action which is ran with a <typeparamref name="TInput"/> and produces a <see cref="Result{T}"/> of type <typeparamref name="TOutput"/>.
 /// </summary>
-/// <typeparam name="TModel">The type of model the action takes as an input.</typeparam>
-/// <typeparam name="TResult">The type of result the action produces as an output.</typeparam>
-public interface IAction<TModel, TResult>
+/// <typeparam name="TInput">The type of input the action takes.</typeparam>
+/// <typeparam name="TOutput">The type of output the action produces.</typeparam>
+public interface IAction<TInput, TOutput>
 {
 	/// <summary>
 	///     Runs the action.
 	/// </summary>
-	public Task<Result<TResult>> RunAsync(TModel model);
+	public Task<Result<TOutput>> RunAsync(TInput model);
 }
