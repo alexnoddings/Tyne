@@ -3,9 +3,12 @@ name: Publish Docs
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'src/Tyne.Docs/**.*'
 
 jobs:
-  deploy-to-github-pages:
+  deploy:
+    name: Deploy to GitHub Pages
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Code
