@@ -21,10 +21,20 @@ public abstract class BaseSearchAction<TQuery, TResult, TEntity>
 	///		The default property on <see cref="TEntity"/> to order by.
 	/// </summary>
 	/// <remarks>
-	///		This is used as a fallback to sort ascending when <see cref="ISearchQuery.Order"/> or <see cref="SearchQueryOrder.By"/> are <see langword="null"/>.
+	///		This is used as a fallback to sort when <see cref="ISearchQuery.Order"/> or <see cref="SearchQueryOrder.By"/> are <see langword="null"/>.
+	///		Sort direction is controlled by <see cref="DefaultOrderByDescending"/>, which defaults to false (ascending).
 	///		If <see langword="null"/> or whitespace, no ordering will be applied.
 	/// </remarks>
 	protected virtual string? DefaultOrderBy { get; }
+
+	/// <summary>
+	///		The default search direction to order by. Will order by descending if <see langword="true"/>, otherwise it will order by ascending.
+	///		Only used when <see cref="DefaultOrderBy"/> is not null or whitespace.
+	/// </summary>
+	/// <remarks>
+	///		See <see cref="DefaultOrderBy"/> for more info on when this is used.
+	/// </remarks>
+	protected virtual bool DefaultOrderByDescending { get; }
 
 	public abstract Task<Result<SearchResults<TResult>>> RunAsync(TQuery model);
 
@@ -78,7 +88,7 @@ public abstract class BaseSearchAction<TQuery, TResult, TEntity>
 			return queryable.OrderBy(query.Order.By, query.Order.IsDescending);
 
 		if (!string.IsNullOrWhiteSpace(DefaultOrderBy))
-			return queryable.OrderBy(DefaultOrderBy, false);
+			return queryable.OrderBy(DefaultOrderBy, DefaultOrderByDescending);
 
 		return queryable;
 	}

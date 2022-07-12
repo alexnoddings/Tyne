@@ -1,8 +1,13 @@
-name: Publish NuGet
+name: NuGet Publish
 
 on:
   push:
     branches: [main]
+    paths:
+      - 'src/Tyne/src/**.*'
+      - 'src/Tyne.EntityFramework/src/**.*'
+      - 'src/Tyne.UI/src/**.*'
+      - 'Directory.Build.props'
 
 jobs:
   test:
@@ -32,7 +37,7 @@ jobs:
       run: dotnet test --no-build --verbosity normal
 
   publish:
-    name: GitHub NuGet Publish
+    name: Publish to GitHub NuGet Feed
     runs-on: ubuntu-latest
     needs: test
 

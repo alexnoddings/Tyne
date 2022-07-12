@@ -26,13 +26,24 @@
 			@ChildContent
 		</MudTableSortLabel>;
 
+	protected virtual RenderFragment RenderCloseButton() =>
+		@<MudTooltip Text="Close"
+					 Delay="400"
+					 Duration="200"
+					 Arrow="true">
+			<MudIconButton Class="pa-1"
+						   Icon="@Icons.Outlined.Close"
+						   Color="Color.Primary"
+						   OnClick="() => IsFilterVisible = false" />
+		</MudTooltip>;
+
 	protected virtual RenderFragment RenderClearButton() =>
 		@<MudTooltip Text="Clear"
 					 Delay="400"
 					 Duration="200"
 					 Arrow="true">
 			<MudIconButton Class="pa-1"
-						   Icon="@Icons.Filled.Clear"
+						   Icon="@Icons.Outlined.Backspace"
 						   Color="Color.Primary"
 						   OnClick="ClearAsync" />
 		</MudTooltip>;
@@ -42,9 +53,10 @@
 					 Fixed="true"
 					 AnchorOrigin="Origin.TopLeft"
 					 TransformOrigin="Origin.BottomLeft">
-			<div class="d-flex align-end px-2 pb-2">
-				@RenderClearButton()
+		<div class="d-flex align-end px-2 pb-2">
+				@RenderCloseButton()
 				@content
+				@RenderClearButton()
 			</div>
 		</MudPopover>;
 
