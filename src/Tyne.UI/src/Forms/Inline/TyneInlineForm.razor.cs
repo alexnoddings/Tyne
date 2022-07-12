@@ -4,7 +4,7 @@ public abstract partial class TyneInlineForm<TModel> : TyneFormBase<TModel> wher
 {
 	protected TyneInlineForm()
 	{
-		State = FormState.Ready;
+		State = FormState.Loading;
 	}
 
 	protected abstract Task<TModel> LoadAsync();
@@ -14,6 +14,7 @@ public abstract partial class TyneInlineForm<TModel> : TyneFormBase<TModel> wher
 		if (!firstRender) return;
 
 		ModelInstance = await LoadAsync();
+		State = FormState.Ready;
 		StateHasChanged();
 	}
 }
