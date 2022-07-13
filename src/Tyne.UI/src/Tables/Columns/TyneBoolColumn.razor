@@ -1,0 +1,27 @@
+﻿@namespace Tyne.UI.Tables
+@typeparam TResult
+@typeparam TSearch
+@inherits TyneFilteredColumn<TResult, TSearch>
+
+@Render(
+    @<MudRadioGroup T="bool?" SelectedOption="Value" SelectedOptionChanged="SetValueAsync" Class="d-flex flex-column">
+        <MudRadio T="bool?" Option="true">@True</MudRadio>
+        <MudRadio T="bool?" Option="false">@False</MudRadio>
+        <MudRadio T="bool?" Option="null">@Neither</MudRadio>
+    </MudRadioGroup>
+)
+
+@code {
+	protected override RenderFragment RenderPopover(RenderFragment content) =>
+		@<MudPopover Open="IsFilterVisible"
+					 Fixed="true"
+					 AnchorOrigin="Origin.TopLeft"
+					 TransformOrigin="Origin.BottomLeft">
+			<div class="d-flex align-center px-2 py-2">
+				@RenderCloseButton()
+				<div class="d-flex flex-column">
+					@content
+				</div>
+			</div>
+		</MudPopover>;
+}
