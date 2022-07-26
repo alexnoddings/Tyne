@@ -13,12 +13,12 @@ public class MetadataDisplayTests : TestContext
 		new object[] { Result.Successful(new ErrorMetadata("Example error message.")), new string[] { "Example error message." } },
 
 		// Multiple metadatas
-		new object[] { 
+		new object[] {
 			Result.Successful(
 				   new SuccessMetadata("Example success message #1"), new SuccessMetadata("Example success message #2"),
 				   new InfoMetadata("Example info message #1"), new InfoMetadata("Example info message #2"),
 				   new ErrorMetadata("Example error message #1"), new ErrorMetadata("Example error message #2")
-			), 
+			),
 			new string[] {
 				"Example success message #1", "Example success message #2",
 				"Example info message #1", "Example info message #2",
@@ -59,9 +59,26 @@ public class MetadataDisplayTests : TestContext
 			Assert.DoesNotContain(expectedMessage, cut.Markup);
 	}
 
+	public static object[][] DismissibleResultsData() => new[]
+	{
+		// Single metadata
+		new object[] { Result.Successful(new SuccessMetadata("Example success message.")) },
+		new object[] { Result.Successful(new InfoMetadata("Example info message.")) },
+		new object[] { Result.Successful(new ErrorMetadata("Example error message.")) },
+
+		// Multiple metadatas
+		new object[] {
+			Result.Successful(
+				   new SuccessMetadata("Example success message #1"), new SuccessMetadata("Example success message #2"),
+				   new InfoMetadata("Example info message #1"), new InfoMetadata("Example info message #2"),
+				   new ErrorMetadata("Example error message #1"), new ErrorMetadata("Example error message #2")
+			)
+		},
+	};
+
 	[Theory]
-	[MemberData(nameof(MessagesData))]
-	public async Task Dismissible_ShouldRemoveMetadata(Result<Unit> result, string[] _)
+	[MemberData(nameof(DismissibleResultsData))]
+	public async Task Dismissible_ShouldRemoveMetadata(Result<Unit> result)
 	{
 		// The original metadata
 		var originalMetadata = result.Metadata.ToList();
