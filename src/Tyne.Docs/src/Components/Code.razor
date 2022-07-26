@@ -1,0 +1,18 @@
+<code class="@Class">@(Component ? "<" : "")@ChildContent@(Component ? "/>" : "")</code>
+
+@code
+{
+    [Parameter]
+    public bool Inline { get; set; }
+
+    [Parameter]
+    public bool Component { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; } = _ => { };
+
+    private string Class => 
+        Inline 
+        ? "tyne-docs-code-inline"
+        : "tyne-docs-code-block";
+}
