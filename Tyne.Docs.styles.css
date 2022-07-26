@@ -1,0 +1,18 @@
+/* /Components/Code.razor.rz.scp.css */
+.tyne-docs-code-inline[b-ycljwnaa3t],
+.tyne-docs-code-block[b-ycljwnaa3t] {
+    background: var(--mud-palette-grey-lighter);
+    border-radius: 4px;
+}
+
+.tyne-docs-code-inline[b-ycljwnaa3t] {
+    display: inline;
+    padding: 2px 4px;
+    margin: 2px 2px;
+}
+
+.tyne-docs-code-block[b-ycljwnaa3t] {
+    display: block;
+    padding: 6px 12px;
+    margin: 4px 0px;
+}
