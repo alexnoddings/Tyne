@@ -1,0 +1,42 @@
+@using Tyne.Results
+@namespace Tyne.UI
+
+@if (Metadata is not null && !Disabled)
+{
+    var successMetadata = Metadata.OfType<ISuccessMetadata>().ToList();
+    var infoMetadata = Metadata.OfType<IInfoMetadata>().ToList();
+    var errorMetadata = Metadata.OfType<IErrorMetadata>().ToList();
+    if (successMetadata.Count > 0 || infoMetadata.Count > 0 || errorMetadata.Count > 0)
+    {
+        <div class="d-flex flex-column gap-2 py-4">
+            @Render(successMetadata, Severity.Success)
+            @Render(infoMetadata, Severity.Info)
+            @Render(errorMetadata, Severity.Error)
+        </div>
+    }
+}
+
+@code
+{
+    private RenderFragment Render<TMetadata>(List<TMetadata> metadatas, Severity severity) where TMetadata : IMessageMetadata =>
+        Render(metadatas.OfType<IMessageMetadata>().ToList(), severity);
+
+    private RenderFragment Render(List<IMessageMetadata> metadatas, Severity severity)
+    {
+        if (metadatas.Count == 0)  
+            return _ => { };
+
+        Action? dismissAction = 
+            Dismissible
+            ? () => Metadata?.RemoveAll(metadata => metadatas.Contains(metadata))
+            : () => { };
+
+        return 
+            @<MudAlert Variant="Variant.Outlined" Severity="severity" ShowCloseIcon="Dismissible" CloseIconClicked="dismissAction">
+                @foreach (var metadata in metadatas)
+                {
+                    <p>@metadata.Message</p>
+                }
+            </MudAlert>;
+    }
+}

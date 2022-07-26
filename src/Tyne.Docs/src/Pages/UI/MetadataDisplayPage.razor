@@ -1,0 +1,62 @@
+@page "/tyne.ui/metadata-display"
+@using Tyne.Results
+@attribute [DocsPage(PageCategory.UI, "Metadata Display")]
+
+<TyneTitle Value="Metadata Display" />
+
+<MudText Typo="Typo.h3">
+    Metadata Display
+</MudText>
+
+<DocSection>
+    <Title>Overview</Title>
+    <ChildContent>
+        <MudText Typo="Typo.body1">
+            <Code Inline="true" Component="true">TyneMetadataDisplay</Code>
+            is an easy way to render result metadata.
+        </MudText>
+    </ChildContent>
+</DocSection>
+
+<DocSection>
+    <Title>Usage</Title>
+    <ChildContent>
+        <Code Component="true">TyneMetadataDisplay Metadata="{YourMetadata}" Dismissible="@Dismissible.ToString().ToLowerInvariant()" Disabled="@Disabled.ToString().ToLowerInvariant()"</Code>
+        <div class="d-flex flex-row gap-4">
+            <MudSwitch @bind-Checked="Dismissible" Label="Dismissible" Color="Color.Primary" />
+            <MudSwitch @bind-Checked="Disabled" Label="Disabled" Color="Color.Primary" />
+            <MudButton OnClick="ResetResult" Color="Color.Primary" Variant="Variant.Outlined" Class="ml-auto">
+                Reset Metadata
+            </MudButton>
+        </div>
+        <MudCard Class="bg-surface">
+            <MudCardContent>
+                <TyneMetadataDisplay Metadata="DemoResult.Metadata" Dismissible="Dismissible" Disabled="Disabled" />
+            </MudCardContent>
+        </MudCard>
+    </ChildContent>
+</DocSection>
+
+@code 
+{
+    private Result<Unit> DemoResult { get; set; } = default!;
+
+    private bool Disabled { get; set; }
+
+    private bool Dismissible { get; set; } = true;
+
+    protected override void OnInitialized()
+    {
+        ResetResult();
+    }
+
+    private void ResetResult()
+    {
+        DemoResult = Result.Successful(
+            new SuccessMetadata("Thing successful."),
+            new SuccessMetadata("Action taken."),
+            new InfoMetadata("Resource ready."),
+            new ErrorMetadata("Defect detected.")
+        );
+    }
+}
