@@ -10,8 +10,8 @@
 
   <PropertyGroup Label="Version settings">
     <TyneMajorVersion>1</TyneMajorVersion>
-    <TyneMinorVersion>5</TyneMinorVersion>
-    <TynePatchVersion>1</TynePatchVersion>
+    <TyneMinorVersion>6</TyneMinorVersion>
+    <TynePatchVersion>0</TynePatchVersion>
     <Version>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</Version>
     <AssemblyVersion>$(Version)</AssemblyVersion>
   </PropertyGroup>
