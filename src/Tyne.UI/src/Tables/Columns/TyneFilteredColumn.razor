@@ -9,7 +9,7 @@
 
 @code {
 	protected virtual RenderFragment RenderVisibilityButton() =>
-		@<MudTooltip Text="@(IsFilterVisible ? "Hide filter" : "Show filter")"
+		@<MudTooltip Text="@(IsFilterVisible ? null : "Show filter")"
 					 Delay="400"
 					 Duration="200"
 					 Arrow="true">
@@ -51,8 +51,8 @@
 	protected virtual RenderFragment RenderPopover(RenderFragment content) =>
 		@<MudPopover Open="IsFilterVisible"
 					 Fixed="true"
-					 AnchorOrigin="Origin.TopLeft"
-					 TransformOrigin="Origin.BottomLeft">
+					 AnchorOrigin="Origin.CenterCenter"
+					 TransformOrigin="Origin.CenterCenter">
 		<div class="d-flex align-end px-2 pb-2">
 				@RenderCloseButton()
 				@content
@@ -60,8 +60,12 @@
 			</div>
 		</MudPopover>;
 
+	protected virtual RenderFragment RenderOverlay() =>
+		@<MudOverlay @bind-Visible="IsFilterVisible" DarkBackground="true" AutoClose="true" />;
+
 	protected virtual RenderFragment Render(RenderFragment popoverContent) =>
 		@<MudTh>
+			@RenderOverlay()
 			@RenderVisibilityButton()
 			@RenderColumnHeader()
 			@RenderPopover(popoverContent)
