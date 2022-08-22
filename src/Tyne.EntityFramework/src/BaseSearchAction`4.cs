@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Tyne.Queries;
 using Tyne.Results;
 
@@ -18,16 +19,17 @@ public abstract class BaseSearchAction<TQuery, TResult, TEntity, TDbContext>
 {
 	private IDbContextFactory<TDbContext> DbContextFactory { get; }
 
-	protected BaseSearchAction(IDbContextFactory<TDbContext> dbContextFactory)
+	protected BaseSearchAction(ILogger<BaseSearchAction<TQuery, TResult, TEntity, TDbContext>> logger, IDbContextFactory<TDbContext> dbContextFactory)
+		: base(logger)
 	{
 		DbContextFactory = dbContextFactory ?? throw new ArgumentNullException(nameof(dbContextFactory));
 	}
 
-	public override async Task<Result<SearchResults<TResult>>> RunAsync(TQuery model)
+	protected override async Task<Result<SearchResults<TResult>>> ExecuteAsync(TQuery model)
 	{
 		await using var dbContext = await DbContextFactory.CreateDbContextAsync();
 		// We don't care about tracking for searching
 		var entityQueryable = dbContext.Set<TEntity>().AsNoTracking();
-		return await RunAsync(model, entityQueryable);
+		return await ExecuteAsync(model, entityQueryable);
 	}
 }

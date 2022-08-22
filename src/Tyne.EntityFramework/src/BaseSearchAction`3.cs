@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Tyne.Actions;
 using Tyne.Queries;
 using Tyne.Results;
@@ -13,10 +14,14 @@ namespace Tyne.EntityFramework;
 /// <typeparam name="TResult"></typeparam>
 /// <typeparam name="TEntity"></typeparam>
 public abstract class BaseSearchAction<TQuery, TResult, TEntity>
-	: ISearchAction<TQuery, TResult>
+	: BaseAction<TQuery, SearchResults<TResult>>, ISearchAction<TQuery, TResult>
 	where TQuery : ISearchQuery
 	where TEntity : class
 {
+	protected BaseSearchAction(ILogger<BaseSearchAction<TQuery, TResult, TEntity>> logger) : base(logger)
+	{
+	}
+
 	/// <summary>
 	///		The default property on <see cref="TEntity"/> to order by.
 	/// </summary>
@@ -36,9 +41,7 @@ public abstract class BaseSearchAction<TQuery, TResult, TEntity>
 	/// </remarks>
 	protected virtual bool DefaultOrderByDescending { get; }
 
-	public abstract Task<Result<SearchResults<TResult>>> RunAsync(TQuery model);
-
-	protected async Task<Result<SearchResults<TResult>>> RunAsync(TQuery query, IQueryable<TEntity> entities)
+	protected async Task<Result<SearchResults<TResult>>> ExecuteAsync(TQuery query, IQueryable<TEntity> entities)
 	{
 		IQueryable<TEntity> queryableFiltered = Filter(entities, query);
 		IQueryable<TResult> queryableMapped = Map(queryableFiltered, query);
