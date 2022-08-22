@@ -9,7 +9,7 @@ namespace Tyne.UI.Tables;
 public partial class TyneTable<TResult, TSearch> : ITyneTable where TSearch : ISearchQuery, new()
 {
 	[Parameter]
-	public RenderFragment Toolbar { get; set; } = default!;
+	public RenderFragment? Toolbar { get; set; }
 
 	[Parameter]
 	public RenderFragment Headers { get; set; } = default!;
