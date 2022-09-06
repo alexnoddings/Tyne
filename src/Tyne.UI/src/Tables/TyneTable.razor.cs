@@ -47,6 +47,24 @@ public partial class TyneTable<TResult, TSearch> : ITyneTable where TSearch : IS
 	[Parameter]
 	public EventCallback<TableRowClickEventArgs<TResult>> OnRowClicked { get; set; } = default!;
 
+	/// <summary>
+	///		Enables selection of multiple rows with check boxes. 
+	/// </summary>
+	[Parameter]
+	public bool MultiSelection { get; set; }
+
+	/// <summary>
+	///		If <see cref="UseMultiSelection"/> is true, this returns the currently selected items. You can bind this property and the initial content of the HashSet you bind it to will cause these rows to be selected initially.
+	/// </summary>
+	[Parameter]
+	public HashSet<TResult> SelectedItems { get; set; } = new();
+
+	/// <summary>
+	///		Called whenever <see cref="SelectedItems"/> is changed.
+	/// </summary>
+	[Parameter] 
+	public EventCallback<HashSet<TResult>> SelectedItemsChanged { get; set; }
+
 	private MudTable<TResult>? Table { get; set; }
 
 	private TyneTableFacade<TSearch> Facade { get; }

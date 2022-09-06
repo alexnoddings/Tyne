@@ -24,7 +24,10 @@
 				  PagerContent="Footer ?? DefaultFooter"
 				  OnRowClick="OnRowClicked"
 				  CustomFooter="true"
-				  ToolBarContent="ToolbarContent!">
+				  ToolBarContent="ToolbarContent!"
+				  MultiSelection="MultiSelection"
+				  SelectedItems="SelectedItems"
+				  SelectedItemsChanged="SelectedItemsChanged">
 			<LoadingContent>
 				<div class="my-n3">
 					@(Loading ?? DefaultLoading)
