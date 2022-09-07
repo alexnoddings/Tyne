@@ -35,7 +35,7 @@
     <PackageReference Update="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
     <PackageReference Update="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
     <PackageReference Update="MudBlazor" Version="6.0.13" />
-    <PackageReference Update="System.Runtime.Experimental" Version="6.0.2" />
+    <PackageReference Update="System.Runtime.Experimental" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup Label="Test Package Versions" Condition=" '$(IsUnitTestProject)' == 'true' ">
