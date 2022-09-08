@@ -17,7 +17,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
     <PackageReference Include="MudBlazor" />
-    <PackageReference Include="System.Runtime.Experimental" />
+    <!-- Temporarily disabled, see #27 -->
+    <!-- <PackageReference Include="System.Runtime.Experimental" /> -->
   </ItemGroup>
 
   <ItemGroup>
