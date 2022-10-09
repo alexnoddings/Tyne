@@ -7,16 +7,9 @@
 @code
 {
     protected override RenderFragment Render(RenderFragment loadingContent, RenderFragment<TModel> content) =>
-        base.Render(
-            @<MudPaper Class="d-flex flex-column gap-4 pa-2">
-                @loadingContent
-                @RenderSaveButton()
-            </MudPaper>, 
-            model => 
-            @<MudPaper Class="d-flex flex-column gap-4 pa-2">
-                @RenderMetadata()
-                @content(model)
-                @RenderSaveButton()
-            </MudPaper>
-        );
+        @<MudPaper Class="d-flex flex-column gap-4 pa-2">
+            @RenderMetadata()
+            @base.Render(loadingContent, content)
+            @RenderSaveButton()
+        </MudPaper>;
 }

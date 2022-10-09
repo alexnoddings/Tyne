@@ -93,7 +93,7 @@ public abstract partial class TyneModalForm<TOpen, TModel> : TyneFormBase<TModel
 		if (ModalInitialisationResult?.Success == false)
 		{
 			FormResult = Result.Failure(ModalInitialisationResult.Metadata);
-			State = FormState.Ready;
+			State = FormState.Loading;
 			return;
 		}
 
@@ -121,7 +121,7 @@ public abstract partial class TyneModalForm<TOpen, TModel> : TyneFormBase<TModel
 					return;
 
 				FormResult = Result.Failure(ModalInitialisationResult.Metadata);
-				State = FormState.Ready;
+				State = FormState.Loading;
 				return;
 			}
 		}
@@ -140,7 +140,7 @@ public abstract partial class TyneModalForm<TOpen, TModel> : TyneFormBase<TModel
 				return;
 
 			FormResult = CommonResults.UnhandledException(exception, "An error occurred while loading.");
-			State = FormState.Ready;
+			State = FormState.Loading;
 			StateHasChanged();
 			return;
 		}
@@ -164,7 +164,7 @@ public abstract partial class TyneModalForm<TOpen, TModel> : TyneFormBase<TModel
 		}
 
 		// Set the form as ready
-		State = FormState.Ready;
+		State = loadModelResult.Success ? FormState.Ready : FormState.Loading;
 		// Update the UI
 		StateHasChanged();
 
