@@ -49,11 +49,12 @@ public abstract class BaseSearchAction<TQuery, TResult, TEntity>
 
 		// We only use queryableFiltered as mapping/ordering is irrelevant for counts.
 		// We still execute after these to guarantee that all user code for these has ran already.
-		int count = await queryableFiltered
+		var count = await queryableFiltered
 			// Ignores warnings that data isn't sorted as we don't care for counts
 			.OrderBy(e => e)
 			.CountAsync();
 		List<TResult> results = await queryableOrdered.ToPageAsync(query);
+		results = Transform(results);
 
 		return SearchResults<TResult>.AsResult(count, results);
 	}
@@ -95,4 +96,15 @@ public abstract class BaseSearchAction<TQuery, TResult, TEntity>
 
 		return queryable;
 	}
+
+	/// <summary>
+	///		Transforms the search action's results before returning them.
+	/// </summary>
+	/// <param name="results">The results returned by the <see cref="IQueryable"/>.</param>
+	/// <returns>A <see cref="List{T}"/> of <typeparamref name="TResult"/> based on <paramref name="results"/>.</returns>
+	/// <remarks>
+	///		This is executed after <typeparamref name="TResult"/>s have been materialised, so nothing is translated.
+	///		By default, this simply returns <paramref name="results"/>, but is extensible if you need to modify them before returning.
+	/// </remarks>
+	protected virtual List<TResult> Transform(List<TResult> results) => results;
 }
