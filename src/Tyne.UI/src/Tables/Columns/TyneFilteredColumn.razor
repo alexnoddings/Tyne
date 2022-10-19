@@ -65,9 +65,11 @@
 
 	protected virtual RenderFragment Render(RenderFragment popoverContent) =>
 		@<MudTh>
-			@RenderOverlay()
-			@RenderVisibilityButton()
-			@RenderColumnHeader()
-			@RenderPopover(popoverContent)
+			<div class="d-flex">
+				@RenderOverlay()
+				@RenderVisibilityButton()
+				@RenderColumnHeader()
+				@RenderPopover(popoverContent)
+			</div>
 		</MudTh>;
 }
