@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Using Include="Tyne.UnitAlias" Static="true" />
+  </ItemGroup>
+
 </Project>
