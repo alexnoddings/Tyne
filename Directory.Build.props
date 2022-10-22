@@ -9,11 +9,11 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Version settings">
-    <TyneMajorVersion>1</TyneMajorVersion>
-    <TyneMinorVersion>10</TyneMinorVersion>
-    <TynePatchVersion>1</TynePatchVersion>
-    <Version>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</Version>
-    <AssemblyVersion>$(Version)</AssemblyVersion>
+    <TyneMajorVersion>2</TyneMajorVersion>
+    <TyneMinorVersion>0</TyneMinorVersion>
+    <TynePatchVersion>0</TynePatchVersion>
+    <Version>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)-beta01</Version>
+    <AssemblyVersion>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Label="Repository Info">
@@ -40,17 +40,11 @@
   <PropertyGroup Label="Project Types">
     <IsUnitTestProject Condition=" '$(IsUnitTestProject)' == '' AND $(MSBuildProjectName.EndsWith('Tests')) ">true</IsUnitTestProject>
     <IsUnitTestProject Condition=" '$(IsUnitTestProject)' == '' ">false</IsUnitTestProject>
-    <IsBlazorUnitTestProject Condition=" '$(IsUnitTestProject)' == 'true' AND '$(IsBlazorUnitTestProject)' == '' AND $(MSBuildProjectName.Contains('UI')) ">true</IsBlazorUnitTestProject>
-    <IsBlazorUnitTestProject Condition=" '$(IsBlazorUnitTestProject)' == '' ">false</IsBlazorUnitTestProject>
-</PropertyGroup>
+  </PropertyGroup>
 
   <ItemGroup Condition=" '$(IsUnitTestProject)' == 'true' AND '$(ImplicitUsings)' == 'enable' ">
     <Using Include="Moq" />
     <Using Include="Xunit" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(IsBlazorUnitTestProject)' == 'true' ">
-    <Using Include="Bunit" />
   </ItemGroup>
 
 </Project>
