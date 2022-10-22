@@ -1,0 +1,128 @@
+﻿@page "/core/unit"
+
+<MudText Typo="Typo.h3">
+    Unit
+</MudText>
+
+<DocSection Title="Unit Intro">
+    <MudText Typo="Typo.body1">
+        The <Keyword Name="Unit" /> type is designed as a Typed version of C#'s <Keyword Name="void" />, and indicates an absence of any value.
+        <Keyword Name="Unit" /> is needed because C#'s <Keyword Name="void" /> type can't be used as a type argument.
+    </MudText>
+    <MudText Typo="Typo.body1">
+        It is strongly inspired by the <Keyword Name="Unit" /> type in <MudLink Href="https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/unit-type">F#</MudLink> and <MudLink Href="https://doc.rust-lang.org/std/primitive.unit.html">Rust</MudLink>.
+    </MudText>
+</DocSection>
+
+<DocSection Title="Design Requirement">
+    <MudText Typo="Typo.body1">
+        <Keyword Name="void" /> can only be used in C# to denote a method which does not return a value, or as a pointer to an unknown value.
+        This leads to some wonky designs, such as requiring both <Keyword Name="Func" />s and <Keyword Name="Action" />s. Instead, if <Keyword Name="void" /> was usable as a type, an <Keyword Name="Action" /> would become a <Keyword Name="Func<void>" />.
+    </MudText>
+    <MudText Typo="Typo.body1">
+        <Keyword Name="Unit" /> is designed to fill this gap. <Keyword Name="Unit" /> doesn't contain any data, and all instances are functionally equivalent. This simplifies generics, as one definition can handle both having, and not having, a type.
+    </MudText>
+</DocSection>
+
+<DocSection Title="Example Usage">
+    <MudText Typo="Typo.body1">
+        Take the generic interface <Keyword Name="IExecutable<TInput, TOutput>" />. This has one method, <Keyword Name="TOutput Execute(TInput input)" />.
+        Traditionally, this would require a <Keyword Name="TInput" /> and <Keyword Name="TOutput" /> to be defined.
+        If you had a requirement for an executable to not need an input or output, you would need 4 separate definitions:
+    </MudText>
+    <table>
+        <thead>
+            <tr>
+                <th class="mud-typography-align-left">Interface</th>
+                <th class="mud-typography-align-left">Method</th>
+                <th class="mud-typography-align-left">Example</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><Code Inline>@("IExecutable<TInput, TOutput>")</Code></td>
+                <td><Code Inline>@("TOutput Execute(TInput input)")</Code></td>
+                <td>Loading a user from their Id</td>
+            </tr>
+            <tr>
+                <td><Code Inline>@("IExecutable<TInput>")</Code></td>
+                <td><Code Inline>@("void Execute(TInput input)")</Code></td>
+                <td>Deleting a user</td>
+            </tr>
+            <tr>
+                <td><Code Inline>@("IExecutable<TOutput>")</Code></td>
+                <td><Code Inline>@("TOutput Execute()")</Code></td>
+                <td>Getting the system's IP</td>
+            </tr>
+            <tr>
+                <td><Code Inline>@("IExecutable")</Code></td>
+                <td><Code Inline>@("Execute()")</Code></td>
+                <td>Running a scheduled background task</td>
+            </tr>
+        </tbody>
+    </table>
+    <MudText Typo="Typo.body1">
+        As well as needing to name them separately (2 and 3 share the same definition), you would also need to handle them separately.
+        This would mean one service or piece of middleware couldn't handle all 4 definitions cleanly, as they each have different method signatures.
+    </MudText>
+    <MudText Typo="Typo.body1">
+        <Keyword Name="Unit" /> simplifies this as generic parameters can be replaced by <Keyword Name="Unit" /> to signify that no value is required.
+        Using <Keyword Name="Unit" />, the 4 fragmented interfaces could be combined under <Keyword Name="IExecutable<TInput, TOutput>" />:
+    </MudText>
+    <table>
+        <thead>
+            <tr>
+                <th class="mud-typography-align-left">Prior Equivelant</th>
+                <th class="mud-typography-align-left">Implementation</th>
+                <th class="mud-typography-align-left">Method</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><Code Inline>@("IExecutable<TInput, TOutput>")</Code></td>
+                <td><Code Inline>@("IExecutable<TInput, TOutput>")</Code></td>
+                <td><Code Inline>@("TOutput Execute(TInput input)")</Code></td>
+            </tr>
+            <tr>
+                <td><Code Inline>@("IExecutable<TInput>")</Code></td>
+                <td><Code Inline>@("IExecutable<TInput, Unit>")</Code></td>
+                <td><Code Inline>@("Unit Execute(TInput input)")</Code></td>
+            </tr>
+            <tr>
+                <td><Code Inline>@("IExecutable<TOutput>")</Code></td>
+                <td><Code Inline>@("IExecutable<Unit, TOutput>")</Code></td>
+                <td><Code Inline>@("TOutput Execute(Unit _)")</Code></td>
+            </tr>
+            <tr>
+                <td><Code Inline>@("IExecutable")</Code></td>
+                <td><Code Inline>@("IExecutable<Unit, Unit>")</Code></td>
+                <td><Code Inline>@("Unit Execute(Unit _)")</Code></td>
+            </tr>
+        </tbody>
+    </table>
+</DocSection>
+
+<DocSection Title="Usage">
+    <MudText Typo="Typo.body1">
+        As <Keyword Name="Unit" /> doesn't have any concept of a state, a single instance can be referenced to avoid unnecessary allocations.
+        To access the value of <Keyword Name="Unit" />, you can use <Code Inline>Unit.Value</Code>.
+    </MudText>
+    <MudText Typo="Typo.body1">
+        <Code Inline>Unit.Value.AsTask</Code> and <Code Inline>Unit.Value.AsValueTask</Code> can be used to wrap <Keyword Name="Unit.Value" /> in a <Keyword Name="Task" /> or <Keyword Name="ValueTask" /> respectively.
+    </MudText>
+    <MudText Typo="Typo.body1">
+        While <Keyword Name="Unit" />s can be constructed, there is no value in doing so as they are not stateful, and will cause unnecessary allocations.
+    </MudText>
+</DocSection>
+
+<DocSection Title="Aliasing">
+    <MudText Typo="Typo.body1">
+        To make <Keyword Name="Unit" /> more ergonomic, you can alias <Keyword Name="Unit.Value" /> as <Code Inline>unit</Code> to appear more like <Keyword Name="void" />.
+    </MudText>
+    <MudText Typo="Typo.body1">
+        To do so, add the following to your <Keyword Name=".csproj" />:
+    </MudText>
+    <Code>    &lt;ItemGroup&gt;
+        &lt;Using Include="Tyne.UnitAlias" Static="true" /&gt;
+    &lt;/ItemGroup&gt;</Code>
+</DocSection>
