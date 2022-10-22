@@ -1,0 +1,16 @@
+.tyne-docs-code-inline,
+.tyne-docs-code-block {
+    background: var(--mud-palette-surface);
+}
+
+.tyne-docs-code-inline {
+    display: inline;
+    padding: 2px 4px;
+    margin: 2px 2px;
+}
+
+.tyne-docs-code-block {
+    display: block;
+    padding: 6px 12px;
+    margin: 4px 0px;
+}

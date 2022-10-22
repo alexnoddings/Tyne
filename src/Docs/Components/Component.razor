@@ -1,0 +1,15 @@
+<code class="tyne-docs-code-inline">&lt;@Name@Parameters /&gt;</code>
+
+@code
+{
+    [Parameter]
+    public string Name { get; set; } = string.Empty;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private RenderFragment Parameters =>
+        ChildContent is null
+        ? _ => { }
+    :@<text> @ChildContent</text>;
+}

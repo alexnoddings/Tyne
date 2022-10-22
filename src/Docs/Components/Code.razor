@@ -1,0 +1,17 @@
+@if (Inline)
+{
+    <code class="tyne-docs-code-inline">@ChildContent</code>
+}
+else
+{
+    <pre class="tyne-docs-code-block">@ChildContent</pre>
+}
+
+@code
+{
+    [Parameter]
+    public bool Inline { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; } = _ => { };
+}

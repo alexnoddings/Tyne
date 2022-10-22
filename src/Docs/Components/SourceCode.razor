@@ -1,0 +1,11 @@
+﻿<MudExpansionPanels>
+    <MudExpansionPanel Text="Toggle source code">
+        @ChildContent
+    </MudExpansionPanel>
+</MudExpansionPanels>
+
+@code
+{
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = _ => { };
+}

@@ -1,0 +1,19 @@
+﻿@if (Href is null)
+{
+    <code>@Name</code>
+}
+else
+{
+    <MudLink Href="@Href">
+        <code>@Name</code>
+    </MudLink>
+}
+
+@code
+{
+    [Parameter, EditorRequired]
+    public string Name { get; set; } = string.Empty;
+
+    [Parameter]
+    public string? Href { get; set; }
+}
