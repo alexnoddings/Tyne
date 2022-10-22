@@ -1,0 +1,20 @@
+﻿@page "/core/utilities/disposable-action"
+
+<MudText Typo="Typo.h3">
+    Disposable Action
+</MudText>
+
+<DocSection>
+    <MudText Typo="Typo.body1">
+        <Keyword Name="DisposableAction" /> simplifies executing an <Keyword Name="Action" /> as part of <Keyword Name="IDisposable.Dispose()" />.
+    </MudText>
+    <MudText Typo="Typo.body1">
+        By default, <Keyword Name="DisposableAction" /> will only call the action once. Any subsequent disposal calls are ignored. It can be configured to call the action upon every disposal.
+    </MudText>
+</DocSection>
+
+<DocSection Title="Thread safety">
+    <MudText Typo="Typo.body1">
+        Similar to <Keyword Name="IDisposable" />, <Keyword Name="DisposableAction" /> is not thread safe.
+    </MudText>
+</DocSection>
