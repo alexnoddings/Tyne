@@ -7,7 +7,7 @@ public class UnitTests
 	// create it through a generic method.
 	private static T Create<T>() where T : new() => new();
 
-	public static object[][] EqualObjects() => new[]
+	public static object[][] Units() => new[]
 	{
 		new object[] { Unit.Value },
 		new object[] { Create<Unit>() },
@@ -15,20 +15,18 @@ public class UnitTests
 	};
 
 	[Theory]
-	[MemberData(nameof(EqualObjects))]
-	public void Units_ShouldBeEqual(object unitObject)
+	[MemberData(nameof(Units))]
+	public void Units_ShouldBeEqual(Unit unit2)
 	{
 		// Arrange
 		var unit1 = Unit.Value;
-		if (unitObject is not Unit unit2)
-			throw new ArgumentException($"Expected a {nameof(Unit)}.", nameof(unitObject));
 
 		// Assert
 		Assert.Equal(unit1, unit2);
 		Assert.True(unit1 == unit2);
+		Assert.False(unit1 != unit2);
 		Assert.True(unit1.Equals(unit2));
 		Assert.True(unit1.Equals(unit2 as object));
-		Assert.False(unit1 != unit2);
 	}
 
 	public static object?[][] NotEqualObjects() => new[]

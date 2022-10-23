@@ -34,10 +34,6 @@ public class DisposableActionTests
 		Assert.Equal(5, mock.Invocations.Count);
 	}
 
-	private class TestException : Exception
-	{
-	}
-
 	[Fact]
 	public void Action_ShouldThrowOriginalException()
 	{
