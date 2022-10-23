@@ -1,0 +1,31 @@
+﻿@page "/core/errors"
+
+<MudText Typo="Typo.h3">
+    Errors
+</MudText>
+
+<DocSection Title="Enums">
+    <MudText Typo="Typo.body1">
+        A common pattern is to introduce an <Keyword Name="enum" /> to represent the kinds of errors an operation can encounter.
+        This gives a caller a strongly-typed reason for an error, for example:
+        <Code>public enum SomeOperationError { NotFound, AccessDenied }</Code>
+    </MudText>
+</DocSection>
+
+<DocSection Title="IHumanError">
+    <MudText Typo="Typo.body1">
+        Another common pattern is to use <Keyword Name="IHumanError" />, which gives a human-readable error message representing what went wrong.
+        <Keyword Name="HumanError" /> provides a simple implementation of <Keyword Name="IHumanError" />,
+        and should be used if a simple string error message with no extra information is required.
+    </MudText>
+    <MudText Typo="Typo.body1">
+        Rather than returning a message through <Keyword Name="Result<T, string>" />, <Keyword Name="IHumanError" />
+        gives scope for an implementor to return richer error types, for example:
+        <Code>public class ValidationError : IHumanError
+{
+    public string PropertyName { get; init; }
+    public string PropertyError { get; init; }
+    public string HumanErrorMessage => PropertyName + ": " + PropertyError;
+}</Code>
+    </MudText>
+</DocSection>

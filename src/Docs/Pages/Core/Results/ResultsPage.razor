@@ -1,0 +1,81 @@
+﻿@page "/core/results"
+
+<MudText Typo="Typo.h3">
+    Results
+</MudText>
+
+<DocSection Title="Introduction">
+    <MudText Typo="Typo.body1">
+        The <Keyword Name="Result" /> type represents the result of an operation. It is designed to move away from exception-based flow control, and bring a more functional approach to C#.
+    </MudText>
+    <MudText Typo="Typo.body1">
+        A result can either be <Keyword Name="Ok" />, which represents a successful operation and contains a <Keyword Name="Value" />,
+        or an <Keyword Name="Error" />, which represents an unsuccessful operation and contains an <Keyword Name="Error" />.
+    </MudText>
+    <MudText Typo="Typo.body1">
+        It is strongly inspired by the <Keyword Name="Result" /> type in <MudLink Href="https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/results">F#</MudLink> and <MudLink Href="https://doc.rust-lang.org/std/result/">Rust</MudLink>.
+        C#'s lack of Discriminated Unions restricts this library's result implementation.
+    </MudText>
+</DocSection>
+
+<DocSection Title="Result<T,E>">
+    <MudText Typo="Typo.body1">
+        A result is composed of two generic parameters, <Keyword Name="T" /> and <Keyword Name="E" />.
+    </MudText>
+    <MudText Typo="Typo.h6">
+        <Code Inline>T</Code>
+    </MudText>
+    <MudText Typo="Typo.body1">
+        <Keyword Name="T" /> is the type returned for an Ok result. This usually represents the happy path value returned by an operation.
+        <Keyword Name="Unit" /> can be used to indicate that no value is returned. See the <MudLink Href="/core/unit">unit documentation</MudLink> for more information on usage.
+    </MudText>
+    <MudText Typo="Typo.h6">
+        <Code Inline>E</Code>
+    </MudText>
+    <MudText Typo="Typo.body1">
+        <Keyword Name="E" /> is the type returned for an Error result. The type used can vary greatly depending on the situation.
+        See the <MudLink Href="/core/errors">errors documentation</MudLink> for common error patterns.
+    </MudText>
+</DocSection>
+
+<DocSection Title="Ok, Value, and Error">
+    <MudText Typo="Typo.body1">
+        A <Keyword Name="Result" /> can either be in the <Keyword Name="IsOk" /> state, or the <Keyword Name="Error" /> state.
+        <Code Inline>IsOk</Code> indicates if the result is Ok. 
+        <Code Inline>IsError</Code> always returns the opposite of <Keyword Name="IsOk" /> and is provided to make code more readable.
+    </MudText>
+    <MudText Typo="Typo.body1">
+        When a result <Keyword Name="IsOk" />, the <Code Inline>Value</Code> property will contain the non-null <Keyword Name="T" /> returned from the operation.
+        If the result <Keyword Name="IsError" />, accessing this will always throw an exception.
+    </MudText>
+    <MudText Typo="Typo.body1">
+        When a result <Keyword Name="IsError" />, the <Code Inline>Error</Code> property will contain a non-null <Keyword Name="E" /> indicating why the operation was unsuccessful.
+        If the result <Keyword Name="IsOk" />, accessing this will always throw an exception.
+    </MudText>
+</DocSection>
+
+<DocSection Title="Avoiding Exceptions">
+    <MudText Typo="Typo.body1">
+        <Keyword Name="Result" />s are designed to avoid throwing exceptions in unexceptional situations, and provide better feedback as to what went wrong.
+        Exceptions are often used in unexceptional situations (e.g. an entity not being found) as they are easy to use.
+        However, they make it easy to forget about the error path, and are unergonomic to use.
+        For example, consider the following options for a method with returns an <Keyword Name="Area" />:
+    </MudText>
+    <MudText Typo="Typo.body1" Class="mt-2">
+        The following code either returns an area or null. The caller has no indication of why the area could not be gotten.
+        <Code>public Area? GetAreaOrDefault(int id);</Code>
+    </MudText>
+    <MudText Typo="Typo.body1" Class="mt-2">
+        The following code either retuns an area or throws an exception.
+        The caller needs to wrap this in a try/catch to avoid the exception rising any further.
+        Alternatively, they could not handle it, but allowing an exception from a routine failure to propogate and terminate the request/operation isn't great.
+        Also, the reason for the error needs to be sought from the exception type, which will need to be documented.
+        <Code>public Area GetAreaOrThrow(int id);</Code>
+    </MudText>
+    <MudText Typo="Typo.body1" Class="mt-2">
+        Using <Keyword Name="Result<Area, GetAreaError>" />, the following code can strongly represent the result of getting an area.
+        The caller can easily access the reason for an error, and doesn't need to catch any exceptions.
+        <Code>public enum GetAreaError { NotFound, AccessDenied, InvalidId }
+public Result&lt;Area, GetAreaError&gt; GetArea(int id);</Code>
+    </MudText>
+</DocSection>
