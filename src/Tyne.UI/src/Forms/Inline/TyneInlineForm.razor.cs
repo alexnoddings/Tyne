@@ -35,13 +35,14 @@ public abstract partial class TyneInlineForm<TModel> : TyneFormBase<TModel> wher
 		{
 			ModelInstance = result.Value;
 			FormResult = Result.Successful();
+			State = FormState.Ready;
 		}
 		else
 		{
 			FormResult = Result.Failure(result.Metadata);
+			State = FormState.Loading;
 		}
 
-		State = FormState.Loading;
 		StateHasChanged();
 	}
 }
