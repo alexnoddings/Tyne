@@ -1,0 +1,32 @@
+﻿@namespace Tyne.Blazor
+
+@if (_shouldRender)
+{
+    if (_hasSuccessMessages)
+    {
+        @RenderMessages(ResultMessageType.Success, Severity.Success)
+    }
+    if (_hasErrorMessages)
+    {
+        @RenderMessages(ResultMessageType.Error, Severity.Error)
+    }
+    if (_hasWarningMessages)
+    {
+        @RenderMessages(ResultMessageType.Warning, Severity.Warning)
+    }
+    if (_hasInfoMessages)
+    {
+        @RenderMessages(ResultMessageType.Info, Severity.Info)
+    }
+}
+
+@code
+{
+    private RenderFragment RenderMessages(ResultMessageType type, Severity severity) =>
+        @<MudAlert Variant="Variant.Outlined" Severity="severity" Dense="true" Class="my-1">
+            @foreach (var message in OfType(type))
+            {
+                <p>@message</p>
+            }
+        </MudAlert>;
+}
