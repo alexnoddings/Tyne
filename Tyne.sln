@@ -35,6 +35,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mediator", "Mediator", "{5C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatorEndpoints.Blazor", "src\MediatorEndpoints.Blazor\MediatorEndpoints.Blazor.csproj", "{DB627E98-AAB0-478B-A9D4-AF822E2CD278}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFramework.UserService", "src\EntityFramework.UserService\EntityFramework.UserService.csproj", "{3E1A4334-C90A-40DB-99B0-B99227FAD532}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,10 @@ Global
 		{DB627E98-AAB0-478B-A9D4-AF822E2CD278}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB627E98-AAB0-478B-A9D4-AF822E2CD278}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB627E98-AAB0-478B-A9D4-AF822E2CD278}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E1A4334-C90A-40DB-99B0-B99227FAD532}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E1A4334-C90A-40DB-99B0-B99227FAD532}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E1A4334-C90A-40DB-99B0-B99227FAD532}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E1A4334-C90A-40DB-99B0-B99227FAD532}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +103,7 @@ Global
 		{9314C1DC-84B9-499C-AD5D-F8BEAD7E0EC3} = {5C12708F-81D4-436B-93E3-80C4A88178D6}
 		{025D2893-92A1-40BF-BE53-648601C0014B} = {5C12708F-81D4-436B-93E3-80C4A88178D6}
 		{DB627E98-AAB0-478B-A9D4-AF822E2CD278} = {5C12708F-81D4-436B-93E3-80C4A88178D6}
+		{3E1A4334-C90A-40DB-99B0-B99227FAD532} = {88B4F302-3C1E-419D-B934-4AAE21B548E5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D5F8103D-E1F9-4EA4-B5C2-CDCF0A929722}
