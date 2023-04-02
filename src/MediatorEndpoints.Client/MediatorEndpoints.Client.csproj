@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <AssemblyName>Tyne.MediatorEndpoints.Client</AssemblyName>
+    <RootNamespace>Tyne.MediatorEndpoints</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Options" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MediatorEndpoints.Core\MediatorEndpoints.Core.csproj" />
+  </ItemGroup>
+
+</Project>

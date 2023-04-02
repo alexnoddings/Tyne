@@ -6,21 +6,22 @@
     <StrongNameKeyId>AlexNTyne</StrongNameKeyId>
     <PackageProjectUrl>https://github.com/alexnoddings/Tyne</PackageProjectUrl>
     <IncludeSymbols>true</IncludeSymbols>
+    <NeutralLanguage>en</NeutralLanguage>
+    <DefaultLanguage>en-GB</DefaultLanguage>
   </PropertyGroup>
 
   <PropertyGroup Label="Version settings">
-    <TyneMajorVersion>1</TyneMajorVersion>
-    <TyneMinorVersion>10</TyneMinorVersion>
-    <TynePatchVersion>2</TynePatchVersion>
+    <TyneMajorVersion>2</TyneMajorVersion>
+    <TyneMinorVersion>0</TyneMinorVersion>
+    <TynePatchVersion>0</TynePatchVersion>
     <Version>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</Version>
-    <AssemblyVersion>$(Version)</AssemblyVersion>
+    <AssemblyVersion>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Label="Repository Info">
     <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
     <RepositoryUrl>https://github.com/alexnoddings/Tyne</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <!-- The SPDX name for the source license. See https://spdx.org/licenses/. -->
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
@@ -29,28 +30,30 @@
     <Features>strict</Features>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
   </PropertyGroup>
 
   <PropertyGroup Label="Analysers">
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
-    <AnalysisMode>Default</AnalysisMode>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
-  <PropertyGroup Label="Project Types">
-    <IsUnitTestProject Condition=" '$(IsUnitTestProject)' == '' AND $(MSBuildProjectName.EndsWith('Tests')) ">true</IsUnitTestProject>
-    <IsUnitTestProject Condition=" '$(IsUnitTestProject)' == '' ">false</IsUnitTestProject>
-    <IsBlazorUnitTestProject Condition=" '$(IsUnitTestProject)' == 'true' AND '$(IsBlazorUnitTestProject)' == '' AND $(MSBuildProjectName.Contains('UI')) ">true</IsBlazorUnitTestProject>
-    <IsBlazorUnitTestProject Condition=" '$(IsBlazorUnitTestProject)' == '' ">false</IsBlazorUnitTestProject>
-</PropertyGroup>
-
-  <ItemGroup Condition=" '$(IsUnitTestProject)' == 'true' AND '$(ImplicitUsings)' == 'enable' ">
-    <Using Include="Moq" />
-    <Using Include="Xunit" />
+  <ItemGroup Label="Project-wide Packages">
+    <PackageReference Include="AsyncFixer" Version="1.6.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.54.0.64047">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(IsBlazorUnitTestProject)' == 'true' ">
-    <Using Include="Bunit" />
-  </ItemGroup>
+  <PropertyGroup Label="Warnings and Errors">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>$(NoWarn);AsyncFixer01;AsyncFixer02</NoWarn>
+  </PropertyGroup>
 
 </Project>

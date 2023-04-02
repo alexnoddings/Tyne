@@ -4,19 +4,14 @@ on:
   push:
     branches: [main]
     paths:
-      - 'src/Tyne/src/**.*'
-      - 'src/Tyne.EntityFramework/src/**.*'
-      - 'src/Tyne.UI/src/**.*'
+      - 'src/**.*'
       - 'Directory.Build.props'
+      - 'Directory.Build.targets'
 
 jobs:
   test:
     name: .NET Test
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
@@ -25,7 +20,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 7.0.x
         
     - name: Restore dependencies
       run: dotnet restore
@@ -51,7 +46,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 7.0.x
 
     - name: Package Libraries
       run: dotnet pack -c Release --include-symbols -p:SymbolPackageFormat=snupkg -p:ContinuousIntegrationBuild=true -o ${GITHUB_WORKSPACE}/packages

@@ -1,0 +1,101 @@
+﻿@namespace Tyne.Blazor
+@using FluentValidation;
+@using Microsoft.AspNetCore.Components.Forms;
+@typeparam TModel where TModel : class
+@implements IDisposable
+
+@if (Form is not null)
+{
+    <MudDrawer Open="Form.State is not FormState.Closed"
+               OpenChanged="TryChangeOpenAsync"
+               Anchor="Anchor"
+               Elevation="Elevation"
+               DisableOverlay="DisableOverlay"
+               Width="@Width"
+               Variant="DrawerVariant.Temporary">
+        @{
+            // Check that the state isn't closed (this RenderFragment is still rendered while the drawer is closing)
+            @if (Form.State is not FormState.Closed)
+            {
+                var model = Form.Model;
+                <MudDrawerHeader Class="d-flex px-4 py-3 flex-row align-center">
+                    @if (Header is not null)
+                    {
+                        @Header(model)
+                    }
+                    @(CloseButton ?? DefaultCloseButton)
+                </MudDrawerHeader>
+                <div class="d-flex flex-column px-4">
+                    <TyneFormResultMessages Result="Form.OpenResult" />
+                    @if (Form.OpenResult?.WasSuccess != false)
+                    {
+                        @if (model is null)
+                        {
+                            @DefaultLoading
+                        }
+                        else
+                        {
+                            <TyneFormResultMessages Result="Form.SaveResult" />
+                            <EditForm @ref="Form.EditForm" Model="model">
+                                <TyneFormFluentValidator TModel="TModel"
+                                                         Validators="ModelValidators"
+                                                         ValidationEvents="ValidationEvents" />
+                                @Body(model)
+                            </EditForm>
+                        }
+                    }
+                </div>
+                @((Footer ?? DefaultFooter)(model))
+            }
+        }
+    </MudDrawer>
+}
+
+@code
+{
+    private RenderFragment<TModel?> DefaultHeader => _ =>
+        @<MudText Typo="Typo.h5">
+            @(Form.State is FormState.Loading ? "Loading" : typeof(TModel).Name)
+        </MudText>;
+
+    private RenderFragment DefaultLoading { get; } = 
+        @<MudProgressCircular Color="Color.Primary"
+                              Size="Size.Large"
+                              Indeterminate="true"
+                              Class="mx-auto mt-3 mb-8" />;
+        
+    private RenderFragment DefaultFooterCancelButton =>
+        @<MudButton OnClick="() => Form.CloseAsync(FormCloseTrigger.Closed)"
+                        Color="Color.Default"
+                        Variant="Variant.Outlined"
+                        StartIcon="@Icons.Material.Filled.Cancel">
+            Cancel
+        </MudButton>;
+
+    private RenderFragment DefaultFooterSaveButton =>
+        @<MudButton OnClick="Form.SaveAsync"
+                        Color="Color.Primary"
+                        Variant="Variant.Filled"
+                        StartIcon="@(Form.State is FormState.Saving ? null : Icons.Material.Filled.Save)"
+                        Disabled="Form.State is not FormState.Open">
+            @if (Form.State is FormState.Saving)
+            {
+                <MudProgressCircular Color="Color.Default"
+                             Size="Size.Small"
+                             Indeterminate="true"
+                             Class="ms-n2 me-2" />
+            }
+            Save
+        </MudButton>;
+
+    private RenderFragment<TModel?> DefaultFooter => _ =>
+        @<div class="d-flex flex-row px-4 py-3 gap-2 align-center justify-end">
+            @DefaultFooterCancelButton
+            @DefaultFooterSaveButton
+        </div>;
+
+    private RenderFragment DefaultCloseButton =>
+        @<MudIconButton Icon="@Icons.Material.Filled.Close" 
+                        OnClick="() => Form.CloseAsync(FormCloseTrigger.Closed)"
+                        Class="ms-auto pa-1" />;
+}

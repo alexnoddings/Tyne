@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <AssemblyName>Tyne.MediatorEndpoints.Blazor</AssemblyName>
+    <RootNamespace>Tyne.Blazor</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MediatorEndpoints.Client\MediatorEndpoints.Client.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MudBlazor" />
+  </ItemGroup>
+
+</Project>
