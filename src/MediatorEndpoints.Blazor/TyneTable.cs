@@ -1,5 +1,5 @@
-using MudBlazor;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using Tyne.MediatorEndpoints;
 using Tyne.Searching;
 
