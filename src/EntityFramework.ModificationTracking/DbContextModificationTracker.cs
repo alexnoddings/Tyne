@@ -6,11 +6,11 @@ namespace Tyne.EntityFramework;
 [SuppressMessage("Performance", "CA1812: Avoid uninstantiated internal classes", Justification = "Class is instantiated by Dependency Injection.")]
 internal sealed class DbContextModificationTracker : IDbContextModificationTracker
 {
-    private readonly ITyneUserService _userService;
+    private readonly ITyneUserService? _userService;
 
-    public DbContextModificationTracker(ITyneUserService userService)
+    public DbContextModificationTracker(IEnumerable<ITyneUserService> userServices)
     {
-        _userService = userService ?? throw new ArgumentNullException(nameof(userService));
+        _userService = userServices.SingleOrDefault();
     }
 
     public void TrackModifications(DbContext dbContext)
