@@ -1,4 +1,4 @@
-﻿namespace Tyne.Blazor;
+namespace Tyne.Blazor;
 
 /// <summary>
 ///     An interface for getting the current <see cref="EnvironmentName"/>.

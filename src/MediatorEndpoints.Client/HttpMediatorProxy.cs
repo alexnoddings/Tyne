@@ -30,22 +30,22 @@ public class HttpMediatorProxy : IMediatorProxy
 
         var apiRequestInfo = GetApiRequestInfo(request);
 
-        #if Tyne_MediatorEndpoints_GetSupport
+#if Tyne_MediatorEndpoints_GetSupport
         return apiRequestInfo.ApiMethod switch
         {
             ApiRequestMethod.Get => await SendGet(request, apiRequestInfo, cancellationToken).ConfigureAwait(false),
             ApiRequestMethod.Post => await SendPost(request, apiRequestInfo, cancellationToken).ConfigureAwait(false),
             _ => throw new ArgumentOutOfRangeException(nameof(request), $"Invalid {nameof(ApiRequestMethod)}."),
         };
-        #else
+#else
         return await SendPost(request, apiRequestInfo, cancellationToken).ConfigureAwait(false);
-        #endif
+#endif
     }
 
     public Task Send(IApiRequest<Unit> request, CancellationToken cancellationToken = default) =>
         Send<Unit>(request, cancellationToken);
 
-    #if Tyne_MediatorEndpoints_GetSupport
+#if Tyne_MediatorEndpoints_GetSupport
     private async Task<TResponse> SendGet<TResponse>(IApiRequest<TResponse> request, ApiRequestInfo apiRequestInfo, CancellationToken cancellationToken)
     {
         var requestJson = JsonSerializer.Serialize(request, request.GetType(), JsonSerialiserOptions);
@@ -60,7 +60,7 @@ public class HttpMediatorProxy : IMediatorProxy
 
         return response!;
     }
-    #endif
+#endif
 
     private async Task<TResponse> SendPost<TResponse>(IApiRequest<TResponse> request, ApiRequestInfo apiRequestInfo, CancellationToken cancellationToken)
     {
@@ -95,13 +95,13 @@ public class HttpMediatorProxy : IMediatorProxy
         throw new InvalidOperationException("Generic method invocation failed - result was null or invalid.");
     }
 
-    #if Tyne_MediatorEndpoints_GetSupport
+#if Tyne_MediatorEndpoints_GetSupport
     private sealed record ApiRequestInfo(Type RequestType, string ApiUri, ApiRequestMethod ApiMethod);
     private static ApiRequestInfo GetApiRequestInfoCore<TApiRequestMetadata>(TApiRequestMetadata metadata) where TApiRequestMetadata : IApiRequestMetadata =>
         new(metadata.GetType(), TApiRequestMetadata.Uri, TApiRequestMetadata.Method);
-    #else
+#else
     private sealed record ApiRequestInfo(Type RequestType, string ApiUri);
     private static ApiRequestInfo GetApiRequestInfoCore<TApiRequestMetadata>(TApiRequestMetadata metadata) where TApiRequestMetadata : IApiRequestMetadata =>
         new(metadata.GetType(), TApiRequestMetadata.Uri);
-    #endif
+#endif
 }

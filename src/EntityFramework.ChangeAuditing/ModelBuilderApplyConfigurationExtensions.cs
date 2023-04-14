@@ -1,4 +1,4 @@
-﻿using Tyne.EntityFramework;
+using Tyne.EntityFramework;
 
 namespace Microsoft.EntityFrameworkCore;
 

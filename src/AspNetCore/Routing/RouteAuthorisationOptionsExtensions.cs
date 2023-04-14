@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Tyne.AspNetCore.Routing;
 
 namespace Microsoft.AspNetCore.Builder;

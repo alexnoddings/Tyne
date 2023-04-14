@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 
 namespace Tyne.EntityFramework;
@@ -6,11 +6,11 @@ namespace Tyne.EntityFramework;
 [SuppressMessage("Performance", "CA1812: Avoid uninstantiated internal classes", Justification = "Class is instantiated by Dependency Injection.")]
 internal sealed class DbContextModificationTracker : IDbContextModificationTracker
 {
-    private readonly ITyneUserService _userService;
+    private readonly ITyneUserService? _userService;
 
-    public DbContextModificationTracker(ITyneUserService userService)
+    public DbContextModificationTracker(IEnumerable<ITyneUserService> userServices)
     {
-        _userService = userService ?? throw new ArgumentNullException(nameof(userService));
+        _userService = userServices.SingleOrDefault();
     }
 
     public void TrackModifications(DbContext dbContext)
@@ -29,7 +29,7 @@ internal sealed class DbContextModificationTracker : IDbContextModificationTrack
         ArgumentNullException.ThrowIfNull(dbContext);
 
         var utcNow = DateTime.UtcNow;
-        var userId = _userService.UserId;
+        var userId = _userService?.TryGetUserId();
 
         foreach (var entityEntry in dbContext.ChangeTracker.Entries())
         {
@@ -50,7 +50,7 @@ internal sealed class DbContextModificationTracker : IDbContextModificationTrack
 
             if (entityEntry.State is EntityState.Modified)
             {
-                #pragma warning disable S1066
+#pragma warning disable S1066
                 // S1066: Collapsible "if" statements should be merged
                 // This screws up the scope and conflicts with the 'lastUpdatedTrackedEntity' defined above
                 if (entityEntry.Entity is IUpdatable lastUpdatedTrackedEntity)
@@ -58,7 +58,7 @@ internal sealed class DbContextModificationTracker : IDbContextModificationTrack
                     lastUpdatedTrackedEntity.LastUpdatedAtUtc = utcNow;
                     lastUpdatedTrackedEntity.LastUpdatedById = userId;
                 }
-                #pragma warning restore S1066
+#pragma warning restore S1066
             }
         }
     }
