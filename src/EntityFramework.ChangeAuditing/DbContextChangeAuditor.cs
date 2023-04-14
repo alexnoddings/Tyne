@@ -30,7 +30,7 @@ internal sealed class DbContextChangeAuditor : IDbContextChangeAuditor
 
     private void AuditChangesCore(DbContext dbContext)
     {
-        var userId = _userService?.UserId;
+        var userId = _userService?.TryGetUserId();
 
         var changeEvents = new List<DbContextChangeEvent>();
         foreach (var entry in dbContext.ChangeTracker.Entries())

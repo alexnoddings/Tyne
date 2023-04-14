@@ -2,5 +2,5 @@
 
 public interface ITyneUserService
 {
-    public Guid? UserId { get; }
+    public Guid? TryGetUserId();
 }

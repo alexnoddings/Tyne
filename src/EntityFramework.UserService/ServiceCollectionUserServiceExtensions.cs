@@ -5,23 +5,15 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionUserServiceExtensions
 {
-    private sealed class SimpleUserService : ITyneUserService
-    {
-        public required Guid? UserId { get; init; }
-    }
-
     public static TyneBuilder AddUserService(this TyneBuilder builder, Func<IServiceProvider, Guid?> getUserId, ServiceLifetime lifetime = ServiceLifetime.Scoped)
     {
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(getUserId);
 
-        ITyneUserService CreateDefaultUserService(IServiceProvider services)
-        {
-            var userId = getUserId(services);
-            return new SimpleUserService { UserId = userId };
-        }
+        ITyneUserService CreateDeferredUserService(IServiceProvider services) =>
+            new DeferredUserService(services, getUserId);
 
-        builder.Services.Add(new ServiceDescriptor(typeof(ITyneUserService), CreateDefaultUserService, lifetime));
+        builder.Services.Add(new ServiceDescriptor(typeof(ITyneUserService), CreateDeferredUserService, lifetime));
 
         return builder;
     }
@@ -47,10 +39,9 @@ public static class ServiceCollectionUserServiceExtensions
 
     public static TyneBuilder AddUserServiceFromClaim(this TyneBuilder builder, string claimKey)
     {
-        ArgumentNullException.ThrowIfNull(builder);
         ArgumentException.ThrowIfNullOrEmpty(claimKey);
 
-        ITyneUserService CreateDefaultUserService(IServiceProvider services)
+        Guid? GetUserIdFromHttpContext(IServiceProvider services)
         {
             Guid? userId = null;
             var httpContext = services.GetService<IHttpContextAccessor>()?.HttpContext;
@@ -60,12 +51,9 @@ public static class ServiceCollectionUserServiceExtensions
                 if (claimValue is not null && Guid.TryParse(claimValue, out var claimUserId))
                     userId = claimUserId;
             }
-
-            return new SimpleUserService { UserId = userId };
+            return userId;
         }
 
-        builder.Services.Add(new ServiceDescriptor(typeof(ITyneUserService), CreateDefaultUserService, ServiceLifetime.Scoped));
-
-        return builder;
+        return AddUserService(builder, GetUserIdFromHttpContext);
     }
 }

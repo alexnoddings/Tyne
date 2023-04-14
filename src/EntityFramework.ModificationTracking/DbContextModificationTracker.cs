@@ -29,7 +29,7 @@ internal sealed class DbContextModificationTracker : IDbContextModificationTrack
         ArgumentNullException.ThrowIfNull(dbContext);
 
         var utcNow = DateTime.UtcNow;
-        var userId = _userService.UserId;
+        var userId = _userService?.TryGetUserId();
 
         foreach (var entityEntry in dbContext.ChangeTracker.Entries())
         {
