@@ -1,4 +1,4 @@
-﻿namespace Tyne.Blazor;
+namespace Tyne.Blazor;
 
 [Flags]
 public enum FormValidationEvents

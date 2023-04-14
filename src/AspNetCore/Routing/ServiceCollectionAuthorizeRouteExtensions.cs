@@ -1,4 +1,4 @@
-﻿using Tyne;
+using Tyne;
 using Tyne.AspNetCore.Routing;
 
 namespace Microsoft.Extensions.DependencyInjection;

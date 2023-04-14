@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
@@ -6,8 +6,8 @@ namespace Microsoft.AspNetCore.Builder;
 
 public static class NotFoundEndpointExtensions
 {
-	public static IEndpointConventionBuilder MapNotFoundFallback(this IEndpointRouteBuilder app) =>
-		MapNotFoundFallback(app, "{*path:nonfile}");
+    public static IEndpointConventionBuilder MapNotFoundFallback(this IEndpointRouteBuilder app) =>
+        MapNotFoundFallback(app, "{*path:nonfile}");
 
     public static IEndpointConventionBuilder MapNotFoundFallback(this IEndpointRouteBuilder app, [StringSyntax("Route")] string pattern) =>
         MapNotFoundFallback(app, pattern, _ => { });

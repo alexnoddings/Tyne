@@ -1,4 +1,4 @@
-﻿namespace System.Text.Json.Serialization;
+namespace System.Text.Json.Serialization;
 
 /// <summary>
 ///     Extensions for working with <see cref="JsonSerializerOptions"/>.

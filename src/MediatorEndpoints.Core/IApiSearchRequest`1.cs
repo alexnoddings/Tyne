@@ -1,4 +1,4 @@
-﻿using Tyne.Searching;
+using Tyne.Searching;
 
 namespace Tyne.MediatorEndpoints;
 

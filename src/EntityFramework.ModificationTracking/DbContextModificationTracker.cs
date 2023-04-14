@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 
 namespace Tyne.EntityFramework;
@@ -50,7 +50,7 @@ internal sealed class DbContextModificationTracker : IDbContextModificationTrack
 
             if (entityEntry.State is EntityState.Modified)
             {
-                #pragma warning disable S1066
+#pragma warning disable S1066
                 // S1066: Collapsible "if" statements should be merged
                 // This screws up the scope and conflicts with the 'lastUpdatedTrackedEntity' defined above
                 if (entityEntry.Entity is IUpdatable lastUpdatedTrackedEntity)
@@ -58,7 +58,7 @@ internal sealed class DbContextModificationTracker : IDbContextModificationTrack
                     lastUpdatedTrackedEntity.LastUpdatedAtUtc = utcNow;
                     lastUpdatedTrackedEntity.LastUpdatedById = userId;
                 }
-                #pragma warning restore S1066
+#pragma warning restore S1066
             }
         }
     }

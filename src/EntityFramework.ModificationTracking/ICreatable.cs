@@ -1,4 +1,4 @@
-﻿namespace Tyne.EntityFramework;
+namespace Tyne.EntityFramework;
 
 public interface ICreatable
 {

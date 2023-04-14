@@ -1,4 +1,4 @@
-﻿namespace Tyne;
+namespace Tyne;
 
 internal sealed class DeferredUserService : ITyneUserService
 {

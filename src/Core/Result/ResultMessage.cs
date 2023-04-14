@@ -1,4 +1,4 @@
-﻿namespace Tyne;
+namespace Tyne;
 
 public record ResultMessage
 {

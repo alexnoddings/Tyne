@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using MediatR;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -18,7 +18,7 @@ public abstract class TyneFormBase<TInput, TModel> : ComponentBase, ITyneForm<TM
 
     public TModel? Model { get; private set; }
 
-	public EditForm? EditForm { get; set; }
+    public EditForm? EditForm { get; set; }
 
     private readonly TaskCompletionSource _initialiseTaskSource;
     private readonly Task _onInitialised;
@@ -69,12 +69,12 @@ public abstract class TyneFormBase<TInput, TModel> : ComponentBase, ITyneForm<TM
         try
         {
             // Check if the result has been set while we were waiting
-            #pragma warning disable CA1508
+#pragma warning disable CA1508
             // CA1508: Avoid dead conditional code
             // Despite checking above, this may have been updated while we waited for the semaphore.
             if (InitialiseResult is not null)
                 return;
-            #pragma warning restore CA1508
+#pragma warning restore CA1508
 
             Logger = LoggerFactory?.CreateLogger(GetType());
 

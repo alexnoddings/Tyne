@@ -1,4 +1,4 @@
-﻿namespace Tyne.Searching;
+namespace Tyne.Searching;
 
 /// <summary>
 ///     How to paginate search query results.

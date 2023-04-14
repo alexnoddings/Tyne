@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
@@ -128,7 +128,7 @@ public sealed class Result<T> : IResult, IEquatable<Result<T>>
     public static bool operator ==(Result<T> left, Result<T> right)
     {
         if (left is null)
-                return right is null;
+            return right is null;
 
         return left.Equals(right);
     }

@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Components.Forms;
 
 namespace Tyne.Blazor;

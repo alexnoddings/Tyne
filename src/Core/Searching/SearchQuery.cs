@@ -1,4 +1,4 @@
-﻿namespace Tyne.Searching;
+namespace Tyne.Searching;
 
 /// <summary>
 ///     A base implementation for <see cref="ISearchQuery"/>.

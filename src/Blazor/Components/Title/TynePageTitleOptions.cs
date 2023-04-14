@@ -1,4 +1,4 @@
-﻿namespace Tyne.Blazor;
+namespace Tyne.Blazor;
 
 /// <summary>
 ///     Options for configuring <see cref="TynePageTitle"/>s.

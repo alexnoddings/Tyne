@@ -7,9 +7,9 @@ namespace Tyne;
 /// </summary>
 public sealed class TyneBuilder
 {
-	/// <summary>
-	///		The <see cref="IServiceCollection"/> this represents.
-	/// </summary>
+    /// <summary>
+    ///		The <see cref="IServiceCollection"/> this represents.
+    /// </summary>
     public IServiceCollection Services { get; }
 
     internal TyneBuilder(IServiceCollection services)

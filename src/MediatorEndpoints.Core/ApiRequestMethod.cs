@@ -1,4 +1,4 @@
-﻿#if Tyne_MediatorEndpoints_GetSupport
+#if Tyne_MediatorEndpoints_GetSupport
 namespace Tyne.MediatorEndpoints;
 
 /// <summary>
