@@ -1,0 +1,20 @@
+﻿@namespace Tyne.Blazor
+@typeparam TRequest
+@typeparam TResponse
+@inherits TyneFilteredColumnBase<TRequest, TResponse>
+
+<TyneColumnHeaderContent TRequest="TRequest" TResponse="TResponse" Column="this">
+    <Header>
+        @ChildContent
+    </Header>
+    <Filter>
+        <MudTextField T="string"
+				      @ref="InputRef"
+				      Class="my-0"
+				      Value="Value"
+                      ValueChanged="UpdateValueAsync"
+				      DebounceInterval="800"
+				      Variant="Variant.Text"
+				      Margin="Margin.Dense" />
+    </Filter>
+</TyneColumnHeaderContent>
