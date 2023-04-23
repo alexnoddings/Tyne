@@ -1,0 +1,18 @@
+﻿@namespace Tyne.Blazor
+@typeparam TRequest
+@typeparam TResponse
+@inherits TyneFilteredColumnBase<TRequest, TResponse>
+
+<TyneColumnHeaderContent TRequest="TRequest" TResponse="TResponse" Column="this">
+    <Header>
+        @ChildContent
+    </Header>
+    <Filter>
+        <MudDateRangePicker PickerVariant="PickerVariant.Dialog"
+                            Class="my-0"
+                            DateRange="DateRange"
+                            DateRangeChanged="UpdateDateRangeAsync"
+                            Margin="Margin.Dense"
+                            Style="max-width: 250px;"/>
+    </Filter>
+</TyneColumnHeaderContent>

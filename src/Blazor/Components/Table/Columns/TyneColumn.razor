@@ -1,0 +1,19 @@
+﻿@namespace Tyne.Blazor
+@typeparam TRequest
+@typeparam TResponse
+
+<MudTh>
+    @{
+        var orderByPropertyName = OrderByProperty?.Name;
+        if (string.IsNullOrWhiteSpace(orderByPropertyName))
+	    {
+		    @ChildContent
+	    }
+	    else
+	    {
+            <MudTableSortLabel T="TResponse" SortLabel="@orderByPropertyName">
+			    @ChildContent
+		    </MudTableSortLabel>
+	    }
+    }
+</MudTh>
