@@ -4,24 +4,29 @@ using Microsoft.AspNetCore.Components.Rendering;
 namespace Tyne.Blazor;
 
 /// <summary>
-///     Creates empty <see cref="RenderFragment"/>s.
+///     An empty <see cref="RenderFragment"/> which does not write to the <see cref="RenderTreeBuilder"/>.
 /// </summary>
 /// <remarks>
 ///     Useful for non-null placeholders.
 /// </remarks>
 public static class EmptyRenderFragment
 {
-    private static readonly RenderFragment Empty = _ => { };
+    /// <summary>
+    ///     An empty <see cref="RenderFragment"/> which does not write to the <see cref="RenderTreeBuilder"/>.
+    /// </summary>
+    public static RenderFragment Instance { get; } = _ => { };
 
     /// <summary>
-    ///     Creates an empty <see cref="RenderFragment"/>.
+    ///     An empty <see cref="RenderFragment{T}"/> which ignores the <typeparamref name="T"/> and does not write to the <see cref="RenderTreeBuilder"/>.
     /// </summary>
-    /// <returns>A <see cref="RenderFragment"/> which does not write to the <see cref="RenderTreeBuilder"/>.</returns>
-    public static RenderFragment Create() => Empty;
+    /// <returns>An empty <see cref="RenderFragment{T}"/> which ignores the <typeparamref name="T"/> and does not write to the <see cref="RenderTreeBuilder"/>.</returns>
+    public static RenderFragment<T> For<T>() => EmptyRenderFragmentT<T>.InstanceT;
 
-    /// <summary>
-    ///     Creates an empty <see cref="RenderFragment{T}"/>.
-    /// </summary>
-    /// <returns>A <see cref="RenderFragment{T}"/> which ignores the <typeparamref name="T"/> and does not write to the <see cref="RenderTreeBuilder"/>.</returns>
-    public static RenderFragment<T> Create<T>() => _ => Empty;
+    private static class EmptyRenderFragmentT<T>
+    {
+        /// <summary>
+        ///     An empty <see cref="RenderFragment{T}"/> which ignores the <typeparamref name="T"/> and does not write to the <see cref="RenderTreeBuilder"/>.
+        /// </summary>
+        internal static readonly RenderFragment<T> InstanceT = _ => EmptyRenderFragment.Instance;
+    }
 }

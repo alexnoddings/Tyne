@@ -1,0 +1,41 @@
+﻿@namespace Tyne.Blazor
+@typeparam TRequest
+@typeparam TResponse
+@typeparam TValue
+@inherits TyneSelectColumnBase<TRequest, TResponse, TValue>
+
+<div class="d-none">
+    <CascadingValue TValue="ITyneSelectColumn<TValue>" Value="this" IsFixed="true">
+        @Values
+    </CascadingValue>
+</div>
+
+<TyneColumnHeaderContent TRequest="TRequest" TResponse="TResponse" Column="this">
+    <Header>
+        @ChildContent
+    </Header>
+    <Filter>
+        @if (Type is TyneSelectColumnType.Radio)
+        {
+            <MudRadioGroup T="TValue" SelectedOption="_selectedValue" SelectedOptionChanged="UpdateValueAsync" Class="ms-2" InputClass="d-flex flex-column" Style="@ContentWidthStyle">
+                @foreach (var registeredValue in RegisteredValues)
+                {
+                    <MudRadio Option="registeredValue.Value" Color="Color.Primary" UnCheckedColor="Color.Default" Dense="true">
+                        @registeredValue.ChildContent
+                    </MudRadio>
+                }
+            </MudRadioGroup>
+        }
+        else
+        {
+            <MudSelect T="TValue" Value="_selectedValue" ValueChanged="UpdateValueAsync" AnchorOrigin="Origin.BottomCenter" Dense="true" Class="mt-n3" Style="@ContentWidthStyle">
+                @foreach (var registeredValue in RegisteredValues)
+                {
+                    <MudSelectItem Value="registeredValue.Value">
+                        @registeredValue.ChildContent
+                    </MudSelectItem>
+                }
+            </MudSelect>
+        }
+    </Filter>
+</TyneColumnHeaderContent>
