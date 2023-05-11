@@ -5,12 +5,12 @@ using System.Text.Json;
 using MediatR;
 using Microsoft.Extensions.Options;
 
-namespace Tyne.MediatorEndpoints;
+namespace Tyne.MediatorEndpoints.Http;
 
 /// <summary>
 ///		Proxies <see cref="IApiRequest{TResponse}"/>s to the server over a <see cref="System.Net.Http.HttpClient"/>.
 /// </summary>
-public class HttpMediatorProxy : IMediatorProxy
+public class HttpMediatorProxy : IHttpMediatorProxy
 {
     private HttpClient HttpClient { get; }
     private JsonSerializerOptions JsonSerialiserOptions { get; }
@@ -24,7 +24,16 @@ public class HttpMediatorProxy : IMediatorProxy
         JsonSerialiserOptions = jsonSerialiserOptions.Value;
     }
 
+    public async Task<HttpMediatorResult<TResponse>> SendHttp<TResponse>(IApiRequest<TResponse> request, HttpMediatorResponseBehaviour behaviour = HttpMediatorResponseBehaviour.Automatic, CancellationToken cancellationToken = default) =>
+        await Send(request, behaviour, cancellationToken).ConfigureAwait(false);
+
     public async Task<TResponse> Send<TResponse>(IApiRequest<TResponse> request, CancellationToken cancellationToken = default)
+    {
+        var result = await Send(request, HttpMediatorResponseBehaviour.Automatic, cancellationToken).ConfigureAwait(false);
+        return result.Response ?? throw new InvalidOperationException($"Could not read response. De-serialising returned null, not {nameof(TResponse)}.");
+    }
+
+    private async Task<HttpMediatorResult<TResponse>> Send<TResponse>(IApiRequest<TResponse> request, HttpMediatorResponseBehaviour behaviour, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(request);
 
@@ -33,20 +42,17 @@ public class HttpMediatorProxy : IMediatorProxy
 #if Tyne_MediatorEndpoints_GetSupport
         return apiRequestInfo.ApiMethod switch
         {
-            ApiRequestMethod.Get => await SendGet(request, apiRequestInfo, cancellationToken).ConfigureAwait(false),
-            ApiRequestMethod.Post => await SendPost(request, apiRequestInfo, cancellationToken).ConfigureAwait(false),
+            ApiRequestMethod.Get => await SendGet(request, apiRequestInfo, behaviour, cancellationToken).ConfigureAwait(false),
+            ApiRequestMethod.Post => await SendPost(request, apiRequestInfo, behaviour, cancellationToken).ConfigureAwait(false),
             _ => throw new ArgumentOutOfRangeException(nameof(request), $"Invalid {nameof(ApiRequestMethod)}."),
         };
 #else
-        return await SendPost(request, apiRequestInfo, cancellationToken).ConfigureAwait(false);
+        return await SendPost(request, apiRequestInfo, behaviour, cancellationToken).ConfigureAwait(false);
 #endif
     }
 
-    public Task Send(IApiRequest<Unit> request, CancellationToken cancellationToken = default) =>
-        Send<Unit>(request, cancellationToken);
-
 #if Tyne_MediatorEndpoints_GetSupport
-    private async Task<TResponse> SendGet<TResponse>(IApiRequest<TResponse> request, ApiRequestInfo apiRequestInfo, CancellationToken cancellationToken)
+    private async Task<HttpMediatorResult<TResponse>> SendGet<TResponse>(IApiRequest<TResponse> request, ApiRequestInfo apiRequestInfo, HttpMediatorResponseBehaviour behaviour, CancellationToken cancellationToken)
     {
         var requestJson = JsonSerializer.Serialize(request, request.GetType(), JsonSerialiserOptions);
         var uriQuery = QueryString.Create("query", requestJson);
@@ -54,26 +60,31 @@ public class HttpMediatorProxy : IMediatorProxy
         var uriBase = "/api/" + apiRequestInfo.ApiUri;
         var uri = new Uri(uriBase + uriQuery, UriKind.Relative);
 
-        var response = await HttpClient.GetFromJsonAsync<TResponse>(uri, JsonSerialiserOptions, cancellationToken).ConfigureAwait(false);
-        if (response is null)
-            throw new InvalidOperationException("...");
-
-        return response!;
+        return await SendCore<TResponse>(HttpMethod.Get, uri, null, behaviour, cancellationToken).ConfigureAwait(false);
     }
 #endif
 
-    private async Task<TResponse> SendPost<TResponse>(IApiRequest<TResponse> request, ApiRequestInfo apiRequestInfo, CancellationToken cancellationToken)
+    private async Task<HttpMediatorResult<TResponse>> SendPost<TResponse>(IApiRequest<TResponse> request, ApiRequestInfo apiRequestInfo, HttpMediatorResponseBehaviour behaviour, CancellationToken cancellationToken)
     {
         var uri = new Uri("/api/" + apiRequestInfo.ApiUri, UriKind.Relative);
 
         using var httpContent = JsonContent.Create(request, apiRequestInfo.RequestType, options: JsonSerialiserOptions);
-        var httpResponse = await HttpClient.PostAsync(uri, httpContent, cancellationToken).ConfigureAwait(false);
+        return await SendCore<TResponse>(HttpMethod.Post, uri, httpContent, behaviour, cancellationToken).ConfigureAwait(false);
+    }
 
-        var response = await httpResponse.Content.ReadFromJsonAsync<TResponse>(JsonSerialiserOptions, cancellationToken).ConfigureAwait(false);
-        if (response is null)
-            throw new InvalidOperationException("...");
+    private async Task<HttpMediatorResult<TResponse>> SendCore<TResponse>(HttpMethod method, Uri uri, HttpContent? content, HttpMediatorResponseBehaviour behaviour, CancellationToken cancellationToken)
+    {
+        using var httpRequest = new HttpRequestMessage(method, uri)
+        {
+            Content = content
+        };
+        var httpResponse = await HttpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
 
-        return response;
+        TResponse? response = default;
+        if (behaviour is HttpMediatorResponseBehaviour.Automatic)
+            response = await httpResponse.Content.ReadFromJsonAsync<TResponse>(JsonSerialiserOptions, cancellationToken).ConfigureAwait(false);
+
+        return new(response, httpResponse);
     }
 
     // We use reflection here to make the Send API nicer.

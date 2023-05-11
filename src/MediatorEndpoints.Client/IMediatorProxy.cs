@@ -11,5 +11,4 @@ namespace Tyne.MediatorEndpoints;
 public interface IMediatorProxy
 {
     public Task<TResponse> Send<TResponse>(IApiRequest<TResponse> request, CancellationToken cancellationToken = default);
-    public Task Send(IApiRequest<Unit> request, CancellationToken cancellationToken = default);
 }
