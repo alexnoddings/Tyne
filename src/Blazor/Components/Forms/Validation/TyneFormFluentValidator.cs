@@ -4,13 +4,17 @@ using Microsoft.AspNetCore.Components.Forms;
 
 namespace Tyne.Blazor;
 
-public sealed class TyneFormFluentValidator<TModel> : ComponentBase, IDisposable where TModel : class
+public class TyneFormFluentValidator<TModel>
+    : ComponentBase, ITyneFormFluentValidator, IDisposable
+    where TModel : class
 {
     private TyneFormFluentValidatorSubscriptions<TModel>? _subscriptions;
+    private IDisposable? _rootValidatorRegistration;
+    private bool _isDisposed;
 
     private EditContext? _originalEditContext;
     [CascadingParameter]
-    private EditContext CurrentEditContext { get; set; } = null!;
+    public EditContext EditContext { get; private set; } = null!;
 
     [Parameter]
     public FormValidationEvents ValidationEvents { get; set; } = FormValidationEvents.Default;
@@ -41,9 +45,12 @@ public sealed class TyneFormFluentValidator<TModel> : ComponentBase, IDisposable
     [Inject]
     private IEnumerable<IValidator<TModel>>? InjectedValidators { get; init; }
 
+    [CascadingParameter]
+    private ITyneFormRootFluentValidator? RootFluentValidator { get; set; }
+
     protected override void OnInitialized()
     {
-        if (CurrentEditContext == null)
+        if (EditContext == null)
         {
             throw new InvalidOperationException(
                  $"{nameof(TyneFormFluentValidator<TModel>)} requires a cascading parameter of type {nameof(EditContext)}. " +
@@ -56,22 +63,45 @@ public sealed class TyneFormFluentValidator<TModel> : ComponentBase, IDisposable
         if (UseInjected && InjectedValidators is not null)
             validators = validators.Union(InjectedValidators);
 
-        _originalEditContext = CurrentEditContext;
-        _subscriptions = new TyneFormFluentValidatorSubscriptions<TModel>(CurrentEditContext, validators)
+        _originalEditContext = EditContext;
+        _subscriptions = new TyneFormFluentValidatorSubscriptions<TModel>(EditContext, validators)
         {
             ValidationEvents = ValidationEvents
         };
+
+        if (RootFluentValidator is not null)
+            _rootValidatorRegistration = RootFluentValidator.RegisterNestedValidator(this);
     }
 
     protected override void OnParametersSet()
     {
-        if (CurrentEditContext != _originalEditContext)
+        if (EditContext != _originalEditContext)
             throw new InvalidOperationException($"{nameof(TyneFormFluentValidator<TModel>)} does not support changing the {nameof(EditContext)} dynamically.");
 
         if (_subscriptions is not null)
             _subscriptions.ValidationEvents = ValidationEvents;
     }
 
-    public void Dispose() =>
-        _subscriptions?.Dispose();
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_isDisposed)
+        {
+            if (disposing)
+            {
+                _subscriptions?.Dispose();
+                _subscriptions = null;
+
+                _rootValidatorRegistration?.Dispose();
+                _rootValidatorRegistration = null;
+            }
+
+            _isDisposed = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
 }
