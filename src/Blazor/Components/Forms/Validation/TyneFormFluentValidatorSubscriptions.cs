@@ -6,7 +6,7 @@ namespace Tyne.Blazor;
 internal sealed class TyneFormFluentValidatorSubscriptions<TModel> : IDisposable where TModel : class
 {
     private readonly EditContext _editContext;
-    private readonly IEnumerable<IValidator<TModel>> _validators;
+    private readonly IValidator<TModel>[] _validators;
     private readonly ValidationMessageStore _messages;
 
     public FormValidationEvents ValidationEvents { get; set; }
@@ -14,7 +14,7 @@ internal sealed class TyneFormFluentValidatorSubscriptions<TModel> : IDisposable
     public TyneFormFluentValidatorSubscriptions(EditContext editContext, IEnumerable<IValidator<TModel>> validators)
     {
         _editContext = editContext ?? throw new ArgumentNullException(nameof(editContext));
-        _validators = validators ?? throw new ArgumentNullException(nameof(validators));
+        _validators = validators?.ToArray() ?? throw new ArgumentNullException(nameof(validators));
         _messages = new ValidationMessageStore(editContext);
 
         _editContext.OnFieldChanged += OnFieldChanged;
