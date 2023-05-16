@@ -37,10 +37,9 @@
                         {
                             <TyneFormResultMessages Result="Form.SaveResult" />
                             <EditForm @ref="Form.EditForm" Model="model">
-                                <TyneFormFluentValidator TModel="TModel"
-                                                         Validators="ModelValidators"
-                                                         ValidationEvents="ValidationEvents" />
-                                @Body(model)
+                                <TyneFormRootFluentValidator TModel="TModel" UseInjected="true" ValidationEvents="ValidationEvents">
+                                    @Body(model)
+                                </TyneFormRootFluentValidator>
                             </EditForm>
                         }
                     }

@@ -4,48 +4,104 @@ using Microsoft.AspNetCore.Components.Forms;
 
 namespace Tyne.Blazor;
 
-public sealed class TyneFormFluentValidator<TModel> : ComponentBase, IDisposable where TModel : class
+public class TyneFormFluentValidator<TModel>
+    : ComponentBase, ITyneFormFluentValidator, IDisposable
+    where TModel : class
 {
     private TyneFormFluentValidatorSubscriptions<TModel>? _subscriptions;
+    private IDisposable? _rootValidatorRegistration;
+    private bool _isDisposed;
 
     private EditContext? _originalEditContext;
     [CascadingParameter]
-    private EditContext CurrentEditContext { get; set; } = null!;
-
-    [Parameter, EditorRequired]
-    public IEnumerable<IValidator<TModel>> Validators { get; set; } = null!;
+    public EditContext EditContext { get; private set; } = null!;
 
     [Parameter]
     public FormValidationEvents ValidationEvents { get; set; } = FormValidationEvents.Default;
 
+    /// <summary>
+    ///     The <see cref="IValidator{T}"/>s to use for validating <typeparamref name="TModel"/>.
+    /// </summary>
+    /// <remarks>
+    ///     These are copied during component initialisation. Changing them afterwards is not supported.
+    /// </remarks>
+    [Parameter]
+    public IEnumerable<IValidator<TModel>>? Validators { get; set; }
+
+    /// <summary>
+    ///     <para>
+    ///         When <see langword="false"/>, only the validators specified by <see cref="Validators"/> will be used for validation.
+    ///     </para>
+    ///     <para>
+    ///         When <see langword="true"/>, <c>[Inject]</c>ed <see cref="IValidator{T}"/>s will also be used.
+    ///     </para>
+    /// </summary>
+    /// <remarks>
+    ///     Defaults to <see langword="true"/>.
+    /// </remarks>
+    [Parameter]
+    public bool UseInjected { get; set; } = true;
+
+    [Inject]
+    private IEnumerable<IValidator<TModel>>? InjectedValidators { get; init; }
+
+    [CascadingParameter]
+    private ITyneFormRootFluentValidator? RootFluentValidator { get; set; }
+
     protected override void OnInitialized()
     {
-        if (CurrentEditContext == null)
+        if (EditContext == null)
         {
             throw new InvalidOperationException(
                  $"{nameof(TyneFormFluentValidator<TModel>)} requires a cascading parameter of type {nameof(EditContext)}. " +
                  $"For example, you can use {nameof(TyneFormFluentValidator<TModel>)} inside an EditForm.");
         }
 
-        if (Validators == null)
-            throw new InvalidOperationException($"{nameof(TyneFormFluentValidator<TModel>)} requires a {nameof(Validators)} parameter.");
+        var validators = Enumerable.Empty<IValidator<TModel>>();
+        if (Validators is not null)
+            validators = validators.Union(Validators);
+        if (UseInjected && InjectedValidators is not null)
+            validators = validators.Union(InjectedValidators);
 
-        _originalEditContext = CurrentEditContext;
-        _subscriptions = new TyneFormFluentValidatorSubscriptions<TModel>(CurrentEditContext, Validators)
+        _originalEditContext = EditContext;
+        _subscriptions = new TyneFormFluentValidatorSubscriptions<TModel>(EditContext, validators)
         {
             ValidationEvents = ValidationEvents
         };
+
+        if (RootFluentValidator is not null)
+            _rootValidatorRegistration = RootFluentValidator.RegisterNestedValidator(this);
     }
 
     protected override void OnParametersSet()
     {
-        if (CurrentEditContext != _originalEditContext)
+        if (EditContext != _originalEditContext)
             throw new InvalidOperationException($"{nameof(TyneFormFluentValidator<TModel>)} does not support changing the {nameof(EditContext)} dynamically.");
 
         if (_subscriptions is not null)
             _subscriptions.ValidationEvents = ValidationEvents;
     }
 
-    public void Dispose() =>
-        _subscriptions?.Dispose();
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_isDisposed)
+        {
+            if (disposing)
+            {
+                _subscriptions?.Dispose();
+                _subscriptions = null;
+
+                _rootValidatorRegistration?.Dispose();
+                _rootValidatorRegistration = null;
+            }
+
+            _isDisposed = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
 }

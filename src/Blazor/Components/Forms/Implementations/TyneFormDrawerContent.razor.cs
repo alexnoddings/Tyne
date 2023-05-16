@@ -39,9 +39,6 @@ public sealed partial class TyneFormDrawerContent<TModel>
     [Parameter]
     public FormValidationEvents ValidationEvents { get; set; } = FormValidationEvents.Default;
 
-    [Inject]
-    private IEnumerable<IValidator<TModel>> ModelValidators { get; init; } = Enumerable.Empty<IValidator<TModel>>();
-
     private ITyneForm<TModel>? _oldPanel;
     private IDisposable? _panelAttachment;
 
