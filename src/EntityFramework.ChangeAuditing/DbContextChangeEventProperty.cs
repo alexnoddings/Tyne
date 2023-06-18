@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Tyne.EntityFramework;
 
-[SkipChangeAuditing]
 public class DbContextChangeEventProperty
 {
     public Guid Id { get; set; }
@@ -26,6 +25,7 @@ public class DbContextChangeEventPropertyEntityTypeConfiguration : IEntityTypeCo
             .HasKey(changeEventProperty => changeEventProperty.Id);
 
         builder
+            .IgnoreChangeAuditing()
             .ToTable("_DbChangesProperties");
     }
 }
