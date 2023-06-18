@@ -10,6 +10,7 @@ namespace Tyne.EntityFramework;
 [SuppressMessage("Performance", "CA1812: Avoid uninstantiated internal classes", Justification = "Class is instantiated by Dependency Injection.")]
 internal sealed class DbContextChangeAuditor : IDbContextChangeAuditor
 {
+    public const string IgnoreChangeAuditingAnnotationName = "Tyne:IgnoreChangeAuditing";
     private readonly ITyneUserService? _userService;
 
     public DbContextChangeAuditor(IEnumerable<ITyneUserService> userServices)
@@ -33,18 +34,14 @@ internal sealed class DbContextChangeAuditor : IDbContextChangeAuditor
         var userId = _userService?.TryGetUserId();
 
         var changeEvents = new List<DbContextChangeEvent>();
-        foreach (var entry in dbContext.ChangeTracker.Entries())
+        foreach (var entry in dbContext.ChangeTracker.Entries().Where(entry => !entry.Metadata.HasFlagAnnotation(IgnoreChangeAuditingAnnotationName)))
         {
-            var entityType = entry.Entity?.GetType();
-            if (entityType is null || entityType.GetCustomAttribute<SkipChangeAuditingAttribute>() is not null)
-                continue;
-
             var change = new DbContextChangeEvent
             {
                 DateTimeUtc = DateTime.UtcNow,
                 UserId = userId,
                 Action = entry.State.ToString(),
-                EntityType = entityType.Name,
+                EntityType = entry.Entity.GetType().Name,
                 EntityId =
                     entry.Properties
                     .Where(p => p.Metadata.IsPrimaryKey() && p.CurrentValue is Guid)
@@ -54,6 +51,7 @@ internal sealed class DbContextChangeAuditor : IDbContextChangeAuditor
                 ActivityId = Activity.Current?.Id ?? string.Empty,
                 Properties = entry.Properties
                 .Where(property => entry.State is EntityState.Added or EntityState.Deleted || property.IsModified)
+                .Where(property => !property.Metadata.HasFlagAnnotation(IgnoreChangeAuditingAnnotationName))
                 .Select(property =>
                 {
                     var oldValue =

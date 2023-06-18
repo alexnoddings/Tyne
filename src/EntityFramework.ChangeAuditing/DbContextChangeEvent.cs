@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Tyne.EntityFramework;
 
-[SkipChangeAuditing]
 public class DbContextChangeEvent
 {
     public Guid Id { get; set; }
