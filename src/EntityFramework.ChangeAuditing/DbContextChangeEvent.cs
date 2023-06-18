@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Tyne.EntityFramework;
 
+[SuppressMessage("Usage", "CA2227: Collection properties should be read only", Justification = "This behaviour is sensible for EF models.")]
+[SuppressMessage("Design", "CA1002: Do not expose generic lists", Justification = "This behaviour is sensible for EF models.")]
 public class DbContextChangeEvent
 {
     public Guid Id { get; set; }
@@ -16,9 +18,13 @@ public class DbContextChangeEvent
     public Guid EntityId { get; set; }
     public string? ActivityId { get; set; }
 
-    [SuppressMessage("Usage", "CA2227: Collection properties should be read only", Justification = "Behaviour is fine for EF models.")]
-    [SuppressMessage("Design", "CA1002: Do not expose generic lists", Justification = "Behaviour is fine for EF models.")]
     public List<DbContextChangeEventProperty> Properties { get; set; } = null!;
+
+    public List<DbContextChangeEvent> Parents { get; set; } = null!;
+    public List<DbContextChangeEventRelation> ParentRelations { get; set; } = null!;
+
+    public List<DbContextChangeEvent> Children { get; set; } = null!;
+    public List<DbContextChangeEventRelation> ChildRelations { get; set; } = null!;
 }
 
 public class DbContextChangeEventEntityTypeConfiguration : IEntityTypeConfiguration<DbContextChangeEvent>
@@ -40,6 +46,23 @@ public class DbContextChangeEventEntityTypeConfiguration : IEntityTypeConfigurat
             .IsRequired();
 
         builder
+            .HasMany(changeEvent => changeEvent.Children)
+            .WithMany(changeEvent => changeEvent.Parents)
+            .UsingEntity<DbContextChangeEventRelation>(
+                j => j
+                    .HasOne(changeEvent => changeEvent.Child)
+                    .WithMany(relation => relation.ChildRelations)
+                    .HasForeignKey(relation => relation.ChildId),
+                j => j
+                    .HasOne(changeEvent => changeEvent.Parent)
+                    .WithMany(relation => relation.ParentRelations)
+                    .HasForeignKey(relation => relation.ParentId),
+                j => j
+                    .HasKey(relation => new { relation.ParentId, relation.ChildId })
+            );
+
+        builder
+            .IgnoreChangeAuditing()
             .ToTable("_DbChanges");
     }
 }
