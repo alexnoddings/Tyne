@@ -15,7 +15,7 @@ public class DbContextChangeEventRelation<TEvent, TProperty, TRelation>
     public TEvent? Child { get; set; }
 }
 
-public class DbContextChangeEventParentEntityTypeConfiguration<TEvent, TProperty, TRelation>
+public class DbContextChangeEventRelationEntityTypeConfiguration<TEvent, TProperty, TRelation>
     : IEntityTypeConfiguration<TRelation>
     where TEvent : DbContextChangeEvent<TEvent, TProperty, TRelation>
     where TProperty : DbContextChangeEventProperty<TEvent, TProperty, TRelation>
