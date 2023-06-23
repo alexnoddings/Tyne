@@ -3,18 +3,25 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Tyne.EntityFramework;
 
-public class DbContextChangeEventRelation
+public class DbContextChangeEventRelation<TEvent, TProperty, TRelation>
+    where TEvent : DbContextChangeEvent<TEvent, TProperty, TRelation>
+    where TProperty : DbContextChangeEventProperty<TEvent, TProperty, TRelation>
+    where TRelation : DbContextChangeEventRelation<TEvent, TProperty, TRelation>
 {
     public Guid? ParentId { get; set; }
-    public DbContextChangeEvent? Parent { get; set; }
+    public TEvent? Parent { get; set; }
 
     public Guid? ChildId { get; set; }
-    public DbContextChangeEvent? Child { get; set; }
+    public TEvent? Child { get; set; }
 }
 
-public class DbContextChangeEventParentEntityTypeConfiguration : IEntityTypeConfiguration<DbContextChangeEventRelation>
+public class DbContextChangeEventParentEntityTypeConfiguration<TEvent, TProperty, TRelation>
+    : IEntityTypeConfiguration<TRelation>
+    where TEvent : DbContextChangeEvent<TEvent, TProperty, TRelation>
+    where TProperty : DbContextChangeEventProperty<TEvent, TProperty, TRelation>
+    where TRelation : DbContextChangeEventRelation<TEvent, TProperty, TRelation>
 {
-    public void Configure(EntityTypeBuilder<DbContextChangeEventRelation> builder)
+    public virtual void Configure(EntityTypeBuilder<TRelation> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
