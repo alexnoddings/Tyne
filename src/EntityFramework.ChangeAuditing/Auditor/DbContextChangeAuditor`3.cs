@@ -10,12 +10,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 namespace Tyne.EntityFramework;
 
 [SuppressMessage("Performance", "CA1812: Avoid uninstantiated internal classes", Justification = "Class is instantiated by Dependency Injection.")]
-internal sealed class DbContextChangeAuditor : IDbContextChangeAuditor
+public class DbContextChangeAuditor<TEvent, TProperty, TRelation> : IDbContextChangeAuditor
+    where TEvent : DbContextChangeEvent<TEvent, TProperty, TRelation>, new()
+    where TProperty : DbContextChangeEventProperty<TEvent, TProperty, TRelation>, new()
+    where TRelation : DbContextChangeEventRelation<TEvent, TProperty, TRelation>, new()
 {
-    public const string IgnoreChangeAuditingAnnotationName = "Tyne:IgnoreChangeAuditing";
-    public const string ParentNavigationForAuditingAnnotationName = "Tyne:ParentNavigationForAuditing";
-    public const string ChildNavigationForAuditingAnnotationName = "Tyne:ChildNavigationForAuditing";
-
     private readonly ITyneUserService? _userService;
 
     public DbContextChangeAuditor(IEnumerable<ITyneUserService> userServices)
@@ -25,25 +24,47 @@ internal sealed class DbContextChangeAuditor : IDbContextChangeAuditor
 
     public void AuditChanges(DbContext dbContext)
     {
-        AuditChangesCore(dbContext);
+        ArgumentNullException.ThrowIfNull(dbContext);
+
+        var changeEventEntries = AuditChangesCore(dbContext);
+        var changeEvents = OnAuditing(dbContext, changeEventEntries);
+        dbContext.AddRange(changeEvents);
     }
 
-    public Task AuditChangesAsync(DbContext dbContext, CancellationToken cancellationToken = default)
+    protected virtual IEnumerable<TEvent> OnAuditing(DbContext dbContext, ChangeEventEntries changeEventEntries) =>
+        changeEventEntries.Select(changeEventEntry => changeEventEntry.Event);
+
+    public async Task AuditChangesAsync(DbContext dbContext, CancellationToken cancellationToken = default)
     {
-        AuditChangesCore(dbContext);
-        return Task.CompletedTask;
+        ArgumentNullException.ThrowIfNull(dbContext);
+
+        var changeEventEntries = AuditChangesCore(dbContext);
+        var changeEvents = await OnAuditingAsync(dbContext, changeEventEntries).ConfigureAwait(false);
+        dbContext.AddRange(changeEvents);
     }
 
-    private void AuditChangesCore(DbContext dbContext)
+    protected virtual ValueTask<IEnumerable<TEvent>> OnAuditingAsync(DbContext dbContext, ChangeEventEntries changeEventEntries) =>
+        ValueTask.FromResult(changeEventEntries.Select(changeEventEntry => changeEventEntry.Event));
+
+    protected sealed record ChangeEventEntry(TEvent Event, EntityEntry Entry);
+    protected class ChangeEventEntries : List<ChangeEventEntry>
+    {
+        public ChangeEventEntries(IEnumerable<ChangeEventEntry> collection) : base(collection)
+        {
+        }
+    }
+
+    private ChangeEventEntries AuditChangesCore(DbContext dbContext)
     {
         var userId = _userService?.TryGetUserId();
 
-        var changeEvents = dbContext.ChangeTracker
+        var changeEventInfos = dbContext.ChangeTracker
             .Entries()
-            .Where(entry => !entry.Metadata.HasFlagAnnotation(IgnoreChangeAuditingAnnotationName))
+            .Where(entry => !entry.Metadata.HasFlagAnnotation(DbContextChangeAuditor.IgnoreChangeAuditingAnnotationName))
             .Select(entry => new
             {
-                ChangeEvent = new DbContextChangeEvent
+                EntityEntry = entry,
+                ChangeEvent = new TEvent
                 {
                     Id = Guid.NewGuid(),
                     DateTimeUtc = DateTime.UtcNow,
@@ -60,7 +81,7 @@ internal sealed class DbContextChangeAuditor : IDbContextChangeAuditor
                     Properties =
                         entry.Properties
                         .Where(property => entry.State is EntityState.Added or EntityState.Deleted || property.IsModified)
-                        .Where(property => !property.Metadata.HasFlagAnnotation(IgnoreChangeAuditingAnnotationName))
+                        .Where(property => !property.Metadata.HasFlagAnnotation(DbContextChangeAuditor.IgnoreChangeAuditingAnnotationName))
                         .Select(property =>
                         {
                             var oldValue =
@@ -73,9 +94,10 @@ internal sealed class DbContextChangeAuditor : IDbContextChangeAuditor
                                 ? JsonSerializer.Serialize(property.CurrentValue)
                                 : null;
 
-                            return new DbContextChangeEventProperty
+                            return new TProperty
                             {
                                 ColumnName = property.Metadata.Name,
+                                ColumnType = property.Metadata.ClrType.Name,
                                 OldValueJson = oldValue,
                                 NewValueJson = newValue
                             };
@@ -86,8 +108,8 @@ internal sealed class DbContextChangeAuditor : IDbContextChangeAuditor
                 ParentInfos =
                     entry.Navigations
                     .Where(navigationEntry =>
-                        navigationEntry.Metadata.HasFlagAnnotation(ParentNavigationForAuditingAnnotationName)
-                        || navigationEntry.Metadata.Inverse?.HasFlagAnnotation(ChildNavigationForAuditingAnnotationName) == true
+                        navigationEntry.Metadata.HasFlagAnnotation(DbContextChangeAuditor.ParentNavigationForAuditingAnnotationName)
+                        || navigationEntry.Metadata.Inverse?.HasFlagAnnotation(DbContextChangeAuditor.ChildNavigationForAuditingAnnotationName) == true
                     )
                     .Where(navigationEntry => !navigationEntry.Metadata.IsCollection)
                     .Select(navigationEntry => new
@@ -99,12 +121,12 @@ internal sealed class DbContextChangeAuditor : IDbContextChangeAuditor
             })
             .ToList();
 
-        foreach (var changeEvent in changeEvents)
+        foreach (var changeEventInfo in changeEventInfos)
         {
-            foreach (var parentInfo in changeEvent.ParentInfos)
+            foreach (var parentInfo in changeEventInfo.ParentInfos)
             {
                 var parentChangeEvent =
-                    changeEvents
+                    changeEventInfos
                     .Where(otherChangeEvent =>
                         otherChangeEvent.ChangeEvent.EntityId == parentInfo.Id
                         && otherChangeEvent.ChangeEvent.EntityType == parentInfo.Type
@@ -113,11 +135,15 @@ internal sealed class DbContextChangeAuditor : IDbContextChangeAuditor
                     .FirstOrDefault();
 
                 if (parentChangeEvent is not null)
-                    changeEvent.ChangeEvent.Parents.Add(parentChangeEvent);
+                    changeEventInfo.ChangeEvent.Parents.Add(parentChangeEvent);
             }
         }
 
-        dbContext.AddRange(changeEvents.Select(changeEvent => changeEvent.ChangeEvent));
+        var changeEventEntries = changeEventInfos
+            .Select(changeEventInfo => new ChangeEventEntry(changeEventInfo.ChangeEvent, changeEventInfo.EntityEntry))
+            .ToList();
+
+        return new ChangeEventEntries(changeEventEntries);
     }
 
     private static Guid? TryGetForeignKey(NavigationEntry navigationEntry)

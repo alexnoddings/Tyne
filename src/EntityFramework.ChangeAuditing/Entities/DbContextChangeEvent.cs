@@ -4,9 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Tyne.EntityFramework;
 
-[SuppressMessage("Usage", "CA2227: Collection properties should be read only", Justification = "This behaviour is sensible for EF models.")]
 [SuppressMessage("Design", "CA1002: Do not expose generic lists", Justification = "This behaviour is sensible for EF models.")]
-public class DbContextChangeEvent
+[SuppressMessage("Usage", "CA2227: Collection properties should be read only", Justification = "This behaviour is sensible for EF models.")]
+public class DbContextChangeEvent<TEvent, TProperty, TRelation>
+    where TEvent : DbContextChangeEvent<TEvent, TProperty, TRelation>
+    where TProperty : DbContextChangeEventProperty<TEvent, TProperty, TRelation>
+    where TRelation : DbContextChangeEventRelation<TEvent, TProperty, TRelation>
 {
     public Guid Id { get; set; }
 
@@ -18,18 +21,22 @@ public class DbContextChangeEvent
     public Guid EntityId { get; set; }
     public string? ActivityId { get; set; }
 
-    public List<DbContextChangeEventProperty> Properties { get; set; } = null!;
+    public List<TProperty> Properties { get; set; } = null!;
 
-    public List<DbContextChangeEvent> Parents { get; set; } = null!;
-    public List<DbContextChangeEventRelation> ParentRelations { get; set; } = null!;
+    public List<TEvent> Parents { get; set; } = null!;
+    public List<TRelation> ParentRelations { get; set; } = null!;
 
-    public List<DbContextChangeEvent> Children { get; set; } = null!;
-    public List<DbContextChangeEventRelation> ChildRelations { get; set; } = null!;
+    public List<TEvent> Children { get; set; } = null!;
+    public List<TRelation> ChildRelations { get; set; } = null!;
 }
 
-public class DbContextChangeEventEntityTypeConfiguration : IEntityTypeConfiguration<DbContextChangeEvent>
+public abstract class DbContextChangeEventEntityTypeConfiguration<TEvent, TProperty, TRelation>
+    : IEntityTypeConfiguration<TEvent>
+    where TEvent : DbContextChangeEvent<TEvent, TProperty, TRelation>
+    where TProperty : DbContextChangeEventProperty<TEvent, TProperty, TRelation>
+    where TRelation : DbContextChangeEventRelation<TEvent, TProperty, TRelation>
 {
-    public void Configure(EntityTypeBuilder<DbContextChangeEvent> builder)
+    public virtual void Configure(EntityTypeBuilder<TEvent> builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
 
@@ -48,7 +55,7 @@ public class DbContextChangeEventEntityTypeConfiguration : IEntityTypeConfigurat
         builder
             .HasMany(changeEvent => changeEvent.Children)
             .WithMany(changeEvent => changeEvent.Parents)
-            .UsingEntity<DbContextChangeEventRelation>(
+            .UsingEntity<TRelation>(
                 j => j
                     .HasOne(changeEvent => changeEvent.Child)
                     .WithMany(relation => relation.ChildRelations)
