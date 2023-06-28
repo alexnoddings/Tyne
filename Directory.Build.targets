@@ -1,7 +1,7 @@
 <Project>
 
   <ItemGroup Label="Package Versions">
-    <PackageReference Update="FluentValidation" Version="11.5.1" />
+    <PackageReference Update="FluentValidation" Version="11.5.2" />
     <PackageReference Update="MediatR" Version="12.0.1" />
     <PackageReference Update="MediatR.Contracts" Version="2.0.1" />
     <PackageReference Update="Microsoft.AspNetCore.Components" Version="7.0.4" />
