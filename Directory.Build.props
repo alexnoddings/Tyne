@@ -53,7 +53,11 @@
 
   <PropertyGroup Label="Warnings and Errors">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <NoWarn>$(NoWarn);AsyncFixer01;AsyncFixer02</NoWarn>
+    <!--
+      AsyncFixer01: The method does not need to use async/await.
+                    While technically true, it can lead to uglier code and poor stack traces.
+    -->
+    <NoWarn>$(NoWarn);AsyncFixer01</NoWarn>
   </PropertyGroup>
 
 </Project>
