@@ -83,8 +83,8 @@ public partial class Environment : ComponentBase
         var filters = _environmentNormalisedNameFilters;
         var matches = Matching switch
         {
-            EnvironmentMatching.Exact => filters.Any(nameFilter => envName.Equals(nameFilter, StringComparison.Ordinal)),
-            EnvironmentMatching.Contains => filters.Any(nameFilter => envName.Contains(nameFilter, StringComparison.Ordinal)),
+            EnvironmentMatching.Exact => Array.Exists(filters, nameFilter => envName.Equals(nameFilter, StringComparison.Ordinal)),
+            EnvironmentMatching.Contains => Array.Exists(filters, nameFilter => envName.Contains(nameFilter, StringComparison.Ordinal)),
             _ => throw new InvalidOperationException($"Undefined value for {nameof(Matching)}: {Matching}.")
         };
 
