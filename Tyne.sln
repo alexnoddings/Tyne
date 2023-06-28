@@ -37,6 +37,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatorEndpoints.Blazor", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFramework.UserService", "src\EntityFramework.UserService\EntityFramework.UserService.csproj", "{3E1A4334-C90A-40DB-99B0-B99227FAD532}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFramework.UserService.Core", "src\EntityFramework.UserService.Core\EntityFramework.UserService.Core.csproj", "{5D0BAB8E-6D31-4C54-B4B8-907AC7CEAD8E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,10 @@ Global
 		{3E1A4334-C90A-40DB-99B0-B99227FAD532}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E1A4334-C90A-40DB-99B0-B99227FAD532}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E1A4334-C90A-40DB-99B0-B99227FAD532}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D0BAB8E-6D31-4C54-B4B8-907AC7CEAD8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D0BAB8E-6D31-4C54-B4B8-907AC7CEAD8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D0BAB8E-6D31-4C54-B4B8-907AC7CEAD8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D0BAB8E-6D31-4C54-B4B8-907AC7CEAD8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
