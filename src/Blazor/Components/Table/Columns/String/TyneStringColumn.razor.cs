@@ -6,7 +6,7 @@ using System.Reflection;
 namespace Tyne.Blazor;
 
 public partial class TyneStringColumn<TRequest, TResponse> :
-    TyneFilteredColumnBase<TRequest, TResponse, string>
+    TynePersistedColumnBase<TRequest, TResponse, string>
 {
     private MudBaseInput<string>? InputRef { get; set; }
     public override bool IsFilterActive => !string.IsNullOrWhiteSpace(Value);
@@ -15,6 +15,11 @@ public partial class TyneStringColumn<TRequest, TResponse> :
     public Expression<Func<TRequest, string?>>? For { get; set; }
     private Expression<Func<TRequest, string?>>? _previousFor;
     private PropertyInfo? _forPropertyInfo;
+
+    [Parameter]
+    public string? PersistAs { get; set; }
+    public override TyneFilterPersistKey PersistKey =>
+        TyneFilterPersistKey.From(PersistAs, _forPropertyInfo);
 
     protected override async Task OnInitializedAsync()
     {
