@@ -13,7 +13,7 @@
   <PropertyGroup Label="Version settings">
     <TyneMajorVersion>2</TyneMajorVersion>
     <TyneMinorVersion>7</TyneMinorVersion>
-    <TynePatchVersion>1</TynePatchVersion>
+    <TynePatchVersion>2</TynePatchVersion>
     <Version>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</Version>
     <AssemblyVersion>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</AssemblyVersion>
   </PropertyGroup>
