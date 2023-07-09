@@ -11,7 +11,7 @@ internal sealed class RouteAuthorisationOptions : IRouteAuthorisationOptions
         ArgumentNullException.ThrowIfNull(authoriseWhen);
         ArgumentNullException.ThrowIfNull(policies);
 
-        if (policies.Any(string.IsNullOrEmpty))
+        if (Array.Exists(policies, string.IsNullOrEmpty))
             throw new ArgumentException("Policy names cannot be null or empty.", nameof(policies));
 
         RouteAuthorisations.Add(new(authoriseWhen, shouldHandleUnauthorised, policies));

@@ -13,7 +13,7 @@
   <PropertyGroup Label="Version settings">
     <TyneMajorVersion>2</TyneMajorVersion>
     <TyneMinorVersion>7</TyneMinorVersion>
-    <TynePatchVersion>1</TynePatchVersion>
+    <TynePatchVersion>2</TynePatchVersion>
     <Version>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</Version>
     <AssemblyVersion>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</AssemblyVersion>
   </PropertyGroup>
@@ -45,7 +45,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.54.0.64047">
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.4.0.72892">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -53,7 +53,11 @@
 
   <PropertyGroup Label="Warnings and Errors">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <NoWarn>$(NoWarn);AsyncFixer01;AsyncFixer02</NoWarn>
+    <!--
+      AsyncFixer01: The method does not need to use async/await.
+                    While technically true, it can lead to uglier code and poor stack traces.
+    -->
+    <NoWarn>$(NoWarn);AsyncFixer01</NoWarn>
   </PropertyGroup>
 
 </Project>
