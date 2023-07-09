@@ -1,0 +1,18 @@
+﻿@namespace Tyne.Blazor
+@typeparam TModel
+@inherits TyneFormDefaultComponent<TModel>
+
+<MudButton OnClick="Form.SaveAsync"
+           Color="Color.Primary"
+           Variant="Variant.Filled"
+           StartIcon="@(Form.State is FormState.Saving ? null : Icons.Material.Filled.Save)"
+           Disabled="Form.State is not FormState.Open">
+    @if (Form.State is FormState.Saving)
+    {
+        <MudProgressCircular Color="Color.Default"
+                             Size="Size.Small"
+                             Indeterminate="true"
+                             Class="ms-n2 me-2" />
+    }
+    Save
+</MudButton>

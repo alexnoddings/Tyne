@@ -1,6 +1,7 @@
-using Microsoft.Extensions.DependencyInjection;
+using Tyne;
+using Tyne.Blazor;
 
-namespace Tyne.Blazor;
+namespace Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
 ///     Extensions for adding <see cref="IEnvironment"/> to <see cref="TyneBuilder"/>.

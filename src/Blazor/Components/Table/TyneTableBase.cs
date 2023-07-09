@@ -8,7 +8,7 @@ namespace Tyne.Blazor;
 
 public abstract partial class TyneTableBase<TRequest, TResponse> :
     MudTable<TResponse>,
-    ITyneTable<TRequest, TResponse>
+    ITyneTable<TRequest>
     where TRequest : ISearchQuery, new()
 {
     private const string HeaderContentErrorMessage = $"HeaderContent should not be used on {nameof(TyneTableBase<TRequest, TResponse>)}s. Please use {nameof(TyneHeaderContent)} instead.";
@@ -40,25 +40,45 @@ public abstract partial class TyneTableBase<TRequest, TResponse> :
     [Parameter]
     public RenderFragment? TyneHeaderContent { get; set; }
 
-    protected HashSet<ITyneFilteredColumn<TRequest>> RegisteredColumns { get; } = new();
+    private const string ToolBarContentErrorMessage = $"ToolBarContent should not be used on {nameof(TyneTableBase<TRequest, TResponse>)}s. Please use {nameof(TyneToolBarContent)} instead.";
+    /// <summary>
+    ///     Use <see cref="TyneToolbarContent"/> instead.
+    /// </summary>
+    /// <remarks>
+    ///     See <see cref="HeaderContent"/> for more info about this field.
+    /// </remarks>
+    [Obsolete(ToolBarContentErrorMessage, error: true, DiagnosticId = "TY0001")]
+    [SuppressMessage("Info Code Smell", "S1133: Deprecated code should be removed", Justification = "[Obsolete] is used to deter users from accidentally using this property.")]
+    public new Unit ToolBarContent
+    {
+        get => throw new InvalidOperationException(ToolBarContentErrorMessage);
+        set => throw new InvalidOperationException(ToolBarContentErrorMessage);
+    }
+
+    [Parameter]
+    public RenderFragment? TyneToolBarContent { get; set; }
+
+    protected HashSet<ITyneTableRequestFilter<TRequest>> RegisteredFilters { get; } = new();
 
     protected TyneTableBase()
     {
         UserAttributes.Add("aria-role", "table");
         ServerData = LoadTableDataAsync;
 
-        base.HeaderContent = BuildCustomHeaderContent();
+        base.HeaderContent = BuildCustomContent(() => TyneHeaderContent);
+        base.ToolBarContent = BuildCustomContent(() => TyneToolBarContent);
     }
 
-    public Task ReloadServerDataAsync() => ReloadServerData();
+    public Task ReloadServerDataAsync(CancellationToken cancellationToken = default) =>
+        ReloadServerData();
 
-    public IDisposable RegisterColumn(ITyneFilteredColumn<TRequest> column)
+    public IDisposable RegisterFilter(ITyneTableRequestFilter<TRequest> filter)
     {
-        if (RegisteredColumns.Contains(column))
-            throw new ArgumentException("Column is already registered.");
+        if (RegisteredFilters.Contains(filter))
+            throw new ArgumentException("Filter is already registered.");
 
-        RegisteredColumns.Add(column);
-        return new DisposableAction(() => RegisteredColumns.Remove(column));
+        RegisteredFilters.Add(filter);
+        return new DisposableAction(() => RegisteredFilters.Remove(filter));
     }
 
     private async Task<TableData<TResponse>> LoadTableDataAsync(TableState state)
@@ -73,8 +93,8 @@ public abstract partial class TyneTableBase<TRequest, TResponse> :
             OrderByDescending = state.SortDirection is SortDirection.Descending
         };
 
-        foreach (var column in RegisteredColumns)
-            column.ConfigureRequest(request);
+        foreach (var filter in RegisteredFilters)
+            filter.ConfigureRequest(request);
 
         var searchResults = await LoadDataAsync(request).ConfigureAwait(true);
 
@@ -87,14 +107,17 @@ public abstract partial class TyneTableBase<TRequest, TResponse> :
 
     protected abstract Task<SearchResults<TResponse>> LoadDataAsync(TRequest request);
 
-    private RenderFragment BuildCustomHeaderContent() =>
+    private RenderFragment BuildCustomContent(Func<RenderFragment?> contentAccessor) =>
+        // We take a Func<RenderFragment> rather than a RenderFragment so that we're always
+        // accessing the latest property value, not a potentially stale reference
         builder =>
         {
-            builder.OpenComponent<CascadingValue<ITyneTable<TRequest, TResponse>>>(0);
+            builder.OpenComponent<CascadingValue<ITyneTable<TRequest>>>(0);
             builder.AddAttribute(1, nameof(CascadingValue<object>.Value), this);
             builder.AddAttribute(2, nameof(CascadingValue<object>.IsFixed), true);
-            if (TyneHeaderContent is not null)
-                builder.AddAttribute(3, nameof(CascadingValue<object>.ChildContent), TyneHeaderContent);
+            var content = contentAccessor();
+            if (content is not null)
+                builder.AddAttribute(3, nameof(CascadingValue<object>.ChildContent), content);
             builder.CloseComponent();
         };
 }

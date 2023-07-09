@@ -1,7 +1,7 @@
 ﻿@namespace Tyne.Blazor
 @typeparam TRequest
 @typeparam TResponse
-@inherits TyneFilteredColumnBase<TRequest, TResponse>
+@inherits TynePersistedColumnBase<TRequest, TResponse, string>
 
 <TyneColumnHeaderContent TRequest="TRequest" TResponse="TResponse" Column="this">
     <Header>
@@ -12,7 +12,7 @@
 				      @ref="InputRef"
 				      Class="my-0 mt-n3"
 				      Value="Value"
-                      ValueChanged="UpdateValueAsync"
+                      ValueChanged="newValue => SetValueAsync(newValue, false)"
 				      DebounceInterval="800"
 				      Variant="Variant.Text"
 				      Margin="Margin.Dense" />

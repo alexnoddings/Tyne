@@ -1,7 +1,8 @@
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using Tyne;
+using Tyne.Blazor;
 
-namespace Tyne.Blazor;
+namespace Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
 ///     Page title extensions for <see cref="TyneBuilder"/>.

@@ -175,7 +175,6 @@ public abstract class TyneFormBase<TInput, TModel> : ComponentBase, ITyneForm<TM
         await UpdateStateAsync(FormState.Open).ConfigureAwait(true);
     }
 
-
     public Result<Unit>? SaveResult { get; private set; }
     protected abstract Task<Result<Unit>> TrySaveAsync(TModel model);
     protected virtual Task OnSavedAsync(TModel model) => Task.CompletedTask;
@@ -215,13 +214,16 @@ public abstract class TyneFormBase<TInput, TModel> : ComponentBase, ITyneForm<TM
 
         await UpdateStateAsync(FormState.Open).ConfigureAwait(true);
 
-        try
+        if (SaveResult.WasSuccess)
         {
-            await OnSavedAsync(Model).ConfigureAwait(true);
-        }
-        catch (Exception exception)
-        {
-            Logger?.LogOnSavedFormError(exception);
+            try
+            {
+                await OnSavedAsync(Model).ConfigureAwait(true);
+            }
+            catch (Exception exception)
+            {
+                Logger?.LogOnSavedFormError(exception);
+            }
         }
     }
 

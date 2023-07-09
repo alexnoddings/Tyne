@@ -9,7 +9,7 @@ public abstract partial class TyneFilteredColumnBase<TRequest, TResponse> :
     IDisposable
 {
     [CascadingParameter]
-    protected ITyneTable<TRequest, TResponse>? Table { get; init; }
+    protected ITyneTable<TRequest>? Table { get; init; }
 
     public bool IsFilterVisible { get; set; }
     public abstract bool IsFilterActive { get; }
@@ -37,23 +37,24 @@ public abstract partial class TyneFilteredColumnBase<TRequest, TResponse> :
     private bool _isDisposed;
     private IDisposable? _registration;
 
-    protected override void OnInitialized()
+    protected override Task OnInitializedAsync()
     {
         if (Table is null)
-            throw new InvalidOperationException($"{nameof(TyneColumn<TRequest, TResponse>)} requires a cascading parameter of type {nameof(ITyneTable<TRequest, TResponse>)}. Are you trying to create a column outside of a Tyne table?");
+            throw new InvalidOperationException($"{nameof(TyneColumn<TRequest, TResponse>)} requires a cascading parameter of type {nameof(ITyneTable<TRequest>)}. Are you trying to create a column outside of a Tyne table?");
 
-        _registration = Table.RegisterColumn(this);
+        _registration = Table.RegisterFilter(this);
+        return Task.CompletedTask;
     }
 
     public abstract void ConfigureRequest(TRequest request);
 
-    protected async Task OnUpdatedAsync()
+    protected async Task OnUpdatedAsync(CancellationToken cancellationToken = default)
     {
         if (Table is not null)
-            await Table.ReloadServerDataAsync().ConfigureAwait(true);
+            await Table.ReloadServerDataAsync(cancellationToken).ConfigureAwait(true);
     }
 
-    public abstract Task ClearInputAsync();
+    public abstract Task ClearValueAsync(CancellationToken cancellationToken = default);
 
     protected virtual void Dispose(bool disposing)
     {

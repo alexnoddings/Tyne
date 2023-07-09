@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Tyne.MediatorEndpoints;
 
-namespace Tyne;
+namespace Microsoft.AspNetCore.Builder;
 
 public static partial class RequestEndpointsExtensions
 {

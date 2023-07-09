@@ -1,0 +1,7 @@
+﻿@namespace Tyne.Blazor
+@typeparam TModel
+@inherits TyneFormDefaultComponent<TModel>
+
+<MudIconButton Icon="@Icons.Material.Filled.Close"
+               OnClick="() => Form.CloseAsync(FormCloseTrigger.Closed)"
+               Class="ms-auto pa-1" />

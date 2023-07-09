@@ -3,7 +3,9 @@ using MudBlazor.Utilities;
 
 namespace Tyne.Blazor;
 
-public abstract class TyneSelectColumnBase<TRequest, TResponse, TValue> : TyneFilteredColumnBase<TRequest, TResponse>, ITyneSelectColumn<TValue>
+public abstract class TyneSelectColumnBase<TRequest, TResponse, TValue> :
+    TyneFilteredColumnBase<TRequest, TResponse>,
+    ITyneSelectColumn<TValue>
 {
     private readonly HashSet<TyneSelectValue<TValue?>> _registeredValues = new();
     protected IEnumerable<TyneSelectValue<TValue?>> RegisteredValues => _registeredValues.AsEnumerable();

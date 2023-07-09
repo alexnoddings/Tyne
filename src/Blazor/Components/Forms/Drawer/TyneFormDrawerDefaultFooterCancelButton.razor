@@ -1,0 +1,10 @@
+﻿@namespace Tyne.Blazor
+@typeparam TModel
+@inherits TyneFormDefaultComponent<TModel>
+
+<MudButton OnClick="() => Form.CloseAsync(FormCloseTrigger.Closed)"
+           Color="Color.Default"
+           Variant="Variant.Outlined"
+           StartIcon="@Icons.Material.Filled.Cancel">
+    Cancel
+</MudButton>

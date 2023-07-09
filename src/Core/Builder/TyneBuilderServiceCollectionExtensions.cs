@@ -1,6 +1,6 @@
-using Microsoft.Extensions.DependencyInjection;
+using Tyne;
 
-namespace Tyne;
+namespace Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
 ///		Extensions for adding Tyne to an <see cref="IServiceCollection"/>.

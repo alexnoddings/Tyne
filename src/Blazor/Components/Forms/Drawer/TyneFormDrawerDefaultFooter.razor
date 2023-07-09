@@ -1,0 +1,21 @@
+﻿@namespace Tyne.Blazor
+@typeparam TModel
+@inherits TyneFormDefaultComponent<TModel>
+
+<div class="d-flex flex-row px-4 py-3 gap-2 align-center justify-end">
+    @if (ChildContent is not null)
+    {
+        @ChildContent
+    }
+    else
+    {
+        <TyneFormDrawerDefaultFooterCancelButton TModel="TModel" />
+        <TyneFormDrawerDefaultFooterSaveButton TModel="TModel" />
+    }
+</div>
+
+@code
+{
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

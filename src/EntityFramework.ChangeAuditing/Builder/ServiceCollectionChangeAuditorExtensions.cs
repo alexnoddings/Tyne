@@ -1,8 +1,8 @@
-using Microsoft.Extensions.DependencyInjection;
+using Tyne;
 using Tyne.EntityFramework;
 using Tyne.EntityFramework.Builder;
 
-namespace Tyne;
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionChangeAuditorExtensions
 {

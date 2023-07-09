@@ -17,7 +17,7 @@
     <Filter>
         @if (Type is TyneSelectColumnType.Radio)
         {
-            <MudRadioGroup T="TValue" SelectedOption="_selectedValue" SelectedOptionChanged="UpdateValueAsync" Class="ms-2" InputClass="d-flex flex-column" Style="@ContentWidthStyle">
+            <MudRadioGroup T="TValue" SelectedOption="Value" SelectedOptionChanged="SetValueAsync" Class="ms-2" InputClass="d-flex flex-column" Style="@ContentWidthStyle">
                 @foreach (var registeredValue in RegisteredValues)
                 {
                     <MudRadio Option="registeredValue.Value" Color="Color.Primary" UnCheckedColor="Color.Default" Dense="true">
@@ -28,7 +28,7 @@
         }
         else
         {
-            <MudSelect T="TValue" Value="_selectedValue" ValueChanged="UpdateValueAsync" AnchorOrigin="Origin.BottomCenter" Dense="true" Class="mt-n3" Style="@ContentWidthStyle">
+            <MudSelect T="TValue" Value="Value" ValueChanged="SetValueAsync" AnchorOrigin="Origin.BottomCenter" Dense="true" Class="mt-n3" Style="@ContentWidthStyle">
                 @foreach (var registeredValue in RegisteredValues)
                 {
                     <MudSelectItem Value="registeredValue.Value">
