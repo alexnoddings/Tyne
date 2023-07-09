@@ -4,10 +4,12 @@ using System.Reflection;
 
 namespace Tyne.Blazor;
 
-public partial class TyneSelectColumn<TRequest, TResponse, TValue> : TyneSelectColumnBase<TRequest, TResponse, TValue>
+public partial class TyneSelectColumn<TRequest, TResponse, TValue> :
+    TyneSelectColumnBase<TRequest, TResponse, TValue>,
+    ITyneTableValueFilter<TValue>
 {
-    private TValue? _selectedValue;
-    public override bool IsFilterActive => _selectedValue is not null;
+    public TValue? Value { get; protected set; }
+    public override bool IsFilterActive => Value is not null;
 
     [Parameter]
     public TyneSelectColumnType Type { get; set; }
@@ -20,7 +22,7 @@ public partial class TyneSelectColumn<TRequest, TResponse, TValue> : TyneSelectC
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        ColumnHelpers.UpdatePropertyInfo(For, ref _previousFor, ref _forPropertyInfo);
+        TyneTableFilterHelpers.UpdatePropertyInfo(For, ref _previousFor, ref _forPropertyInfo);
     }
 
     public override void ConfigureRequest(TRequest request)
@@ -28,18 +30,23 @@ public partial class TyneSelectColumn<TRequest, TResponse, TValue> : TyneSelectC
         if (!IsFilterActive)
             return;
 
-        _forPropertyInfo?.SetValue(request, _selectedValue);
+        _forPropertyInfo?.SetValue(request, Value);
     }
 
-    private async Task UpdateValueAsync(TValue? newValue)
+    private Task SetValueAsync(TValue? newValue) =>
+        SetValueAsync(newValue, false);
+
+    public virtual async Task SetValueAsync(TValue? newValue, bool isSilent, CancellationToken cancellationToken = default)
     {
-        if (EqualityComparer<TValue>.Default.Equals(newValue, _selectedValue))
+        if (EqualityComparer<TValue>.Default.Equals(newValue, Value))
             return;
 
-        _selectedValue = newValue;
-        await OnUpdatedAsync().ConfigureAwait(true);
+        Value = newValue;
+
+        if (!isSilent)
+            await OnUpdatedAsync(cancellationToken).ConfigureAwait(true);
     }
 
-    public override async Task ClearInputAsync() =>
-        await UpdateValueAsync(default).ConfigureAwait(true);
+    public override Task ClearValueAsync(CancellationToken cancellationToken = default) =>
+        SetValueAsync(default, false, cancellationToken);
 }

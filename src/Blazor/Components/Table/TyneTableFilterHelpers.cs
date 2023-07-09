@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Tyne.Blazor;
 
-internal static class ColumnHelpers
+public static class TyneTableFilterHelpers
 {
     public static void UpdatePropertyInfo<TIn, TOut>(Expression<Func<TIn, TOut>>? expression, ref Expression<Func<TIn, TOut>>? cached, ref PropertyInfo? propertyInfo)
     {

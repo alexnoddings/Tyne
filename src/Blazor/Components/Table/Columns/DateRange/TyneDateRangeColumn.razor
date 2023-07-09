@@ -10,9 +10,9 @@
     <Filter>
         <MudDateRangePicker PickerVariant="PickerVariant.Dialog"
                             Class="my-0"
-                            DateRange="DateRange"
-                            DateRangeChanged="UpdateDateRangeAsync"
+                            DateRange="Value"
+                            DateRangeChanged="newValue => SetValueAsync(newValue, false)"
                             Margin="Margin.Dense"
-                            Style="max-width: 250px;"/>
+                            Style="max-width: 280px;"/>
     </Filter>
 </TyneColumnHeaderContent>

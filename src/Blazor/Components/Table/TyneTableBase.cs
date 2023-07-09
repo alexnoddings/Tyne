@@ -8,7 +8,7 @@ namespace Tyne.Blazor;
 
 public abstract partial class TyneTableBase<TRequest, TResponse> :
     MudTable<TResponse>,
-    ITyneTable<TRequest, TResponse>
+    ITyneTable<TRequest>
     where TRequest : ISearchQuery, new()
 {
     private const string HeaderContentErrorMessage = $"HeaderContent should not be used on {nameof(TyneTableBase<TRequest, TResponse>)}s. Please use {nameof(TyneHeaderContent)} instead.";
@@ -41,6 +41,7 @@ public abstract partial class TyneTableBase<TRequest, TResponse> :
     public RenderFragment? TyneHeaderContent { get; set; }
 
     protected HashSet<ITyneFilteredColumn<TRequest>> RegisteredColumns { get; } = new();
+    protected HashSet<ITyneTableRequestFilter<TRequest>> RegisteredFilters { get; } = new();
 
     protected TyneTableBase()
     {
@@ -50,15 +51,16 @@ public abstract partial class TyneTableBase<TRequest, TResponse> :
         base.HeaderContent = BuildCustomHeaderContent();
     }
 
-    public Task ReloadServerDataAsync() => ReloadServerData();
+    public Task ReloadServerDataAsync(CancellationToken cancellationToken = default) =>
+        ReloadServerData();
 
-    public IDisposable RegisterColumn(ITyneFilteredColumn<TRequest> column)
+    public IDisposable RegisterFilter(ITyneTableRequestFilter<TRequest> filter)
     {
-        if (RegisteredColumns.Contains(column))
-            throw new ArgumentException("Column is already registered.");
+        if (RegisteredFilters.Contains(filter))
+            throw new ArgumentException("Filter is already registered.");
 
-        RegisteredColumns.Add(column);
-        return new DisposableAction(() => RegisteredColumns.Remove(column));
+        RegisteredFilters.Add(filter);
+        return new DisposableAction(() => RegisteredFilters.Remove(filter));
     }
 
     private async Task<TableData<TResponse>> LoadTableDataAsync(TableState state)
@@ -73,8 +75,8 @@ public abstract partial class TyneTableBase<TRequest, TResponse> :
             OrderByDescending = state.SortDirection is SortDirection.Descending
         };
 
-        foreach (var column in RegisteredColumns)
-            column.ConfigureRequest(request);
+        foreach (var filter in RegisteredFilters)
+            filter.ConfigureRequest(request);
 
         var searchResults = await LoadDataAsync(request).ConfigureAwait(true);
 

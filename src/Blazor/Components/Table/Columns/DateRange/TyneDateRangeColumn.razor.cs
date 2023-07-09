@@ -5,12 +5,14 @@ using System.Reflection;
 
 namespace Tyne.Blazor;
 
-public partial class TyneDateRangeColumn<TRequest, TResponse> : TyneFilteredColumnBase<TRequest, TResponse>
+public partial class TyneDateRangeColumn<TRequest, TResponse> :
+    TyneFilteredColumnBase<TRequest, TResponse>,
+    ITyneTableValueFilter<DateRange>
 {
-    private DateRange DateRange { get; set; } = new(null, null);
+    public DateRange Value { get; private set; } = new(null, null);
     public override bool IsFilterActive =>
-        DateRange.Start is not null
-        || DateRange.End is not null;
+        Value.Start is not null
+        || Value.End is not null;
 
     [Parameter]
     public Expression<Func<TRequest, DateTime?>>? ForMin { get; set; }
@@ -28,8 +30,8 @@ public partial class TyneDateRangeColumn<TRequest, TResponse> : TyneFilteredColu
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        ColumnHelpers.UpdatePropertyInfo(ForMin, ref _previousForMin, ref _forMinPropertyInfo);
-        ColumnHelpers.UpdatePropertyInfo(ForMax, ref _previousForMax, ref _forMaxPropertyInfo);
+        TyneTableFilterHelpers.UpdatePropertyInfo(ForMin, ref _previousForMin, ref _forMinPropertyInfo);
+        TyneTableFilterHelpers.UpdatePropertyInfo(ForMax, ref _previousForMax, ref _forMaxPropertyInfo);
     }
 
     public override void ConfigureRequest(TRequest request)
@@ -37,25 +39,27 @@ public partial class TyneDateRangeColumn<TRequest, TResponse> : TyneFilteredColu
         if (!IsFilterActive)
             return;
 
-        _forMinPropertyInfo?.SetValue(request, DateRange.Start);
+        _forMinPropertyInfo?.SetValue(request, Value.Start);
 
         var end =
             MaxBehaviour is TyneDateRangeMaxBehaviour.Inclusive
-            ? DateRange.End?.AddDays(1).AddMicroseconds(-1d)
-            : DateRange.End;
+            ? Value.End?.AddDays(1).AddMicroseconds(-1d)
+            : Value.End;
 
         _forMaxPropertyInfo?.SetValue(request, end);
     }
 
-    private async Task UpdateDateRangeAsync(DateRange newRange)
+    public async Task SetValueAsync(DateRange? newValue, bool isSilent, CancellationToken cancellationToken = default)
     {
-        if (DateRange == newRange)
+        if (Value == newValue)
             return;
 
-        DateRange = newRange;
-        await OnUpdatedAsync().ConfigureAwait(true);
+        Value = newValue ?? new(null, null);
+
+        if (!isSilent)
+            await OnUpdatedAsync(cancellationToken).ConfigureAwait(true);
     }
 
-    public override async Task ClearInputAsync() =>
-        await UpdateDateRangeAsync(new DateRange(null, null)).ConfigureAwait(true);
+    public override async Task ClearValueAsync(CancellationToken cancellationToken = default) =>
+        await SetValueAsync(new DateRange(null, null), false, cancellationToken).ConfigureAwait(true);
 }
