@@ -1,10 +1,10 @@
-using FluentValidation;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
 namespace Tyne.Blazor;
 
-public sealed partial class TyneFormDrawerContent<TModel>
+[CascadingTypeParameter(nameof(TModel))]
+public sealed partial class TyneFormDrawerContent<TModel> : ITyneFormDrawerContent<TModel>, IDisposable
 {
     [Parameter, EditorRequired]
     public ITyneForm<TModel> Form { get; set; } = null!;
@@ -13,7 +13,7 @@ public sealed partial class TyneFormDrawerContent<TModel>
     public RenderFragment<TModel?>? Header { get; set; }
 
     [Parameter]
-    public RenderFragment<TModel>? Loading { get; set; }
+    public RenderFragment? Loading { get; set; }
 
     [Parameter, EditorRequired]
     public RenderFragment<TModel> Body { get; set; } = null!;

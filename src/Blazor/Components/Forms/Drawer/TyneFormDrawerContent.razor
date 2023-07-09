@@ -1,0 +1,79 @@
+﻿@namespace Tyne.Blazor
+@using FluentValidation;
+@using Microsoft.AspNetCore.Components.Forms;
+@typeparam TModel where TModel : class
+
+@if (Form is not null)
+{
+    <MudDrawer Open="Form.State is not FormState.Closed"
+               OpenChanged="TryChangeOpenAsync"
+               Anchor="Anchor"
+               Elevation="Elevation"
+               DisableOverlay="DisableOverlay"
+               Width="@Width"
+               Variant="DrawerVariant.Temporary">
+        @{
+            // Check that the state isn't closed (this RenderFragment is still rendered while the drawer is closing)
+            @if (Form.State is not FormState.Closed)
+            {
+                var model = Form.Model;
+                <CascadingValue TValue="ITyneForm<TModel>" Value="Form">
+                    <MudDrawerHeader Class="d-flex px-4 py-3 flex-row align-center">
+                        @if (Header is not null)
+                        {
+                            @Header(model)
+                        }
+                        @(ContentOrDefault<TyneFormDrawerDefaultCloseButton<TModel>>(CloseButton))
+                    </MudDrawerHeader>
+                    <div class="d-flex flex-column px-4">
+                        <TyneFormResultMessages Result="Form.OpenResult" />
+                        @if (Form.OpenResult?.WasSuccess != false)
+                        {
+                            @if (model is null)
+                            {
+                                @(ContentOrDefault<TyneFormDrawerDefaultLoadingContent<TModel>>(Loading))
+                            }
+                            else
+                            {
+                                <TyneFormResultMessages Result="Form.SaveResult" />
+                                <EditForm @ref="Form.EditForm" Model="model">
+                                    <TyneFormRootFluentValidator TModel="TModel" UseInjected="true" ValidationEvents="ValidationEvents">
+                                        @Body(model)
+                                    </TyneFormRootFluentValidator>
+                                </EditForm>
+                            }
+                        }
+                    </div>
+                    @(ContentOrDefault<TyneFormDrawerDefaultFooter<TModel>, TModel?>(Footer)(model))
+                </CascadingValue>
+            }
+        }
+    </MudDrawer>
+}
+
+@code
+{
+    private RenderFragment ContentOrDefault<TDefaultComponent>(RenderFragment? content) where TDefaultComponent : ComponentBase
+    {
+        if (content is not null)
+            return content;
+
+        return builder =>
+        {
+            builder.OpenComponent<TDefaultComponent>(0);
+            builder.CloseComponent();
+        };
+    }
+
+    private RenderFragment<TValue> ContentOrDefault<TDefaultComponent, TValue>(RenderFragment<TValue>? content) where TDefaultComponent : ComponentBase
+    {
+        if (content is not null)
+            return content;
+
+        return _ => builder =>
+        {
+            builder.OpenComponent<TDefaultComponent>(0);
+            builder.CloseComponent();
+        };
+    }
+}
