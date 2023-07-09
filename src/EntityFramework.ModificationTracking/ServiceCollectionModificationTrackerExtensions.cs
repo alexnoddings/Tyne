@@ -1,7 +1,7 @@
-using Microsoft.Extensions.DependencyInjection;
+using Tyne;
 using Tyne.EntityFramework;
 
-namespace Tyne;
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionModificationTrackerExtensions
 {

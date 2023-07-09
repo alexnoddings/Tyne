@@ -1,14 +1,14 @@
 using System.Reflection;
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Tyne;
 using Tyne.MediatorEndpoints;
 
-namespace Tyne;
+namespace Microsoft.AspNetCore.Builder;
 
 public static partial class RequestEndpointsExtensions
 {
