@@ -40,7 +40,24 @@ public abstract partial class TyneTableBase<TRequest, TResponse> :
     [Parameter]
     public RenderFragment? TyneHeaderContent { get; set; }
 
-    protected HashSet<ITyneFilteredColumn<TRequest>> RegisteredColumns { get; } = new();
+    private const string ToolBarContentErrorMessage = $"ToolBarContent should not be used on {nameof(TyneTableBase<TRequest, TResponse>)}s. Please use {nameof(TyneToolBarContent)} instead.";
+    /// <summary>
+    ///     Use <see cref="TyneToolbarContent"/> instead.
+    /// </summary>
+    /// <remarks>
+    ///     See <see cref="HeaderContent"/> for more info about this field.
+    /// </remarks>
+    [Obsolete(ToolBarContentErrorMessage, error: true, DiagnosticId = "TY0001")]
+    [SuppressMessage("Info Code Smell", "S1133: Deprecated code should be removed", Justification = "[Obsolete] is used to deter users from accidentally using this property.")]
+    public new Unit ToolBarContent
+    {
+        get => throw new InvalidOperationException(ToolBarContentErrorMessage);
+        set => throw new InvalidOperationException(ToolBarContentErrorMessage);
+    }
+
+    [Parameter]
+    public RenderFragment? TyneToolBarContent { get; set; }
+
     protected HashSet<ITyneTableRequestFilter<TRequest>> RegisteredFilters { get; } = new();
 
     protected TyneTableBase()
@@ -48,7 +65,8 @@ public abstract partial class TyneTableBase<TRequest, TResponse> :
         UserAttributes.Add("aria-role", "table");
         ServerData = LoadTableDataAsync;
 
-        base.HeaderContent = BuildCustomHeaderContent();
+        base.HeaderContent = BuildCustomContent(() => TyneHeaderContent);
+        base.ToolBarContent = BuildCustomContent(() => TyneToolBarContent);
     }
 
     public Task ReloadServerDataAsync(CancellationToken cancellationToken = default) =>
@@ -89,14 +107,17 @@ public abstract partial class TyneTableBase<TRequest, TResponse> :
 
     protected abstract Task<SearchResults<TResponse>> LoadDataAsync(TRequest request);
 
-    private RenderFragment BuildCustomHeaderContent() =>
+    private RenderFragment BuildCustomContent(Func<RenderFragment?> contentAccessor) =>
+        // We take a Func<RenderFragment> rather than a RenderFragment so that we're always
+        // accessing the latest property value, not a potentially stale reference
         builder =>
         {
-            builder.OpenComponent<CascadingValue<ITyneTable<TRequest, TResponse>>>(0);
+            builder.OpenComponent<CascadingValue<ITyneTable<TRequest>>>(0);
             builder.AddAttribute(1, nameof(CascadingValue<object>.Value), this);
             builder.AddAttribute(2, nameof(CascadingValue<object>.IsFixed), true);
-            if (TyneHeaderContent is not null)
-                builder.AddAttribute(3, nameof(CascadingValue<object>.ChildContent), TyneHeaderContent);
+            var content = contentAccessor();
+            if (content is not null)
+                builder.AddAttribute(3, nameof(CascadingValue<object>.ChildContent), content);
             builder.CloseComponent();
         };
 }
