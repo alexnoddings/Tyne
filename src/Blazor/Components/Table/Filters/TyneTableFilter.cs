@@ -35,7 +35,10 @@ public sealed class TyneTableFilter<TRequest, TValue> :
 
     public TyneTableFilter()
     {
-        _wrapper = new(() => Value, newValue => SetValueAsync(newValue, false));
+        _wrapper = new(
+            () => Value,
+            (newValue, cancellationToken) => SetValueAsync(newValue, false, cancellationToken)
+        );
     }
 
     protected override async Task OnInitializedAsync()
