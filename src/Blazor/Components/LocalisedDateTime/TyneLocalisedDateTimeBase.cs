@@ -3,7 +3,7 @@ using Microsoft.JSInterop;
 
 namespace Tyne.Blazor;
 
-public abstract class LocalisedDateTimeBase : ComponentBase
+public abstract class TyneLocalisedDateTimeBase : ComponentBase
 {
     [Parameter, EditorRequired]
     public DateTime DateTimeUtc { get; set; }
