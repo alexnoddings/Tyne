@@ -1,8 +1,9 @@
-using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace Tyne.Blazor;
 
+[DebuggerDisplay($"{{{nameof(ToString)}(),nq}}")]
 public readonly struct TyneFilterPersistKey : IEquatable<TyneFilterPersistKey>
 {
     public string Key { get; } = string.Empty;
@@ -20,12 +21,15 @@ public readonly struct TyneFilterPersistKey : IEquatable<TyneFilterPersistKey>
         && Equals(key);
 
     public bool Equals(TyneFilterPersistKey other) =>
-        other.Key == Key;
+        Key.Equals(other.Key, StringComparison.Ordinal);
 
     public override int GetHashCode() =>
         Key.GetHashCode(StringComparison.Ordinal);
 
-    public override string? ToString() => Key;
+    public override string? ToString() =>
+        IsEmpty ?
+        "(empty)"
+        : Key;
 
     public static bool operator ==(TyneFilterPersistKey left, TyneFilterPersistKey right) =>
         left.Equals(right);
@@ -41,7 +45,7 @@ public readonly struct TyneFilterPersistKey : IEquatable<TyneFilterPersistKey>
         From(persistAs);
 
     public static TyneFilterPersistKey From(string? persistAs) =>
-        new(persistAs ?? string.Empty);
+        From(persistAs, null);
 
     public static TyneFilterPersistKey From(string? persistAs, PropertyInfo? propertyInfo)
     {
@@ -50,6 +54,22 @@ public readonly struct TyneFilterPersistKey : IEquatable<TyneFilterPersistKey>
             ? propertyInfo?.Name
             : persistAs;
 
-        return new(key ?? string.Empty);
+        if (string.IsNullOrWhiteSpace(key) && key?.Length != 0)
+        {
+            // Set key to "" if it is null or whitespace (but skip re-assigning if already "")
+            key = string.Empty;
+        }
+        else
+        {
+            // If key is not empty, trim the whitespace
+            key = key.Trim();
+        }
+
+        // If the key is "", return the static Empty instance
+        if (key.Length == 0)
+            return Empty;
+
+        // Otherwise create a new instance
+        return new(key);
     }
 }
