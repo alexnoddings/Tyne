@@ -13,4 +13,5 @@ public interface ITyneFilteredColumn<in TRequest> : ITyneTableRequestFilter<TReq
     public string? OrderByName { get; }
 
     public Task ClearValueAsync(CancellationToken cancellationToken = default);
+    public Task<bool> ClearValueAsync(CancellationToken cancellationToken = default);
 }

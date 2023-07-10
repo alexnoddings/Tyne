@@ -47,18 +47,20 @@ public partial class TyneMultiSelectColumn<TRequest, TResponse, TValue> :
     private async Task UpdateSelectedValuesAsync(IEnumerable<TyneSelectValue<TValue?>> newValues) =>
         await SetValueAsync(newValues.ToHashSet(), false).ConfigureAwait(true);
 
-    public async Task SetValueAsync(HashSet<TyneSelectValue<TValue?>>? newValue, bool isSilent, CancellationToken cancellationToken = default)
+    public async Task<bool> SetValueAsync(HashSet<TyneSelectValue<TValue?>>? newValue, bool isSilent, CancellationToken cancellationToken = default)
     {
         newValue ??= new();
         if (_selectedValues.SequenceEqual(newValue))
-            return;
+            return false;
 
         _selectedValues = newValue;
 
         if (!isSilent)
             await OnUpdatedAsync(cancellationToken).ConfigureAwait(true);
+
+        return true;
     }
 
-    public override Task ClearValueAsync(CancellationToken cancellationToken = default) =>
+    public override Task<bool> ClearValueAsync(CancellationToken cancellationToken = default) =>
         SetValueAsync(new(), false, cancellationToken);
 }

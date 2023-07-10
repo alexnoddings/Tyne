@@ -22,12 +22,13 @@ public abstract partial class TynePersistedColumnBase<TRequest, TResponse, TValu
     protected virtual async Task InitialisePersistedValueAsync() =>
         await TyneTablePersistedFilterHelpers.InitialisePersistedValueAsync(this, NavigationManager).ConfigureAwait(true);
 
-    public override async Task SetValueAsync(TValue? newValue, bool isSilent, CancellationToken cancellationToken = default)
+    public override async Task<bool> SetValueAsync(TValue? newValue, bool isSilent, CancellationToken cancellationToken = default)
     {
-        await base.SetValueAsync(newValue, isSilent, cancellationToken).ConfigureAwait(true);
-
-        if (!EqualityComparer<TValue>.Default.Equals(newValue, Value) && !PersistKey.IsEmpty)
+        var wasValueSet = await base.SetValueAsync(newValue, isSilent, cancellationToken).ConfigureAwait(true);
+        if (wasValueSet)
             await UpdatePersistedValueAsync().ConfigureAwait(true);
+
+        return wasValueSet;
     }
 
     protected virtual async Task UpdatePersistedValueAsync() =>

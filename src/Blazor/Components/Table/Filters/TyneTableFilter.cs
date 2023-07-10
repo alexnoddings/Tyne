@@ -56,20 +56,22 @@ public sealed class TyneTableFilter<TRequest, TValue> :
         _forPropertyInfo?.SetValue(request, Value);
     }
 
-    public async Task SetValueAsync(TValue? newValue, bool isSilent, CancellationToken cancellationToken = default)
+    public async Task<bool> SetValueAsync(TValue? newValue, bool isSilent, CancellationToken cancellationToken = default)
     {
         if (EqualityComparer<TValue>.Default.Equals(newValue, Value))
-            return;
+            return false;
 
         Value = newValue;
-        if (Table is not null)
+        if (Table is not null && !isSilent)
             await Table.ReloadServerDataAsync(cancellationToken).ConfigureAwait(true);
 
         if (!PersistKey.IsEmpty)
             await TyneTablePersistedFilterHelpers.PersistValueAsync(this, NavigationManager, cancellationToken).ConfigureAwait(true);
+
+        return true;
     }
 
-    public Task ClearValueAsync(CancellationToken cancellationToken = default) =>
+    public Task<bool> ClearValueAsync(CancellationToken cancellationToken = default) =>
         SetValueAsync(default, false, cancellationToken);
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
