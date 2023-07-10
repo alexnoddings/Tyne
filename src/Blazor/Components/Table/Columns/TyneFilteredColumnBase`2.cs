@@ -54,7 +54,7 @@ public abstract partial class TyneFilteredColumnBase<TRequest, TResponse> :
             await Table.ReloadServerDataAsync(cancellationToken).ConfigureAwait(true);
     }
 
-    public abstract Task ClearValueAsync(CancellationToken cancellationToken = default);
+    public abstract Task<bool> ClearValueAsync(CancellationToken cancellationToken = default);
 
     protected virtual void Dispose(bool disposing)
     {

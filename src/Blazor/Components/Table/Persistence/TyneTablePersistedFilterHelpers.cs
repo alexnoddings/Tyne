@@ -1,12 +1,17 @@
-using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Web;
 
 namespace Tyne.Blazor;
 
 public static class TyneTablePersistedFilterHelpers
 {
+    public static JsonSerializerOptions JsonOptions { get; } = new(JsonSerializerDefaults.Web)
+    {
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+    };
+
     public static async Task InitialisePersistedValueAsync<T>(ITyneTablePersistedFilter<T> filter, NavigationManager navigationManager, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(navigationManager);
@@ -17,17 +22,39 @@ public static class TyneTablePersistedFilterHelpers
 
         var query = new Uri(navigationManager.Uri).Query;
         var valueStr = HttpUtility.ParseQueryString(query).Get(filter.PersistKey);
+
         if (valueStr is null)
             return;
 
+        // Both strings and chars are serialised with ""s, which looks ugly in URLs
+        // So as special cases, they are both encoded as literals
         T? value;
-        var valueType = typeof(T);
-        if (valueType == typeof(int))
-            value = (T)(object)99;
-        else if (valueType == typeof(string))
-            value = (T)(object)valueStr;
+        if (typeof(T) == typeof(string))
+        {
+            if (string.IsNullOrWhiteSpace(valueStr))
+                value = default;
+            else
+                value = (T)(object)valueStr.Trim();
+        }
+        else if (typeof(T) == typeof(char) || Nullable.GetUnderlyingType(typeof(T)) == typeof(char))
+        {
+            if (valueStr.Length == 1)
+                value = (T)(object)valueStr[0];
+            else
+                value = default;
+        }
         else
-            value = JsonSerializer.Deserialize<T>(valueStr);
+        {
+            try
+            {
+                value = JsonSerializer.Deserialize<T>(valueStr, JsonOptions);
+            }
+            catch (JsonException)
+            {
+                return;
+            }
+        }
+
         await filter.SetValueAsync(value, true, cancellationToken).ConfigureAwait(false);
     }
 
@@ -39,16 +66,15 @@ public static class TyneTablePersistedFilterHelpers
         if (filter.PersistKey.IsEmpty)
             return Task.CompletedTask;
 
-        // Don't return early if filter.Value is null as the URI query string may contain an old value which we should remove
-
         var valueStr = filter.Value switch
         {
-            int intValue => intValue.ToString(CultureInfo.InvariantCulture),
-            string stringValue => stringValue,
-            _ => JsonSerializer.Serialize(filter.Value)
+            // Don't return early if filter.Value is null as the URI query string may contain an old value which we should remove
+            null => null,
+            char value => value.ToString(),
+            string value => value,
+            _ => JsonSerializer.Serialize(filter.Value, JsonOptions)
         };
 
-        // Most input types only return empty strings, not null, which just clutters up the URI query string
         if (string.IsNullOrEmpty(valueStr))
             valueStr = null;
 

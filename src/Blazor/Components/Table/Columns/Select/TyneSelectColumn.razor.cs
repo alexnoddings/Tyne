@@ -33,20 +33,22 @@ public partial class TyneSelectColumn<TRequest, TResponse, TValue> :
         _forPropertyInfo?.SetValue(request, Value);
     }
 
-    private Task SetValueAsync(TValue? newValue) =>
+    private Task<bool> SetValueAsync(TValue? newValue) =>
         SetValueAsync(newValue, false);
 
-    public virtual async Task SetValueAsync(TValue? newValue, bool isSilent, CancellationToken cancellationToken = default)
+    public virtual async Task<bool> SetValueAsync(TValue? newValue, bool isSilent, CancellationToken cancellationToken = default)
     {
         if (EqualityComparer<TValue>.Default.Equals(newValue, Value))
-            return;
+            return false;
 
         Value = newValue;
 
         if (!isSilent)
             await OnUpdatedAsync(cancellationToken).ConfigureAwait(true);
+
+        return true;
     }
 
-    public override Task ClearValueAsync(CancellationToken cancellationToken = default) =>
+    public override Task<bool> ClearValueAsync(CancellationToken cancellationToken = default) =>
         SetValueAsync(default, false, cancellationToken);
 }

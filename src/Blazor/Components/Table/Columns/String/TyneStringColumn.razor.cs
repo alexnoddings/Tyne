@@ -45,10 +45,11 @@ public partial class TyneStringColumn<TRequest, TResponse> :
         _forPropertyInfo?.SetValue(request, Value);
     }
 
-    public override async Task ClearValueAsync(CancellationToken cancellationToken = default)
+    public override async Task<bool> ClearValueAsync(CancellationToken cancellationToken = default)
     {
-        await SetValueAsync("", false, cancellationToken).ConfigureAwait(true);
+        var wasValueSet = await SetValueAsync("", false, cancellationToken).ConfigureAwait(true);
         if (InputRef is not null)
             await InputRef.FocusAsync().ConfigureAwait(true);
+        return wasValueSet;
     }
 }

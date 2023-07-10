@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Tyne.Blazor;
 
-public class LocalisedDateTime : LocalisedDateTimeBase
+public class TyneLocalisedDateTime : TyneLocalisedDateTimeBase
 {
     [Parameter]
     public RenderFragment<DateTimeOffset> ChildContent { get; set; } = EmptyRenderFragment.For<DateTimeOffset>();

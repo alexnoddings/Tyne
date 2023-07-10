@@ -49,17 +49,19 @@ public partial class TyneDateRangeColumn<TRequest, TResponse> :
         _forMaxPropertyInfo?.SetValue(request, end);
     }
 
-    public async Task SetValueAsync(DateRange? newValue, bool isSilent, CancellationToken cancellationToken = default)
+    public async Task<bool> SetValueAsync(DateRange? newValue, bool isSilent, CancellationToken cancellationToken = default)
     {
         if (Value == newValue)
-            return;
+            return false;
 
         Value = newValue ?? new(null, null);
 
         if (!isSilent)
             await OnUpdatedAsync(cancellationToken).ConfigureAwait(true);
+
+        return true;
     }
 
-    public override async Task ClearValueAsync(CancellationToken cancellationToken = default) =>
+    public override async Task<bool> ClearValueAsync(CancellationToken cancellationToken = default) =>
         await SetValueAsync(new DateRange(null, null), false, cancellationToken).ConfigureAwait(true);
 }
