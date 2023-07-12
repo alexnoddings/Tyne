@@ -64,9 +64,12 @@ public abstract partial class TyneTableBase<TRequest, TResponse> :
     {
         UserAttributes.Add("aria-role", "table");
         ServerData = LoadTableDataAsync;
+    }
 
-        base.HeaderContent = BuildCustomContent(() => TyneHeaderContent);
-        base.ToolBarContent = BuildCustomContent(() => TyneToolBarContent);
+    protected override void OnParametersSet()
+    {
+        base.HeaderContent = BuildCustomContent(TyneHeaderContent);
+        base.ToolBarContent = BuildCustomContent(TyneToolBarContent);
     }
 
     public Task ReloadServerDataAsync(CancellationToken cancellationToken = default) =>
@@ -107,17 +110,18 @@ public abstract partial class TyneTableBase<TRequest, TResponse> :
 
     protected abstract Task<SearchResults<TResponse>> LoadDataAsync(TRequest request);
 
-    private RenderFragment BuildCustomContent(Func<RenderFragment?> contentAccessor) =>
-        // We take a Func<RenderFragment> rather than a RenderFragment so that we're always
-        // accessing the latest property value, not a potentially stale reference
-        builder =>
+    private RenderFragment? BuildCustomContent(RenderFragment? content)
+    {
+        if (content is null)
+            return null;
+
+        return builder =>
         {
             builder.OpenComponent<CascadingValue<ITyneTable<TRequest>>>(0);
             builder.AddAttribute(1, nameof(CascadingValue<object>.Value), this);
             builder.AddAttribute(2, nameof(CascadingValue<object>.IsFixed), true);
-            var content = contentAccessor();
-            if (content is not null)
-                builder.AddAttribute(3, nameof(CascadingValue<object>.ChildContent), content);
+            builder.AddAttribute(3, nameof(CascadingValue<object>.ChildContent), content);
             builder.CloseComponent();
         };
+    }
 }
