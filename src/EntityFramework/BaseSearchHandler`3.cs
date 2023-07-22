@@ -5,11 +5,8 @@ using Tyne.Searching;
 namespace Tyne.EntityFramework;
 
 /// <summary>
-///		Base implementation for an <see cref="IHandler{TIn, TOut, E}"/> which returns <see cref="SearchResults{T}"/>.
+///		Base implementation for a handler which returns <see cref="SearchResults{T}"/>.
 /// </summary>
-/// <remarks>
-///		Inherits from <see cref="BaseHandler{TIn, TOut, E}"/> and provides extensibility points to control filtering/projection/ordering.
-/// </remarks>
 /// <typeparam name="TQuery">The input <see cref="ISearchQuery"/> type.</typeparam>
 /// <typeparam name="TResult">The output of <see cref="SearchResults{T}"/>.</typeparam>
 /// <typeparam name="TEntity">The type of entity being loaded.</typeparam>
@@ -92,7 +89,7 @@ public abstract class BaseSearchHandler<TQuery, TResult, TEntity>
     /// <param name="query">The <typeparamref name="TQuery"/> to paginate the <paramref name="source"/> with.</param>
     /// <returns>An <see cref="IQueryable{T}"/> which has been paginated.</returns>
     /// <remarks>
-    ///     The default implementation is to call <see cref="QueryablePaginationExtensions.Paginate{T}(IQueryable{T}, ISearchQuery)"/>.
+    ///     The default implementation is to call <see cref="QueryablePaginationExtensions.Paginate{T}(IQueryable{T}, ISearchQueryPage)"/>.
     /// </remarks>
     protected virtual IQueryable<TResult> Paginate(IQueryable<TResult> source, TQuery query) =>
         source.Paginate(query);

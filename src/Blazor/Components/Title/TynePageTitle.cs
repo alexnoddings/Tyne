@@ -2,6 +2,8 @@ using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 namespace Tyne.Blazor;
@@ -11,9 +13,10 @@ namespace Tyne.Blazor;
 /// </summary>
 /// <remarks>
 ///		<para>
-///			The <see cref="TynePageTitleOptions"/> can be registered using 
-///			<see cref="TyneBuilderBlazorExtensions.ConfigurePageTitle(TyneBuilder)"/>
-///			or <see cref="TyneBuilderBlazorExtensions.ConfigurePageTitle(TyneBuilder, Action{TynePageTitleOptions})"/>.
+///			The <see cref="TynePageTitleOptions"/> can be registered using
+///			<see cref="TyneBuilderPageTitleExtensions.ConfigurePageTitle(TyneBuilder, string)"/>,
+///			<see cref="TyneBuilderPageTitleExtensions.ConfigurePageTitle(TyneBuilder, IConfigurationSection)"/>,
+///			or <see cref="TyneBuilderPageTitleExtensions.ConfigurePageTitle(TyneBuilder, Action{TynePageTitleOptions})"/>.
 ///		</para>
 ///		<para>
 ///			This wraps <see cref="PageTitle"/>.

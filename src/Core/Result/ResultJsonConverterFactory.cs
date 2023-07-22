@@ -13,7 +13,7 @@ public sealed class ResultJsonConverterFactory : JsonConverterFactory
     private const BindingFlags CreateInstanceBindingFlags = BindingFlags.Public | BindingFlags.Instance;
 
     /// <summary>
-    ///     Determines whether the <paramref name="typeToConvert"/> can be converted to a <see cref="Result{T, E}"/>.
+    ///     Determines whether the <paramref name="typeToConvert"/> can be converted to a <see cref="Result{T}"/>.
     /// </summary>
     /// <param name="typeToConvert">The <see cref="Type"/> to be checked.</param>
     /// <returns><see langword="true"/> if the <paramref name="typeToConvert"/> can be converted, otherwise <see langword="true"/>.</returns>
