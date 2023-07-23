@@ -17,7 +17,7 @@ public abstract partial class TyneTableBase<TRequest, TResponse> :
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         Blazor's default implementation for <see cref="SetParametersAsync(ParameterView)"/> invokes ComponentProperties.SetProperties.
+    ///         Blazor's default implementation for <see cref="ComponentBase.SetParametersAsync(ParameterView)"/> invokes ComponentProperties.SetProperties.
     ///         This implementation throws if multiple parameters have the same name, such as two HeaderContents.
     ///         MudBlazor does not mark the header content as virtual, so we can't override it.
     ///     </para>
@@ -42,7 +42,7 @@ public abstract partial class TyneTableBase<TRequest, TResponse> :
 
     private const string ToolBarContentErrorMessage = $"ToolBarContent should not be used on {nameof(TyneTableBase<TRequest, TResponse>)}s. Please use {nameof(TyneToolBarContent)} instead.";
     /// <summary>
-    ///     Use <see cref="TyneToolbarContent"/> instead.
+    ///     Use <see cref="TyneToolBarContent"/> instead.
     /// </summary>
     /// <remarks>
     ///     See <see cref="HeaderContent"/> for more info about this field.
@@ -82,6 +82,24 @@ public abstract partial class TyneTableBase<TRequest, TResponse> :
 
         RegisteredFilters.Add(filter);
         return new DisposableAction(() => RegisteredFilters.Remove(filter));
+    }
+
+    public async Task NotifySyncedFilterChangedAsync<TValue>(ITyneTableSyncedFilter<TValue> filterInstance, TValue? newValue, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(filterInstance);
+
+        var filterSyncKey = filterInstance.SyncKey;
+        foreach (var otherFilter in RegisteredFilters.OfType<ITyneTableSyncedFilter<TValue>>())
+        {
+            if (otherFilter == filterInstance)
+                continue;
+
+            var otherFilterSyncKey = otherFilter.SyncKey;
+            if (otherFilterSyncKey != filterSyncKey)
+                continue;
+
+            await otherFilter.SetValueAsync(newValue, true, cancellationToken).ConfigureAwait(true);
+        }
     }
 
     private async Task<TableData<TResponse>> LoadTableDataAsync(TableState state)

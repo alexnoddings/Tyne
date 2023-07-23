@@ -17,11 +17,12 @@ public static class TyneTablePersistedFilterHelpers
         ArgumentNullException.ThrowIfNull(navigationManager);
         ArgumentNullException.ThrowIfNull(filter);
 
-        if (filter.PersistKey.IsEmpty)
+        var persistKey = filter.PersistKey;
+        if (persistKey.IsEmpty)
             return;
 
         var query = new Uri(navigationManager.Uri).Query;
-        var valueStr = HttpUtility.ParseQueryString(query).Get(filter.PersistKey);
+        var valueStr = HttpUtility.ParseQueryString(query).Get(persistKey);
 
         if (valueStr is null)
             return;
@@ -60,10 +61,14 @@ public static class TyneTablePersistedFilterHelpers
 
     public static Task PersistValueAsync<T>(ITyneTablePersistedFilter<T> filter, NavigationManager navigationManager, CancellationToken cancellationToken = default)
     {
+        // This is Task-returning even though it is entirely synchronous so
+        // that the implementation is open to modification later without
+        // breaking existing usage.
         ArgumentNullException.ThrowIfNull(navigationManager);
         ArgumentNullException.ThrowIfNull(filter);
 
-        if (filter.PersistKey.IsEmpty)
+        var persistKey = filter.PersistKey;
+        if (persistKey.IsEmpty)
             return Task.CompletedTask;
 
         var valueStr = filter.Value switch
@@ -78,7 +83,7 @@ public static class TyneTablePersistedFilterHelpers
         if (string.IsNullOrEmpty(valueStr))
             valueStr = null;
 
-        var newUri = navigationManager.GetUriWithQueryParameter(filter.PersistKey, valueStr);
+        var newUri = navigationManager.GetUriWithQueryParameter(persistKey, valueStr);
         navigationManager.NavigateTo(newUri, forceLoad: false, replace: true);
 
         return Task.CompletedTask;

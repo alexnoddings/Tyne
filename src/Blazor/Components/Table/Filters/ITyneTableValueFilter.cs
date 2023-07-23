@@ -21,8 +21,12 @@ public interface ITyneTableValueFilter<TValue>
     ///     The new <typeparamref name="TValue"/> to set as <see cref="Value"/>. This may be <see langword="null" />.
     /// </param>
     /// <param name="isSilent">
-    ///     If set silently (<see langword="true"/>), then the filter won't trigger any update functions, such as reloading the table.
-    ///     Persistent columns will still persist their values however.
+    ///     If set silently (<see langword="true"/>), then the filter won't trigger any update functions, such as:
+    ///     <list type="bullet">
+    ///         <item>reloading the table</item>
+    ///         <item>synchronising the value</item>
+    ///         <item>persisting the value</item>
+    ///     </list>
     /// </param>
     /// <param name="cancellationToken">
     ///     Optionally, a <see cref="CancellationToken"/>.
