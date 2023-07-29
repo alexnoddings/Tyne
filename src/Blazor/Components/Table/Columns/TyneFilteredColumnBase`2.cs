@@ -48,7 +48,7 @@ public abstract partial class TyneFilteredColumnBase<TRequest, TResponse> :
 
     public abstract void ConfigureRequest(TRequest request);
 
-    protected async Task OnUpdatedAsync(CancellationToken cancellationToken = default)
+    protected virtual async Task OnUpdatedAsync(CancellationToken cancellationToken = default)
     {
         if (Table is not null)
             await Table.ReloadServerDataAsync(cancellationToken).ConfigureAwait(true);

@@ -7,7 +7,8 @@ namespace Tyne.Blazor;
 
 public sealed class TyneTableFilter<TRequest, TValue> :
     TyneTableFilterBase<TRequest>,
-    ITyneTablePersistedFilter<TValue>
+    ITyneTablePersistedFilter<TValue>,
+    ITyneTableSyncedFilter<TValue>
 {
     [Parameter]
     public Expression<Func<TRequest, TValue?>>? For { get; set; }
@@ -27,11 +28,16 @@ public sealed class TyneTableFilter<TRequest, TValue> :
 
     [Parameter]
     public string? PersistAs { get; set; }
-    public TyneFilterPersistKey PersistKey =>
-        TyneFilterPersistKey.From(PersistAs, _forPropertyInfo);
+    public TyneTableKey PersistKey =>
+        TyneTableKey.From(PersistAs, _forPropertyInfo);
 
     [Inject]
     private NavigationManager NavigationManager { get; init; } = null!;
+
+    [Parameter]
+    public string? SyncAs { get; set; }
+    public TyneTableKey SyncKey =>
+        TyneTableKey.From(SyncAs, _forPropertyInfo);
 
     public TyneTableFilter()
     {
@@ -45,14 +51,19 @@ public sealed class TyneTableFilter<TRequest, TValue> :
     {
         await base.OnInitializedAsync().ConfigureAwait(true);
         Value = InitialValue;
+        // Needs to come before initialisation so that PersistKey will pick up the property info
+        UpdateForPropertyInfo();
         await TyneTablePersistedFilterHelpers.InitialisePersistedValueAsync(this, NavigationManager).ConfigureAwait(true);
     }
 
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        TyneTableFilterHelpers.UpdatePropertyInfo(For, ref _previousFor, ref _forPropertyInfo);
+        UpdateForPropertyInfo();
     }
+
+    private void UpdateForPropertyInfo() =>
+        TyneTableFilterHelpers.UpdatePropertyInfo(For, ref _previousFor, ref _forPropertyInfo);
 
     public override void ConfigureRequest(TRequest request)
     {
@@ -66,9 +77,14 @@ public sealed class TyneTableFilter<TRequest, TValue> :
 
         Value = newValue;
         if (Table is not null && !isSilent)
-            await Table.ReloadServerDataAsync(cancellationToken).ConfigureAwait(true);
+        {
+            if (!SyncKey.IsEmpty)
+                await Table.NotifySyncedFilterChangedAsync(this, newValue, cancellationToken).ConfigureAwait(true);
 
-        if (!PersistKey.IsEmpty)
+            await Table.ReloadServerDataAsync(cancellationToken).ConfigureAwait(true);
+        }
+
+        if (!PersistKey.IsEmpty && !isSilent)
             await TyneTablePersistedFilterHelpers.PersistValueAsync(this, NavigationManager, cancellationToken).ConfigureAwait(true);
 
         return true;

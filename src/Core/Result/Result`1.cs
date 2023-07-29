@@ -84,8 +84,8 @@ public sealed class Result<T> : IResult, IEquatable<Result<T>>
     ///		<see langword="true"/> if the specified <paramref name="other"/> is equal to this instance; otherwise, <see langword="false"/>.
     /// </returns>
     /// <remarks>
-    ///		This relies on the <see cref="Value"/> overriding <see cref="object.Equals(object?)"/>.
-    ///		If it does not, this may not behave as expected.
+    ///		This relies on the <see cref="Value"/> or <see cref="Messages"/> overriding <see cref="object.Equals(object?)"/>.
+    ///		If they do not, this may not behave as expected.
     /// </remarks>
     public bool Equals(Result<T>? other)
     {
@@ -108,7 +108,7 @@ public sealed class Result<T> : IResult, IEquatable<Result<T>>
     ///		<see langword="true"/> if the specified <paramref name="obj"/> is a <see cref="Result{T}"/>, and is equal to this instance; otherwise, <see langword="false"/>.
     /// </returns>
     /// <remarks>
-    ///		This relies on the <see cref="Value"/> or <see cref="Error"/> overriding <see cref="object.Equals(object?)"/>.
+    ///		This relies on the <see cref="Value"/> or <see cref="Messages"/> overriding <see cref="object.Equals(object?)"/>.
     ///		If they do not, this may not behave as expected.
     /// </remarks>
     public override bool Equals(object? obj) =>
@@ -117,13 +117,13 @@ public sealed class Result<T> : IResult, IEquatable<Result<T>>
     /// <summary>
     ///		Determines whether the <paramref name="left"/> is equal to the <paramref name="right"/>.
     /// </summary>
-    /// <param name="left">The left-hand <see cref="Result{T,E}"/>.</param>
-    /// <param name="right">The right-hand <see cref="Result{T,E}"/>.</param>
+    /// <param name="left">The left-hand <see cref="Result{T}"/>.</param>
+    /// <param name="right">The right-hand <see cref="Result{T}"/>.</param>
     /// <returns>
     ///		<see langword="true"/> if <paramref name="left"/> is equal to <paramref name="right"/>; otherwise, <see langword="false"/>.
     /// </returns>
     /// <remarks>
-    ///		See <see cref="Equals(Result{T, E}?)"/>.
+    ///		See <see cref="Equals(Result{T}?)"/>.
     /// </remarks>
     public static bool operator ==(Result<T> left, Result<T> right)
     {

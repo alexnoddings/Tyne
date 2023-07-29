@@ -6,13 +6,10 @@ using Microsoft.AspNetCore.Components;
 namespace Tyne.Blazor;
 
 /// <summary>
-///     A column for use in a <see cref="TyneTable{TRequest, TResponse}"/>.
+///     A column for use in a <see cref="TyneTableBase{TRequest, TResponse}"/>.
 /// </summary>
 /// <typeparam name="TRequest">The type of request.</typeparam>
 /// <typeparam name="TResponse">The type of response.</typeparam>
-/// <remarks>
-///     This expects a <see cref="CascadingValue{TValue}"/> of type <see cref="ITyneTable{TRequest, TResponse}"/>.
-/// </remarks>
 [SuppressMessage("Major Code Smell", "S2326: Unused type parameters should be removed", Justification = "Used for consistency across other column code.")]
 public partial class TyneColumn<TRequest, TResponse> : ComponentBase
 {

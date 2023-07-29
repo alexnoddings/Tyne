@@ -14,7 +14,7 @@ public static class TyneBuilderPageTitleExtensions
     /// </summary>
     /// <param name="tyneBuilder">The <see cref="TyneBuilder"/>.</param>
     /// <param name="configSectionPath">The name of the configuration section to configure the <see cref="TynePageTitleOptions"/> with.</param>
-    /// <returns>The <paramref name="TyneBuilder"/> to allow for chaining.</returns>
+    /// <returns>The <paramref name="tyneBuilder"/> to allow for chaining.</returns>
     /// <exception cref="ArgumentNullException">When <paramref name="tyneBuilder"/> is null.</exception>
     public static TyneBuilder ConfigurePageTitle(this TyneBuilder tyneBuilder, string configSectionPath)
     {
@@ -34,7 +34,7 @@ public static class TyneBuilderPageTitleExtensions
     /// </summary>
     /// <param name="tyneBuilder">The <see cref="TyneBuilder"/>.</param>
     /// <param name="configSection">The configuration section to configure the <see cref="TynePageTitleOptions"/> with.</param>
-    /// <returns>The <paramref name="TyneBuilder"/> to allow for chaining.</returns>
+    /// <returns>The <paramref name="tyneBuilder"/> to allow for chaining.</returns>
     /// <exception cref="ArgumentNullException">When <paramref name="tyneBuilder"/> is null.</exception>
     public static TyneBuilder ConfigurePageTitle(this TyneBuilder tyneBuilder, IConfigurationSection configSection)
     {

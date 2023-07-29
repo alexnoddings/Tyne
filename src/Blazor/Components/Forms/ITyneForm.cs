@@ -7,7 +7,8 @@ public interface ITyneForm
 {
     public FormState State { get; }
     /// <summary>
-	///		The <see cref="Microsoft.AspNetCore.Components.Forms.EditForm"/> instance. This may be null while <see cref="Model"/> is being loaded, as it requires a non-null object.
+	///		The <see cref="Microsoft.AspNetCore.Components.Forms.EditForm"/> instance.
+    ///		This may be null while the model is being loaded, as it requires a non-null object.
 	/// </summary>
 	public EditForm? EditForm { get; set; }
 
