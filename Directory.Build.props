@@ -5,7 +5,6 @@
     <Authors>Alex Noddings</Authors>
     <StrongNameKeyId>AlexNTyne</StrongNameKeyId>
     <PackageProjectUrl>https://github.com/alexnoddings/Tyne</PackageProjectUrl>
-    <IncludeSymbols>true</IncludeSymbols>
     <NeutralLanguage>en</NeutralLanguage>
     <DefaultLanguage>en-GB</DefaultLanguage>
   </PropertyGroup>
@@ -18,10 +17,17 @@
     <AssemblyVersion>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</AssemblyVersion>
   </PropertyGroup>
 
+  <PropertyGroup Label="Package">
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
   <PropertyGroup Label="Repository Info">
-    <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
     <RepositoryUrl>https://github.com/alexnoddings/Tyne</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
@@ -58,6 +64,12 @@
                     While technically true, it can lead to uglier code and poor stack traces.
     -->
     <NoWarn>$(NoWarn);AsyncFixer01</NoWarn>
+    <!--
+      CS1591: Missing XML comment for publicly visible type or member.
+              This should be removed once all public types have XML docs associated.
+
+    -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
   </PropertyGroup>
 
 </Project>
