@@ -9,26 +9,11 @@
     <DefaultLanguage>en-GB</DefaultLanguage>
   </PropertyGroup>
 
-  <PropertyGroup Label="Version settings">
-    <TyneMajorVersion>2</TyneMajorVersion>
-    <TyneMinorVersion>9</TyneMinorVersion>
-    <TynePatchVersion>0</TynePatchVersion>
-    <Version>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</Version>
-    <AssemblyVersion>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</AssemblyVersion>
-  </PropertyGroup>
-
-  <PropertyGroup Label="Package">
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Label="Repository Info">
-    <RepositoryUrl>https://github.com/alexnoddings/Tyne</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  <PropertyGroup Label="Project flags">
+    <IsTestProject>false</IsTestProject>
+    <IsTestProject Condition="$(MSBuildProjectName.EndsWith('Tests'))">true</IsTestProject>
+    <IsPackable>true</IsPackable>
+    <IsPackable Condition="$(IsTestProject)">false</IsPackable>
   </PropertyGroup>
 
   <PropertyGroup Label="Conventions">
@@ -37,16 +22,41 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+    <ArtifactsPath>$(MSBuildThisFileDirectory)artifacts</ArtifactsPath>
   </PropertyGroup>
 
-  <PropertyGroup Label="Analysers">
+  <PropertyGroup Label="Versioning">
+    <TyneMajorVersion>3</TyneMajorVersion>
+    <TyneMinorVersion>0</TyneMinorVersion>
+    <TynePatchVersion>0</TynePatchVersion>
+    <TynePreReleaseTag>alpha</TynePreReleaseTag>
+    <Version>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</Version>
+    <Version Condition=" '$(TynePreReleaseTag)' != '' ">$(Version)-$(TynePreReleaseTag)</Version>
+    <AssemblyVersion>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</AssemblyVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Packaging" Condition="$(IsPackable)">
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Repository info">
+    <RepositoryUrl>https://github.com/alexnoddings/Tyne</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <PropertyGroup Label=".NET analysers">
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
-  <ItemGroup Label="Project-wide Packages">
+  <ItemGroup Label="Project analysers">
     <PackageReference Include="AsyncFixer" Version="1.6.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -57,7 +67,7 @@
     </PackageReference>
   </ItemGroup>
 
-  <PropertyGroup Label="Warnings and Errors">
+  <PropertyGroup Label="Warnings and errors">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <!--
       AsyncFixer01: The method does not need to use async/await.
@@ -71,5 +81,11 @@
     -->
     <NoWarn>$(NoWarn);CS1591</NoWarn>
   </PropertyGroup>
+
+  <ItemGroup Label="Embedded resources">
+    <EmbeddedResource Include="**/*.restext">
+      <LogicalName>$(AssemblyName).%(FileName).resources</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
 
 </Project>

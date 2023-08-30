@@ -1,6 +1,24 @@
 <Project>
 
-  <ItemGroup Label="Package Versions">
+  <ItemGroup Label="Visibility for test projects" Condition="!$(IsTestProject)">
+    <InternalsVisibleTo Include="$(AssemblyName).Tests" />
+  </ItemGroup>
+
+  <!--
+    These are dependant on Configuration, thus need to live in targets rather than props.
+  -->
+  <PropertyGroup Label="Warnings and errors">
+    <!--
+      S125: Sections of code should not be commented out.
+            While true for shipped code, this can be a real pain while developing.
+            NOTE: This is only set as a warning during development.
+    -->
+    <WarningsNotAsErrors Condition=" '$(Configuration)' == 'Debug' ">
+      $(WarningsNotAsErrors);S125
+    </WarningsNotAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup Label="Package versions">
     <PackageReference Update="FluentValidation" Version="11.5.2" />
     <PackageReference Update="MediatR" Version="12.0.1" />
     <PackageReference Update="MediatR.Contracts" Version="2.0.1" />
@@ -14,14 +32,41 @@
     <PackageReference Update="Microsoft.Extensions.Options" Version="7.0.1" />
     <PackageReference Update="MudBlazor" Version="6.5.0" />
   </ItemGroup>
-  
-  <ItemGroup Label="Test Package Versions">
+
+  <ItemGroup Label="Test package versions">
     <PackageReference Update="bunit" Version="1.21.9" />
     <PackageReference Update="coverlet.collector" Version="3.1.2" />
     <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.3.2" />
-    <PackageReference Update="Moq" Version="4.18.4" />
+    <PackageReference Update="NSubstitute" Version="5.0.0" />
+    <PackageReference Update="NSubstitute.Analyzers.CSharp" Version="1.0.16" />
     <PackageReference Update="xunit" Version="2.4.2" />
     <PackageReference Update="xunit.runner.visualstudio" Version="2.4.5" />
+  </ItemGroup>
+
+  <!--
+    Some warnings aren't applicable to test projects as they aren't shipped code
+  -->
+  <PropertyGroup Label="Warnings and errors" Condition="$(IsTestProject)">
+    <!--
+      CA1707: Identifiers should not contain underscores.
+              This is a test project, not a library, and underscores help clarify what test cases are testing.
+    -->
+    <NoWarn>$(NoWarn);CA1707</NoWarn>
+    <!--
+      CA1819: Properties should not return arrays.
+              This is useful for providing theories with member data in tests.
+    -->
+    <NoWarn>$(NoWarn);CA1819</NoWarn>
+    <!--
+        CA1819: Do not directly await a Task.
+                This is not relevant in test projects.
+    -->
+    <NoWarn>$(NoWarn);CA2007</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup Label="Global usings" Condition="$(IsTestProject)">
+    <Using Include="NSubstitute" />
+    <Using Include="Xunit" />
   </ItemGroup>
 
 </Project>
