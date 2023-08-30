@@ -1,194 +1,345 @@
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 
 namespace Tyne;
 
 /// <summary>
-///     Represents the result of performing an operation.
+///     A result encapsulates either <c>Ok(<typeparamref name="T"/>)</c> or <c>Error</c>.
+///     <list type="bullet">
+///         <item>
+///             In the <c>Ok(<typeparamref name="T"/>)</c> case, a result holds some <see cref="Value"/>,
+///             and <see cref="IsOk"/> is <see langword="true"/>.
+///             Accessing <see cref="Error"/> will throw a <see cref="BadResultException"/>.
+///         </item>
+///         <item>
+///             In the <c>Error</c> case, a result holds some <see cref="Error"/>,
+///             and <see cref="IsOk"/> is <see langword="false"/>.
+///             Accessing <see cref="Value"/> will throw a <see cref="BadResultException"/>.
+///         </item>
+///     </list>
 /// </summary>
 /// <remarks>
 ///     <para>
-///         A success result is one which does not contain any <see cref="ResultMessage"/>s of type <see cref="ResultMessageType.Error"/>.
+///         The purpose of <see cref="Error"/> is to provide a strong construct for handling errors without <see cref="Exception"/>s.
+///         This encourages consumers to consider how to handle a bad result, rather than always assuming the happy path.
 ///     </para>
 ///     <para>
-///         Conversely, an error result is one which contains at least one <see cref="ResultMessage"/>s of type <see cref="ResultMessageType.Error"/>.
-///         An error result may also not contain any <see cref="ResultMessage"/>s of type <see cref="ResultMessageType.Success"/>.
-///     </para>
-///     <para>
-///         Both success and failure results may contain 0 or more <see cref="ResultMessage"/>s of type <see cref="ResultMessageType.Info"/> and <see cref="ResultMessageType.Warning"/>.
+///         See <see cref="Result"/> for how to create <see cref="Result{T}"/>s.
 ///     </para>
 /// </remarks>
-[DebuggerDisplay($"{{{nameof(ToString)}(),nq}}")]
-[DebuggerTypeProxy(typeof(Result<>.ResultDebuggerTypeProxy))]
+/// <typeparam name="T">The type of value this result encapsulates.</typeparam>
+/// <seealso cref="Result"/>
+/// <seealso cref="ResultExtensions"/>
+/// <seealso cref="ResultJsonConverterFactory"/>
+[DebuggerDisplay("{ToString(),nq}")]
+[DebuggerTypeProxy(typeof(Result<>.DebuggerTypeProxy))]
 [JsonConverter(typeof(ResultJsonConverterFactory))]
-public sealed class Result<T> : IResult, IEquatable<Result<T>>
+public class Result<T> : IEquatable<Result<T>>
 {
-    [MemberNotNullWhen(true, nameof(_value))]
-    public bool WasSuccess { get; }
-    public ReadOnlyCollection<ResultMessage> Messages { get; }
-
+    private readonly bool _isOk;
     private readonly T? _value;
+    private readonly Error? _error;
+
+    /// <summary>
+    ///     Indicates whether this result is <c>Ok(<typeparamref name="T"/>)</c> (i.e. has a value).
+    /// </summary>
+    /// <remarks>
+    ///     Returns <see langword="true"/> if this result is <c>Ok(<typeparamref name="T"/>)</c>,
+    ///     otherwise <see langword="false"/> if it is <c>Error</c>.
+    /// </remarks>
+    [Pure]
+    public bool IsOk => _isOk;
+
+    /// <summary>
+    ///     The unwrapped <typeparamref name="T"/> which this result encapsulates, if it is <c>Ok(<typeparamref name="T"/>)</c>.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         If this result is <c>Error</c>, unwrapping this will instead throw a <see cref="BadResultException"/>.
+    ///         You should ensure <see cref="IsOk"/> is <see langword="true"/> before accessing this property.
+    ///     </para>
+    ///     <para>
+    ///         Alternatively, consider using one of <see cref="ResultExtensions"/> to access this value,
+    ///         such as <see cref="ResultExtensions.Or{T}(Result{T}, T)"/> or <see cref="ResultExtensions.Unwrap{T}(Result{T})"/>.
+    ///     </para>
+    /// </remarks>
+    /// <exception cref="BadResultException">When this result is <c>Error</c>.</exception>
+    [Pure]
     public T Value
     {
         get
         {
-            if (!WasSuccess)
-                throw new InvalidOperationException("Result was not successful.");
+            if (!_isOk)
+                throw new BadResultException(ExceptionMessages.Result_ErrorHasNoValue);
 
-            if (_value is null)
-                throw new InvalidOperationException("No value associated with result.");
-
-            return _value;
+            return _value!;
         }
     }
 
-    private Result(T? value, ReadOnlyCollection<ResultMessage> messages)
+    /// <summary>
+    ///     The <see cref="Tyne.Error"/> which this result encapsulates, if it is <c>Error</c>.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         If this result is <c>Ok(<typeparamref name="T"/>)</c>, accessing this will instead throw a <see cref="BadResultException"/>.
+    ///         You should ensure <see cref="IsOk"/> is <see langword="false"/> before accessing this property.
+    ///     </para>
+    ///     <para>
+    ///         Alternatively, consider using one of <see cref="ResultExtensions"/> to access this value.
+    ///     </para>
+    /// </remarks>
+    /// <exception cref="BadResultException">When this result is <c>Ok(<typeparamref name="T"/>)</c>.</exception>
+    [Pure]
+    public Error Error
     {
-        WasSuccess = Result.WasSuccess(messages);
-        Messages = messages;
+        get
+        {
+            if (_isOk)
+                throw new BadResultException(ExceptionMessages.Result_OkHasNoError);
 
-        if (WasSuccess && value is null)
-            throw new ArgumentException("Cannot be null when the result is successful.", nameof(value));
-
-        _value = value;
-    }
-
-    internal static Result<T> Success(T value, IList<ResultMessage> messages)
-    {
-        if (messages.Any(message => message.Type is ResultMessageType.Error))
-            throw new InvalidOperationException($"A success result should not contain any messages of type {nameof(ResultMessageType)}.{nameof(ResultMessageType.Error)}.");
-
-        var messagesCollection = new ReadOnlyCollection<ResultMessage>(messages);
-        return new(value, messagesCollection);
-    }
-
-    internal static Result<T> Failure(IList<ResultMessage> messages)
-    {
-        if (messages.Any(message => message.Type is ResultMessageType.Success))
-            throw new InvalidOperationException($"A failure result should not contain any messages of type {nameof(ResultMessageType)}.{nameof(ResultMessageType.Success)}.");
-
-        if (!messages.Any(message => message.Type is ResultMessageType.Error))
-            throw new InvalidOperationException($"A failure result should contain at least one message of type {nameof(ResultMessageType)}.{nameof(ResultMessageType.Error)}.");
-
-        var messagesCollection = new ReadOnlyCollection<ResultMessage>(messages);
-        return new(default, messagesCollection);
+            return _error!;
+        }
     }
 
     /// <summary>
-    ///		Determines whether the specified <paramref name="other"/> is equal to the current instance of the same type.
+    ///     Creates an <c>Ok(<typeparamref name="T"/>)</c> <see cref="Result{T}"/>.
     /// </summary>
-    /// <param name="other">The other <see cref="Result{T}"/> to compare with this instance.</param>
-    /// <returns>
-    ///		<see langword="true"/> if the specified <paramref name="other"/> is equal to this instance; otherwise, <see langword="false"/>.
-    /// </returns>
+    /// <param name="value">The <see cref="Result{T}.Value"/>. Cannot be <see langword="null"/>.</param>
+    /// <exception cref="BadResultException">When <paramref name="value"/> is <see langword="null"/>.</exception>
     /// <remarks>
-    ///		This relies on the <see cref="Value"/> or <see cref="Messages"/> overriding <see cref="object.Equals(object?)"/>.
-    ///		If they do not, this may not behave as expected.
+    ///     This constructor is only available to inheritors.
+    ///     External callers must use <see cref="Result.Ok{T}(T)"/> (or similar for a derived result).
     /// </remarks>
-    public bool Equals(Result<T>? other)
+    protected internal Result(T value)
     {
-        if (other is null) return false;
+        if (value is null)
+            throw new BadResultException(ExceptionMessages.Result_OkMustHaveValue);
 
-        if (WasSuccess && other.WasSuccess)
-            return _value.Equals(other._value) && Messages.SequenceEqual(other.Messages);
+        _isOk = true;
+        _value = value;
+    }
 
-        if (!WasSuccess && !other.WasSuccess)
-            return Messages.SequenceEqual(other.Messages);
+    /// <summary>
+    ///     Creates an <c>Error</c> <see cref="Result{T}"/>.
+    /// </summary>
+    /// <param name="error">The <see cref="Result{T}.Error"/>. Cannot be <see langword="null"/>.</param>
+    /// <exception cref="BadResultException">When <paramref name="error"/> is <see langword="null"/>.</exception>
+    /// <remarks>
+    ///     This constructor is only available to inheritors.
+    ///     External callers must use <see cref="Result.Ok{T}(T)"/> (or similar for a derived result).
+    /// </remarks>
+    protected internal Result(Error error)
+    {
+        if (error is null)
+            throw new BadResultException(ExceptionMessages.Result_ErrorMustHaveError);
+
+        _isOk = false;
+        _error = error;
+    }
+
+    /// <summary>
+    ///		Determines whether the specified <paramref name="obj"/> is a <see cref="Error"/>, and if so is equal to the current instance.
+    /// </summary>
+    /// <param name="obj">An <see cref="object"/> to compare with this instance.</param>
+    /// <returns>
+    ///		<see langword="true"/> if the specified <paramref name="obj"/> is a <see cref="Error"/>,
+    ///		and is equal to this instance; otherwise, <see langword="false"/>.
+    /// </returns>
+    [Pure]
+    public override bool Equals([NotNullWhen(true)] object? obj)
+    {
+        if (obj is Result<T> other)
+            return Equals(other);
 
         return false;
     }
 
     /// <summary>
-    ///		Determines whether the specified <paramref name="obj"/> is a <see cref="Result{T}"/>, and is equal to the current instance.
+    ///		Determines whether the specified <paramref name="other"/> is equal to the current instance of the same type.
     /// </summary>
-    /// <param name="obj">An <see cref="object"/> to compare with this instance.</param>
+    /// <param name="other">The other <see cref="Error"/> to compare with this instance.</param>
     /// <returns>
-    ///		<see langword="true"/> if the specified <paramref name="obj"/> is a <see cref="Result{T}"/>, and is equal to this instance; otherwise, <see langword="false"/>.
+    ///		<see langword="true"/> if the specified <paramref name="other"/> is equal to this instance; otherwise, <see langword="false"/>.
     /// </returns>
     /// <remarks>
-    ///		This relies on the <see cref="Value"/> or <see cref="Messages"/> overriding <see cref="object.Equals(object?)"/>.
-    ///		If they do not, this may not behave as expected.
+    ///     <para>
+    ///         Two <see cref="Error"/>s are equal if
+    ///         both are <c>Ok(<typeparamref name="T"/>)</c> and their <see cref="Value"/>s are equal,
+    ///         or if both are <c>Error</c> and their <see cref="Error"/>s are equal.
+    ///     </para>
+    ///     <para>
+    ///         <typeparamref name="T"/> equality is determined by calling <see cref="object.Equals(object?)"/>.
+    ///         If <typeparamref name="T"/> does not implement this, it may not behave as expected.
+    ///     </para>
     /// </remarks>
-    public override bool Equals(object? obj) =>
-        obj is Result<T> other && Equals(other);
+    [Pure]
+    public virtual bool Equals(Result<T>? other)
+    {
+        if (other is null)
+            return false;
+
+        // Both are Ok(T), compare T values
+        if (_isOk && other._isOk)
+            return _value!.Equals(other._value);
+
+        // Only one is Ok(T), then they cannot be equal
+        if (_isOk || other._isOk)
+            return false;
+
+        return _error!.Equals(other._error);
+    }
 
     /// <summary>
     ///		Determines whether the <paramref name="left"/> is equal to the <paramref name="right"/>.
     /// </summary>
-    /// <param name="left">The left-hand <see cref="Result{T}"/>.</param>
-    /// <param name="right">The right-hand <see cref="Result{T}"/>.</param>
+    /// <param name="left">The left-hand <see cref="Error"/>.</param>
+    /// <param name="right">The right-hand <see cref="Error"/>.</param>
     /// <returns>
     ///		<see langword="true"/> if <paramref name="left"/> is equal to <paramref name="right"/>; otherwise, <see langword="false"/>.
     /// </returns>
     /// <remarks>
-    ///		See <see cref="Equals(Result{T}?)"/>.
+    ///     <see cref="Equals(Result{T})"/> for how <see cref="Error"/> equality is calculated.
     /// </remarks>
-    public static bool operator ==(Result<T> left, Result<T> right)
+    [Pure]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool operator ==(in Result<T> left, in Result<T> right)
     {
-        if (left is null)
-            return right is null;
+        if (left is null && right is null)
+            return true;
 
-        return left.Equals(right);
+        if (left is not null && right is not null)
+            return left.Equals(right);
+
+        return false;
     }
 
     /// <summary>
     ///		Determines whether the <paramref name="left"/> is not equal to the <paramref name="right"/>.
     /// </summary>
-    /// <param name="left">The left-hand <see cref="Result{T}"/>.</param>
-    /// <param name="right">The right-hand <see cref="Result{T}"/>.</param>
+    /// <param name="left">The left-hand <see cref="Error"/>.</param>
+    /// <param name="right">The right-hand <see cref="Error"/>.</param>
     /// <returns>
     ///		<see langword="true"/> if <paramref name="left"/> is not equal to <paramref name="right"/>; otherwise, <see langword="false"/>.
     /// </returns>
     /// <remarks>
-    ///		See <see cref="Equals(Result{T}?)"/>.
+    ///     <see cref="Equals(Result{T})"/> for how <see cref="Error"/> equality is calculated.
     ///	</remarks>
-    public static bool operator !=(Result<T> left, Result<T> right)
-    {
-        if (left is null)
-            return right is not null;
-
-        return !left.Equals(right);
-    }
+    [Pure]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool operator !=(in Result<T> left, in Result<T> right) =>
+        !(left == right);
 
     /// <summary>
     ///		Returns a hash code for this instance.
     /// </summary>
     /// <returns>
-    ///		A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
+    ///     <para>
+    ///		    A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
+    ///		</para>
+    ///     <para>
+    ///         If this is <c>Ok(<typeparamref name="T"/>)</c>, then this returns <see cref="Value"/>'s hash code.
+    ///         Otherwise, if it is <c>Error</c>, it returns <see cref="Error"/>'s hash code.
+    ///     </para>
     /// </returns>
+    [Pure]
     public override int GetHashCode() =>
-        HashCode.Combine(WasSuccess, _value, Messages);
+        _isOk
+        ? _value!.GetHashCode()
+        : _error!.GetHashCode();
 
     /// <summary>
-    ///		Returns a <see cref="string" /> that represents this instance.
+    ///		Returns a <see cref="string"/> that represents this instance.
     /// </summary>
-    /// <returns>A <see cref="string" /> that represents this instance.</returns>
-    public override string ToString() =>
-        WasSuccess
-        ? $"Success<{typeof(T).Name}>({_value})"
-        // We could render Messages of type Error here, but that could lead to an awfully long string
-        : $"Error<{typeof(T).Name}>({Messages.Count(message => message.Type is ResultMessageType.Error)} errors)";
-
-    /// <summary>
-    ///     A proxy type to nicely rendering <see cref="Result{T}"/>s while debugging.
-    /// </summary>
+    /// <returns>A <see cref="string"/> that represents this instance.</returns>
     /// <remarks>
-    ///     Provides access to the nullable underlying fields rather than using the exception-based properties.
+    ///     If this is <c>Ok(<typeparamref name="T"/>)</c>, this returns <c>$"Ok({Value})"</c>.
+    ///     Otherwise, it returns <see cref="Error"/>'s ToString().
     /// </remarks>
-    [SuppressMessage("Major Code Smell", "S1144: Unused private types or members should be removed", Justification = "These members are reflected by the debugger.")]
-    private sealed class ResultDebuggerTypeProxy
+    [Pure]
+    public override string ToString()
+    {
+        if (!_isOk)
+            return _error!.ToString();
+
+        var valueString = _value!.ToString();
+        // 4 accounts for "Ok(" + ")"
+        var outputLength = 4 + (valueString?.Length ?? 0);
+        return string.Create(
+              null,
+              stackalloc char[outputLength],
+              $"Ok({valueString})"
+            );
+    }
+
+    /// <summary>
+    ///     Converts this instance to an <see cref="Option{T}"/>.
+    /// </summary>
+    /// <returns>An <see cref="Option{T}"/> which is equivalent to this instance.</returns>
+    /// <remarks>
+    ///     This is a one-way operation as it loses the <see cref="Error"/> component of this result.
+    /// </remarks>
+    [Pure]
+    public Option<T> AsOption() =>
+        _isOk
+        ? new Option<T>(_value!)
+        : Option<T>.None;
+
+    /// <summary>
+    ///     Converts <paramref name="value"/> into an <see cref="Option{T}"/>.
+    /// </summary>
+    /// <param name="value">The <see cref="Error"/> to convert.</param>
+    /// <remarks>
+    ///     This is equivalent to calling <see cref="AsOption()"/>, but is done implicitly.
+    /// </remarks>
+    [Pure]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static implicit operator Option<T>(Result<T> value) =>
+        value is null
+        ? Option<T>.None
+        : value.AsOption();
+
+    /// <summary>
+    ///     Attempts to unwrap <paramref name="result"/>.
+    /// </summary>
+    /// <param name="result">The <see cref="Error"/> to unwrap into <typeparamref name="T"/>.</param>
+    /// <remarks>
+    ///     This is equivalent to directly accessing <see cref="Value"/>.
+    ///     You should prefer accessing this directly over casting.
+    /// </remarks>
+    [Pure]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static explicit operator T(in Result<T> result)
+    {
+        ArgumentNullException.ThrowIfNull(result);
+        return result.Value;
+    }
+
+    // Debugger proxy exposes _value directly.
+    // This prevents issues with the debugger hitting an exception while evaluating Value or Error.
+    [SuppressMessage("Major Code Smell", "S1144: Unused private types or members should be removed", Justification = "These members are used by the debugger.")]
+    private sealed class DebuggerTypeProxy
     {
         private readonly Result<T> _result;
 
-        public ResultDebuggerTypeProxy(Result<T> result)
+        public DebuggerTypeProxy(Result<T> result)
         {
             _result = result;
         }
 
-        public bool WasSuccess => _result.WasSuccess;
-        public ReadOnlyCollection<ResultMessage> Messages => _result.Messages;
-        public T? Value => _result.WasSuccess ? _result.Value : default;
+        public bool IsOk =>
+            _result._isOk;
+
+        public T? Value =>
+            _result._isOk
+            ? _result._value
+            : default;
+
+        public Error? Error =>
+            _result._isOk
+            ? null
+            : _result._error;
     }
 }

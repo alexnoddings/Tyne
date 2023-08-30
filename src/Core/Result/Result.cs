@@ -1,91 +1,86 @@
-using MediatR;
+using System.Diagnostics.Contracts;
 
 namespace Tyne;
 
+/// <summary>
+///     Static methods for creating <see cref="Result{T}"/>s.
+/// </summary>
+/// <seealso cref="Result{T}"/>
 public static class Result
 {
-    public static Result<Unit> Success() =>
-        Success(Unit.Value);
-
-    public static Result<Unit> Success(params string[] messages) =>
-        Success(Unit.Value, messages);
-
-    public static Result<Unit> Success(params ResultMessage[] messages) =>
-        Success(Unit.Value, messages);
-
-    public static Result<Unit> Success(IEnumerable<ResultMessage> messages) =>
-        Success(Unit.Value, messages);
-
-    public static Result<T> Success<T>(T value) =>
-        Success(value, Array.Empty<ResultMessage>() as IList<ResultMessage>);
-
-    public static Result<T> Success<T>(T value, params string[] messages)
+    /// <summary>
+    ///     Creates an <c>Ok(<typeparamref name="T"/>)</c> <see cref="Result{T}"/> (i.e. <see cref="Result{T}.IsOk"/> is <see langword="true"/>).
+    /// </summary>
+    /// <typeparam name="T">The type of value the result encapsulates.</typeparam>
+    /// <param name="value">The <typeparamref name="T"/> to wrap.</param>
+    /// <returns>An <c>Ok(<typeparamref name="T"/>)</c> <see cref="Result{T}"/> which wraps <paramref name="value"/>.</returns>
+    /// <remarks>
+    ///     A <see cref="BadOptionException"/> will be thrown if <paramref name="value"/> is <see langword="null"/>.
+    /// </remarks>
+    /// <exception cref="BadOptionException">When <paramref name="value"/> is <see langword="null"/>.</exception>
+    [Pure]
+    public static Result<T> Ok<T>(T value)
     {
-        ArgumentNullException.ThrowIfNull(messages);
-        var messagesList = messages
-            .Select(message => new ResultMessage(ResultMessageType.Success, message))
-            .ToList();
-        return Success(value, messagesList);
+        if (value is null)
+            throw new BadResultException(ExceptionMessages.Result_OkMustHaveValue);
+
+        return new(value);
     }
 
-    public static Result<T> Success<T>(T value, params ResultMessage[] messages)
+    /// <summary>
+    ///     Creates an <c>Error</c> <see cref="Result{T}"/> (i.e. <see cref="Result{T}.IsOk"/> is <see langword="false"/>).
+    /// </summary>
+    /// <typeparam name="T">The type of value the result encapsulates.</typeparam>
+    /// <param name="message">The error message to construct the <see cref="Result{T}.Error"/> with.</param>
+    /// <returns>An <c>Error</c> <see cref="Result{T}"/> whose error is constructed using <paramref name="message"/>.</returns>
+    [Pure]
+    public static Result<T> Error<T>(string message)
     {
-        ArgumentNullException.ThrowIfNull(messages);
-        return Success(value, messages as IList<ResultMessage>);
+        // Let Error handle a potentially null message
+        var error = new Error(Tyne.Error.DefaultCode, message, null);
+        return new Result<T>(error);
     }
 
-    public static Result<T> Success<T>(T value, IEnumerable<ResultMessage> messages)
+    /// <summary>
+    ///     Creates an <c>Error</c> <see cref="Result{T}"/> (i.e. <see cref="Result{T}.IsOk"/> is <see langword="false"/>).
+    /// </summary>
+    /// <typeparam name="T">The type of value the result encapsulates.</typeparam>
+    /// <param name="code">The error code to construct the <see cref="Result{T}.Error"/> with.</param>
+    /// <param name="message">The error message to construct the <see cref="Result{T}.Error"/> with.</param>
+    /// <returns>An <c>Error</c> <see cref="Result{T}"/> whose error is constructed using <paramref name="code"/> and <paramref name="message"/>.</returns>
+    [Pure]
+    public static Result<T> Error<T>(int code, string message)
     {
-        ArgumentNullException.ThrowIfNull(messages);
-        return Result<T>.Success(value, messages.ToList());
+        // Let Error handle a potentially null message
+        var error = new Error(code, message, null);
+        return new Result<T>(error);
     }
 
-    public static Result<Unit> Failure(string message, params string[] messages)
+    /// <summary>
+    ///     Creates an <c>Error</c> <see cref="Result{T}"/> (i.e. <see cref="Result{T}.IsOk"/> is <see langword="false"/>).
+    /// </summary>
+    /// <typeparam name="T">The type of value the result encapsulates.</typeparam>
+    /// <param name="code">The error code to construct the <see cref="Result{T}.Error"/> with.</param>
+    /// <param name="message">The error message to construct the <see cref="Result{T}.Error"/> with.</param>
+    /// <param name="causedBy">The exception to construct the <see cref="Result{T}.Error"/> with.</param>
+    /// <returns>An <c>Error</c> <see cref="Result{T}"/> whose error is constructed using <paramref name="code"/>, <paramref name="message"/>, and <paramref name="causedBy"/>.</returns>
+    [Pure]
+    public static Result<T> Error<T>(int code, string message, Exception causedBy)
     {
-        ArgumentNullException.ThrowIfNull(message);
-        ArgumentNullException.ThrowIfNull(messages);
-
-        var messagesList = messages
-            .Prepend(message)
-            .Select(message => new ResultMessage(ResultMessageType.Error, message))
-            .ToList();
-        return Failure(messagesList);
+        // Let Error handle potential nulls
+        var error = new Error(code, message, causedBy);
+        return new Result<T>(error);
     }
 
-    public static Result<Unit> Failure(ResultMessage message, params ResultMessage[] messages)
+    /// <summary>
+    ///     Creates an <c>Error</c> <see cref="Result{T}"/> (i.e. <see cref="Result{T}.IsOk"/> is <see langword="false"/>).
+    /// </summary>
+    /// <typeparam name="T">The type of value the result encapsulates.</typeparam>
+    /// <param name="error">The error to use as <see cref="Result{T}.Error"/>.</param>
+    /// <returns>An <c>Error</c> <see cref="Result{T}"/> whose error is constructed using <paramref name="error"/>.</returns>
+    [Pure]
+    public static Result<T> Error<T>(in Error error)
     {
-        ArgumentNullException.ThrowIfNull(messages);
-        return Failure(messages.Prepend(message));
+        return new Result<T>(error);
     }
-
-    public static Result<Unit> Failure(IEnumerable<ResultMessage> messages)
-    {
-        ArgumentNullException.ThrowIfNull(messages);
-        return Result<Unit>.Failure(messages.ToList());
-    }
-
-    public static Result<T> Failure<T>(string message, params string[] messages)
-    {
-        ArgumentNullException.ThrowIfNull(messages);
-        var messagesList = messages
-            .Prepend(message)
-            .Select(message => new ResultMessage(ResultMessageType.Error, message))
-            .ToList();
-        return Failure<T>(messagesList);
-    }
-
-    public static Result<T> Failure<T>(ResultMessage message, params ResultMessage[] messages)
-    {
-        ArgumentNullException.ThrowIfNull(messages);
-        return Failure<T>(messages.Prepend(message));
-    }
-
-    public static Result<T> Failure<T>(IEnumerable<ResultMessage> messages)
-    {
-        ArgumentNullException.ThrowIfNull(messages);
-        return Result<T>.Failure(messages.ToList());
-    }
-
-    internal static bool WasSuccess(IEnumerable<ResultMessage> messages) =>
-        !messages.Any(message => message.Type is ResultMessageType.Error);
 }
