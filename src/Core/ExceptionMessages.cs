@@ -1,6 +1,6 @@
 using System.Resources;
 
-namespace Tyne.F;
+namespace Tyne;
 
 // These are pulled from ExceptionMessages.restext
 internal static class ExceptionMessages
