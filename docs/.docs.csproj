@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.Build.NoTargets">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <EnableNETAnalyzers>false</EnableNETAnalyzers>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <!-- Remove global analysers -->
+    <PackageReference Remove="AsyncFixer" />
+    <PackageReference Remove="SonarAnalyzer.CSharp" />
+  </ItemGroup>
+
+  <Target Name="Build DocFX" AfterTargets="Build">
+    <Exec Command="dotnet docfx .\docfx.json" />
+  </Target>
+
+</Project>

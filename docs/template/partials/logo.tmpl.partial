@@ -1,0 +1,4 @@
+<a class="navbar-brand" href="{{_appLogoUrl}}{{^_appLogoUrl}}{{_rel}}index.html{{/_appLogoUrl}}">
+  <img id="logo-light" class="svg" src="{{_rel}}{{{_appLogoLightPath}}}{{^_appLogoLightPath}}logo.svg{{/_appLogoLightPath}}" alt="{{_appName}}" >
+  <img id="logo-dark" class="svg" src="{{_rel}}{{{_appLogoDarkPath}}}{{^_appLogoDarkPath}}logo.svg{{/_appLogoDarkPath}}" alt="{{_appName}}" >
+</a>

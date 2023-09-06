@@ -1,0 +1,123 @@
+#logo-light {
+    display: initial;
+}
+
+#logo-dark {
+    display: none;
+}
+
+html[data-bs-theme="dark"] {
+    --bs-body-bg: #171719;
+    --bs-body-bg-rgb: 23, 23, 25;
+}
+
+[data-bs-theme="light"] #logo-light {
+    display: none;
+}
+
+[data-bs-theme="light"] #logo-dark {
+    display: initial;
+}
+
+/* Don't show external icon for links to MSDN docs */
+a.external[href^="https://learn.microsoft.com"]::after {
+    content: '';
+}
+
+.nav-link.active {
+    text-decoration: underline;
+}
+
+[data-bs-theme="dark"] .hljs {
+    background: #242426;
+    border: 0.1rem solid #343436;
+}
+
+.definition {
+    font-size: 14px;
+    color: rgba(var(--bs-body-color-rgb),0.75);
+}
+
+    .definition > dl {
+        margin: 0;
+    }
+
+        .definition > dl > dt {
+            display: inline-block;
+        }
+
+            .definition > dl > dt ::after {
+                content: ':';
+            }
+
+        .definition > dl > dd {
+            display: inline-block;
+            margin-left: 1rem;
+        }
+
+dl.typelist {
+    display: flex;
+}
+
+    dl.typelist dd {
+        margin-bottom: 0px;
+        margin-left: 12px !important;
+    }
+
+    dl.typelist.inheritance > dd > :not(:last-child)::after {
+        content: "\f135";
+    }
+
+.members.table td:first-child {
+    width: 33%;
+}
+
+.members.table td:not(:first-child) {
+    border-left: 0;
+}
+
+.members.table td:not(:last-child) {
+    border-right: 0;
+}
+
+code {
+    background: #242426;
+    border: 0.1rem solid #343436;
+    padding: 1px 4px 2px;
+}
+
+    code code {
+        background: unset;
+        border: 0;
+        padding: 0;
+    }
+
+.parameters .parameter {
+    display: flex;
+    margin-bottom: 0;
+}
+
+    .parameters .parameter dt {
+        margin-left: 0rem;
+    }
+
+        .parameters .parameter dt code {
+            padding: 2px 8px 4px;
+        }
+
+    .parameters .parameter dd {
+        margin-left: 1rem;
+    }
+
+.exceptions .exception {
+    display: flex;
+    margin-bottom: 0;
+}
+
+    .exceptions .exception dt {
+        margin-left: 0rem;
+    }
+
+    .exceptions .exception dd {
+        margin-left: 1rem;
+    }
