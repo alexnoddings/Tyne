@@ -50,10 +50,9 @@ public abstract class TyneFormBase<TInput, TModel> : ComponentBase, ITyneForm<TM
     /// </summary>
     /// <returns>
     ///     A <see cref="Task{TResult}"/> which returns a <see cref="Result{T}"/>.
-    ///     If <c><see cref="Result{T}.WasSuccess"/> is <see langword="false"/></c>, the form will show the <see cref="Result{T}.Messages"/> rather than opening.
-    ///     Otherwise, the <see cref="Result{T}.Messages"/> are ignored.
+    ///     If <c><see cref="Result{T}.IsOk"/> is <see langword="false"/></c>, the form will show the <see cref="Result{T}.Error"/> rather than opening.
     /// </returns>
-    protected virtual Task<Result<Unit>> OnInitialiseAsync() => Result.Success().AsTask();
+    protected virtual Task<Result<Unit>> OnInitialiseAsync() => Result.Ok(Unit.Value).AsTask();
 
     private async Task InitialiseAsync()
     {
@@ -85,7 +84,7 @@ public abstract class TyneFormBase<TInput, TModel> : ComponentBase, ITyneForm<TM
             catch (Exception exception)
             {
                 Logger?.LogInitialiseFormError(exception);
-                InitialiseResult = Result.Failure("An unknown error occurred.");
+                InitialiseResult = Result.Error<Unit>("An unknown error occurred.");
                 _initialiseTaskSource.SetResult();
                 return;
             }
@@ -143,13 +142,13 @@ public abstract class TyneFormBase<TInput, TModel> : ComponentBase, ITyneForm<TM
         }
 
         // We can't load properly if initialisation has failed
-        if (InitialiseResult?.WasSuccess != true)
+        if (InitialiseResult?.IsOk != true)
         {
             // InitialiseResult *shouldn't* be null here...
             if (InitialiseResult is not null)
-                OpenResult = Result.Failure<TModel>(InitialiseResult.Messages);
+                OpenResult = Result.Error<TModel>(InitialiseResult.Error);
             else
-                OpenResult = Result.Failure<TModel>("Error while initialising.");
+                OpenResult = Result.Error<TModel>("Error while initialising.");
 
             await UpdateStateAsync(FormState.Open).ConfigureAwait(true);
             return;
@@ -159,7 +158,7 @@ public abstract class TyneFormBase<TInput, TModel> : ComponentBase, ITyneForm<TM
         {
             // Await the opening (or for this opening to be cancelled)
             OpenResult = await TryOpenAsync(input).WaitAsync(openingCancellationToken).ConfigureAwait(true);
-            Model = OpenResult.WasSuccess ? OpenResult.Value : default;
+            Model = OpenResult.OrDefault();
         }
         catch (TaskCanceledException)
         {
@@ -168,7 +167,7 @@ public abstract class TyneFormBase<TInput, TModel> : ComponentBase, ITyneForm<TM
         }
         catch (Exception exception)
         {
-            OpenResult = Result.Failure<TModel>("An error occurred while opening.");
+            OpenResult = Result.Error<TModel>("An error occurred while opening.");
             Logger?.LogOpenFormError(exception);
         }
 
@@ -206,7 +205,7 @@ public abstract class TyneFormBase<TInput, TModel> : ComponentBase, ITyneForm<TM
         }
         catch (Exception exception)
         {
-            SaveResult = Result.Failure("An error occurred while saving.");
+            SaveResult = Result.Error<Unit>("An error occurred while saving.");
             Logger?.LogSaveFormError(exception);
             await UpdateStateAsync(FormState.Open).ConfigureAwait(true);
             return;
@@ -214,7 +213,7 @@ public abstract class TyneFormBase<TInput, TModel> : ComponentBase, ITyneForm<TM
 
         await UpdateStateAsync(FormState.Open).ConfigureAwait(true);
 
-        if (SaveResult.WasSuccess)
+        if (SaveResult.IsOk)
         {
             try
             {

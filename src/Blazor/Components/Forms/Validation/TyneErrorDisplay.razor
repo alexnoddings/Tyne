@@ -1,0 +1,20 @@
+﻿@namespace Tyne.Blazor
+
+<MudAlert Severity="Severity ?? MudBlazor.Severity.Error">
+    @Error.Message (@Error.Code)
+</MudAlert>
+
+@code
+{
+    [Parameter]
+    public Error Error { get; set; } = null!;
+
+    [Parameter]
+    public Severity? Severity { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (Error is null)
+            throw new InvalidOperationException($"Property {nameof(Error)} cannot be null.");
+    }
+}
