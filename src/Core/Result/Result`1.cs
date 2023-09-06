@@ -53,6 +53,18 @@ public class Result<T> : IEquatable<Result<T>>
     [Pure]
     public bool IsOk => _isOk;
 
+    // S1133: Deprecated code should be removed
+    // This is in place for an easier transition from v2.x to v3.0
+#pragma warning disable S1133
+    /// <summary>
+    ///     <b>[Obsolete]</b>:
+    ///     This method is in place to make transitioning from v2.x to v3.0 easier.
+    ///     It should be replaced with a call to <see cref="IsOk"/>.
+    /// </summary>
+    [Obsolete($"Use `{nameof(Result)}<T>.{nameof(IsOk)}` instead.", DiagnosticId = "TYN_OLDv2")]
+    public bool WasSuccess => IsOk;
+#pragma warning restore S1133
+
     /// <summary>
     ///     The unwrapped <typeparamref name="T"/> which this result encapsulates, if it is <c>Ok(<typeparamref name="T"/>)</c>.
     /// </summary>
