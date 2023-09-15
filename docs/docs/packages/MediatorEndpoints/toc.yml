@@ -1,0 +1,8 @@
+- name: Tyne.MediatorEndpoints.Blazor
+  href: MediatorEndpoints.Blazor.md
+- name: Tyne.MediatorEndpoints.Client
+  href: MediatorEndpoints.Client.md
+- name: Tyne.MediatorEndpoints.Core
+  href: MediatorEndpoints.Core.md
+- name: Tyne.MediatorEndpoints.Server
+  href: MediatorEndpoints.Server.md

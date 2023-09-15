@@ -1,13 +1,30 @@
 - name: Getting started
 - name: Overview
-  href: overview.md
-- name: Installation
-  href: installation.md
+  href: index.md
+
 - name: Packages
+- name: Package index
+  href: packages/index.md
+- name: Tyne.AspNetCore
+  href: packages/AspNetCore.md
+- name: Tyne.Blazor
+  href: packages/Blazor.md
 - name: Tyne.Core
-  href: packages/Tyne.Core.md
-- name: Versions
+  href: packages/Core.md
+- name: Tyne.EntityFramework
+  href: packages/EntityFramework/toc.yml
+  homepage: packages/EntityFramework.md
+- name: Tyne.MediatorEndpoints
+  href: packages/MediatorEndpoints/toc.yml
+  homepage: packages/MediatorEndpoints.md
+- name: Tyne.Testing
+  href: packages/Testing.md
+
+- name: Developing
+- name: Docs
+  href: dev/docs.md
+
 - name: Version history
-  href: changes/index.md
 - name: Change notes
   href: changes/toc.yml
+  homepage: changes/index.md

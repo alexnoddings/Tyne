@@ -1,3 +1,3 @@
 ---
-redirect_url: docs/overview.html
+redirect_url: docs/index.html
 ---
