@@ -7,26 +7,29 @@ namespace Tyne;
 ///     Extension methods for working with <see cref="Option{T}"/>s.
 /// </summary>
 /// <remarks>
-///     This contains multiple functional extensions for <see cref="Option{T}"/>s.
-///     Most methods have multiple overloads.
+///     Contains functional extensions for <see cref="Option{T}"/>s.
+///     Most methods have overloads.
 ///     <list type="bullet">
 ///         <item>
-///             <c>Apply</c> is used to execute an <see cref="Action"/>.
+///             <c>Apply</c> conditionally executes an <see cref="Action"/>.
 ///         </item>
 ///         <item>
-///             <c>Match</c> is used to return a <c>T</c> based on if the option is <c>Some(T)</c> or <c>None</c>.
+///             <c>AsValue/Task</c> wraps an <see cref="Option{T}"/> in a <see cref="Task"/>/<see cref="ValueTask"/>.
 ///         </item>
 ///         <item>
-///             <c>Or</c> is used to return an <see cref="Option{T}.Value"/> if it is <c>Some(T)</c>, otherwise a fall-back value.
+///             <c>Match</c> returns a <c>T</c> based on if the option is <c>Some(T)</c> or <c>None</c>.
+///         </item>
+///         <item>
+///             <c>Or</c> returns <see cref="Option{T}.Value"/> if it is <c>Some(T)</c>, otherwise a fall-back value.
 ///             This is useful to safely unwrap options.
 ///         </item>
 ///         <item>
-///             <c>Select</c> is used to alter an <see cref="Option{T}.Value"/> while keeping it wrapped as an option.
-///             This is useful when chaining functions which are eventually unwrapped, as this is only executed for <c>Some(T)</c>s.
+///             <c>Select</c> projects an <see cref="Option{T}.Value"/> into a new <see cref="Option{T}"/>.
+///             This is only executed for <c>Some(T)</c>s.
 ///         </item>
 ///         <item>
-///             <c>Unwrap</c> is used to return <see cref="Option{T}.Value"/>, but with overloads which effect the thrown exception if it is <c>None</c>.
-///             This is safer than accessing <see cref="Option{T}.Value"/> directly, though <c>Or</c> is still preferable to handle the bad path.
+///             <c>Unwrap</c> returns <see cref="Option{T}.Value"/>, or throws an exception if it is <c>None</c>.
+///             This is better than accessing <see cref="Option{T}.Value"/> directly, though <c>Or</c> is still preferable to handle the bad path.
 ///         </item>
 ///     </list>
 /// </remarks>
@@ -447,14 +450,10 @@ public static class OptionExtensions
     ///         If it is <c>None</c>, this will throw the exception returned by <paramref name="noneExceptionFactory"/>.
     ///         If this returns a <see langword="null"/> exception, a <see cref="ArgumentException"/> will be thrown.
     ///     </para>
-    ///     <para>
-    ///         Consider using <see cref="Unwrap{T}(in Option{T}, string)"/> to provide
-    ///         a custom exception message if <paramref name="option"/> is <c>None</c>.
-    ///     </para>
     /// </remarks>
     /// <exception cref="ArgumentNullException">When <paramref name="noneExceptionFactory"/> is <see langword="null"/>.</exception>
-    /// <exception cref="ArgumentException"><paramref name="noneExceptionFactory"/> returned a <see langword="null"/> exception.</exception>
-    /// <exception cref="Exception">The exception returned by <paramref name="noneExceptionFactory"/> is thrown when <paramref name="option"/> is <c>None</c>.</exception>
+    /// <exception cref="ArgumentException">When <paramref name="noneExceptionFactory"/> returns a <see langword="null"/> exception.</exception>
+    /// <exception cref="Exception">When <paramref name="option"/> is <c>None</c>, the exception returned by <paramref name="noneExceptionFactory"/> is thrown.</exception>
     public static T Unwrap<T>(this in Option<T> option, Func<Exception> noneExceptionFactory)
     {
         ArgumentNullException.ThrowIfNull(noneExceptionFactory);

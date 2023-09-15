@@ -9,7 +9,7 @@ namespace Tyne;
 public static class ErrorExtensions
 {
     /// <summary>
-    ///     Converts <paramref name="error"/> to <see cref="Result.Error{T}(in Error)"/>.
+    ///     Converts <paramref name="error"/> to an <c>Error</c> <see cref="Result{T}"/>.
     /// </summary>
     /// <typeparam name="T">The type of value the result encapsulates.</typeparam>
     /// <param name="error">The <see cref="Error"/>.</param>

@@ -7,8 +7,31 @@ namespace Tyne;
 ///     Extension methods for working with <see cref="Result{T}"/>s.
 /// </summary>
 /// <remarks>
-///     This contains multiple functional extensions for <see cref="Result{T}"/>s.
-///     Most methods have multiple overloads.
+///     Contains functional extensions for <see cref="Result{T}"/>s.
+///     Most methods have overloads.
+///     <list type="bullet">
+///         <item>
+///             <c>Apply</c> conditionally executes an <see cref="Action"/>.
+///         </item>
+///         <item>
+///             <c>AsValue/Task</c> wraps a <see cref="Result{T}"/> in a <see cref="Task"/>/<see cref="ValueTask"/>.
+///         </item>
+///         <item>
+///             <c>Match</c> returns a <c>T</c> based on if the result is <c>Ok(T)</c> or <c>Error</c>.
+///         </item>
+///         <item>
+///             <c>Or</c> returns <see cref="Result{T}.Value"/> if it is <c>Ok(T)</c>, otherwise a fall-back value.
+///             This is useful to safely unwrap results.
+///         </item>
+///         <item>
+///             <c>Select</c> projects an <see cref="Result{T}.Value"/> into a new <see cref="Result{T}"/>.
+///             This is only executed for <c>Ok(T)</c>s.
+///         </item>
+///         <item>
+///             <c>Unwrap</c> returns <see cref="Result{T}.Value"/>, or throws an exception if it is <c>Error</c>.
+///             This is better than accessing <see cref="Result{T}.Value"/> directly, though <c>Or</c> is still preferable to handle the bad path.
+///         </item>
+///     </list>
 /// </remarks>
 public static class ResultExtensions
 {
