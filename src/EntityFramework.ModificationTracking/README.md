@@ -1,6 +1,6 @@
 ![Tyne logo](https://raw.githubusercontent.com/alexnoddings/Tyne/main/assets/logo-letterbox.svg)
 
-Modification tracking implementation.
+Modification tracking extensions for Entity Framework.
 
 Links
 - [Documentation](https://alexnoddings.github.io/Tyne/docs/packages/Tyne.EntityFramework.ModificationTracking.html)
