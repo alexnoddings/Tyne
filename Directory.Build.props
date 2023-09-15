@@ -3,8 +3,9 @@
   <PropertyGroup Label="Project Info">
     <Product>Tyne</Product>
     <Authors>Alex Noddings</Authors>
+    <Copyright>Copyright 2023 Alex Noddings</Copyright>
+    <PackageTags>tyne</PackageTags>
     <StrongNameKeyId>AlexNTyne</StrongNameKeyId>
-    <PackageProjectUrl>https://github.com/alexnoddings/Tyne</PackageProjectUrl>
     <NeutralLanguage>en</NeutralLanguage>
     <DefaultLanguage>en-GB</DefaultLanguage>
   </PropertyGroup>
@@ -14,11 +15,13 @@
     <IsTestProject Condition="$(MSBuildProjectName.EndsWith('Tests'))">true</IsTestProject>
     <IsPackable>true</IsPackable>
     <IsPackable Condition="$(IsTestProject)">false</IsPackable>
+    <IsPackable Condition=" $(MSBuildProjectName) == '.docs' ">false</IsPackable>
+    <ContinuousIntegrationBuild Condition=" '$(GITHUB_ACTIONS)' == 'true' ">true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <PropertyGroup Label="Conventions">
     <LangVersion>preview</LangVersion>
-    <Features>strict</Features>
+    <Features>$(Features);strict</Features>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
@@ -29,24 +32,44 @@
     <TyneMajorVersion>3</TyneMajorVersion>
     <TyneMinorVersion>0</TyneMinorVersion>
     <TynePatchVersion>0</TynePatchVersion>
-    <TynePreReleaseTag>alpha</TynePreReleaseTag>
+    <TynePreReleaseTag>preview1</TynePreReleaseTag>
     <Version>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</Version>
     <Version Condition=" '$(TynePreReleaseTag)' != '' ">$(Version)-$(TynePreReleaseTag)</Version>
+    <PackageVersion>$(Version)</PackageVersion>
     <AssemblyVersion>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</AssemblyVersion>
   </PropertyGroup>
+
+  <Target Name="EnsureCorrectCiVersion" BeforeTargets="Build" Condition=" '$(CiVersion)' != '' ">
+    <Error Code="TYNE_CI_VERSION_MISMATCH" Text="The CI tag '$(CiVersion)' does not match the package version '$(Version)'." Condition=" '$(CiVersion)' != '' AND '$(CiVersion)' != '$(PackageVersion)' " />
+  </Target>
 
   <PropertyGroup Label="Packaging" Condition="$(IsPackable)">
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageProjectUrl>https://alexnoddings.github.io/Tyne</PackageProjectUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>package.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
+
+  <ItemGroup Label="Package files" Condition="$(IsPackable)">
+    <None Include="README.md" Pack="true" PackagePath="" />
+    <None Include="$(MSBuildThisFileDirectory)assets\logo.png" Pack="true" PackagePath="package.png" Visible="false" />
+    <None Include="Package.props" Pack="true" PackagePath="build\$(AssemblyName).props" Condition="Exists('Package.props')" />
+    <None Include="Package.targets" Pack="true" PackagePath="build\$(AssemblyName).targets" Condition="Exists('Package.targets')" />
+  </ItemGroup>
+
+  <ItemGroup Label="Packaging" Condition="$(IsPackable)">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+  </ItemGroup>
 
   <PropertyGroup Label="Repository info">
     <RepositoryUrl>https://github.com/alexnoddings/Tyne</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <PropertyGroup Label=".NET analysers">

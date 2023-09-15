@@ -35,7 +35,7 @@
 
   <ItemGroup Label="Test package versions">
     <PackageReference Update="bunit" Version="1.21.9" />
-    <PackageReference Update="coverlet.collector" Version="3.1.2" />
+    <PackageReference Update="coverlet.collector" Version="6.0.0" />
     <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.3.2" />
     <PackageReference Update="NSubstitute" Version="5.0.0" />
     <PackageReference Update="NSubstitute.Analyzers.CSharp" Version="1.0.16" />
