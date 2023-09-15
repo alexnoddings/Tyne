@@ -46,10 +46,10 @@ public class Result<T> : IEquatable<Result<T>>
     /// <summary>
     ///     Indicates whether this result is <c>Ok(<typeparamref name="T"/>)</c> (i.e. has a value).
     /// </summary>
-    /// <remarks>
-    ///     Returns <see langword="true"/> if this result is <c>Ok(<typeparamref name="T"/>)</c>,
-    ///     otherwise <see langword="false"/> if it is <c>Error</c>.
-    /// </remarks>
+    /// <returns>
+    ///     <see langword="true"/> if this result is <c>Ok(<typeparamref name="T"/>)</c>;
+    ///     otherwise, <see langword="false"/> if it is <c>Error</c>.
+    /// </returns>
     [Pure]
     public bool IsOk => _isOk;
 
@@ -68,6 +68,9 @@ public class Result<T> : IEquatable<Result<T>>
     /// <summary>
     ///     The unwrapped <typeparamref name="T"/> which this result encapsulates, if it is <c>Ok(<typeparamref name="T"/>)</c>.
     /// </summary>
+    /// <returns>
+    ///     The <typeparamref name="T"/> which this result encapsulates.
+    /// </returns>
     /// <remarks>
     ///     <para>
     ///         If this result is <c>Error</c>, unwrapping this will instead throw a <see cref="BadResultException"/>.

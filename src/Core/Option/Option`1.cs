@@ -46,10 +46,10 @@ public readonly struct Option<T> : IEquatable<Option<T>>, IEquatable<T>
     /// <summary>
     ///     Indicates whether this option is <c>Some(<typeparamref name="T"/>)</c> (i.e. has a value).
     /// </summary>
-    /// <remarks>
-    ///     Returns <see langword="true"/> if this option is <c>Some(<typeparamref name="T"/>)</c>,
+    /// <returns>
+    ///     <see langword="true"/> if this option is <c>Some(<typeparamref name="T"/>)</c>;
     ///     otherwise <see langword="false"/> if it is <c>None</c>.
-    /// </remarks>
+    /// </returns>
     [Pure]
     // This is an explicit bool rather than:
     //      HasValue => Value is not null
@@ -60,6 +60,9 @@ public readonly struct Option<T> : IEquatable<Option<T>>, IEquatable<T>
     /// <summary>
     ///     The unwrapped <typeparamref name="T"/> which this option encapsulates, if it is <c>Some(<typeparamref name="T"/>)</c>.
     /// </summary>
+    /// <returns>
+    ///     The <typeparamref name="T"/> which this option encapsulates.
+    /// </returns>
     /// <remarks>
     ///     <para>
     ///         If this option is <c>None</c>, unwrapping this will instead throw a <see cref="BadOptionException"/>.
