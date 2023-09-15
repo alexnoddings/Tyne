@@ -42,17 +42,22 @@
     "resource": [
       {
         "files": [
-          "images/**"
+          "assets/*"
         ]
+      },
+      {
+        "files": [
+          "assets/*"
+        ],
+        "src": "../"
       }
     ],
     "output": "_site",
     "globalMetadata": {
       "_appTitle": "Tyne Docs",
-      "_appLogoLightPath": "images/logo-light.svg",
-      "_appLogoDarkPath": "images/logo-dark.svg",
-      "_appFaviconPath": "images/favicon.svg",
-      "_appFooter": ".",
+      "_appLogoPath": "assets/logo-docs-header.svg",
+      "_appFaviconPath": "assets/logo-small.svg",
+      "_appFooter": "Built locally",
       "_enableSearch": true
     },
     "globalMetadataFiles": [],
