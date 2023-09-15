@@ -10,9 +10,39 @@
     <PackageReference Remove="AsyncFixer" />
     <PackageReference Remove="SonarAnalyzer.CSharp" />
   </ItemGroup>
+  
+  <!--
+      Allows `dotnet watch` to automatically recompile the docs.
+      To use, execute:
+      - `dotnet watch docfx ./docfx` in one window
+      - `dotnet docfx serve ./_site` in another window
+      This ensures that the site is still navigable while dotnet watch rebuilds the site.
+    -->
+  <ItemGroup Label="Docs files">
+    <!-- Include all files in the docs project -->
+    <Watch Include="**/*.*" />
+    <!-- Except for auto-generated API files -->
+    <Watch Remove="api/*.yml" />
+    <Watch Remove="api/.manifest" />
+    <Watch Remove="docs\packages\AspNetCore.md" />
+    <Watch Remove="docs\packages\Tyne.Mediator.md" />
+    <Watch Remove="docs\packages\Tyne.Testing.md" />
+    <!-- And the built site -->
+    <Watch Remove="_site/**/*.*" />
+  </ItemGroup>
+  
+  <ItemGroup Label="Project source files">
+    <Watch Include="../src/Core/**/*.cs" />
+    <Watch Include="../src/Blazor/**/*.razor" />
+    <Watch Include="../src/Blazor/**/*.cs" />
+    <!-- Don't include generated CS files -->
+    <Watch Remove="../src/**/bin/**/*.*" />
+    <Watch Remove="../src/**/obj/**/*.*" />
+  </ItemGroup>
 
-  <Target Name="Build DocFX" AfterTargets="Build">
-    <Exec Command="dotnet docfx .\docfx.json" />
-  </Target>
+  <ItemGroup>
+    <!-- Hide the built site in VS -->
+    <None Remove="_site/**/*.*" />
+  </ItemGroup>
 
 </Project>
