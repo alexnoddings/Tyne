@@ -14,7 +14,7 @@ public static class ErrorExtensions
     /// <typeparam name="T">The type of value the result encapsulates.</typeparam>
     /// <param name="error">The <see cref="Error"/>.</param>
     /// <returns>An <c>Error</c> <see cref="Result{T}"/>.</returns>
-    public static Result<T> AsResult<T>(this Error error)
+    public static Result<T> ToResult<T>(this Error error)
     {
         ArgumentNullException.ThrowIfNull(error);
 
@@ -31,7 +31,7 @@ public static class ErrorExtensions
     /// <remarks>
     ///     This is created synchronously.
     /// </remarks>
-    public static ValueTask<Error> AsValueTask(this Error error) =>
+    public static ValueTask<Error> ToValueTask(this Error error) =>
         ValueTask.FromResult(error);
 
     /// <summary>
@@ -44,6 +44,6 @@ public static class ErrorExtensions
     /// <remarks>
     ///     This is created synchronously.
     /// </remarks>
-    public static Task<Error> AsTask(this Error error) =>
+    public static Task<Error> ToTask(this Error error) =>
         Task.FromResult(error);
 }

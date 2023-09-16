@@ -14,9 +14,6 @@ namespace Tyne;
 ///             <c>Apply</c> conditionally executes an <see cref="Action"/>.
 ///         </item>
 ///         <item>
-///             <c>AsValue/Task</c> wraps a <see cref="Result{T}"/> in a <see cref="Task"/>/<see cref="ValueTask"/>.
-///         </item>
-///         <item>
 ///             <c>Match</c> returns a <c>T</c> based on if the result is <c>Ok(T)</c> or <c>Error</c>.
 ///         </item>
 ///         <item>
@@ -26,6 +23,9 @@ namespace Tyne;
 ///         <item>
 ///             <c>Select</c> projects an <see cref="Result{T}.Value"/> into a new <see cref="Result{T}"/>.
 ///             This is only executed for <c>Ok(T)</c>s.
+///         </item>
+///         <item>
+///             <c>ToValue/Task</c> wraps a <see cref="Result{T}"/> in a <see cref="Task"/>/<see cref="ValueTask"/>.
 ///         </item>
 ///         <item>
 ///             <c>Unwrap</c> returns <see cref="Result{T}.Value"/>, or throws an exception if it is <c>Error</c>.
@@ -101,34 +101,6 @@ public static class ResultExtensions
 
         return result;
     }
-
-    /// <summary>
-    ///     Creates a <see cref="ValueTask{TResult}"/> whose result is <paramref name="result"/>.
-    /// </summary>
-    /// <typeparam name="T">The type of <c>Ok(<typeparamref name="T"/>)</c> value the <paramref name="result"/> encapsulates.</typeparam>
-    /// <param name="result">The <see cref="Result{T}"/>.</param>
-    /// <returns>
-    ///     A <see cref="ValueTask{TResult}"/> which, when <see langword="await"/>ed, returns <paramref name="result"/>.
-    /// </returns>
-    /// <remarks>
-    ///     This is created synchronously.
-    /// </remarks>
-    public static ValueTask<Result<T>> AsValueTask<T>(this Result<T> result) =>
-        ValueTask.FromResult(result);
-
-    /// <summary>
-    ///     Creates a <see cref="Task{TResult}"/> whose result is <paramref name="result"/>.
-    /// </summary>
-    /// <typeparam name="T">The type of <c>Ok(<typeparamref name="T"/>)</c> value the <paramref name="result"/> encapsulates.</typeparam>
-    /// <param name="result">The <see cref="Result{T}"/>.</param>
-    /// <returns>
-    ///     A <see cref="Task{TResult}"/> which, when <see langword="await"/>ed, returns <paramref name="result"/>.
-    /// </returns>
-    /// <remarks>
-    ///     This is created synchronously.
-    /// </remarks>
-    public static Task<Result<T>> AsTask<T>(this Result<T> result) =>
-        Task.FromResult(result);
 
     /// <summary>
     ///     Pattern matches <paramref name="result"/>, returning a <typeparamref name="TResult"/>.
@@ -372,6 +344,34 @@ public static class ResultExtensions
 
         return Result.Ok(value);
     }
+
+    /// <summary>
+    ///     Creates a <see cref="ValueTask{TResult}"/> whose result is <paramref name="result"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of <c>Ok(<typeparamref name="T"/>)</c> value the <paramref name="result"/> encapsulates.</typeparam>
+    /// <param name="result">The <see cref="Result{T}"/>.</param>
+    /// <returns>
+    ///     A <see cref="ValueTask{TResult}"/> which, when <see langword="await"/>ed, returns <paramref name="result"/>.
+    /// </returns>
+    /// <remarks>
+    ///     This is created synchronously.
+    /// </remarks>
+    public static ValueTask<Result<T>> ToValueTask<T>(this Result<T> result) =>
+        ValueTask.FromResult(result);
+
+    /// <summary>
+    ///     Creates a <see cref="Task{TResult}"/> whose result is <paramref name="result"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of <c>Ok(<typeparamref name="T"/>)</c> value the <paramref name="result"/> encapsulates.</typeparam>
+    /// <param name="result">The <see cref="Result{T}"/>.</param>
+    /// <returns>
+    ///     A <see cref="Task{TResult}"/> which, when <see langword="await"/>ed, returns <paramref name="result"/>.
+    /// </returns>
+    /// <remarks>
+    ///     This is created synchronously.
+    /// </remarks>
+    public static Task<Result<T>> ToTask<T>(this Result<T> result) =>
+        Task.FromResult(result);
 
     /// <summary>
     ///     Unwraps the <typeparamref name="T"/> which <paramref name="result"/> encapsulates.

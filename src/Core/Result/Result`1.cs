@@ -292,12 +292,12 @@ public class Result<T> : IEquatable<Result<T>>
     /// <summary>
     ///     Converts this instance to an <see cref="Option{T}"/>.
     /// </summary>
-    /// <returns>An <see cref="Option{T}"/> which is equivalent to this instance.</returns>
+    /// <returns>An <see cref="Option{T}"/> representing this instance's <see cref="Value"/>.</returns>
     /// <remarks>
     ///     This is a one-way operation as it loses the <see cref="Error"/> component of this result.
     /// </remarks>
     [Pure]
-    public Option<T> AsOption() =>
+    public Option<T> ToOption() =>
         _isOk
         ? new Option<T>(_value!)
         : Option<T>.None;
@@ -307,14 +307,14 @@ public class Result<T> : IEquatable<Result<T>>
     /// </summary>
     /// <param name="value">The <see cref="Error"/> to convert.</param>
     /// <remarks>
-    ///     This is equivalent to calling <see cref="AsOption()"/>, but is done implicitly.
+    ///     This is equivalent to calling <see cref="ToOption()"/>, but is done implicitly.
     /// </remarks>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static implicit operator Option<T>(Result<T> value) =>
         value is null
         ? Option<T>.None
-        : value.AsOption();
+        : value.ToOption();
 
     /// <summary>
     ///     Attempts to unwrap <paramref name="result"/>.

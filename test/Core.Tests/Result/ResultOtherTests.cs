@@ -34,14 +34,16 @@ public class ResultOtherTests
 
     [Fact]
     public void Ok_AsOption_ReturnsSomeOption()
+    [Fact]
+    public void Ok_ToOption_ReturnsSomeOption()
     {
         var result1 = Result.Ok(42);
         var result2 = Result.Ok((int?)42);
         var result3 = Result.Ok("abc");
 
-        var option1 = result1.AsOption();
-        var option2 = result2.AsOption();
-        var option3 = result3.AsOption();
+        var option1 = result1.ToOption();
+        var option2 = result2.ToOption();
+        var option3 = result3.ToOption();
 
         AssertOption.IsSome(42, option1);
         AssertOption.IsSome(42, option2);
@@ -49,15 +51,15 @@ public class ResultOtherTests
     }
 
     [Fact]
-    public void Error_AsOption_ReturnsNoneOption()
+    public void Error_ToOption_ReturnsNoneOption()
     {
         var result1 = Result.Error<int>(TestError.Instance);
         var result2 = Result.Error<int?>(TestError.Instance);
         var result3 = Result.Error<string>(TestError.Instance);
 
-        var option1 = result1.AsOption();
-        var option2 = result2.AsOption();
-        var option3 = result3.AsOption();
+        var option1 = result1.ToOption();
+        var option2 = result2.ToOption();
+        var option3 = result3.ToOption();
 
         AssertOption.IsNone(option1);
         AssertOption.IsNone(option2);
@@ -97,13 +99,13 @@ public class ResultOtherTests
     }
 
     [Fact]
-    public async Task AsTask_ReturnsResultTask()
+    public async Task ToTask_ReturnsResultTask()
     {
         var ok = Result.Ok(42);
         var err = Result.Error<int>(TestError.Message);
 
-        var okTask = ok.AsTask();
-        var errTask = err.AsTask();
+        var okTask = ok.ToTask();
+        var errTask = err.ToTask();
 
         Assert.True(okTask is Task<Result<int>> _);
         Assert.True(errTask is Task<Result<int>> _);
@@ -113,13 +115,13 @@ public class ResultOtherTests
     }
 
     [Fact]
-    public async Task AsValueTask_ReturnsResultValueTask()
+    public async Task ToValueTask_ReturnsResultValueTask()
     {
         var ok = Result.Ok(42);
         var err = Result.Error<int>(TestError.Message);
 
-        var okTask = ok.AsValueTask();
-        var errTask = err.AsValueTask();
+        var okTask = ok.ToValueTask();
+        var errTask = err.ToValueTask();
 
         Assert.True(okTask is ValueTask<Result<int>> _);
         Assert.True(errTask is ValueTask<Result<int>> _);

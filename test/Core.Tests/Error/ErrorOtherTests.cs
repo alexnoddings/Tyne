@@ -31,11 +31,11 @@ public class ErrorOtherTests
     }
 
     [Fact]
-    public async Task AsTask_ReturnsTask()
+    public async Task ToTask_ReturnsTask()
     {
         var error = TestError.Instance;
 
-        var errorTask = error.AsTask();
+        var errorTask = error.ToTask();
 
         Assert.True(errorTask is Task<Error> _);
 
@@ -43,11 +43,11 @@ public class ErrorOtherTests
     }
 
     [Fact]
-    public async Task AsValueTask_ReturnsValueTask()
+    public async Task ToValueTask_ReturnsValueTask()
     {
         var error = TestError.Instance;
 
-        var errorTask = error.AsValueTask();
+        var errorTask = error.ToValueTask();
 
         Assert.True(errorTask is ValueTask<Error> _);
 

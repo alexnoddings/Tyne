@@ -14,9 +14,6 @@ namespace Tyne;
 ///             <c>Apply</c> conditionally executes an <see cref="Action"/>.
 ///         </item>
 ///         <item>
-///             <c>AsValue/Task</c> wraps an <see cref="Option{T}"/> in a <see cref="Task"/>/<see cref="ValueTask"/>.
-///         </item>
-///         <item>
 ///             <c>Match</c> returns a <c>T</c> based on if the option is <c>Some(T)</c> or <c>None</c>.
 ///         </item>
 ///         <item>
@@ -26,6 +23,9 @@ namespace Tyne;
 ///         <item>
 ///             <c>Select</c> projects an <see cref="Option{T}.Value"/> into a new <see cref="Option{T}"/>.
 ///             This is only executed for <c>Some(T)</c>s.
+///         </item>
+///         <item>
+///             <c>AsValue/Task</c> wraps an <see cref="Option{T}"/> in a <see cref="Task"/>/<see cref="ValueTask"/>.
 ///         </item>
 ///         <item>
 ///             <c>Unwrap</c> returns <see cref="Option{T}.Value"/>, or throws an exception if it is <c>None</c>.
@@ -98,34 +98,6 @@ public static class OptionExtensions
 
         return ref option;
     }
-
-    /// <summary>
-    ///     Creates a <see cref="ValueTask{TResult}"/> whose result is <paramref name="option"/>.
-    /// </summary>
-    /// <typeparam name="T">The type of <c>Some(<typeparamref name="T"/>)</c> value the <paramref name="option"/> encapsulates.</typeparam>
-    /// <param name="option">The <see langword="ref"/> <see cref="Option{T}"/>.</param>
-    /// <returns>
-    ///     A <see cref="ValueTask{TResult}"/> which, when <see langword="await"/>ed, returns <paramref name="option"/>.
-    /// </returns>
-    /// <remarks>
-    ///     This is created synchronously.
-    /// </remarks>
-    public static ValueTask<Option<T>> AsValueTask<T>(this ref Option<T> option) =>
-        ValueTask.FromResult(option);
-
-    /// <summary>
-    ///     Creates a <see cref="Task{TResult}"/> whose result is <paramref name="option"/>.
-    /// </summary>
-    /// <typeparam name="T">The type of <c>Some(<typeparamref name="T"/>)</c> value the <paramref name="option"/> encapsulates.</typeparam>
-    /// <param name="option">The <see langword="ref"/> <see cref="Option{T}"/>.</param>
-    /// <returns>
-    ///     A <see cref="Task{TResult}"/> which, when <see langword="await"/>ed, returns <paramref name="option"/>.
-    /// </returns>
-    /// <remarks>
-    ///     This is created synchronously.
-    /// </remarks>
-    public static Task<Option<T>> AsTask<T>(this ref Option<T> option) =>
-        Task.FromResult(option);
 
     /// <summary>
     ///     Pattern matches <paramref name="option"/>, returning a <typeparamref name="TResult"/>.
@@ -336,6 +308,34 @@ public static class OptionExtensions
             ? Option.From(selector(option.Value))
             : Option.None<TResult>();
     }
+
+    /// <summary>
+    ///     Creates a <see cref="ValueTask{TResult}"/> whose result is <paramref name="option"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of <c>Some(<typeparamref name="T"/>)</c> value the <paramref name="option"/> encapsulates.</typeparam>
+    /// <param name="option">The <see langword="ref"/> <see cref="Option{T}"/>.</param>
+    /// <returns>
+    ///     A <see cref="ValueTask{TResult}"/> which, when <see langword="await"/>ed, returns <paramref name="option"/>.
+    /// </returns>
+    /// <remarks>
+    ///     This is created synchronously.
+    /// </remarks>
+    public static ValueTask<Option<T>> ToValueTask<T>(this ref Option<T> option) =>
+        ValueTask.FromResult(option);
+
+    /// <summary>
+    ///     Creates a <see cref="Task{TResult}"/> whose result is <paramref name="option"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of <c>Some(<typeparamref name="T"/>)</c> value the <paramref name="option"/> encapsulates.</typeparam>
+    /// <param name="option">The <see langword="ref"/> <see cref="Option{T}"/>.</param>
+    /// <returns>
+    ///     A <see cref="Task{TResult}"/> which, when <see langword="await"/>ed, returns <paramref name="option"/>.
+    /// </returns>
+    /// <remarks>
+    ///     This is created synchronously.
+    /// </remarks>
+    public static Task<Option<T>> ToTask<T>(this ref Option<T> option) =>
+        Task.FromResult(option);
 
     /// <summary>
     ///     Unwraps the <typeparamref name="T"/> which <paramref name="option"/> encapsulates.
