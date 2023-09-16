@@ -1,0 +1,74 @@
+{
+  "users": [
+    {
+      "id": "7bd43de0-30e4-452b-85ec-54b3a20c520e",
+      "name": "Super user"
+    },
+    {
+      "id": "82f041b5-6acb-427b-98f8-8c459c773ce7",
+      "name": "Admin"
+    },
+    {
+      "id": "e05b0ee0-c6be-404f-ba6f-73593405865f",
+      "name": "Normal user"
+    }
+  ],
+  "partTypes": [
+    {
+      "id": "c0fd962d-ef60-407f-8d08-48106d9d490b",
+      "name": "Consumables"
+    },
+    {
+      "id": "adc8449c-265b-4d2b-893a-70b988d3a9d3",
+      "name": "Electronics"
+    },
+    {
+      "id": "0c93f835-91a1-4dd5-a12c-21f36b8d11b3",
+      "name": "Engines"
+    }
+  ],
+  "parts": [
+    {
+      "id": "59286836-52ec-449b-8e87-75a630df644c",
+      "typeId": "c0fd962d-ef60-407f-8d08-48106d9d490b",
+      "name": "Bolts",
+      "priceInPounds": "0.03",
+      "size": "small"
+    },
+    {
+      "id": "65b329b8-b6a0-4ed0-ab31-3a9759509ea8",
+      "typeId": "c0fd962d-ef60-407f-8d08-48106d9d490b",
+      "name": "Nuts",
+      "priceInPounds": "0.04",
+      "size": "small"
+    },
+    {
+      "id": "8587335a-91e5-4be6-961e-b93797a96100",
+      "typeId": "adc8449c-265b-4d2b-893a-70b988d3a9d3",
+      "name": "Radio",
+      "priceInPounds": "2.73",
+      "size": "medium"
+    },
+    {
+      "id": "3ceb68b7-0614-48d9-b182-82e331d6a2e1",
+      "typeId": "adc8449c-265b-4d2b-893a-70b988d3a9d3",
+      "name": "Guidance computer",
+      "priceInPounds": "847.99",
+      "size": "large"
+    },
+    {
+      "id": "b1abf0fd-5095-40c0-822a-5c0da6aac6a8",
+      "typeId": "0c93f835-91a1-4dd5-a12c-21f36b8d11b3",
+      "name": "Pixel",
+      "priceInPounds": "298.43",
+      "size": "large"
+    },
+    {
+      "id": "3dac6f6e-c105-408c-b3b8-7e80a07f88db",
+      "typeId": "0c93f835-91a1-4dd5-a12c-21f36b8d11b3",
+      "name": "Shepherd",
+      "priceInPounds": "945",
+      "size": "extraLarge"
+    }
+  ]
+}
