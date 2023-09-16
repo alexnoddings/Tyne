@@ -10,7 +10,8 @@
 - name: Tyne.AspNetCore
   href: packages/AspNetCore.md
 - name: Tyne.Blazor
-  href: packages/Blazor.md
+  href: packages/Blazor/toc.yml
+  homepage: packages/Blazor.md
 - name: Tyne.Core
   href: packages/Core.md
 - name: Tyne.EntityFramework

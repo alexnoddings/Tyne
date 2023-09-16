@@ -48,3 +48,15 @@ These can be imported automatically using Tyne's [prelude system](../preludes.md
 ```
 
 When enabled, Tyne's Blazor component namespaces will be added as [global usings](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-directive#global-modifier).
+
+> [!IMPORTANT]
+> An [issue with the Razor Tooling](https://github.com/dotnet/razor/issues/7539) means that global using statements are currently ignored by the Blazor compiler.
+> For the time being, Tyne's namespaces need to be imported manually into your `_Imports.razor`. These are listed below.
+
+```razor
+@using Tyne.Blazor
+@using Tyne.Blazor.Localisation
+```
+
+## Components
+See [the components](./Blazor/components.md) provided by this package.
