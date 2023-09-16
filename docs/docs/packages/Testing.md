@@ -4,6 +4,8 @@ title: Testing Package
 
 # Tyne.Testing
 
+Extensions for test projects.
+
 ## Installation
 
 <div class="package-installation">
