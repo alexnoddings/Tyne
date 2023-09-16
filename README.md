@@ -7,10 +7,8 @@
 [![Nuget version](https://img.shields.io/nuget/v/Tyne.Core?label=nuget%20version&logo=nuget)](https://www.nuget.org/packages/Tyne.Core/)
 [![Nuget downloads](https://img.shields.io/nuget/dt/Tyne.Core?label=nuget%20downloads&logo=nuget)](https://www.nuget.org/packages/Tyne.Core/)
 
-Tyne is a series of packages designed around creating Blazor systems.
+Tyne is a set of C# packages designed to make line-of-business apps in Blazor more efficiently.
 
-# Packages
-| Package     | | Description |
-| ----------- | ------------------------------------------------------------------------------------------ | ----------- |
-| Tyne.Blazor | [docs](https://alexnoddings.github.io/Tyne/docs/packages/Tyne.Blazor) \| [src](src/Blazor) | Core functionality for other Tyne packages. |
-| Tyne.Core   | [docs](https://alexnoddings.github.io/Tyne/docs/packages/Tyne.Core)   \| [src](src/Core)   | Blazor component library. |
+Packages are designed to be à la carte based on a project's requirements. For example, the Blazor components are usable without EF change auditing, and vice versa.
+
+See [the package list](https://alexnoddings.github.io/Tyne/docs/packages/) for details about what packages are available, and how to install them.
