@@ -173,3 +173,11 @@ code {
     .package-installation .card pre {
         margin: 0;
     }
+
+footer .build-info {
+    opacity: 0.85;
+}
+
+    footer .build-info a {
+        text-decoration: none;
+    }
