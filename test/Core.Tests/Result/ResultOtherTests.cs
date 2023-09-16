@@ -33,7 +33,37 @@ public class ResultOtherTests
     }
 
     [Fact]
-    public void Ok_AsOption_ReturnsSomeOption()
+    public void Ok_ToErrorOption_ReturnsNoneOption()
+    {
+        var result1 = Result.Ok(42);
+        var result2 = Result.Ok((int?)42);
+        var result3 = Result.Ok("abc");
+
+        var option1 = result1.ToErrorOption();
+        var option2 = result2.ToErrorOption();
+        var option3 = result3.ToErrorOption();
+
+        AssertOption.IsNone(option1);
+        AssertOption.IsNone(option2);
+        AssertOption.IsNone(option3);
+    }
+
+    [Fact]
+    public void Error_ToErrorOption_ReturnsSomeOption()
+    {
+        var result1 = Result.Error<int>(TestError.Instance);
+        var result2 = Result.Error<int?>(TestError.Instance);
+        var result3 = Result.Error<string>(TestError.Instance);
+
+        var option1 = result1.ToErrorOption();
+        var option2 = result2.ToErrorOption();
+        var option3 = result3.ToErrorOption();
+
+        AssertOption.IsSome(TestError.Instance, option1);
+        AssertOption.IsSome(TestError.Instance, option2);
+        AssertOption.IsSome(TestError.Instance, option3);
+    }
+
     [Fact]
     public void Ok_ToOption_ReturnsSomeOption()
     {
@@ -99,23 +129,16 @@ public class ResultOtherTests
     }
 
     [Fact]
-    public async Task ToTask_ReturnsResultTask()
+    public async Task ToValueTask_Null_Throws()
     {
-        var ok = Result.Ok(42);
-        var err = Result.Error<int>(TestError.Message);
+        Result<int> result = null!;
 
-        var okTask = ok.ToTask();
-        var errTask = err.ToTask();
-
-        Assert.True(okTask is Task<Result<int>> _);
-        Assert.True(errTask is Task<Result<int>> _);
-
-        AssertResult.AreEqual(ok, await okTask);
-        AssertResult.AreEqual(err, await errTask);
+        var exception = await Assert.ThrowsAsync<ArgumentNullException>(async () => await result.ToValueTask());
+        Assert.False(string.IsNullOrWhiteSpace(exception.ParamName));
     }
 
     [Fact]
-    public async Task ToValueTask_ReturnsResultValueTask()
+    public async Task ToValueTask_ReturnsValueTask()
     {
         var ok = Result.Ok(42);
         var err = Result.Error<int>(TestError.Message);
@@ -125,6 +148,31 @@ public class ResultOtherTests
 
         Assert.True(okTask is ValueTask<Result<int>> _);
         Assert.True(errTask is ValueTask<Result<int>> _);
+
+        AssertResult.AreEqual(ok, await okTask);
+        AssertResult.AreEqual(err, await errTask);
+    }
+
+    [Fact]
+    public async Task ToTask_Null_Throws()
+    {
+        Result<int> result = null!;
+
+        var exception = await Assert.ThrowsAsync<ArgumentNullException>(async () => await result.ToTask());
+        Assert.False(string.IsNullOrWhiteSpace(exception.ParamName));
+    }
+
+    [Fact]
+    public async Task ToTask_ReturnsTask()
+    {
+        var ok = Result.Ok(42);
+        var err = Result.Error<int>(TestError.Message);
+
+        var okTask = ok.ToTask();
+        var errTask = err.ToTask();
+
+        Assert.True(okTask is Task<Result<int>> _);
+        Assert.True(errTask is Task<Result<int>> _);
 
         AssertResult.AreEqual(ok, await okTask);
         AssertResult.AreEqual(err, await errTask);

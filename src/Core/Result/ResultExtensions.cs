@@ -356,8 +356,13 @@ public static class ResultExtensions
     /// <remarks>
     ///     This is created synchronously.
     /// </remarks>
-    public static ValueTask<Result<T>> ToValueTask<T>(this Result<T> result) =>
-        ValueTask.FromResult(result);
+    /// <exception cref="ArgumentNullException">When <paramref name="result"/> is <see langword="null"/>.</exception>
+    public static ValueTask<Result<T>> ToValueTask<T>(this Result<T> result)
+    {
+        ArgumentNullException.ThrowIfNull(result);
+
+        return ValueTask.FromResult(result);
+    }
 
     /// <summary>
     ///     Creates a <see cref="Task{TResult}"/> whose result is <paramref name="result"/>.
@@ -370,8 +375,13 @@ public static class ResultExtensions
     /// <remarks>
     ///     This is created synchronously.
     /// </remarks>
-    public static Task<Result<T>> ToTask<T>(this Result<T> result) =>
-        Task.FromResult(result);
+    /// <exception cref="ArgumentNullException">When <paramref name="result"/> is <see langword="null"/>.</exception>
+    public static Task<Result<T>> ToTask<T>(this Result<T> result)
+    {
+        ArgumentNullException.ThrowIfNull(result);
+
+        return Task.FromResult(result);
+    }
 
     /// <summary>
     ///     Unwraps the <typeparamref name="T"/> which <paramref name="result"/> encapsulates.

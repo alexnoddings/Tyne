@@ -31,15 +31,31 @@ public class ErrorOtherTests
     }
 
     [Fact]
-    public async Task ToTask_ReturnsTask()
+    public void ToResult_Null_Throws()
+    {
+        Error error = null!;
+
+        var exception = Assert.Throws<ArgumentNullException>(() => error.ToResult<int>());
+        Assert.False(string.IsNullOrWhiteSpace(exception.ParamName));
+    }
+
+    [Fact]
+    public void ToResult_ReturnsErrorResult()
     {
         var error = TestError.Instance;
 
-        var errorTask = error.ToTask();
+        var result = error.ToResult<int>();
 
-        Assert.True(errorTask is Task<Error> _);
+        AssertResult.IsError(error, result);
+    }
 
-        AssertError.AreEqual(error, await errorTask);
+    [Fact]
+    public async Task ToValueTask_Null_Throws()
+    {
+        Error error = null!;
+
+        var exception = await Assert.ThrowsAsync<ArgumentNullException>(async () => await error.ToValueTask());
+        Assert.False(string.IsNullOrWhiteSpace(exception.ParamName));
     }
 
     [Fact]
@@ -50,6 +66,27 @@ public class ErrorOtherTests
         var errorTask = error.ToValueTask();
 
         Assert.True(errorTask is ValueTask<Error> _);
+
+        AssertError.AreEqual(error, await errorTask);
+    }
+
+    [Fact]
+    public async Task ToTask_Null_Throws()
+    {
+        Error error = null!;
+
+        var exception = await Assert.ThrowsAsync<ArgumentNullException>(async () => await error.ToTask());
+        Assert.False(string.IsNullOrWhiteSpace(exception.ParamName));
+    }
+
+    [Fact]
+    public async Task ToTask_ReturnsTask()
+    {
+        var error = TestError.Instance;
+
+        var errorTask = error.ToTask();
+
+        Assert.True(errorTask is Task<Error> _);
 
         AssertError.AreEqual(error, await errorTask);
     }

@@ -31,8 +31,13 @@ public static class ErrorExtensions
     /// <remarks>
     ///     This is created synchronously.
     /// </remarks>
-    public static ValueTask<Error> ToValueTask(this Error error) =>
-        ValueTask.FromResult(error);
+    /// <exception cref="ArgumentNullException">When <paramref name="error"/> is <see langword="null"/>.</exception>
+    public static ValueTask<Error> ToValueTask(this Error error)
+    {
+        ArgumentNullException.ThrowIfNull(error);
+
+        return ValueTask.FromResult(error);
+    }
 
     /// <summary>
     ///     Creates a <see cref="Task{TResult}"/> whose result is <paramref name="error"/>.
@@ -44,6 +49,11 @@ public static class ErrorExtensions
     /// <remarks>
     ///     This is created synchronously.
     /// </remarks>
-    public static Task<Error> ToTask(this Error error) =>
-        Task.FromResult(error);
+    /// <exception cref="ArgumentNullException">When <paramref name="error"/> is <see langword="null"/>.</exception>
+    public static Task<Error> ToTask(this Error error)
+    {
+        ArgumentNullException.ThrowIfNull(error);
+
+        return Task.FromResult(error);
+    }
 }
