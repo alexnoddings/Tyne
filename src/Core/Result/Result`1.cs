@@ -303,6 +303,19 @@ public class Result<T> : IEquatable<Result<T>>
         : Option<T>.None;
 
     /// <summary>
+    ///     Converts this instance to an <see cref="Option{T}"/> of type <see cref="Tyne.Error"/>.
+    /// </summary>
+    /// <returns>An <see cref="Option{T}"/> representing this instance's <see cref="Error"/>.</returns>
+    /// <remarks>
+    ///     This is a one-way operation as it loses the <see cref="Value"/> component of this result.
+    /// </remarks>
+    [Pure]
+    public Option<Error> ToErrorOption() =>
+        _isOk
+        ? Option<Error>.None
+        : new Option<Error>(_error!);
+
+    /// <summary>
     ///     Converts <paramref name="value"/> into an <see cref="Option{T}"/>.
     /// </summary>
     /// <param name="value">The <see cref="Error"/> to convert.</param>
