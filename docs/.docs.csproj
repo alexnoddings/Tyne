@@ -29,9 +29,20 @@
   </ItemGroup>
   
   <ItemGroup Label="Project source files">
+    <Watch Include="../src/AspNetCore/**/*.cs" />
     <Watch Include="../src/Core/**/*.cs" />
     <Watch Include="../src/Blazor/**/*.razor" />
     <Watch Include="../src/Blazor/**/*.cs" />
+    <Watch Include="../src/EntityFramework/**/*.cs" />
+    <Watch Include="../src/EntityFramework.ChangeAuditing/**/*.cs" />
+    <Watch Include="../src/EntityFramework.ModificationTracking/**/*.cs" />
+    <Watch Include="../src/EntityFramework.UserService/**/*.cs" />
+    <Watch Include="../src/EntityFramework.UserService.Core/**/*.cs" />
+    <Watch Include="../src/MediatorEndpoints.Blazor/**/*.cs" />
+    <Watch Include="../src/MediatorEndpoints.Client/**/*.cs" />
+    <Watch Include="../src/MediatorEndpoints.Core/**/*.cs" />
+    <Watch Include="../src/MediatorEndpoints.Server/**/*.cs" />
+    <Watch Include="../src/Testing/**/*.cs" />
     <!-- Don't include generated CS files -->
     <Watch Remove="../src/**/bin/**/*.*" />
     <Watch Remove="../src/**/obj/**/*.*" />
