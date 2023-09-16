@@ -1,3 +1,5 @@
+using Tyne.Preludes.Core;
+
 namespace Tyne;
 
 public class OptionCreationTests
@@ -108,66 +110,95 @@ public class OptionCreationTests
     [Fact]
     public void NoneMethod_ValueType_IsNone()
     {
-        var option = Option.None<int>();
-        AssertOption.IsNone(option);
+        var option1 = Option.None<int>();
+        var option2 = OptionPrelude.None<int>();
+
+        AssertOption.IsNone(option1);
+        AssertOption.IsNone(option2);
     }
 
     [Fact]
     public void NoneMethod_NullableValueType_IsNone()
     {
-        var option = Option.None<int?>();
-        AssertOption.IsNone(option);
+        var option1 = Option.None<int?>();
+        var option2 = OptionPrelude.None<int?>();
+
+        AssertOption.IsNone(option1);
+        AssertOption.IsNone(option2);
     }
 
     [Fact]
     public void NoneMethod_ReferenceType_IsNone()
     {
-        var option = Option.None<object>();
-        AssertOption.IsNone(option);
+        var option1 = Option.None<object>();
+        var option2 = OptionPrelude.None<object>();
+
+        AssertOption.IsNone(option1);
+        AssertOption.IsNone(option2);
     }
 
     [Fact]
     public void Some_ValueType_WithValue_IsSome()
     {
-        var option = Option.Some(42);
-        AssertOption.IsSome(42, option);
+        var option1 = Option.Some(42);
+        var option2 = OptionPrelude.Some(42);
+
+        AssertOption.IsSome(42, option1);
+        AssertOption.IsSome(42, option2);
     }
 
     [Fact]
     public void Some_NullableValueType_WithValue_IsSome()
     {
-        var option = Option.Some<int?>(42);
-        AssertOption.IsSome(42, option);
+        var option1 = Option.Some<int?>(42);
+        var option2 = OptionPrelude.Some<int?>(42);
+
+        AssertOption.IsSome(42, option1);
+        AssertOption.IsSome(42, option2);
     }
 
     [Fact]
     public void Some_ReferenceType_WithValue_IsSome()
     {
         var obj = new object();
-        var option = Option.Some(obj);
-        AssertOption.IsSome(obj, option);
+
+        var option1 = Option.Some(obj);
+        var option2 = OptionPrelude.Some(obj);
+
+        AssertOption.IsSome(obj, option1);
+        AssertOption.IsSome(obj, option2);
     }
 
     [Fact]
     public void Some_ValueType_DefaultValue_IsSome()
     {
         var value = default(int);
-        var option = Option.Some(value);
-        AssertOption.IsSome(value, option);
+
+        var option1 = Option.Some(value);
+        var option2 = OptionPrelude.Some(value);
+
+        AssertOption.IsSome(value, option1);
+        AssertOption.IsSome(value, option2);
     }
 
     [Fact]
     public void Some_NullableValueType_NullValue_Throws()
     {
-        var exception = Assert.Throws<BadOptionException>(() => Option.Some<int?>(null));
-        Assert.Equal(ExceptionMessages.Option_SomeMustHaveValue, exception.Message);
+        var exception1 = Assert.Throws<BadOptionException>(() => Option.Some<int?>(null));
+        var exception2 = Assert.Throws<BadOptionException>(() => OptionPrelude.Some<int?>(null));
+
+        Assert.Equal(ExceptionMessages.Option_SomeMustHaveValue, exception1.Message);
+        Assert.Equal(ExceptionMessages.Option_SomeMustHaveValue, exception2.Message);
     }
 
     [Fact]
     public void Some_ReferenceType_NullValue_Throws()
     {
-        var exception = Assert.Throws<BadOptionException>(() => Option.Some<object>(null!));
-        Assert.Equal(ExceptionMessages.Option_SomeMustHaveValue, exception.Message);
+        var exception1 = Assert.Throws<BadOptionException>(() => Option.Some<object>(null!));
+        var exception2 = Assert.Throws<BadOptionException>(() => OptionPrelude.Some<object>(null!));
+
+        Assert.Equal(ExceptionMessages.Option_SomeMustHaveValue, exception1.Message);
+        Assert.Equal(ExceptionMessages.Option_SomeMustHaveValue, exception2.Message);
     }
 
     [Fact]

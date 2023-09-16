@@ -1,0 +1,20 @@
+<Project>
+
+  <PropertyGroup>
+    <!-- Disable prelude by default -->
+    <_UseTyneCorePrelude>false</_UseTyneCorePrelude>
+    <!-- Enable if enabled across Tyne -->
+    <_UseTyneCorePrelude Condition=" '$(TynePrelude)' == 'enable' ">true</_UseTyneCorePrelude>
+    <!-- Enable if enabled specifically -->
+    <_UseTyneCorePrelude Condition=" $(TyneCorePrelude) == 'enable' ">true</_UseTyneCorePrelude>
+    <!-- Disable if disabled specifically, even if main prelude is enabled -->
+    <_UseTyneCorePrelude Condition=" '$(TyneCorePrelude)' == 'disable' ">false</_UseTyneCorePrelude>
+  </PropertyGroup>
+  
+  <ItemGroup Condition="$(_UseTyneCorePrelude)">
+    <Using Static="true" Include="Tyne.Preludes.Core.ErrorPrelude"/>
+    <Using Static="true" Include="Tyne.Preludes.Core.OptionPrelude"/>
+    <Using Static="true" Include="Tyne.Preludes.Core.ResultPrelude"/>
+  </ItemGroup>
+
+</Project>

@@ -26,11 +26,15 @@ Install-Package Tyne.Blazor -Version ${PACKAGE_VERSION}
 </div>
 
 ### Prelude
-Tyne's Blazor components are in separate namespaces. These can be imported as needed, or automatically by setting the TyneBlazorPrelude MSBuild property.
+Tyne's Blazor components are in separate namespaces.
+These can be imported automatically using Tyne's [prelude system](../preludes.md):
 
-To enable Tyne's Blazor prelude, add the following property in your `project.csproj` or `Directory.Build.props`:
 ```xml
 <PropertyGroup>
+    <!-- Enables every Tyne prelude -->
+    <TynePrelude>enable</TynePrelude>
+    <!------------  OR  ------------>
+    <!-- Enables just Tyne's Blazor prelude -->
     <TyneBlazorPrelude>enable</TyneBlazorPrelude>
 </PropertyGroup>
 ```

@@ -1,3 +1,5 @@
+using Tyne.Preludes.Core;
+
 namespace Tyne;
 
 public class ErrorCreationTests
@@ -5,41 +7,69 @@ public class ErrorCreationTests
     [Fact]
     public void FromMessage_NullMessage_UsesDefault()
     {
-        var error = Error.From(null!);
+        var error1 = Error.From(null!);
+        var error2 = ErrorPrelude.Error(null!);
 
-        Assert.Equal(Error.DefaultCode, error.Code);
-        Assert.Equal(Error.Default.Message, error.Message);
-        AssertOption.IsNone(error.CausedBy);
+        static void assert(Error error)
+        {
+            Assert.Equal(Error.DefaultCode, error.Code);
+            Assert.Equal(Error.Default.Message, error.Message);
+            AssertOption.IsNone(error.CausedBy);
+        }
+
+        assert(error1);
+        assert(error2);
     }
 
     [Fact]
     public void FromMessage_UsesMessage()
     {
-        var error = Error.From(TestError.Message);
+        var error1 = Error.From(TestError.Message);
+        var error2 = Error.From(TestError.Message);
 
-        Assert.Equal(Error.DefaultCode, error.Code);
-        Assert.Equal(TestError.Message, error.Message);
-        AssertOption.IsNone(error.CausedBy);
+        static void assert(Error error)
+        {
+            Assert.Equal(Error.DefaultCode, error.Code);
+            Assert.Equal(TestError.Message, error.Message);
+            AssertOption.IsNone(error.CausedBy);
+        }
+
+        assert(error1);
+        assert(error2);
     }
 
     [Fact]
     public void FromCodeAndMessage_NullMessage_UsesDefault()
     {
-        var error = Error.From(TestError.Code, null!);
+        var error1 = Error.From(TestError.Code, null!);
+        var error2 = Error.From(TestError.Code, null!);
 
-        Assert.Equal(TestError.Code, error.Code);
-        Assert.Equal(Error.Default.Message, error.Message);
-        AssertOption.IsNone(error.CausedBy);
+        static void assert(Error error)
+        {
+            Assert.Equal(TestError.Code, error.Code);
+            Assert.Equal(Error.Default.Message, error.Message);
+            AssertOption.IsNone(error.CausedBy);
+        }
+
+        assert(error1);
+        assert(error2);
     }
 
     [Fact]
     public void FromCodeAndMessage_UsesCodeAndMessage()
     {
-        var error = Error.From(TestError.Code, TestError.Message);
+        var error1 = Error.From(TestError.Code, TestError.Message);
+        var error2 = Error.From(TestError.Code, TestError.Message);
 
-        Assert.Equal(TestError.Code, error.Code);
-        Assert.Equal(TestError.Message, error.Message);
-        AssertOption.IsNone(error.CausedBy);
+        static void assert(Error error)
+        {
+            Assert.Equal(TestError.Code, error.Code);
+            Assert.Equal(TestError.Message, error.Message);
+            AssertOption.IsNone(error.CausedBy);
+        }
+
+        assert(error1);
+        assert(error2);
     }
 
     [Fact]
@@ -47,11 +77,18 @@ public class ErrorCreationTests
     {
         var causedBy = new InvalidOperationException("Some exception.");
 
-        var error = Error.From(TestError.Code, null!, causedBy);
+        var error1 = Error.From(TestError.Code, null!, causedBy);
+        var error2 = Error.From(TestError.Code, null!, causedBy);
 
-        Assert.Equal(TestError.Code, error.Code);
-        Assert.Equal(Error.Default.Message, error.Message);
-        Assert.Equal(causedBy, error.CausedBy);
+        void assert(Error error)
+        {
+            Assert.Equal(TestError.Code, error.Code);
+            Assert.Equal(Error.Default.Message, error.Message);
+            Assert.Equal(causedBy, error.CausedBy);
+        }
+
+        assert(error1);
+        assert(error2);
     }
 
     [Fact]
@@ -59,10 +96,17 @@ public class ErrorCreationTests
     {
         var causedBy = new InvalidOperationException("Some exception.");
 
-        var error = Error.From(TestError.Code, TestError.Message, causedBy);
+        var error1 = Error.From(TestError.Code, TestError.Message, causedBy);
+        var error2 = Error.From(TestError.Code, TestError.Message, causedBy);
 
-        Assert.Equal(TestError.Code, error.Code);
-        Assert.Equal(TestError.Message, error.Message);
-        Assert.Equal(causedBy, error.CausedBy);
+        void assert(Error error)
+        {
+            Assert.Equal(TestError.Code, error.Code);
+            Assert.Equal(TestError.Message, error.Message);
+            Assert.Equal(causedBy, error.CausedBy);
+        }
+
+        assert(error1);
+        assert(error2);
     }
 }

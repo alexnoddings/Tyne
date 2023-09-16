@@ -1,0 +1,18 @@
+<Project>
+
+  <PropertyGroup>
+    <!-- Disable prelude by default -->
+    <_UseTyneBlazorPrelude>false</_UseTyneBlazorPrelude>
+    <!-- Enable if enabled across Tyne -->
+    <_UseTyneBlazorPrelude Condition=" '$(TynePrelude)' == 'enable' ">true</_UseTyneBlazorPrelude>
+    <!-- Enable if enabled specifically -->
+    <_UseTyneBlazorPrelude Condition=" $(TyneBlazorPrelude) == 'enable' ">true</_UseTyneBlazorPrelude>
+    <!-- Disable if disabled specifically, even if main prelude is enabled -->
+    <_UseTyneBlazorPrelude Condition=" '$(TyneBlazorPrelude)' == 'disable' ">false</_UseTyneBlazorPrelude>
+  </PropertyGroup>
+
+  <ItemGroup Condition="$(_UseTyneBlazorPrelude)">
+    <Using Include="Tyne.Blazor"/>
+  </ItemGroup>
+
+</Project>

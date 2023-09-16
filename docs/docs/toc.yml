@@ -1,6 +1,8 @@
 - name: Getting started
 - name: Overview
   href: index.md
+- name: Preludes
+  href: preludes.md
 
 - name: Packages
 - name: Package index

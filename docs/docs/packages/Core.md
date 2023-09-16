@@ -29,3 +29,28 @@ Install-Package Tyne.Core -Version ${PACKAGE_VERSION}
 ---
 
 </div>
+
+### Prelude
+Tyne's common core types can be shortened using Tyne's [prelude system](../preludes.md):
+
+```xml
+<PropertyGroup>
+    <!-- Enables every Tyne prelude -->
+    <TynePrelude>enable</TynePrelude>
+    <!------------  OR  ------------>
+    <!-- Enables just Tyne's Core prelude -->
+    <TyneCorePrelude>enable</TyneCorePrelude>
+</PropertyGroup>
+```
+
+Once enabled, [`Result`](xref:Tyne.Result), [`Option`](xref:Tyne.Option), and [`Error`](xref:Tyne.Error) creation methods are imported statically:
+
+```cs
+var okResult = Ok(42);
+var errorResult = Error<int>("No value");
+
+var some = Some(101);
+var none = None<int>();
+
+var error = Error("Nothing");
+```

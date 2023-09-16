@@ -24,9 +24,6 @@
     <!-- Except for auto-generated API files -->
     <Watch Remove="api/*.yml" />
     <Watch Remove="api/.manifest" />
-    <Watch Remove="docs\packages\AspNetCore.md" />
-    <Watch Remove="docs\packages\Tyne.Mediator.md" />
-    <Watch Remove="docs\packages\Tyne.Testing.md" />
     <!-- And the built site -->
     <Watch Remove="_site/**/*.*" />
   </ItemGroup>
