@@ -24,7 +24,7 @@ body {
 }
 
 .ta-bg-img {
-    background-image: url('/tyne-aerospace.svg');
+    background-image: url('./tyne-aerospace.svg');
     background-repeat: no-repeat;
     background-position: center 25%;
     height: 100%;

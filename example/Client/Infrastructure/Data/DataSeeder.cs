@@ -31,7 +31,7 @@ public class DataSeeder
         if (await dbContext.Parts.AnyAsync())
             return;
 
-        var partsData = await HttpClient.GetFromJsonAsync<PartsData>("/data.json", PartsJsonDeserialisationOptions);
+        var partsData = await HttpClient.GetFromJsonAsync<PartsData>("./data.json", PartsJsonDeserialisationOptions);
         if (partsData is null)
             return;
 
