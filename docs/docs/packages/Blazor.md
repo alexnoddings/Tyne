@@ -7,6 +7,8 @@ Blazor component library.
 
 ## Installation
 
+### Package
+
 <div class="package-installation">
 
 # [.NET CLI](#tab/dotnet-cli)
@@ -24,6 +26,12 @@ Install-Package Tyne.Blazor -Version ${PACKAGE_VERSION}
 ---
 
 </div>
+
+### Script
+Some of Tyne's Blazor components utilise JavaScript. To enable this, add the following script tag into your `index.html` or `_Layout.cshtml`:
+```html
+<script src="_content/Tyne.Blazor/Tyne.Blazor.js"></script>
+```
 
 ### Prelude
 Tyne's Blazor components are in separate namespaces.
