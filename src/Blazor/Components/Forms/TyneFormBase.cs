@@ -52,7 +52,7 @@ public abstract class TyneFormBase<TInput, TModel> : ComponentBase, ITyneForm<TM
     ///     A <see cref="Task{TResult}"/> which returns a <see cref="Result{T}"/>.
     ///     If <c><see cref="Result{T}.IsOk"/> is <see langword="false"/></c>, the form will show the <see cref="Result{T}.Error"/> rather than opening.
     /// </returns>
-    protected virtual Task<Result<Unit>> OnInitialiseAsync() => Result.Ok(Unit.Value).AsTask();
+    protected virtual Task<Result<Unit>> OnInitialiseAsync() => Result.Ok(Unit.Value).ToTask();
 
     private async Task InitialiseAsync()
     {
