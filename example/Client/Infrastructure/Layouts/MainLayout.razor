@@ -26,6 +26,16 @@
             <NavLink href="/part-types" class="mud-typography mud-link mud-inherit-text mud-typography-h5" ActiveClass="mud-link-underline-always">
                 Part types
             </NavLink>
+            <Environment Mode="EnvironmentMode.Include" Matching="EnvironmentMatching.Exact" Filter="Production">
+                <MudDivider Vertical="true"
+                            FlexItem="true"
+                            Class="my-2"
+                            Style="opacity: 50%;" />
+                <NavLink href="https://alexnoddings.github.io/TynePublishTest/" class="mud-typography mud-link mud-inherit-text mud-typography-h5 d-flex align-center gap-1">
+                    Tyne Docs
+                    <MudIcon Icon="@Icons.Material.Filled.OpenInNew" Size="Size.Small" />
+                </NavLink>
+            </Environment>
             <Environment Mode="EnvironmentMode.Exclude" Matching="EnvironmentMatching.Exact" Filter="Production" Context="EnvironmentName">
                 <MudDivider Vertical="true"
                             FlexItem="true"
