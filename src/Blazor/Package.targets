@@ -10,9 +10,10 @@
     <!-- Disable if disabled specifically, even if main prelude is enabled -->
     <_UseTyneBlazorPrelude Condition=" '$(TyneBlazorPrelude)' == 'disable' ">false</_UseTyneBlazorPrelude>
   </PropertyGroup>
-
+  
   <ItemGroup Condition="$(_UseTyneBlazorPrelude)">
     <Using Include="Tyne.Blazor"/>
+    <Using Include="Tyne.Blazor.Localisation"/>
   </ItemGroup>
-
+  
 </Project>
