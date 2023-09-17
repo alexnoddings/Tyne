@@ -1,4 +1,4 @@
-![Tyne logo](assets/logo-letterbox.png)
+![Tyne logo](assets/logo-letterbox.svg)
 
 # Tyne ([docs](https://alexnoddings.github.io/Tyne/docs/)) ([demo](https://alexnoddings.github.io/Tyne/demo/))
 
