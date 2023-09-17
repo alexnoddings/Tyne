@@ -49,7 +49,7 @@ jobs:
       
       - name: Create NuGet packages
         run: dotnet pack --configuration Release --no-build --output ./artifacts/nupkgs
-
+        
       - name: Setup docs build tag
         run: |
           COMMIT_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${GITHUB_SHA}"
@@ -68,7 +68,7 @@ jobs:
           PACKAGE_VERSION_FIND='${PACKAGE_VERSION}'
           PACKAGE_VERSION_REPLACE="${PACKAGE_VERSION}"
           find ./docs/ -type f -exec sed -i "s@${PACKAGE_VERSION_FIND}@${PACKAGE_VERSION_REPLACE}@g" {} +
-
+          
       # Ensure docs build before we publish package
       - name: Build docs
         run: dotnet docfx docs/docfx.json --output ./artifacts/docs
@@ -78,8 +78,9 @@ jobs:
           dotnet publish ./example/Client/ --configuration Release --output ./artifacts/demo/
           mkdir ./artifacts/docs/demo
           mv ./artifacts/demo/wwwroot/* ./artifacts/docs/demo/
-          sed -i 's/<base href="\/" \/>/<base href="\/Tyne\/demo\/" \/>/g' ./artifacts/docs/demo/index.html
+          sed -i 's@<base href="/" />@<base href="/Tyne/demo/" />@g' ./artifacts/docs/demo/index.html
           cp ./artifacts/docs/demo/index.html ./artifacts/docs/404.html
+          sed -i 's@var deployed = false;@var deployed = true;@g' ./artifacts/docs/404.html
 
       - name: Push packages
         run: |

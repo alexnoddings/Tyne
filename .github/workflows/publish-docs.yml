@@ -1,8 +1,8 @@
 name: Publish docs and demo
 
 # This is designed so that docs/demo can be redeployed independently of the release tag for smaller fixes.
-# It still requires the release tag, and will verify it during the build to ensure the displayed build version
-# isn't different from the source project version.
+# It still requires the release tag, and will verify it during the build,
+# to ensure the displayed build version isn't different from the source project version.
 on:
   workflow_dispatch:
     inputs:
@@ -83,8 +83,9 @@ jobs:
           dotnet publish ./example/Client/ --configuration Release --output ./artifacts/demo/
           mkdir ./artifacts/docs/demo
           mv ./artifacts/demo/wwwroot/* ./artifacts/docs/demo/
-          sed -i 's/<base href="\/" \/>/<base href="\/Tyne\/demo\/" \/>/g' ./artifacts/docs/demo/index.html
+          sed -i 's@<base href="/" />@<base href="/Tyne/demo/" />@g' ./artifacts/docs/demo/index.html
           cp ./artifacts/docs/demo/index.html ./artifacts/docs/404.html
+          sed -i 's@var deployed = false;@var deployed = true;@g' ./artifacts/docs/404.html
 
       - name: Setup pages
         uses: actions/configure-pages@v3
