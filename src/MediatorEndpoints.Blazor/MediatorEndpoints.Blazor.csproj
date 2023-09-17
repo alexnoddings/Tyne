@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Tyne.MediatorEndpoints.Blazor</AssemblyName>
     <RootNamespace>Tyne.Blazor</RootNamespace>
+    <Description>Blazor components integrating with Tyne's mediator endpoints.</Description>
   </PropertyGroup>
 
   <ItemGroup>

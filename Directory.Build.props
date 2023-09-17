@@ -43,6 +43,10 @@
   <Target Name="EnsureCorrectCiVersion" BeforeTargets="Build" Condition=" '$(CiVersion)' != '' ">
     <Error Code="TYNE_CI_VERSION_MISMATCH" Text="The CI tag '$(CiVersion)' does not match the package version '$(Version)'." Condition=" '$(CiVersion)' != '' AND '$(CiVersion)' != '$(PackageVersion)' " />
   </Target>
+  
+  <Target Name="EnsureDescriptionSet" BeforeTargets="Build" Condition="$(IsPackable)">
+    <Error Code="TYNE_PKG_NO_DESCRIPTION" Text="No &lt;Description&gt; property set." Condition=" '$(Description)' == '' " />
+  </Target>
 
   <PropertyGroup Label="Packaging" Condition="$(IsPackable)">
     <EmbedUntrackedSources>true</EmbedUntrackedSources>

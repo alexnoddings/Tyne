@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Tyne.MediatorEndpoints.Client</AssemblyName>
     <RootNamespace>Tyne.MediatorEndpoints</RootNamespace>
+    <Description>Client implementation of Tyne's mediator endpoints.</Description>
   </PropertyGroup>
 
   <ItemGroup>

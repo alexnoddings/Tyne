@@ -1,9 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Tyne.MediatorEndpoints.Core</AssemblyName>
     <RootNamespace>Tyne.MediatorEndpoints</RootNamespace>
+    <Description>Core library for Tyne's mediator endpoints.</Description>
   </PropertyGroup>
 
   <ItemGroup>

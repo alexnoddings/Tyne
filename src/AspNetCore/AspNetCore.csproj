@@ -1,9 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Tyne.AspNetCore</AssemblyName>
     <RootNamespace>Tyne.AspNetCore</RootNamespace>
+    <Description>ASP.NET extensions for Tyne.</Description>
   </PropertyGroup>
 
   <ItemGroup>

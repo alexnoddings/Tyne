@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Tyne.Core</AssemblyName>
     <RootNamespace>Tyne</RootNamespace>
+    <Description>Core functionality for other Tyne packages.</Description>
   </PropertyGroup>
 
   <ItemGroup>

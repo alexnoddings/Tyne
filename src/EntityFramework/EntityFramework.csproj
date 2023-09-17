@@ -1,9 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Tyne.EntityFramework</AssemblyName>
     <RootNamespace>Tyne.EntityFramework</RootNamespace>
+    <Description>Base Entity Framework library for Tyne. </Description>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,6 +1,6 @@
 ![Tyne logo](https://raw.githubusercontent.com/alexnoddings/Tyne/main/assets/logo-letterbox.svg)
 
-Core library of Tyne's mediator endpoints.
+Core library for Tyne's mediator endpoints.
 
 Links
 - [Documentation](https://alexnoddings.github.io/Tyne/docs/packages/Tyne.MediatorEndpoints.Core.html)

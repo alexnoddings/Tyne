@@ -1,9 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Tyne.EntityFramework.ModificationTracking</AssemblyName>
     <RootNamespace>Tyne.EntityFramework</RootNamespace>
+    <Description>Modification tracking extensions for Entity Framework.</Description>
   </PropertyGroup>
 
   <ItemGroup>

@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Tyne.Blazor</AssemblyName>
     <RootNamespace>Tyne.Blazor</RootNamespace>
+    <Description>Blazor component library for Tyne.</Description>
   </PropertyGroup>
   
   <PropertyGroup Label="Project Info">

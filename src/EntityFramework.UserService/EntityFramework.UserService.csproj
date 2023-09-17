@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Tyne.EntityFramework.UserService</AssemblyName>
     <RootNamespace>Tyne</RootNamespace>
+    <Description>Used by Tyne's change auditing and modification tracking libraries.</Description>
   </PropertyGroup>
 
   <ItemGroup>
