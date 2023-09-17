@@ -54,7 +54,7 @@ jobs:
         run: |
           COMMIT_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${GITHUB_SHA}"
           COMMIT_CONTENT="<a href=\\\\\"${COMMIT_URL}\\\\\">${GITHUB_SHA:0:7}</a>"
-          RELEASE_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/tag/${{ env.PACKAGE_VERSION }}"
+          RELEASE_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/tag/v${{ env.PACKAGE_VERSION }}"
           RELEASE_CONTENT="<a href=\\\\\"${RELEASE_URL}\\\\\">v${{ env.PACKAGE_VERSION }}</a>"
           WORKFLOW_ACTION_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/attempts/${GITHUB_RUN_ATTEMPT}"
           WORKFLOW_ACTION_NAME="${GITHUB_RUN_ID}"
