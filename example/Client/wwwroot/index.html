@@ -36,6 +36,15 @@
     <script src="_framework/blazor.webassembly.js"></script>
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
     <script src="_content/Tyne.Blazor/Tyne.Blazor.js"></script>
+    <script>
+        // When deployed to GH pages, this Blazor app is served as the default 404 page.
+        // GH pages doesn't have any routing for Blazor, so this app handles any routing.
+        // Any route not under the demo folder is redirected to the docs 404 page.
+        var deployed = false;
+        if (deployed && !window.location.pathname.startsWith("/Tyne/demo/")) {
+            window.location.replace("/Tyne/docs/404");
+        }
+    </script>
 </body>
 
 </html>

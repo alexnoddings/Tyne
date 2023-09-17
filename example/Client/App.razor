@@ -8,8 +8,16 @@
     </Found>
     <NotFound>
         <PageTitle>Not found</PageTitle>
-        <LayoutView Layout="typeof(MainLayout)">
-            <p role="alert">Sorry, there's nothing at this address.</p>
+        <LayoutView Layout="typeof(MainLayout)">    
+            <MudContainer MaxWidth="MaxWidth.Large" Class="pt-6">
+                <div class="d-flex flex-column align-center">
+                    <MudText Typo="Typo.h1" Class="mb-n4">404</MudText>
+                    <MudText Typo="Typo.h3" Class="mud-text-secondary">Page not found</MudText>
+                    <MudLink Href="./" Typo="Typo.h5" Underline="Underline.Always">
+                        Back home
+                    </MudLink>
+                </div>
+            </MudContainer>
         </LayoutView>
     </NotFound>
 </Router>
