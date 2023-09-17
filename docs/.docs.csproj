@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.Build.NoTargets">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <EnableNETAnalyzers>false</EnableNETAnalyzers>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <!-- Remove global analysers -->
+    <PackageReference Remove="AsyncFixer" />
+    <PackageReference Remove="SonarAnalyzer.CSharp" />
+  </ItemGroup>
+  
+  <!--
+      Allows `dotnet watch` to automatically recompile the docs.
+      To use, execute:
+      - `dotnet watch docfx ./docfx` in one window
+      - `dotnet docfx serve ./_site` in another window
+      This ensures that the site is still navigable while dotnet watch rebuilds the site.
+    -->
+  <ItemGroup Label="Docs files">
+    <!-- Include all files in the docs project -->
+    <Watch Include="**/*.*" />
+    <!-- Except for auto-generated API files -->
+    <Watch Remove="api/*.yml" />
+    <Watch Remove="api/.manifest" />
+    <!-- And the built site -->
+    <Watch Remove="_site/**/*.*" />
+  </ItemGroup>
+  
+  <ItemGroup Label="Project source files">
+    <Watch Include="../src/AspNetCore/**/*.cs" />
+    <Watch Include="../src/Core/**/*.cs" />
+    <Watch Include="../src/Blazor/**/*.razor" />
+    <Watch Include="../src/Blazor/**/*.cs" />
+    <Watch Include="../src/EntityFramework/**/*.cs" />
+    <Watch Include="../src/EntityFramework.ChangeAuditing/**/*.cs" />
+    <Watch Include="../src/EntityFramework.ModificationTracking/**/*.cs" />
+    <Watch Include="../src/EntityFramework.UserService/**/*.cs" />
+    <Watch Include="../src/EntityFramework.UserService.Core/**/*.cs" />
+    <Watch Include="../src/MediatorEndpoints.Blazor/**/*.cs" />
+    <Watch Include="../src/MediatorEndpoints.Client/**/*.cs" />
+    <Watch Include="../src/MediatorEndpoints.Core/**/*.cs" />
+    <Watch Include="../src/MediatorEndpoints.Server/**/*.cs" />
+    <Watch Include="../src/Testing/**/*.cs" />
+    <!-- Don't include generated CS files -->
+    <Watch Remove="../src/**/bin/**/*.*" />
+    <Watch Remove="../src/**/obj/**/*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Hide the built site in VS -->
+    <None Remove="_site/**/*.*" />
+  </ItemGroup>
+
+</Project>

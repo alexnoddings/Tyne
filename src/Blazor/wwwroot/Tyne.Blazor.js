@@ -1,3 +1,7 @@
-function tyneGetTimezoneOffset() {
-    return new Date().getTimezoneOffset();
+function tyneGetTimeZoneName() {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone;
+}
+
+function tyneGetTimeZoneOffset() {
+    return -new Date().getTimezoneOffset();
 }

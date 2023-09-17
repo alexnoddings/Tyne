@@ -6,14 +6,15 @@ using System.Text.Json.Serialization;
 namespace Tyne;
 
 /// <summary>
-///     Supports converting <see cref="Result{T}"/>s by using a factory pattern.
+///     Supports converting <see cref="Result{T}"/>s to/from JSON using a factory pattern.
 /// </summary>
+/// <seealso cref="Result{T}"/>
 public sealed class ResultJsonConverterFactory : JsonConverterFactory
 {
     private const BindingFlags CreateInstanceBindingFlags = BindingFlags.Public | BindingFlags.Instance;
 
     /// <summary>
-    ///     Determines whether the <paramref name="typeToConvert"/> can be converted to a <see cref="Result{T}"/>.
+    ///     Determines whether the <paramref name="typeToConvert"/> can be converted to a <see cref="Error"/>.
     /// </summary>
     /// <param name="typeToConvert">The <see cref="Type"/> to be checked.</param>
     /// <returns><see langword="true"/> if the <paramref name="typeToConvert"/> can be converted, otherwise <see langword="true"/>.</returns>
@@ -63,35 +64,39 @@ public sealed class ResultJsonConverterFactory : JsonConverterFactory
 
     private sealed class ResultJsonProxyType<T>
     {
+        public bool IsOk { get; set; }
         public T? Value { get; set; }
-        public List<ResultMessage> Messages { get; set; } = new();
+        public Error? Error { get; set; }
     }
 
     [SuppressMessage("Performance", "CA1812: Avoid uninstantiated internal classes", Justification = "Class is instantiated by Activator.")]
+    [SuppressMessage("Major Code Smell", "S1144: Unused private types or members should be removed", Justification = "Constructor is used by JsonSerializer's Activator.")]
     private sealed class ResultJsonConverter<T> : JsonConverter<Result<T>>
     {
         private readonly JsonConverter<ResultJsonProxyType<T>> _resultJsonProxyTypeConverter;
 
-        [SuppressMessage("Major Code Smell", "S1144: Unused private types or members should be removed", Justification = "Constructor is used by JsonSerializer's Activator.")]
         public ResultJsonConverter(JsonSerializerOptions options)
         {
             _resultJsonProxyTypeConverter = options.GetConverter<ResultJsonProxyType<T>>();
         }
 
-        public override Result<T>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override Result<T> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            ArgumentNullException.ThrowIfNull(typeToConvert);
+            ArgumentNullException.ThrowIfNull(options);
+
             var resultJsonProxy = _resultJsonProxyTypeConverter.Read(ref reader, typeof(ResultJsonProxyType<T>), options);
             if (resultJsonProxy is null)
-                return null;
+                return Result.Error<T>(Error.Default);
 
-            if (!Result.WasSuccess(resultJsonProxy.Messages))
-                return Result.Failure<T>(resultJsonProxy.Messages);
+            if (resultJsonProxy.Error is not null)
+                return Result.Error<T>(resultJsonProxy.Error);
 
-            // Can't return a valid Result<T> if the Value is null
-            if (resultJsonProxy.Value is null)
-                return null;
+            // Must be ok and have a non-null value to be OK
+            if (!resultJsonProxy.IsOk || resultJsonProxy.Value is null)
+                return Result.Error<T>(Error.Default);
 
-            return Result.Success(resultJsonProxy.Value, resultJsonProxy.Messages);
+            return Result.Ok(resultJsonProxy.Value);
         }
 
         public override void Write(Utf8JsonWriter writer, Result<T> value, JsonSerializerOptions options)
@@ -100,8 +105,19 @@ public sealed class ResultJsonConverterFactory : JsonConverterFactory
             ArgumentNullException.ThrowIfNull(value);
             ArgumentNullException.ThrowIfNull(options);
 
-            var tValue = value.WasSuccess ? value.Value : default;
-            var resultJsonProxy = new ResultJsonProxyType<T> { Value = tValue, Messages = value.Messages.ToList() };
+            var resultJsonProxy = value.Match(
+                ok: resultValue => new ResultJsonProxyType<T>
+                {
+                    IsOk = true,
+                    Value = resultValue
+                },
+                err: resultError => new ResultJsonProxyType<T>
+                {
+                    IsOk = false,
+                    Error = resultError
+                }
+            );
+
             _resultJsonProxyTypeConverter.Write(writer, resultJsonProxy, options);
         }
     }

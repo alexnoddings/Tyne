@@ -1,0 +1,93 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [
+            "src/AspNetCore/AspNetCore.csproj",
+            "src/Core/Core.csproj",
+            "src/Blazor/Blazor.csproj",
+            "src/EntityFramework/EntityFramework.csproj",
+            "src/EntityFramework.ChangeAuditing/EntityFramework.ChangeAuditing.csproj",
+            "src/EntityFramework.ModificationTracking/EntityFramework.ModificationTracking.csproj",
+            "src/EntityFramework.UserService/EntityFramework.UserService.csproj",
+            "src/EntityFramework.UserService.Core/EntityFramework.UserService.Core.csproj",
+            "src/MediatorEndpoints.Blazor/MediatorEndpoints.Blazor.csproj",
+            "src/MediatorEndpoints.Client/MediatorEndpoints.Client.csproj",
+            "src/MediatorEndpoints.Core/MediatorEndpoints.Core.csproj",
+            "src/MediatorEndpoints.Server/MediatorEndpoints.Server.csproj",
+            "src/Testing/Testing.csproj"
+          ],
+          "src": "../"
+        }
+      ],
+      "dest": "api",
+      "includePrivateMembers": false,
+      "disableGitFeatures": false,
+      "disableDefaultFilter": false,
+      "noRestore": false,
+      "namespaceLayout": "flattened",
+      "memberLayout": "separatePages",
+      "EnumSortOrder": "alphabetic",
+      "allowCompilationErrors": false
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "api/**.yml",
+          "api/index.md"
+        ]
+      },
+      {
+        "files": [
+          "toc.yml",
+          "*.md"
+        ]
+      },
+      {
+        "files": [
+          "docs/**.md",
+          "docs/**/toc.yml"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "assets/*"
+        ]
+      },
+      {
+        "files": [
+          "assets/*"
+        ],
+        "src": "../"
+      }
+    ],
+    "output": "_site",
+    "globalMetadata": {
+      "_appTitle": "Tyne Docs",
+      "_appLogoPath": "assets/logo-docs-header.svg",
+      "_appFaviconPath": "assets/logo-small.svg",
+      "_appFooter": "Built locally",
+      "_enableSearch": true
+    },
+    "globalMetadataFiles": [],
+    "markdownEngineProperties": {
+      "alerts": {
+        "TODO": "alert alert-secondary"
+      }
+    },
+    "fileMetadataFiles": [],
+    "template": [
+      "default",
+      "modern",
+      "template"
+    ],
+    "postProcessors": [],
+    "keepFileLink": false,
+    "disableGitFeatures": false
+  }
+}

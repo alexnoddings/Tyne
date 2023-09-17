@@ -1,0 +1,55 @@
+{{>partials/class.header}}
+
+{{#children}}
+  <h3 class="h2 section" id="{{id}}">{{>partials/classSubtitle}}</h3>
+  <table class="members table table-bordered table-condensed">
+    <tbody>
+      {{#children}}
+        <tr>
+          <td>
+            <xref uid="{{uid}}" altProperty="fullName" displayProperty="name"/>
+          </dt>
+          <td>{{{summary}}}</td>
+        </tr>
+      {{/children}}
+    </tbody>
+  </table>
+{{/children}}
+
+{{#extensionMethods.0}}
+  <h3 class="h2 section" id="extensions">{{__global.extensionMethods}}</h3>
+  <table class="table table-bordered table-condensed">
+    <tbody>
+{{/extensionMethods.0}}
+{{#extensionMethods}}
+  <tr>
+    <td>
+      {{#definition}}
+        <xref uid="{{definition}}" altProperty="fullName" displayProperty="name"/>
+      {{/definition}}
+      {{^definition}}
+        <xref uid="{{uid}}" altProperty="fullName" displayProperty="name"/>
+      {{/definition}}
+    </td>
+  </tr>
+{{/extensionMethods}}
+{{#extensionMethods.0}}
+    </tbody>
+  </table>
+{{/extensionMethods.0}}
+
+{{#seealso.0}}
+  <h3 id="seealso" class="h2 section">{{__global.seealso}}</h3>
+  <div class="seealso">
+{{/seealso.0}}
+{{#seealso}}
+  {{#isCref}}
+    <div>{{{type.specName.0.value}}}</div>
+  {{/isCref}}
+  {{^isCref}}
+    <div>{{{url}}}</div>
+  {{/isCref}}
+{{/seealso}}
+{{#seealso.0}}
+  </div>
+{{/seealso.0}}

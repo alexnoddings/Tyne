@@ -1,9 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Tyne.Blazor</AssemblyName>
     <RootNamespace>Tyne.Blazor</RootNamespace>
+  </PropertyGroup>
+  
+  <PropertyGroup Label="Project Info">
+    <PackageTags>$(PackageTags), blazor, aspnet</PackageTags>
   </PropertyGroup>
   
   <ItemGroup>

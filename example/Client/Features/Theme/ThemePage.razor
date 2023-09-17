@@ -1,0 +1,213 @@
+﻿@page "/theme"
+
+<TynePageTitle Value="Theme" />
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="pt-6">
+    <MudPaper Elevation="0" Class="mb-4 px-1 py-3 d-flex flex-row flex-wrap justify-center gap-3">
+        @foreach (var typo in Enum.GetValues<Typo>().Where(typo => typo != Typo.inherit))
+        {
+            var t = typo;
+            <MudButton OnClick="() => SelectedTypo = t" Color="Color.Primary" Variant="t == SelectedTypo ? Variant.Filled : Variant.Outlined">
+                @typo
+            </MudButton>
+        }
+    </MudPaper>
+    <MudGrid>
+        @foreach (var color in GetColours())
+        {
+            var colorName = color.ToString().ToLower();
+            <MudItem xs="12" md="Md">
+                <MudPaper Class="@($"mud-theme-{colorName}")">
+                    <div class="d-flex">
+                        <MudPaper Elevation="0" Class="flex-grow-1 rounded-0 rounded-tl" Style="overflow: hidden; background: var(--mud-palette-background);">
+                            <MudText Align="Align.Center" Class="py-1" Color="color" Typo="SelectedTypo">Background</MudText>
+                        </MudPaper>
+                        <MudPaper Elevation="0" Class="flex-grow-1 rounded-0 rounded-tr" Style="overflow: hidden;">
+                            <MudText Align="Align.Center" Class="py-1" Color="color" Typo="SelectedTypo">Surface</MudText>
+                        </MudPaper>
+                    </div>
+                    <MudText Align="Align.Center" Class="pt-2 pb-1 d-flex justify-center align-center flex-wrap" Typo="SelectedTypo">
+                        <MudIcon Icon="@Icons.Material.Filled.Build" Size="Size.Large" Class="@($"me-2 mud-typography-{SelectedTypo.ToString().ToLower()}")" />
+                        @color
+                    </MudText>
+                    <MudText Align="Align.Center" Class="pb-2 d-flex justify-center align-center flex-wrap" Typo="SelectedTypo">
+                        @foreach (var otherColor in GetColours().Where(c => c != color))
+                        {
+                            <MudIcon Icon="@Icons.Material.Filled.Build" Color="otherColor" Size="Size.Large" Class="@($"ms-2 mud-typography-{SelectedTypo.ToString().ToLower()}")" />
+                        }
+                    </MudText>
+                    <div class="d-flex">
+                        <MudPaper Elevation="0" Class="flex-grow-1 rounded-0 rounded-bl" Style="@($"background-color: var(--mud-palette-{colorName}-lighten); color: var(--mud-palette-{colorName}-text); overflow: hidden;")">
+                            <MudText Align="Align.Center" Class="py-1" Typo="SelectedTypo">Lighten</MudText>
+                        </MudPaper>
+                        <MudPaper Elevation="0" Class="flex-grow-1 rounded-0 rounded-br" Style="@($"background-color: var(--mud-palette-{colorName}-darken); color: var(--mud-palette-{colorName}-text); overflow: hidden;")">
+                            <MudText Align="Align.Center" Class="py-1" Typo="SelectedTypo">Darken</MudText>
+                        </MudPaper>
+                    </div>
+                </MudPaper>
+            </MudItem>
+        }
+        <MudItem xs="12">
+            <MudDivider Class="mb-4" />
+            <MudDivider Light="true" />
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <MudTable Items="GetTwice(GetColours1)" Hover="true" Dense="true" Striped="true">
+                <HeaderContent>
+                    <MudTh>Color</MudTh>
+                    <MudTh>Icon</MudTh>
+                    <MudTh>Controls</MudTh>
+                    <MudTh></MudTh>
+                </HeaderContent>
+                <RowTemplate Context="color">
+                    <MudTd>
+                        <MudText Typo="Typo.inherit" Color="color">
+                            @color
+                        </MudText>
+                    </MudTd>
+                    <MudTd>
+                        <MudIcon Icon="@Icons.Material.Filled.Extension" Size="Size.Large" Color="color" />
+                    </MudTd>
+                    <MudTd>
+                        <MudButton Color="color" Variant="Variant.Filled">Filled</MudButton>
+                        <MudButton Color="color" Variant="Variant.Outlined">Outlined</MudButton>
+                        <MudButton Color="color" Variant="Variant.Text">Text</MudButton>
+                    </MudTd>
+                    <MudTd>
+                        <MudSwitch Color="color" Checked="true" />
+                        <MudSwitch Color="color" Checked="true" Disabled="true" />
+                        <MudCheckBox Color="color" Checked="true" />
+                        <MudCheckBox Color="color" Checked="true" Disabled="true" />
+                    </MudTd>
+                </RowTemplate>
+            </MudTable>
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <MudTable Items="GetTwice(GetColours2)" Hover="true" Dense="true" Striped="true">
+                <HeaderContent>
+                    <MudTh>Color</MudTh>
+                    <MudTh>Icon</MudTh>
+                    <MudTh>Controls</MudTh>
+                    <MudTh></MudTh>
+                </HeaderContent>
+                <RowTemplate Context="color">
+                    <MudTd>
+                        <MudText Typo="Typo.inherit" Color="color">
+                            @color
+                        </MudText>
+                    </MudTd>
+                    <MudTd>
+                        <MudIcon Icon="@Icons.Material.Filled.Extension" Size="Size.Large" Color="color" />
+                    </MudTd>
+                    <MudTd>
+                        <MudButton Color="color" Variant="Variant.Filled">Filled</MudButton>
+                        <MudButton Color="color" Variant="Variant.Outlined">Outlined</MudButton>
+                        <MudButton Color="color" Variant="Variant.Text">Text</MudButton>
+                    </MudTd>
+                    <MudTd>
+                        <MudSwitch Color="color" Checked="true" />
+                        <MudSwitch Color="color" Checked="true" Disabled="true" />
+                        <MudCheckBox Color="color" Checked="true" />
+                        <MudCheckBox Color="color" Checked="true" Disabled="true" />
+                    </MudTd>
+                </RowTemplate>
+            </MudTable>
+        </MudItem>
+        <MudItem xs="12">
+            <MudGrid>
+                <MudItem xs="12" md="6">
+                    <MudPaper Class="pa-2">
+                        <MudGrid>
+                            <MudItem xs="12" md="4">
+                                <MudTextField T="string" Label="Text" Variant="Variant.Text" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" md="4">
+                                <MudTextField T="string" Label="Filled" Variant="Variant.Filled" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" md="4">
+                                <MudTextField T="string" Label="Outlined" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" md="4">
+                                <MudTextField T="string" Value="@("Input Input Input Input Input Input Input")" Label="Text" Variant="Variant.Text" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" md="4">
+                                <MudTextField T="string" Value="@("Input Input Input Input Input Input Input")" Label="Filled" Variant="Variant.Filled" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" md="4">
+                                <MudTextField T="string" Value="@("Input Input Input Input Input Input Input")" Label="Outlined" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" md="4">
+                                <MudTextField T="string" Disabled="true" Label="Text" Variant="Variant.Text" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" md="4">
+                                <MudTextField T="string" Disabled="true" Label="Filled" Variant="Variant.Filled" Margin="Margin.Dense" />
+                            </MudItem>
+                            <MudItem xs="12" md="4">
+                                <MudTextField T="string" Disabled="true" Label="Outlined" Variant="Variant.Outlined" Margin="Margin.Dense" />
+                            </MudItem>
+                        </MudGrid>
+                    </MudPaper>
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudGrid>
+                        @foreach (var textType in GetTextTypes())
+                        {
+                            var typeName = textType.ToLower();
+                            <MudItem xs="12" Class="d-flex flex-row py-2">
+                                <MudPaper Elevation="1" Class="flex-1">
+                                    <MudText Align="Align.Center" Class="@($"py-2 mud-text-{typeName}")" Style="font-size: 1.5rem;">
+                                        Text @textType
+                                </MudText>
+                                </MudPaper>
+                                <MudPaper Elevation="0" Class="flex-1" Style="background-color: var(--mud-palette-background);">
+                                    <MudText Align="Align.Center" Class="@($"py-2 mud-text-{typeName}")" Style="font-size: 1.5rem;">
+                                        Text @textType
+                                    </MudText>
+                                </MudPaper>
+                            </MudItem>
+                        }
+                    </MudGrid>
+                </MudItem>
+            </MudGrid>
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <MudPaper Class="pa-2">
+                <MudGrid>
+                    @foreach (var variant in Enum.GetValues<Variant>())
+                    {
+                        <MudItem xs="4">
+                            @foreach (var severity in Enum.GetValues<Severity>())
+                            {
+                                <MudAlert Severity="severity" Variant="variant" Dense="true" Class="my-2">@severity @variant</MudAlert>
+                            }
+                        </MudItem>
+                    }
+                </MudGrid>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" md="6">
+            <div class="pa-2">
+                <MudGrid>
+                    @foreach (var variant in Enum.GetValues<Variant>())
+                    {
+                        <MudItem xs="4">
+                            @foreach (var severity in Enum.GetValues<Severity>())
+                            {
+                                <MudAlert Severity="severity" Variant="variant" Dense="true" Class="my-2">@severity @variant</MudAlert>
+                            }
+                        </MudItem>
+                    }
+                </MudGrid>
+            </div>
+        </MudItem>
+        <MudItem xs="12" Class="pa-2">
+            <MudPaper Class="pa-2">
+                <MudTextField @bind-Value="FontSizeText" Immediate="true" Margin="Margin.Dense" />
+                @foreach (var typo in Enum.GetValues<Typo>().Where(typo => typo != Typo.inherit))
+                {
+                    <MudText Typo="typo">@typo: @FontSizeText</MudText>
+                }
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudContainer>

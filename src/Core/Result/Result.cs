@@ -1,91 +1,126 @@
-using MediatR;
+using System.Diagnostics.Contracts;
 
 namespace Tyne;
 
+/// <summary>
+///     Static methods for creating <see cref="Result{T}"/>s.
+/// </summary>
+/// <seealso cref="Result{T}"/>
 public static class Result
 {
-    public static Result<Unit> Success() =>
-        Success(Unit.Value);
+    /// <summary>
+    ///     Creates an <c>Ok(<typeparamref name="T"/>)</c> <see cref="Result{T}"/> (i.e. <see cref="Result{T}.IsOk"/> is <see langword="true"/>).
+    /// </summary>
+    /// <typeparam name="T">The type of value the result encapsulates.</typeparam>
+    /// <param name="value">The <typeparamref name="T"/> to wrap.</param>
+    /// <returns>An <c>Ok(<typeparamref name="T"/>)</c> <see cref="Result{T}"/> which wraps <paramref name="value"/>.</returns>
+    /// <remarks>
+    ///     A <see cref="BadOptionException"/> will be thrown if <paramref name="value"/> is <see langword="null"/>.
+    /// </remarks>
+    /// <exception cref="BadOptionException">When <paramref name="value"/> is <see langword="null"/>.</exception>
+    [Pure]
+    public static Result<T> Ok<T>(T value)
+    {
+        if (value is null)
+            throw new BadResultException(ExceptionMessages.Result_OkMustHaveValue);
 
-    public static Result<Unit> Success(params string[] messages) =>
-        Success(Unit.Value, messages);
+        return new(value);
+    }
 
-    public static Result<Unit> Success(params ResultMessage[] messages) =>
-        Success(Unit.Value, messages);
+    /// <summary>
+    ///     Creates an <c>Error</c> <see cref="Result{T}"/> (i.e. <see cref="Result{T}.IsOk"/> is <see langword="false"/>).
+    /// </summary>
+    /// <typeparam name="T">The type of value the result encapsulates.</typeparam>
+    /// <param name="message">The error message to construct the <see cref="Result{T}.Error"/> with.</param>
+    /// <returns>An <c>Error</c> <see cref="Result{T}"/> whose error is constructed using <paramref name="message"/>.</returns>
+    [Pure]
+    public static Result<T> Error<T>(string message)
+    {
+        // Let Error handle a potentially null message
+        var error = new Error(Tyne.Error.DefaultCode, message, null);
+        return new Result<T>(error);
+    }
 
-    public static Result<Unit> Success(IEnumerable<ResultMessage> messages) =>
-        Success(Unit.Value, messages);
+    /// <summary>
+    ///     Creates an <c>Error</c> <see cref="Result{T}"/> (i.e. <see cref="Result{T}.IsOk"/> is <see langword="false"/>).
+    /// </summary>
+    /// <typeparam name="T">The type of value the result encapsulates.</typeparam>
+    /// <param name="code">The error code to construct the <see cref="Result{T}.Error"/> with.</param>
+    /// <param name="message">The error message to construct the <see cref="Result{T}.Error"/> with.</param>
+    /// <returns>An <c>Error</c> <see cref="Result{T}"/> whose error is constructed using <paramref name="code"/> and <paramref name="message"/>.</returns>
+    [Pure]
+    public static Result<T> Error<T>(int code, string message)
+    {
+        // Let Error handle a potentially null message
+        var error = new Error(code, message, null);
+        return new Result<T>(error);
+    }
 
+    /// <summary>
+    ///     Creates an <c>Error</c> <see cref="Result{T}"/> (i.e. <see cref="Result{T}.IsOk"/> is <see langword="false"/>).
+    /// </summary>
+    /// <typeparam name="T">The type of value the result encapsulates.</typeparam>
+    /// <param name="code">The error code to construct the <see cref="Result{T}.Error"/> with.</param>
+    /// <param name="message">The error message to construct the <see cref="Result{T}.Error"/> with.</param>
+    /// <param name="causedBy">The exception to construct the <see cref="Result{T}.Error"/> with.</param>
+    /// <returns>An <c>Error</c> <see cref="Result{T}"/> whose error is constructed using <paramref name="code"/>, <paramref name="message"/>, and <paramref name="causedBy"/>.</returns>
+    [Pure]
+    public static Result<T> Error<T>(int code, string message, Exception causedBy)
+    {
+        // Let Error handle potential nulls
+        var error = new Error(code, message, causedBy);
+        return new Result<T>(error);
+    }
+
+    /// <summary>
+    ///     Creates an <c>Error</c> <see cref="Result{T}"/> (i.e. <see cref="Result{T}.IsOk"/> is <see langword="false"/>).
+    /// </summary>
+    /// <typeparam name="T">The type of value the result encapsulates.</typeparam>
+    /// <param name="error">The error to use as <see cref="Result{T}.Error"/>.</param>
+    /// <returns>An <c>Error</c> <see cref="Result{T}"/> whose error is constructed using <paramref name="error"/>.</returns>
+    [Pure]
+    public static Result<T> Error<T>(in Error error)
+    {
+        return new Result<T>(error);
+    }
+
+    // S1133: Deprecated code should be removed
+    // This is in place for an easier transition from v2.x to v3.0
+#pragma warning disable S1133
+    /// <summary>
+    ///     <b>[Obsolete]</b>:
+    ///     This method is in place to make transitioning from v2.x to v3.0 easier.
+    ///     It should be replaced with a call to <see cref="Ok{T}(T)"/>.
+    /// </summary>
+    [Obsolete($"Use `{nameof(Result)}.{nameof(Ok)}({nameof(MediatR.Unit)})` instead.", DiagnosticId = "TYN_OLDv2")]
+    public static Result<MediatR.Unit> Success() =>
+        Ok(MediatR.Unit.Value);
+
+    /// <summary>
+    ///     <b>[Obsolete]</b>:
+    ///     This method is in place to make transitioning from v2.x to v3.0 easier.
+    ///     It should be replaced with a call to <see cref="Ok{T}(T)"/>.
+    /// </summary>
+    [Obsolete($"Use `{nameof(Result)}.{nameof(Ok)}(T)` instead.", DiagnosticId = "TYN_OLDv2")]
     public static Result<T> Success<T>(T value) =>
-        Success(value, Array.Empty<ResultMessage>() as IList<ResultMessage>);
+        Ok(value);
 
-    public static Result<T> Success<T>(T value, params string[] messages)
-    {
-        ArgumentNullException.ThrowIfNull(messages);
-        var messagesList = messages
-            .Select(message => new ResultMessage(ResultMessageType.Success, message))
-            .ToList();
-        return Success(value, messagesList);
-    }
+    /// <summary>
+    ///     <b>[Obsolete]</b>:
+    ///     This method is in place to make transitioning from v2.x to v3.0 easier.
+    ///     It should be replaced with a call to <see cref="Error{T}(string)"/>.
+    /// </summary>
+    [Obsolete($"Use `{nameof(Result)}.{nameof(Error)}<{nameof(MediatR.Unit)}>(string)` instead.", DiagnosticId = "TYN_OLDv2")]
+    public static Result<MediatR.Unit> Failure(string message) =>
+        Error<MediatR.Unit>(message);
 
-    public static Result<T> Success<T>(T value, params ResultMessage[] messages)
-    {
-        ArgumentNullException.ThrowIfNull(messages);
-        return Success(value, messages as IList<ResultMessage>);
-    }
-
-    public static Result<T> Success<T>(T value, IEnumerable<ResultMessage> messages)
-    {
-        ArgumentNullException.ThrowIfNull(messages);
-        return Result<T>.Success(value, messages.ToList());
-    }
-
-    public static Result<Unit> Failure(string message, params string[] messages)
-    {
-        ArgumentNullException.ThrowIfNull(message);
-        ArgumentNullException.ThrowIfNull(messages);
-
-        var messagesList = messages
-            .Prepend(message)
-            .Select(message => new ResultMessage(ResultMessageType.Error, message))
-            .ToList();
-        return Failure(messagesList);
-    }
-
-    public static Result<Unit> Failure(ResultMessage message, params ResultMessage[] messages)
-    {
-        ArgumentNullException.ThrowIfNull(messages);
-        return Failure(messages.Prepend(message));
-    }
-
-    public static Result<Unit> Failure(IEnumerable<ResultMessage> messages)
-    {
-        ArgumentNullException.ThrowIfNull(messages);
-        return Result<Unit>.Failure(messages.ToList());
-    }
-
-    public static Result<T> Failure<T>(string message, params string[] messages)
-    {
-        ArgumentNullException.ThrowIfNull(messages);
-        var messagesList = messages
-            .Prepend(message)
-            .Select(message => new ResultMessage(ResultMessageType.Error, message))
-            .ToList();
-        return Failure<T>(messagesList);
-    }
-
-    public static Result<T> Failure<T>(ResultMessage message, params ResultMessage[] messages)
-    {
-        ArgumentNullException.ThrowIfNull(messages);
-        return Failure<T>(messages.Prepend(message));
-    }
-
-    public static Result<T> Failure<T>(IEnumerable<ResultMessage> messages)
-    {
-        ArgumentNullException.ThrowIfNull(messages);
-        return Result<T>.Failure(messages.ToList());
-    }
-
-    internal static bool WasSuccess(IEnumerable<ResultMessage> messages) =>
-        !messages.Any(message => message.Type is ResultMessageType.Error);
+    /// <summary>
+    ///     <b>[Obsolete]</b>:
+    ///     This method is in place to make transitioning from v2.x to v3.0 easier.
+    ///     It should be replaced with a call to <see cref="Error{T}(string)"/>.
+    /// </summary>
+    [Obsolete($"Use `{nameof(Result)}.{nameof(Error)}<T>(string)` instead.", DiagnosticId = "TYN_OLDv2")]
+    public static Result<T> Failure<T>(string message) =>
+        Error<T>(message);
+#pragma warning restore S1133
 }

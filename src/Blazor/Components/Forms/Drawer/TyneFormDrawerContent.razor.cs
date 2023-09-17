@@ -4,7 +4,7 @@ using MudBlazor;
 namespace Tyne.Blazor;
 
 [CascadingTypeParameter(nameof(TModel))]
-public sealed partial class TyneFormDrawerContent<TModel> : ITyneFormDrawerContent<TModel>, IDisposable
+public sealed partial class TyneFormDrawerContent<TModel> : ComponentBase, ITyneFormDrawerContent<TModel>, IDisposable
 {
     [Parameter, EditorRequired]
     public ITyneForm<TModel> Form { get; set; } = null!;

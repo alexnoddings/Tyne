@@ -1,0 +1,181 @@
+:root {
+    --bs-heading-bg: #0F161C;
+    --bs-heading-color: var(--bs-body-color);
+    --bs-navbar-active-color: #FFFFFF;
+    --code-bg: #f5f5f5;
+    --code-border-color: #e4e4e6;
+}
+
+html[data-bs-theme="dark"] {
+    --bs-body-bg: #171719;
+    --bs-body-bg-rgb: 23, 23, 25;
+    --code-bg: #0f161c;
+    --code-border-color: #495057;
+}
+
+.navbar {
+    background: var(--bs-heading-bg);
+    color: #DEE2E6;
+}
+
+    .navbar .btn {
+        color: #FFFFFF;
+    }
+
+    .navbar .nav-link {
+        color: #FFFFFFA5;
+    }
+
+        .navbar .nav-link.active {
+            color: #FFFFFF;
+        }
+
+#search-query {
+    background: var(--bs-heading-bg);
+    border-color: #495057;
+    color: #FFFFFF;
+}
+
+    #search-query::placeholder {
+        color: #FFFFFFA5;
+    }
+
+.nav-link.active {
+    text-decoration: underline;
+}
+
+/* Don't show external icon for links to MSDN docs */
+a.external[href^="https://learn.microsoft.com"]::after {
+    content: '';
+}
+
+
+.definition {
+    font-size: 14px;
+    color: rgba(var(--bs-body-color-rgb),0.75);
+}
+
+    .definition > dl {
+        margin: 0;
+    }
+
+        .definition > dl > dt {
+            display: inline-block;
+        }
+
+            .definition > dl > dt ::after {
+                content: ':';
+            }
+
+        .definition > dl > dd {
+            display: inline-block;
+            margin-left: 1rem;
+        }
+
+dl.typelist {
+    display: flex;
+}
+
+    dl.typelist dd {
+        margin-bottom: 0px;
+        margin-left: 12px !important;
+    }
+
+    dl.typelist.inheritance > dd > :not(:last-child)::after {
+        content: "\f135";
+    }
+
+.members.table td:first-child {
+    width: 33%;
+}
+
+.members.table td:not(:first-child) {
+    border-left: 0;
+}
+
+.members.table td:not(:last-child) {
+    border-right: 0;
+}
+
+code, .hljs {
+    background: var(--code-bg) !important;
+    border: 1px solid var(--code-border-color) !important;
+    padding: 1px 4px 2px;
+}
+
+    code code {
+        background: unset !important;
+        border: 0 !important;
+        padding: 0;
+    }
+
+.parameters .parameter {
+    display: flex;
+    margin-bottom: 0;
+}
+
+    .parameters .parameter dt {
+        margin-left: 0rem;
+    }
+
+        .parameters .parameter dt code {
+            padding: 2px 8px 4px;
+        }
+
+    .parameters .parameter dd {
+        margin-left: 1rem;
+    }
+
+.exceptions .exception {
+    display: flex;
+    margin-bottom: 0;
+}
+
+    .exceptions .exception dt {
+        margin-left: 0rem;
+    }
+
+    .exceptions .exception dd {
+        margin-left: 1rem;
+    }
+
+#nextArticle {
+    margin-top: 10px;
+    padding-top: 4px;
+}
+
+.package-installation .nav-tabs {
+    border: 0;
+}
+
+    .package-installation .nav-tabs .nav-item {
+        z-index: 1;
+    }
+
+    .package-installation .nav-tabs .nav-link {
+        border-radius: 0;
+        text-decoration: none;
+        transition: none;
+    }
+
+        .package-installation .nav-tabs .nav-link.active {
+            background: var(--code-bg);
+            border-bottom: 1px solid var(--code-bg);
+        }
+
+.package-installation .card {
+    padding: 0;
+    border: 0;
+}
+
+    .package-installation .card pre {
+        margin: 0;
+    }
+
+footer .build-info {
+    opacity: 0.85;
+}
+
+    footer .build-info a {
+        text-decoration: none;
+    }

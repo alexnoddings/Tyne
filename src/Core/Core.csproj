@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -10,5 +10,20 @@
     <PackageReference Include="MediatR.Contracts" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
   </ItemGroup>
+
+  <PropertyGroup>
+    <!--
+      CA1716: Identifiers should not match keywords.
+              This analyser prevents usage of the term 'Error', which
+              is a core part of Tyne's functional results.
+    -->
+    <NoWarn>$(NoWarn);CA1716</NoWarn>
+    <!--
+      CA1716: Operator overloads have named alternates.
+              Tyne is designed for C#, and these alternatives clutter up the API surface.
+    -->
+    <NoWarn>$(NoWarn);CA2225</NoWarn>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
 
 </Project>

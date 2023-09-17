@@ -1,0 +1,74 @@
+﻿@inherits LayoutComponentBase
+@inject ThemeService ThemeService
+
+<div class="ta-bg-container">
+    <div class="ta-bg-img">
+    </div>
+</div>
+
+<MudThemeProvider Theme="ThemeService.Theme" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Elevation="1" Dense="true" DisableGutters="true">
+        <MudContainer Class="d-flex flex-row align-center gap-5" MaxWidth="MaxWidth.Large">
+            <MudLink Href="./"
+                     Typo="Typo.h4"
+                     Color="Color.Inherit"
+                     Underline="Underline.None"
+                     Class="d-flex flex-row align-center">
+                <img src="./tyne-aerospace-simple.svg" alt="Tyne Aerospace logo" height="26rem" />
+            </MudLink>
+            <NavLink href="./" Match="NavLinkMatch.All" class="mud-typography mud-link mud-inherit-text mud-typography-h5" ActiveClass="mud-link-underline-always">
+                Dashboard
+            </NavLink>
+            <NavLink href="./part-types" class="mud-typography mud-link mud-inherit-text mud-typography-h5" ActiveClass="mud-link-underline-always">
+                Part types
+            </NavLink>
+            <Environment Mode="EnvironmentMode.Include" Matching="EnvironmentMatching.Exact" Filter="Production">
+                <MudDivider Vertical="true"
+                            FlexItem="true"
+                            Class="my-2"
+                            Style="opacity: 50%;" />
+                <NavLink href="https://alexnoddings.github.io/Tyne/" class="mud-typography mud-link mud-inherit-text mud-typography-h5 d-flex align-center gap-1">
+                    Tyne Docs
+                    <MudIcon Icon="@Icons.Material.Filled.OpenInNew" Size="Size.Small" />
+                </NavLink>
+            </Environment>
+            <Environment Mode="EnvironmentMode.Exclude" Matching="EnvironmentMatching.Exact" Filter="Production" Context="EnvironmentName">
+                <MudDivider Vertical="true"
+                            FlexItem="true"
+                            Class="my-2"
+                            Style="opacity: 50%;" />
+                <MudText Typo="Typo.h5"
+                         Class="pointer-events-none"
+                         Style="opacity: 50%;">
+                    @EnvironmentName
+                </MudText>
+            </Environment>
+            <MudSpacer />
+            <MudMenu FullWidth="true" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter">
+                <ActivatorContent>
+                    <div class="d-flex flex-row align-center">
+                        <MudAvatar Color="Color.Primary" Variant="Variant.Filled" Size="Size.Medium">
+                            D
+                        </MudAvatar>
+                        <MudText Typo="Typo.h5" class="ml-2 mr-1">
+                            Demo user
+                        </MudText>
+                        <MudIcon Icon="@Icons.Material.Filled.ExpandMore" />
+                    </div>
+                </ActivatorContent>
+                <ChildContent>
+                    <MudMenuItem Href="./theme" Icon="@Icons.Material.Filled.Palette" IconColor="Color.Primary" IconSize="Size.Large">
+                        Theme
+                    </MudMenuItem>
+                </ChildContent>
+            </MudMenu>
+        </MudContainer>
+    </MudAppBar>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>

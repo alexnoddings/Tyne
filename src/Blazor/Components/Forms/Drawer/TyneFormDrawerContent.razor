@@ -26,8 +26,11 @@
                         @(ContentOrDefault<TyneFormDrawerDefaultCloseButton<TModel>>(CloseButton))
                     </MudDrawerHeader>
                     <div class="d-flex flex-column px-4">
-                        <TyneFormResultMessages Result="Form.OpenResult" />
-                        @if (Form.OpenResult?.WasSuccess != false)
+                        @if (Form.OpenResult?.IsOk == false)
+                        {
+                            <TyneErrorDisplay Error="Form.OpenResult.Error" />
+                        }
+                        else
                         {
                             @if (model is null)
                             {
@@ -35,7 +38,10 @@
                             }
                             else
                             {
-                                <TyneFormResultMessages Result="Form.SaveResult" />
+                                @if (Form.SaveResult?.IsOk == false)
+                                {
+                                    <TyneErrorDisplay Error="Form.SaveResult.Error" />
+                                }
                                 <EditForm @ref="Form.EditForm" Model="model">
                                     <TyneFormRootFluentValidator TModel="TModel" UseInjected="true" ValidationEvents="ValidationEvents">
                                         @Body(model)

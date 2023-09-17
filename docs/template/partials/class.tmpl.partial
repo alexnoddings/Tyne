@@ -1,0 +1,196 @@
+{{>partials/class.header}}
+{{#children}}
+  <h3 id="{{id}}">{{>partials/classSubtitle}}</h3>
+  {{#children}}
+  {{^_disableContribution}}
+    <div class="mt-3"></div>
+    {{#docurl}}
+      <span class="small pull-right mobile-hide">
+        <span class="divider">|</span>
+        <a href="{{docurl}}">{{__global.improveThisDoc}}</a>
+      </span>
+    {{/docurl}}
+    {{#sourceurl}}
+      <span class="small pull-right mobile-hide">
+        <a href="{{sourceurl}}">{{__global.viewSource}}</a>
+      </span>
+    {{/sourceurl}}
+  {{/_disableContribution}}
+  {{#overload}}
+    <a id="{{id}}" data-uid="{{uid}}"></a>
+  {{/overload}}
+    <h4 id="{{id}}" data-uid="{{uid}}">{{name.0.value}}</h4>
+    <div class="markdown level1 summary">{{{summary}}}</div>
+    <div class="markdown level1 conceptual">{{{conceptual}}}</div>
+    <h5 class="declaration">{{__global.declaration}}</h5>
+  {{#syntax}}
+    <div class="codewrapper">
+      <pre><code class="lang-csharp hljs">{{syntax.content.0.value}}</code></pre>
+    </div>
+
+    {{#parameters.0}}
+      <h5 class="parameters">{{__global.parameters}}</h5>
+      <div class="parameters">
+    {{/parameters.0}}
+    {{#parameters}}
+      <dl class="parameter">
+        <dt><code>{{{id}}}</code></dt>
+        <dd>{{{type.specName.0.value}}}</dd>
+      </dl>
+      {{{description}}}
+    {{/parameters}}
+    {{#parameters.0}}
+      </div>
+    {{/parameters.0}}
+
+    {{#return}}
+      <h5 class="returns">{{__global.returns}}</h5>
+      {{{type.specName.0.value}}}
+      <div class="mt-1">
+        {{{description}}}
+      </div>
+    {{/return}}
+
+    {{#typeParameters.0}}
+      <h5 class="typeParameters mt-2">{{__global.typeParameters}}</h5>
+      <div class="parameters">
+    {{/typeParameters.0}}
+    {{#typeParameters}}
+      <dl class="parameter">
+        <dt><code>{{{id}}}</code></dt>
+        <dd>{{{description}}}</dd>
+      </dl>
+    {{/typeParameters}}
+    {{#typeParameters.0}}
+      </did>
+    {{/typeParameters.0}}
+
+    {{#fieldValue}}
+      <h5 class="fieldValue mt-2">{{__global.fieldValue}}</h5>
+      <dl class="parameters">
+        <dt>
+          {{{type.specName.0.value}}}
+        </dt>
+        <dd>
+          {{{description}}}
+        </dd>
+      </dl>
+    {{/fieldValue}}
+
+    {{#propertyValue}}
+      <h5 class="propertyValue mt-2">{{__global.propertyValue}}</h5>
+      <dl class="parameters">
+        <dt>
+          {{{type.specName.0.value}}}
+        </dt>
+        <dd>
+          {{{description}}}
+        </dd>
+      </dl>
+    {{/propertyValue}}
+    
+    {{#eventType}}
+      <h5 class="eventType mt-2">{{__global.eventType}}</h5>
+      <dl class="parameters">
+        <dt>
+          {{{type.specName.0.value}}}
+        </dt>
+        <dd>
+          {{{description}}}
+        </dd>
+      </dl>
+    {{/eventType}}
+  {{/syntax}}
+
+  {{#overridden}}
+    <h5 class="overrides mt-2">{{__global.overrides}}</h5>
+    <div class="mb-3"><xref uid="{{uid}}" altProperty="fullName" displayProperty="nameWithType"/></div>
+  {{/overridden}}
+
+  {{#remarks}}
+    <h5 id="{{id}}_remarks" class="mt-2">{{__global.remarks}}</h5>
+    <div class="markdown level1 remarks">{{{remarks}}}</div>
+  {{/remarks}}
+
+  {{#example.0}}
+    <h5 id="{{id}}_examples" class="mt-2">{{__global.examples}}</h5>
+    {{/example.0}}
+  {{#example}}
+  {{{.}}}
+  {{/example}}
+
+  {{#exceptions.0}}
+    <h5 class="exceptions mt-2">{{__global.exceptions}}</h5>
+    <div class="exceptions">
+  {{/exceptions.0}}
+  {{#exceptions}}
+    <dl class="exception">
+      <dd>{{{type.specName.0.value}}}</dd>
+      <dt>{{{description}}}</dt>
+    </dl>
+  {{/exceptions}}
+  {{#exceptions.0}}
+    </div>
+  {{/exceptions.0}}
+
+  {{#seealso.0}}
+    <h5 id="{{id}}_seealso" class="mt-2">{{__global.seealso}}</h5>
+    <div class="seealso">
+  {{/seealso.0}}
+  {{#seealso}}
+    {{#isCref}}
+      <div>{{{type.specName.0.value}}}</div>
+    {{/isCref}}
+    {{^isCref}}
+      <div>{{{url}}}</div>
+    {{/isCref}}
+  {{/seealso}}
+  {{#seealso.0}}
+  </div>
+  {{/seealso.0}}
+  {{/children}}
+{{/children}}
+
+{{#implements.0}}
+  <h3 id="implements" class="mt-2">{{__global.implements}}</h3>
+{{/implements.0}}
+{{#implements}}
+<div>
+  {{#definition}}
+    <xref uid="{{definition}}" altProperty="fullName" displayProperty="nameWithType"/>
+  {{/definition}}
+  {{^definition}}
+    <xref uid="{{uid}}" altProperty="fullName" displayProperty="nameWithType"/>
+  {{/definition}}
+</div>
+{{/implements}}
+
+{{#extensionMethods.0}}
+  <h3 id="extensionmethods" class="mt-2">{{__global.extensionMethods}}</h3>
+{{/extensionMethods.0}}
+{{#extensionMethods}}
+  <div>
+    {{#definition}}
+      <xref uid="{{definition}}" altProperty="fullName" displayProperty="name"/>
+    {{/definition}}
+    {{^definition}}
+      <xref uid="{{uid}}" altProperty="fullName" displayProperty="name"/>
+    {{/definition}}
+  </div>
+{{/extensionMethods}}
+
+{{#seealso.0}}
+  <h3 id="seealso" class="mt-2">{{__global.seealso}}</h3>
+  <div class="seealso">
+{{/seealso.0}}
+{{#seealso}}
+  {{#isCref}}
+    <div>{{{type.specName.0.value}}}</div>
+  {{/isCref}}
+  {{^isCref}}
+    <div>{{{url}}}</div>
+  {{/isCref}}
+{{/seealso}}
+{{#seealso.0}}
+  </div>
+{{/seealso.0}}
