@@ -1,0 +1,102 @@
+name: Publish packages, docs, and demo
+
+on:
+  push:
+    tags: 
+      - "v[0-9]+.[0-9]+.[0-9]+*"
+    
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy-pages.outputs.page_url }}
+
+    permissions:
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Set version from tag ref
+        run: echo "PACKAGE_VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_ENV
+
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          ref: 'refs/tags/v${{ env.PACKAGE_VERSION }}'
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 7.0.x
+          
+      - name: Setup workloads
+        run: dotnet workload install wasm-tools
+        
+      - name: Restore packages
+        run: dotnet restore
+          
+      - name: Restore tools
+        run: dotnet tool restore
+        
+      - name: Build
+        run: dotnet build --configuration Release --no-restore /p:CiVersion=${{ env.PACKAGE_VERSION }}
+        
+      - name: Test
+        run: dotnet test --configuration Release --no-build --verbosity normal
+      
+      - name: Create NuGet packages
+        run: dotnet pack --configuration Release --no-build --output ./artifacts/nupkgs
+
+      - name: Setup docs build tag
+        run: |
+          COMMIT_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${GITHUB_SHA}"
+          COMMIT_CONTENT="<a href=\\\\\"${COMMIT_URL}\\\\\">${GITHUB_SHA:0:7}</a>"
+          RELEASE_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/tag/${{ env.PACKAGE_VERSION }}"
+          RELEASE_CONTENT="<a href=\\\\\"${RELEASE_URL}\\\\\">v${{ env.PACKAGE_VERSION }}</a>"
+          WORKFLOW_ACTION_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/attempts/${GITHUB_RUN_ATTEMPT}"
+          WORKFLOW_ACTION_NAME="${GITHUB_RUN_ID}"
+          WORKFLOW_CONTENT="<a href=\\\\\"${WORKFLOW_ACTION_URL}\\\\\">${GITHUB_RUN_ID}.${GITHUB_RUN_ATTEMPT}</a>"
+          BUILD_INFO_FIND="\"_appFooter\": \"Built locally\""
+          BUILD_INFO_REPLACE="\"_appFooter\": \"<span class=\\\\\"build-info\\\\\">Built from ${RELEASE_CONTENT} (${COMMIT_CONTENT}) via ${WORKFLOW_CONTENT}</span>\""
+          sed -i "s@${BUILD_INFO_FIND}@${BUILD_INFO_REPLACE}@g" ./docs/docfx.json
+
+      - name: Setup docs package version
+        run: |
+          PACKAGE_VERSION_FIND='${PACKAGE_VERSION}'
+          PACKAGE_VERSION_REPLACE="${PACKAGE_VERSION}"
+          find ./docs/ -type f -exec sed -i "s@${PACKAGE_VERSION_FIND}@${PACKAGE_VERSION_REPLACE}@g" {} +
+
+      # Ensure docs build before we publish package
+      - name: Build docs
+        run: dotnet docfx docs/docfx.json --output ./artifacts/docs
+
+      - name: Publish demo
+        run: |
+          dotnet publish ./example/Client/ --configuration Release --output ./artifacts/demo/
+          mkdir ./artifacts/docs/demo
+          mv ./artifacts/demo/wwwroot/* ./artifacts/docs/demo/
+          sed -i 's/<base href="\/" \/>/<base href="\/Tyne\/demo\/" \/>/g' ./artifacts/docs/demo/index.html
+          cp ./artifacts/docs/demo/index.html ./artifacts/docs/404.html
+
+      - name: Push packages
+        run: |
+          dotnet nuget push *.nupkg -k ${{ secrets.NUGET_KEY }} -s ${{ secrets.NUGET_API }} --skip-duplicate
+          dotnet nuget push *.snupkg -k ${{ secrets.NUGET_KEY }} -s ${{ secrets.NUGET_API }} --skip-duplicate
+        working-directory: ./artifacts/nupkgs
+
+      - name: Setup pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: ./artifacts/docs/
+
+      - name: Deploy to Pages
+        id: deploy-pages
+        uses: actions/deploy-pages@v2
+        with:
+          timeout: 30000
