@@ -7,6 +7,10 @@
     <Description>Used by Tyne's change auditing and modification tracking libraries.</Description>
   </PropertyGroup>
 
+  <PropertyGroup Label="Project Info">
+    <PackageTags>$(PackageTags), EF, EFCore, EntityFramework, EntityFrameworkCore, entity-framework-core</PackageTags>
+  </PropertyGroup>
+
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>

@@ -7,6 +7,10 @@
     <Description>Modification tracking extensions for Entity Framework.</Description>
   </PropertyGroup>
 
+  <PropertyGroup Label="Project Info">
+    <PackageTags>$(PackageTags), EF, EFCore, EntityFramework, EntityFrameworkCore, entity-framework-core</PackageTags>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
   </ItemGroup>

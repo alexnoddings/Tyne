@@ -7,6 +7,10 @@
     <Description>Server implementation of Tyne's mediator endpoints.</Description>
   </PropertyGroup>
 
+  <PropertyGroup Label="Project Info">
+    <PackageTags>$(PackageTags), aspnet, aspnetcore, api, endpoint</PackageTags>
+  </PropertyGroup>
+
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>

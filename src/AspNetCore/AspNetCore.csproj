@@ -7,6 +7,10 @@
     <Description>ASP.NET extensions for Tyne.</Description>
   </PropertyGroup>
 
+  <PropertyGroup Label="Project Info">
+    <PackageTags>$(PackageTags), aspnet, aspnetcore</PackageTags>
+  </PropertyGroup>
+
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
