@@ -74,7 +74,7 @@ public abstract class TyneLocalisedDateTimeBase : ComponentBase
     private async Task UpdateLocalDateTimeAsync()
     {
         var timeZone = await UserTimeZoneService.GetUserTimeZoneInfoAsync().ConfigureAwait(true);
-        DateTimeLocal = DateTimeUtc.ToLocalOffset(timeZone);
+        DateTimeLocal = DateTimeUtc.ConvertFromUtcAsOffset(timeZone);
         _previousDateTimeUtc = DateTimeUtc;
         await OnDateTimeLocalUpdatedAsync().ConfigureAwait(true);
         StateHasChanged();
