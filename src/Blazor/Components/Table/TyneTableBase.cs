@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using MediatR;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -100,6 +101,26 @@ public abstract partial class TyneTableBase<TRequest, TResponse> :
 
             await otherFilter.SetValueAsync(newValue, true, cancellationToken).ConfigureAwait(true);
         }
+    }
+
+    public Task<TValue?> TryGetSyncedFilterValue<TValue>(ITyneTableSyncedFilter<TValue> filterInstance)
+    {
+        ArgumentNullException.ThrowIfNull(filterInstance);
+
+        var filterSyncKey = filterInstance.SyncKey;
+        foreach (var otherFilter in RegisteredFilters.OfType<ITyneTableSyncedFilter<TValue>>())
+        {
+            if (otherFilter == filterInstance)
+                continue;
+
+            var otherFilterSyncKey = otherFilter.SyncKey;
+            if (otherFilterSyncKey != filterSyncKey)
+                continue;
+
+            return Task.FromResult(otherFilter.Value);
+        }
+
+        return Task.FromResult(default(TValue));
     }
 
     private async Task<TableData<TResponse>> LoadTableDataAsync(TableState state)

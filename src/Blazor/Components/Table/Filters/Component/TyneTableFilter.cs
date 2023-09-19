@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -20,7 +21,7 @@ public sealed class TyneTableFilter<TRequest, TValue> :
         EmptyRenderFragment.For<ITyneTableFilterWrapper<TValue>>();
 
     [Parameter]
-    public TValue? InitialValue { get; set; }
+    public TValue? DefaultValue { get; set; }
 
     public TValue? Value { get; set; }
 
@@ -43,17 +44,37 @@ public sealed class TyneTableFilter<TRequest, TValue> :
     {
         _wrapper = new(
             () => Value,
-            (newValue, cancellationToken) => SetValueAsync(newValue, false, cancellationToken)
+            (newValue, cancellationToken) => SetValueAsync(newValue, isSilent: false, cancellationToken)
         );
     }
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync().ConfigureAwait(true);
-        Value = InitialValue;
+
         // Needs to come before initialisation so that PersistKey will pick up the property info
         UpdateForPropertyInfo();
-        await TyneTablePersistedFilterHelpers.InitialisePersistedValueAsync(this, NavigationManager).ConfigureAwait(true);
+
+        var shouldSetDefaultValue = DefaultValue is not null;
+
+        if (!PersistKey.IsEmpty)
+        {
+            var didSetPersistedValue = await TyneTablePersistedFilterHelpers.InitialisePersistedValueAsync(this, NavigationManager).ConfigureAwait(true);
+            if (didSetPersistedValue && shouldSetDefaultValue)
+                shouldSetDefaultValue = false;
+        }
+
+        if (shouldSetDefaultValue && !SyncKey.IsEmpty && Table is not null)
+        {
+            await SetValueAsync(DefaultValue, isSilent: true).ConfigureAwait(true);
+            await Table.NotifySyncedFilterChangedAsync(this, Value).ConfigureAwait(true);
+        }
+        else if (Table is not null)
+        {
+            var syncedValue = await Table.TryGetSyncedFilterValue(this).ConfigureAwait(true);
+            if (syncedValue is not null)
+                await SetValueAsync(syncedValue, true).ConfigureAwait(true);
+        }
     }
 
     protected override void OnParametersSet()
@@ -67,7 +88,8 @@ public sealed class TyneTableFilter<TRequest, TValue> :
 
     public override void ConfigureRequest(TRequest request)
     {
-        _forPropertyInfo?.SetValue(request, Value);
+        if (Value is not null)
+            _forPropertyInfo?.SetValue(request, Value);
     }
 
     public async Task<bool> SetValueAsync(TValue? newValue, bool isSilent, CancellationToken cancellationToken = default)
@@ -91,7 +113,7 @@ public sealed class TyneTableFilter<TRequest, TValue> :
     }
 
     public Task<bool> ClearValueAsync(CancellationToken cancellationToken = default) =>
-        SetValueAsync(default, false, cancellationToken);
+        SetValueAsync(default, isSilent: false, cancellationToken);
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {

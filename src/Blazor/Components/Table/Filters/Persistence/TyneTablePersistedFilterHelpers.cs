@@ -12,35 +12,42 @@ public static class TyneTablePersistedFilterHelpers
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
     };
 
-    public static async Task InitialisePersistedValueAsync<T>(ITyneTablePersistedFilter<T> filter, NavigationManager navigationManager, CancellationToken cancellationToken = default)
+    public static async Task<bool> InitialisePersistedValueAsync<T>(ITyneTablePersistedFilter<T> filter, NavigationManager navigationManager, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(navigationManager);
         ArgumentNullException.ThrowIfNull(filter);
 
         var persistKey = filter.PersistKey;
         if (persistKey.IsEmpty)
-            return;
+            return false;
 
         var query = new Uri(navigationManager.Uri).Query;
         var valueStr = HttpUtility.ParseQueryString(query).Get(persistKey);
 
         if (valueStr is null)
-            return;
+            return false;
 
-        // Both strings and chars are serialised with ""s, which looks ugly in URLs
-        // So as special cases, they are both encoded as literals
+        // Normally, everything is JSON serialised with ""s, which can look ugly in URLs
+        // Some special cases are encoded as literals instead
         T? value;
-        if (typeof(T) == typeof(string))
+        if (IsTargetType<string, T>())
         {
             if (string.IsNullOrWhiteSpace(valueStr))
                 value = default;
             else
                 value = (T)(object)valueStr.Trim();
         }
-        else if (typeof(T) == typeof(char) || Nullable.GetUnderlyingType(typeof(T)) == typeof(char))
+        else if (IsTargetType<char, T>())
         {
             if (valueStr.Length == 1)
                 value = (T)(object)valueStr[0];
+            else
+                value = default;
+        }
+        else if (IsTargetType<Guid, T>())
+        {
+            if (Guid.TryParse(valueStr, out var guid))
+                value = (T)(object)guid;
             else
                 value = default;
         }
@@ -52,11 +59,22 @@ public static class TyneTablePersistedFilterHelpers
             }
             catch (JsonException)
             {
-                return;
+                return false;
             }
         }
 
-        await filter.SetValueAsync(value, true, cancellationToken).ConfigureAwait(false);
+        return await filter.SetValueAsync(value, true, cancellationToken).ConfigureAwait(false);
+    }
+
+    private static bool IsTargetType<TExpected, TActual>()
+    {
+        var expected = typeof(TExpected);
+        var actual = typeof(TActual);
+        var isType = expected == actual;
+        if (expected.IsValueType)
+            isType |= Nullable.GetUnderlyingType(actual) == expected;
+
+        return isType;
     }
 
     public static Task PersistValueAsync<T>(ITyneTablePersistedFilter<T> filter, NavigationManager navigationManager, CancellationToken cancellationToken = default)
@@ -75,8 +93,9 @@ public static class TyneTablePersistedFilterHelpers
         {
             // Don't return early if filter.Value is null as the URI query string may contain an old value which we should remove
             null => null,
-            char value => value.ToString(),
             string value => value,
+            char value => value.ToString(),
+            Guid value => value.ToString("D"),
             _ => JsonSerializer.Serialize(filter.Value, JsonOptions)
         };
 
