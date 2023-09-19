@@ -33,7 +33,7 @@
     <TyneMajorVersion>3</TyneMajorVersion>
     <TyneMinorVersion>0</TyneMinorVersion>
     <TynePatchVersion>0</TynePatchVersion>
-    <TynePreReleaseTag>preview0</TynePreReleaseTag>
+    <TynePreReleaseTag>preview1</TynePreReleaseTag>
     <Version>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</Version>
     <Version Condition=" '$(TynePreReleaseTag)' != '' ">$(Version)-$(TynePreReleaseTag)</Version>
     <PackageVersion>$(Version)</PackageVersion>
