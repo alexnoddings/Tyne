@@ -11,7 +11,7 @@
                Elevation="Elevation"
                DisableOverlay="DisableOverlay"
                Width="@Width"
-               Variant="DrawerVariant.Temporary">
+               Variant="Variant">
         @{
             // Check that the state isn't closed (this RenderFragment is still rendered while the drawer is closing)
             @if (Form.State is not FormState.Closed)

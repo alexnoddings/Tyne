@@ -31,6 +31,9 @@ public sealed partial class TyneFormDrawerContent<TModel> : ComponentBase, ITyne
     public int Elevation { get; set; }
 
     [Parameter]
+    public DrawerVariant Variant { get; set; } = DrawerVariant.Temporary;
+
+    [Parameter]
     public bool DisableOverlay { get; set; }
 
     [Parameter]
