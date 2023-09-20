@@ -1,4 +1,3 @@
-using System.Threading;
 using Microsoft.AspNetCore.Components;
 
 namespace Tyne.Blazor;

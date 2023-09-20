@@ -2,7 +2,7 @@
 
 <TynePageTitle Value="Part types" />
 
-<MudContainer MaxWidth="MaxWidth.Medium" Class="pt-6">
+<MudContainer MaxWidth="MaxWidth.Large" Class="pt-6">
     <div class="d-flex flex-row px-3">
         <MudText Typo="Typo.h2">Part types</MudText>
         <MudButton OnClick="() => CreateDrawer.OpenAsync()"
@@ -24,6 +24,28 @@
             <TyneStringColumn TRequest="SearchPartTypes.Request" TResponse="SearchPartTypes.Response" OrderBy="partType => partType.Name" For="partType => partType.Name" PersistAs="*" SyncAs="*">
                 Name
             </TyneStringColumn>
+            <TyneSelectColumn TRequest="SearchPartTypes.Request" TResponse="SearchPartTypes.Response" TValue="string" OrderBy="partType => partType.Name" For="partType => partType.Name" Type="TyneSelectColumnType.Radio" PersistAs="*" SyncAs="*">
+                <ChildContent>
+                    Name (select)
+                </ChildContent>
+                <Values>
+                    <TyneSelectValue Value="@("Consumables")">Consumable parts</TyneSelectValue>
+                    <TyneSelectValue Value="@("Electronics")">Electronics</TyneSelectValue>
+                    <TyneSelectValue Value="@("Engines")">Engines</TyneSelectValue>
+                    <TyneSelectValue Value="@("Other")">Other</TyneSelectValue>
+                </Values>
+            </TyneSelectColumn>
+            <TyneMultiSelectColumn TRequest="SearchPartTypes.Request" TResponse="SearchPartTypes.Response" TValue="string" OrderBy="partType => partType.Name" For="partType => partType.Names" Type="TyneMultiSelectColumnType.Checkbox" PersistAs="*" SyncAs="*">
+                <ChildContent>
+                    Name (multi select)
+                </ChildContent>
+                <Values>
+                    <TyneSelectValue Value="@("Consumables")">Consumable parts</TyneSelectValue>
+                    <TyneSelectValue Value="@("Electronics")">Electronics</TyneSelectValue>
+                    <TyneSelectValue Value="@("Engines")">Engines</TyneSelectValue>
+                    <TyneSelectValue Value="@("Other")">Other</TyneSelectValue>
+                </Values>
+            </TyneMultiSelectColumn>
             <TyneDateRangeColumn TRequest="SearchPartTypes.Request" TResponse="SearchPartTypes.Response" OrderBy="partType => partType.CreatedAt" ForMin="partType => partType.CreatedAtMin" ForMax="partType => partType.CreatedAtMax">
                 Created
             </TyneDateRangeColumn>
@@ -36,6 +58,12 @@
         <RowTemplate Context="PartType">
             <MudTd>
                 @PartType.Name
+            </MudTd>
+            <MudTd>
+                &lt;--
+            </MudTd>
+            <MudTd>
+                &lt;--
             </MudTd>
             <MudTd>
                 <ActionByAt AtUtc="PartType.CreatedAt" ByName="@PartType.CreatedByName" />

@@ -12,17 +12,25 @@ public static class TyneTablePersistedFilterHelpers
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
     };
 
-    public static async Task<bool> InitialisePersistedValueAsync<T>(ITyneTablePersistedFilter<T> filter, NavigationManager navigationManager, CancellationToken cancellationToken = default)
+    public delegate Task<bool> SetFilterValue<in T>(T? newValue, bool isSilent, CancellationToken cancellationToken = default);
+
+    public static Task<bool> InitialisePersistedValueAsync<T>(ITyneTablePersistedFilter<T> filter, NavigationManager navigationManager, CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(navigationManager);
         ArgumentNullException.ThrowIfNull(filter);
 
-        var persistKey = filter.PersistKey;
-        if (persistKey.IsEmpty)
+        return InitialisePersistedValueAsync<T>(filter.PersistKey, filter.SetValueAsync, navigationManager, cancellationToken);
+    }
+
+    public static async Task<bool> InitialisePersistedValueAsync<T>(TyneTableKey key, SetFilterValue<T> setFilterValue, NavigationManager navigationManager, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(navigationManager);
+        ArgumentNullException.ThrowIfNull(setFilterValue);
+
+        if (key.IsEmpty)
             return false;
 
         var query = new Uri(navigationManager.Uri).Query;
-        var valueStr = HttpUtility.ParseQueryString(query).Get(persistKey);
+        var valueStr = HttpUtility.ParseQueryString(query).Get(key);
 
         if (valueStr is null)
             return false;
@@ -63,7 +71,7 @@ public static class TyneTablePersistedFilterHelpers
             }
         }
 
-        return await filter.SetValueAsync(value, true, cancellationToken).ConfigureAwait(false);
+        return await setFilterValue(value, true, cancellationToken).ConfigureAwait(false);
     }
 
     private static bool IsTargetType<TExpected, TActual>()
@@ -79,30 +87,35 @@ public static class TyneTablePersistedFilterHelpers
 
     public static Task PersistValueAsync<T>(ITyneTablePersistedFilter<T> filter, NavigationManager navigationManager, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(filter);
+
+        return PersistValueAsync(filter.PersistKey, filter.Value, navigationManager, cancellationToken);
+    }
+
+    public static Task PersistValueAsync<T>(TyneTableKey key, T value, NavigationManager navigationManager, CancellationToken cancellationToken = default)
+    {
         // This is Task-returning even though it is entirely synchronous so
         // that the implementation is open to modification later without
         // breaking existing usage.
         ArgumentNullException.ThrowIfNull(navigationManager);
-        ArgumentNullException.ThrowIfNull(filter);
 
-        var persistKey = filter.PersistKey;
-        if (persistKey.IsEmpty)
+        if (key.IsEmpty)
             return Task.CompletedTask;
 
-        var valueStr = filter.Value switch
+        var valueStr = value switch
         {
             // Don't return early if filter.Value is null as the URI query string may contain an old value which we should remove
             null => null,
-            string value => value,
-            char value => value.ToString(),
-            Guid value => value.ToString("D"),
-            _ => JsonSerializer.Serialize(filter.Value, JsonOptions)
+            string str => str,
+            char chr => chr.ToString(),
+            Guid guid => guid.ToString("D"),
+            _ => JsonSerializer.Serialize(value, JsonOptions)
         };
 
         if (string.IsNullOrEmpty(valueStr))
             valueStr = null;
 
-        var newUri = navigationManager.GetUriWithQueryParameter(persistKey, valueStr);
+        var newUri = navigationManager.GetUriWithQueryParameter(key, valueStr);
         navigationManager.NavigateTo(newUri, forceLoad: false, replace: true);
 
         return Task.CompletedTask;

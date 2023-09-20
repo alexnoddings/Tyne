@@ -2,7 +2,7 @@
 @typeparam TRequest
 @typeparam TResponse
 @typeparam TValue
-@inherits TyneSelectColumnBase<TRequest, TResponse, TValue>
+@inherits TyneAdvancedColumnBase<TRequest, TResponse, HashSet<TyneSelectValue<TValue>>>
 
 <div class="d-none">
     <CascadingValue TValue="ITyneSelectColumn<TValue>" Value="this" IsFixed="true">
@@ -20,7 +20,7 @@
             <div class="d-flex flex-column" style="@ContentWidthStyle">
                 @foreach (var registeredValue in RegisteredValues)
                 {
-                    <MudCheckBox T="bool" Checked="_selectedValues.Contains(registeredValue)" CheckedChanged="shouldSelect => UpdateSelectedAsync(registeredValue, shouldSelect)" Color="Color.Primary" Dense="true">
+                    <MudCheckBox T="bool" Checked="SelectedValues.Contains(registeredValue)" CheckedChanged="shouldSelect => UpdateSelectedAsync(registeredValue, shouldSelect)" Color="Color.Primary" Dense="true">
                         @registeredValue.ChildContent
                     </MudCheckBox>
                 }
@@ -28,7 +28,7 @@
         }
         else
         {
-            <MudSelect T="TyneSelectValue<TValue>" MultiSelection="true" SelectedValues="_selectedValues" SelectedValuesChanged="UpdateSelectedValuesAsync" AnchorOrigin="Origin.BottomCenter" Class="mt-n3" ToStringFunc="selectValue => selectValue.ToString()" Style="@ContentWidthStyle">
+            <MudSelect T="TyneSelectValue<TValue>" MultiSelection="true" SelectedValues="SelectedValues" SelectedValuesChanged="UpdateSelectedValuesAsync" AnchorOrigin="Origin.BottomCenter" Class="mt-n3" ToStringFunc="selectValue => selectValue.ToString()" Style="@ContentWidthStyle">
                 @foreach (var registeredValue in RegisteredValues)
                 {
                     <MudSelectItem Value="registeredValue">

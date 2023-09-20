@@ -2,7 +2,7 @@
 @typeparam TRequest
 @typeparam TResponse
 @typeparam TValue
-@inherits TyneSelectColumnBase<TRequest, TResponse, TValue>
+@inherits TyneAdvancedColumnBase<TRequest, TResponse, TValue>
 
 <div class="d-none">
     <CascadingValue TValue="ITyneSelectColumn<TValue>" Value="this" IsFixed="true">
@@ -17,7 +17,7 @@
     <Filter>
         @if (Type is TyneSelectColumnType.Radio)
         {
-            <MudRadioGroup T="TValue" SelectedOption="Value" SelectedOptionChanged="SetValueAsync" Class="ms-2" InputClass="d-flex flex-column" Style="@ContentWidthStyle">
+            <MudRadioGroup T="TValue" SelectedOption="Value" SelectedOptionChanged="newValue => SetValueAsync(newValue, false)" Class="ms-2" InputClass="d-flex flex-column" Style="@ContentWidthStyle">
                 @foreach (var registeredValue in RegisteredValues)
                 {
                     <MudRadio Option="registeredValue.Value" Color="Color.Primary" UnCheckedColor="Color.Default" Dense="true">
@@ -28,7 +28,7 @@
         }
         else
         {
-            <MudSelect T="TValue" Value="Value" ValueChanged="SetValueAsync" AnchorOrigin="Origin.BottomCenter" Dense="true" Class="mt-n3" Style="@ContentWidthStyle">
+            <MudSelect T="TValue" Value="Value" ValueChanged="newValue => SetValueAsync(newValue, false)" AnchorOrigin="Origin.BottomCenter" Dense="true" Class="mt-n3" Style="@ContentWidthStyle">
                 @foreach (var registeredValue in RegisteredValues)
                 {
                     <MudSelectItem Value="registeredValue.Value">
