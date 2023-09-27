@@ -1,12 +1,59 @@
 <Project>
 
+  <!-- Sets flags for certain project types -->
+  <PropertyGroup Label="Project flags">
+    <!-- If docs/example/test flags aren't set, we default them to false. -->
+    <IsDocsProject Condition=" '$(IsDocsProject)' == '' ">false</IsDocsProject>
+    <IsExampleProject Condition=" '$(IsExampleProject)' == '' ">false</IsExampleProject>
+    <IsTestProject Condition=" '$(IsTestProject)' == '' ">false</IsTestProject>
+    <!-- Everything should be packable unless it's docs, example, or a test project. -->
+    <IsPackable Condition="
+                '$(IsPackable)' == ''
+                AND !$(IsDocsProject)
+                AND !$(IsExampleProject)
+                AND !$(IsTestProject)">true</IsPackable>
+    <IsPackable Condition=" '$(IsPackable)' == '' ">false</IsPackable>
+    <ContinuousIntegrationBuild Condition=" '$(GITHUB_ACTIONS)' == 'true' ">true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <!-- Makes internals of non-test projects available to their *.Tests project counterpart. -->
   <ItemGroup Label="Visibility for test projects" Condition="!$(IsTestProject)">
     <InternalsVisibleTo Include="$(AssemblyName).Tests" />
   </ItemGroup>
 
-  <!--
-    These are dependant on Configuration, thus need to live in targets rather than props.
-  -->
+  <!-- Ensures a <Description> property is set for anything packable. -->
+  <Target Name="EnsureDescriptionSet" BeforeTargets="Build" Condition="$(IsPackable)">
+    <Error Code="TYNE_PKG_NO_DESCRIPTION" Text="No &lt;Description&gt; property set." Condition=" '$(Description)' == '' " />
+  </Target>
+
+  <!-- Packaging properties for packable projects. -->
+  <PropertyGroup Label="Packaging" Condition="$(IsPackable)">
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageProjectUrl>https://alexnoddings.github.io/Tyne</PackageProjectUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>package.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+
+  <!-- Package files for packable projects. -->
+  <ItemGroup Label="Package files" Condition="$(IsPackable)">
+    <None Include="README.md" Pack="true" PackagePath="" />
+    <None Include="$(MSBuildThisFileDirectory)assets\logo.png" Pack="true" PackagePath="package.png" Visible="false" />
+    <None Include="Package.props" Pack="true" PackagePath="build\$(AssemblyName).props" Condition="Exists('Package.props')" />
+    <None Include="Package.targets" Pack="true" PackagePath="build\$(AssemblyName).targets" Condition="Exists('Package.targets')" />
+  </ItemGroup>
+
+  <!-- SourceLinking for packable projects. -->
+  <ItemGroup Label="Packaging" Condition="$(IsPackable)">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+  </ItemGroup>
+
+  <!-- These are dependant on Configuration. -->
   <PropertyGroup Label="Warnings and errors">
     <!--
       S125: Sections of code should not be commented out.
@@ -18,6 +65,7 @@
     </WarningsNotAsErrors>
   </PropertyGroup>
 
+  <!-- Common versions of packages used across the solution. -->
   <ItemGroup Label="Package versions">
     <PackageReference Update="FluentValidation" Version="11.5.2" />
     <PackageReference Update="MediatR" Version="12.0.1" />
@@ -43,13 +91,25 @@
     <PackageReference Update="xunit.runner.visualstudio" Version="2.4.5" />
   </ItemGroup>
 
-  <!--
-    Some warnings aren't applicable to test projects as they aren't shipped code
-  -->
-  <PropertyGroup Label="Warnings and errors" Condition="$(IsTestProject)">
+  <!-- These warnings can be ignored for non-shipped code. -->
+  <PropertyGroup Label="Warnings and errors" Condition=" !$(IsPackable) ">
+    <!--
+      CA1819: Do not directly await a Task.
+              .ConfigureAwait(...) isn't applicable to non-shipped code, and makes examples harder to read.
+    -->
+    <NoWarn>$(NoWarn);CA2007</NoWarn>
+  </PropertyGroup>
+  
+  <!-- These warnings can be ignored for test code. -->
+  <PropertyGroup Label="Warnings and errors" Condition=" $(IsTestProject) ">
+    <!--
+      CA1303: Method passes a literal string to Console.WriteLine(). Retrieve them from a resource table instead.
+              This is not necessary for non-shipped code, and makes examples harder to read.
+    -->
+    <NoWarn>$(NoWarn);CA1303</NoWarn>
     <!--
       CA1707: Identifiers should not contain underscores.
-              This is a test project, not a library, and underscores help clarify what test cases are testing.
+              Underscores help clarify what test cases are testing.
     -->
     <NoWarn>$(NoWarn);CA1707</NoWarn>
     <!--
@@ -57,11 +117,6 @@
               This is useful for providing theories with member data in tests.
     -->
     <NoWarn>$(NoWarn);CA1819</NoWarn>
-    <!--
-        CA1819: Do not directly await a Task.
-                This is not relevant in test projects.
-    -->
-    <NoWarn>$(NoWarn);CA2007</NoWarn>
   </PropertyGroup>
 
   <ItemGroup Label="Global usings" Condition="$(IsTestProject)">

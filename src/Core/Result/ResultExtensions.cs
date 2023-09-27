@@ -387,21 +387,21 @@ public static class ResultExtensions
     ///     Unwraps the <typeparamref name="T"/> which <paramref name="result"/> encapsulates.
     /// </summary>
     /// <typeparam name="T">The type of <c>Ok(<typeparamref name="T"/>)</c> value the <paramref name="result"/> encapsulates.</typeparam>
-    /// <param name="result">The <see cref="Error"/>.</param>
+    /// <param name="result">The <see cref="Result{T}"/>.</param>
     /// <returns>
     ///     The <typeparamref name="T"/> which <paramref name="result"/> encapsulates.
     /// </returns>
     /// <remarks>
     ///     <para>
     ///         This assumes <paramref name="result"/> is <c>Ok(<typeparamref name="T"/>)</c>.
-    ///         If it is <c>Error</c>, this will throw an <see cref="UnwrapResultException"/>.
+    ///         If it is <c>Error</c>, this will throw an <see cref="UnwrapResultValueException"/>.
     ///     </para>
     ///     <para>
     ///         Consider using <see cref="Unwrap{T}(Result{T}, string)"/> to provide
     ///         a custom exception message if <paramref name="result"/> is <c>Error</c>.
     ///     </para>
     /// </remarks>
-    /// <exception cref="UnwrapResultException">When <paramref name="result"/> is <c>Error</c>.</exception>
+    /// <exception cref="UnwrapResultValueException">When <paramref name="result"/> is <c>Error</c>.</exception>
     [Pure]
     public static T Unwrap<T>(this Result<T> result)
     {
@@ -409,47 +409,47 @@ public static class ResultExtensions
         if (result.IsOk)
             return result.Value;
 
-        throw new UnwrapResultException();
+        throw new UnwrapResultValueException();
     }
 
     /// <summary>
     ///     Unwraps the <typeparamref name="T"/> which <paramref name="result"/> encapsulates.
     /// </summary>
     /// <typeparam name="T">The type of <c>Ok(<typeparamref name="T"/>)</c> value the <paramref name="result"/> encapsulates.</typeparam>
-    /// <param name="result">The <see cref="Error"/>.</param>
-    /// <param name="noneExceptionMessage">An error message to use if a <see cref="UnwrapResultException"/> is thrown.</param>
+    /// <param name="result">The <see cref="Result{T}"/>.</param>
+    /// <param name="errorExceptionMessage">An error message to use if a <see cref="UnwrapResultValueException"/> is thrown.</param>
     /// <returns>
     ///     The <typeparamref name="T"/> which <paramref name="result"/> encapsulates.
     /// </returns>
     /// <remarks>
     ///     <para>
     ///         This assumes <paramref name="result"/> is <c>Ok(<typeparamref name="T"/>)</c>.
-    ///         If it is <c>Error</c>, this will throw an <see cref="UnwrapResultException"/> whose message is <paramref name="noneExceptionMessage"/>.
+    ///         If it is <c>Error</c>, this will throw an <see cref="UnwrapResultValueException"/> whose message is <paramref name="errorExceptionMessage"/>.
     ///         If this message is null or empty, a default message will be used instead.
     ///     </para>
     ///     <para>
-    ///         This should be used if your <paramref name="noneExceptionMessage"/> is cheap, such as a constant or static string.
+    ///         This should be used if your <paramref name="errorExceptionMessage"/> is cheap, such as a constant or static string.
     ///         If it is expensive (e.g. an interpolated string), you should use <see cref="Unwrap{T}(Result{T}, Func{Exception})"/> instead.
     ///     </para>
     /// </remarks>
-    /// <exception cref="UnwrapResultException">When <paramref name="result"/> is <c>Error</c>.</exception>
+    /// <exception cref="UnwrapResultValueException">When <paramref name="result"/> is <c>Error</c>.</exception>
     [Pure]
-    public static T Unwrap<T>(this Result<T> result, string noneExceptionMessage)
+    public static T Unwrap<T>(this Result<T> result, string errorExceptionMessage)
     {
         ArgumentNullException.ThrowIfNull(result);
         if (result.IsOk)
             return result.Value;
 
-        throw new UnwrapResultException(noneExceptionMessage);
+        throw new UnwrapResultValueException(errorExceptionMessage);
     }
 
     /// <summary>
     ///     Unwraps the <typeparamref name="T"/> which <paramref name="result"/> encapsulates.
     /// </summary>
     /// <typeparam name="T">The type of <c>Ok(<typeparamref name="T"/>)</c> value the <paramref name="result"/> encapsulates.</typeparam>
-    /// <param name="result">The <see cref="Error"/>.</param>
-    /// <param name="noneExceptionMessageFactory">
-    ///     A function which returns an error message to use if a <see cref="UnwrapResultException"/> is thrown.
+    /// <param name="result">The <see cref="Result{T}"/>.</param>
+    /// <param name="errorExceptionMessageFactory">
+    ///     A function which returns an error message to use if a <see cref="UnwrapResultValueException"/> is thrown.
     ///     This is only invoked if <paramref name="result"/> can't be unwrapped.
     /// </param>
     /// <returns>
@@ -458,8 +458,8 @@ public static class ResultExtensions
     /// <remarks>
     ///     <para>
     ///         This assumes <paramref name="result"/> is <c>Ok(<typeparamref name="T"/>)</c>.
-    ///         If it is <c>Error</c>, this will throw an <see cref="UnwrapResultException"/>
-    ///         whose message is the value returned from <paramref name="noneExceptionMessageFactory"/>.
+    ///         If it is <c>Error</c>, this will throw an <see cref="UnwrapResultValueException"/>
+    ///         whose message is the value returned from <paramref name="errorExceptionMessageFactory"/>.
     ///         If this message is null or empty, a default message will be used instead.
     ///     </para>
     ///     <para>
@@ -467,26 +467,26 @@ public static class ResultExtensions
     ///         If it is cheap (e.g. a constant or static string), you should use <see cref="Unwrap{T}(Result{T}, string)"/> instead.
     ///     </para>
     /// </remarks>
-    /// <exception cref="ArgumentNullException">When <paramref name="noneExceptionMessageFactory"/> is <see langword="null"/>.</exception>
-    /// <exception cref="UnwrapResultException">When <paramref name="result"/> is <c>Error</c>.</exception>
-    public static T Unwrap<T>(this Result<T> result, Func<string> noneExceptionMessageFactory)
+    /// <exception cref="ArgumentNullException">When <paramref name="errorExceptionMessageFactory"/> is <see langword="null"/>.</exception>
+    /// <exception cref="UnwrapResultValueException">When <paramref name="result"/> is <c>Error</c>.</exception>
+    public static T Unwrap<T>(this Result<T> result, Func<string> errorExceptionMessageFactory)
     {
         ArgumentNullException.ThrowIfNull(result);
-        ArgumentNullException.ThrowIfNull(noneExceptionMessageFactory);
+        ArgumentNullException.ThrowIfNull(errorExceptionMessageFactory);
 
         if (result.IsOk)
             return result.Value;
 
-        var noneExceptionMessage = noneExceptionMessageFactory();
-        throw new UnwrapResultException(noneExceptionMessage);
+        var errorExceptionMessage = errorExceptionMessageFactory();
+        throw new UnwrapResultValueException(errorExceptionMessage);
     }
 
     /// <summary>
     ///     Unwraps the <typeparamref name="T"/> which <paramref name="result"/> encapsulates.
     /// </summary>
     /// <typeparam name="T">The type of <c>Ok(<typeparamref name="T"/>)</c> value the <paramref name="result"/> encapsulates.</typeparam>
-    /// <param name="result">The <see cref="Error"/>.</param>
-    /// <param name="noneExceptionFactory">
+    /// <param name="result">The <see cref="Result{T}"/>.</param>
+    /// <param name="errorExceptionFactory">
     ///     A function which returns an <see cref="Exception"/> which is thrown if <paramref name="result"/> cannot be unwrapped.
     ///     This is only invoked if <paramref name="result"/> can't be unwrapped.
     /// </param>
@@ -496,7 +496,7 @@ public static class ResultExtensions
     /// <remarks>
     ///     <para>
     ///         This assumes <paramref name="result"/> is <c>Ok(<typeparamref name="T"/>)</c>.
-    ///         If it is <c>Error</c>, this will throw the exception returned by <paramref name="noneExceptionFactory"/>.
+    ///         If it is <c>Error</c>, this will throw the exception returned by <paramref name="errorExceptionFactory"/>.
     ///         If this returns a <see langword="null"/> exception, a <see cref="ArgumentException"/> will be thrown.
     ///     </para>
     ///     <para>
@@ -504,18 +504,166 @@ public static class ResultExtensions
     ///         a custom exception message if <paramref name="result"/> is <c>Error</c>.
     ///     </para>
     /// </remarks>
-    /// <exception cref="ArgumentNullException">When <paramref name="noneExceptionFactory"/> is <see langword="null"/>.</exception>
-    /// <exception cref="ArgumentException"><paramref name="noneExceptionFactory"/> returned a <see langword="null"/> exception.</exception>
-    /// <exception cref="Exception">The exception returned by <paramref name="noneExceptionFactory"/> is thrown when <paramref name="result"/> is <c>Error</c>.</exception>
-    public static T Unwrap<T>(this Result<T> result, Func<Exception> noneExceptionFactory)
+    /// <exception cref="ArgumentNullException">When <paramref name="errorExceptionFactory"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="errorExceptionFactory"/> returned a <see langword="null"/> exception.</exception>
+    /// <exception cref="Exception">The exception returned by <paramref name="errorExceptionFactory"/> is thrown when <paramref name="result"/> is <c>Error</c>.</exception>
+    public static T Unwrap<T>(this Result<T> result, Func<Exception> errorExceptionFactory)
     {
         ArgumentNullException.ThrowIfNull(result);
-        ArgumentNullException.ThrowIfNull(noneExceptionFactory);
+        ArgumentNullException.ThrowIfNull(errorExceptionFactory);
 
         if (result.IsOk)
             return result.Value;
 
-        var exception = noneExceptionFactory();
-        throw exception ?? new ArgumentException("", nameof(noneExceptionFactory));
+        var exception = errorExceptionFactory();
+        throw exception ?? new ArgumentException(ExceptionMessages.ExceptionFactoryReturnedNull, nameof(errorExceptionFactory));
+    }
+
+    /// <summary>
+    ///     Unwraps the <see cref="Error"/> which <paramref name="result"/> contains.
+    /// </summary>
+    /// <typeparam name="T">The type of <c>Ok(<typeparamref name="T"/>)</c> value the <paramref name="result"/> encapsulates.</typeparam>
+    /// <param name="result">The <see cref="Result{T}"/>.</param>
+    /// <returns>
+    ///     The <see cref="Error"/> which <paramref name="result"/> contains.
+    /// </returns>
+    /// <remarks>
+    ///     <para>
+    ///         This assumes <paramref name="result"/> is <c>Error</c>.
+    ///         If it is <c>Ok(<typeparamref name="T"/>)</c>, this will throw an <see cref="UnwrapResultErrorException"/>.
+    ///     </para>
+    ///     <para>
+    ///         Consider using <see cref="UnwrapError{T}(Result{T}, string)"/> to provide
+    ///         a custom exception message if <paramref name="result"/> is <c>Ok(<typeparamref name="T"/>)</c>.
+    ///     </para>
+    ///     <para>
+    ///         This is the same as <see cref="Unwrap{T}(Result{T})"/>, but for the <see cref="Result{T}.Error"/>.
+    ///     </para>
+    /// </remarks>
+    /// <exception cref="UnwrapResultErrorException">When <paramref name="result"/> is <c>Ok(<typeparamref name="T"/>)</c>.</exception>
+    [Pure]
+    public static Error UnwrapError<T>(this Result<T> result)
+    {
+        ArgumentNullException.ThrowIfNull(result);
+        if (!result.IsOk)
+            return result.Error;
+
+        throw new UnwrapResultErrorException();
+    }
+
+    /// <summary>
+    ///     Unwraps the <see cref="Error"/> which <paramref name="result"/> contains.
+    /// </summary>
+    /// <typeparam name="T">The type of <c>Ok(<typeparamref name="T"/>)</c> value the <paramref name="result"/> encapsulates.</typeparam>
+    /// <param name="result">The <see cref="Result{T}"/>.</param>
+    /// <param name="okExceptionMessage">An error message to use if a <see cref="UnwrapResultErrorException"/> is thrown.</param>
+    /// <returns>
+    ///     The <see cref="Error"/> which <paramref name="result"/> contains.
+    /// </returns>
+    /// <remarks>
+    ///     <para>
+    ///         This assumes <paramref name="result"/> is <c>Error</c>.
+    ///         If it is <c>Ok(<typeparamref name="T"/>)</c>, this will throw an <see cref="UnwrapResultErrorException"/> whose message is <paramref name="okExceptionMessage"/>.
+    ///         If this message is null or empty, a default message will be used instead.
+    ///     </para>
+    ///     <para>
+    ///         This should be used if your <paramref name="okExceptionMessage"/> is cheap, such as a constant or static string.
+    ///         If it is expensive (e.g. an interpolated string), you should use <see cref="UnwrapError{T}(Result{T}, Func{Exception})"/> instead.
+    ///     </para>
+    ///     <para>
+    ///         This is the same as <see cref="Unwrap{T}(Result{T}, string)"/>, but for the <see cref="Result{T}.Error"/>.
+    ///     </para>
+    /// </remarks>
+    /// <exception cref="UnwrapResultErrorException">When <paramref name="result"/> is <c>Error</c>.</exception>
+    [Pure]
+    public static Error UnwrapError<T>(this Result<T> result, string okExceptionMessage)
+    {
+        ArgumentNullException.ThrowIfNull(result);
+        if (!result.IsOk)
+            return result.Error;
+
+        throw new UnwrapResultErrorException(okExceptionMessage);
+    }
+
+    /// <summary>
+    ///     Unwraps the <see cref="Error"/> which <paramref name="result"/> contains.
+    /// </summary>
+    /// <typeparam name="T">The type of <c>Ok(<typeparamref name="T"/>)</c> value the <paramref name="result"/> encapsulates.</typeparam>
+    /// <param name="result">The <see cref="Result{T}"/>.</param>
+    /// <param name="okExceptionMessageFactory">
+    ///     A function which returns an error message to use if a <see cref="UnwrapResultErrorException"/> is thrown.
+    ///     This is only invoked if <paramref name="result"/> can't be expected.
+    /// </param>
+    /// <returns>
+    ///     The <see cref="Error"/> which <paramref name="result"/> contains.
+    /// </returns>
+    /// <remarks>
+    ///     <para>
+    ///         This assumes <paramref name="result"/> is <c>Error</c>.
+    ///         If it is <c>Ok(<typeparamref name="T"/>)</c>, this will throw an <see cref="UnwrapResultErrorException"/>
+    ///         whose message is the value returned from <paramref name="okExceptionMessageFactory"/>.
+    ///         If this message is null or empty, a default message will be used instead.
+    ///     </para>
+    ///     <para>
+    ///         This should be used if your exception message is expensive, such as an interpolated string.
+    ///         If it is cheap (e.g. a constant or static string), you should use <see cref="UnwrapError{T}(Result{T}, string)"/> instead.
+    ///     </para>
+    ///     <para>
+    ///         This is the same as <see cref="Unwrap{T}(Result{T}, Func{string})"/>, but for the <see cref="Result{T}.Error"/>.
+    ///     </para>
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">When <paramref name="okExceptionMessageFactory"/> is <see langword="null"/>.</exception>
+    /// <exception cref="UnwrapResultErrorException">When <paramref name="result"/> is <c>Error</c>.</exception>
+    public static Error UnwrapError<T>(this Result<T> result, Func<string> okExceptionMessageFactory)
+    {
+        ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(okExceptionMessageFactory);
+
+        if (!result.IsOk)
+            return result.Error;
+
+        var okExceptionMessage = okExceptionMessageFactory();
+        throw new UnwrapResultErrorException(okExceptionMessage);
+    }
+
+    /// <summary>
+    ///     Unwraps the <see cref="Error"/> which <paramref name="result"/> contains.
+    /// </summary>
+    /// <typeparam name="T">The type of <c>Ok(<typeparamref name="T"/>)</c> value the <paramref name="result"/> encapsulates.</typeparam>
+    /// <param name="result">The <see cref="Result{T}"/>.</param>
+    /// <param name="okExceptionFactory">
+    ///     A function which returns an <see cref="Exception"/> which is thrown if <paramref name="result"/> cannot be unwrapped.
+    ///     This is only invoked if <paramref name="result"/> can't be unwrapped.
+    /// </param>
+    /// <returns>
+    ///     The <see cref="Error"/> which <paramref name="result"/> contains.
+    /// </returns>
+    /// <remarks>
+    ///     <para>
+    ///         This assumes <paramref name="result"/> is <c>Error</c>.
+    ///         If it is <c>Ok(<typeparamref name="T"/>)</c>, this will throw the exception returned by <paramref name="okExceptionFactory"/>.
+    ///         If this returns a <see langword="null"/> exception, a <see cref="ArgumentException"/> will be thrown.
+    ///     </para>
+    ///     <para>
+    ///         Consider using <see cref="UnwrapError{T}(Result{T}, string)"/> to provide
+    ///         a custom exception message if <paramref name="result"/> is <c>Error</c>.
+    ///     </para>
+    ///     <para>
+    ///         This is the same as <see cref="Unwrap{T}(Result{T}, Func{Exception})"/>, but for the <see cref="Result{T}.Error"/>.
+    ///     </para>
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">When <paramref name="okExceptionFactory"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="okExceptionFactory"/> returned a <see langword="null"/> exception.</exception>
+    /// <exception cref="Exception">The exception returned by <paramref name="okExceptionFactory"/> is thrown when <paramref name="result"/> is <c>Error</c>.</exception>
+    public static Error UnwrapError<T>(this Result<T> result, Func<Exception> okExceptionFactory)
+    {
+        ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(okExceptionFactory);
+
+        if (!result.IsOk)
+            return result.Error;
+
+        var exception = okExceptionFactory();
+        throw exception ?? new ArgumentException(ExceptionMessages.ExceptionFactoryReturnedNull, nameof(okExceptionFactory));
     }
 }

@@ -11,8 +11,8 @@ public class ResultUnwrapExtensionTests
     {
         var result = Result.Error<int>(TestError.Instance);
 
-        var exception = Assert.Throws<UnwrapResultException>(() => result.Unwrap());
-        Assert.Equal(ExceptionMessages.Result_CannotUnwrapError, exception.Message);
+        var exception = Assert.Throws<UnwrapResultValueException>(() => result.Unwrap());
+        Assert.Equal(ExceptionMessages.Result_CannotUnwrapValueFromError, exception.Message);
     }
 
     [Fact]
@@ -30,7 +30,7 @@ public class ResultUnwrapExtensionTests
     {
         var result = Result.Error<int>(TestError.Instance);
 
-        var exception = Assert.Throws<UnwrapResultException>(() => result.Unwrap(UnwrapExceptionMessage));
+        var exception = Assert.Throws<UnwrapResultValueException>(() => result.Unwrap(UnwrapExceptionMessage));
         Assert.Equal(UnwrapExceptionMessage, exception.Message);
     }
 
@@ -58,7 +58,7 @@ public class ResultUnwrapExtensionTests
     {
         var result = Result.Error<int>(TestError.Instance);
 
-        var exception = Assert.Throws<UnwrapResultException>(() => result.Unwrap(UnwrapExceptionMessageFactory));
+        var exception = Assert.Throws<UnwrapResultValueException>(() => result.Unwrap(UnwrapExceptionMessageFactory));
         Assert.Equal(UnwrapExceptionMessage, exception.Message);
     }
 

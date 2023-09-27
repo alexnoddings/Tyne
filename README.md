@@ -3,10 +3,10 @@
 # Tyne ([docs](https://alexnoddings.github.io/Tyne/docs/)) ([demo](https://alexnoddings.github.io/Tyne/demo/))
 
 [![Build and test](https://img.shields.io/github/actions/workflow/status/alexnoddings/Tyne/build-and-test-main.yml?branch=main&logo=github&label=Main%20build)](https://github.com/alexnoddings/Tyne/actions/workflows/build-and-test-main.yml)
-[![Publish](https://img.shields.io/github/actions/workflow/status/alexnoddings/Tyne/publish-all.yml?branch=main&logo=github&label=Publish)](https://github.com/alexnoddings/Tyne/actions/workflows/publish-all.yml)
-[![License](https://img.shields.io/github/license/alexnoddings/Tyne?&logo=github)](https://github.com/alexnoddings/Tyne/blob/main/LICENSE)
-[![Nuget version](https://img.shields.io/nuget/v/Tyne.Core?label=nuget%20version&logo=nuget)](https://www.nuget.org/packages/Tyne.Core/)
-[![Nuget downloads](https://img.shields.io/nuget/dt/Tyne.Core?label=nuget%20downloads&logo=nuget)](https://www.nuget.org/packages/Tyne.Core/)
+[![Publish](https://img.shields.io/github/actions/workflow/status/alexnoddings/Tyne/publish-all.yml?logo=github&label=Publish)](https://github.com/alexnoddings/Tyne/actions/workflows/publish-all.yml)
+[![License](https://img.shields.io/github/license/alexnoddings/Tyne?logo=github&label=License)](https://github.com/alexnoddings/Tyne/blob/main/LICENSE)
+[![Nuget version](https://img.shields.io/nuget/v/Tyne.Core?label=NuGet%20version&logo=nuget)](https://www.nuget.org/packages/Tyne.Core/)
+[![Nuget downloads](https://img.shields.io/nuget/dt/Tyne.Core?label=NuGet%20downloads&logo=nuget)](https://www.nuget.org/packages/Tyne.Core/)
 
 Tyne is a set of C# packages designed to make line-of-business apps in Blazor more efficiently.
 

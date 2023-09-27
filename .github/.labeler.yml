@@ -1,0 +1,44 @@
+repo:
+- '*'
+- '.github/**'
+- 'assets/**'
+- '!Directory.Build.props'
+- '!Directory.Build.targets'
+- '!global.json'
+- '!Tyne.sln'
+
+docs:
+- docs/**
+
+demo:
+- example/**
+
+source:
+- src/**
+
+'area-AspNetCore':
+- src/AspNetCore/**
+- test/AspNetCore/**
+
+'area-Blazor':
+- src/Blazor/**
+- test/Blazor/**
+
+'area-Core':
+- src/Core/**
+- test/Core/**
+
+'area-EntityFramework':
+- src/EntityFramework*/**
+- test/EntityFramework*/**
+
+'area-MediatorEndpoints':
+- src/MediatorEndpoints*/**
+- test/MediatorEndpoints*/**
+
+'area-Testing':
+- src/Testing*/**
+- test/Testing*/**
+
+tests:
+- test/**

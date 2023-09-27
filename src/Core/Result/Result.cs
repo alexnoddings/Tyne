@@ -83,44 +83,4 @@ public static class Result
     {
         return new Result<T>(error);
     }
-
-    // S1133: Deprecated code should be removed
-    // This is in place for an easier transition from v2.x to v3.0
-#pragma warning disable S1133
-    /// <summary>
-    ///     <b>[Obsolete]</b>:
-    ///     This method is in place to make transitioning from v2.x to v3.0 easier.
-    ///     It should be replaced with a call to <see cref="Ok{T}(T)"/>.
-    /// </summary>
-    [Obsolete($"Use `{nameof(Result)}.{nameof(Ok)}({nameof(MediatR.Unit)})` instead.", DiagnosticId = "TYN_OLDv2")]
-    public static Result<MediatR.Unit> Success() =>
-        Ok(MediatR.Unit.Value);
-
-    /// <summary>
-    ///     <b>[Obsolete]</b>:
-    ///     This method is in place to make transitioning from v2.x to v3.0 easier.
-    ///     It should be replaced with a call to <see cref="Ok{T}(T)"/>.
-    /// </summary>
-    [Obsolete($"Use `{nameof(Result)}.{nameof(Ok)}(T)` instead.", DiagnosticId = "TYN_OLDv2")]
-    public static Result<T> Success<T>(T value) =>
-        Ok(value);
-
-    /// <summary>
-    ///     <b>[Obsolete]</b>:
-    ///     This method is in place to make transitioning from v2.x to v3.0 easier.
-    ///     It should be replaced with a call to <see cref="Error{T}(string)"/>.
-    /// </summary>
-    [Obsolete($"Use `{nameof(Result)}.{nameof(Error)}<{nameof(MediatR.Unit)}>(string)` instead.", DiagnosticId = "TYN_OLDv2")]
-    public static Result<MediatR.Unit> Failure(string message) =>
-        Error<MediatR.Unit>(message);
-
-    /// <summary>
-    ///     <b>[Obsolete]</b>:
-    ///     This method is in place to make transitioning from v2.x to v3.0 easier.
-    ///     It should be replaced with a call to <see cref="Error{T}(string)"/>.
-    /// </summary>
-    [Obsolete($"Use `{nameof(Result)}.{nameof(Error)}<T>(string)` instead.", DiagnosticId = "TYN_OLDv2")]
-    public static Result<T> Failure<T>(string message) =>
-        Error<T>(message);
-#pragma warning restore S1133
 }

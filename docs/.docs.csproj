@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <EnableNETAnalyzers>false</EnableNETAnalyzers>
+    <IsDocsProject>true</IsDocsProject>
   </PropertyGroup>
   
   <ItemGroup>
