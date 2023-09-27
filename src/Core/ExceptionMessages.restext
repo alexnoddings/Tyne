@@ -8,6 +8,7 @@ Option_Invalid=Invalid option.
 Option_NoneHasNoValue=None option has no value.
 Option_SomeMustHaveValue=Some option must have a value.
 
+Result_CannotUnwrapErrorFromOk=Cannot unwrap error from Ok result.
 Result_CannotUnwrapValueFromError=Cannot unwrap value from Error result.
 Result_Invalid=Invalid result.
 Result_ErrorHasNoValue=Error result has no value.

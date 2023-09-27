@@ -18,6 +18,7 @@ internal static class ExceptionMessages
     internal static readonly string Option_NoneHasNoValue = Resources.GetMemberString(culture: default);
     internal static readonly string Option_SomeMustHaveValue = Resources.GetMemberString(culture: default);
 
+    internal static readonly string Result_CannotUnwrapErrorFromOk = Resources.GetMemberString(culture: default);
     internal static readonly string Result_CannotUnwrapValueFromError = Resources.GetMemberString(culture: default);
     internal static readonly string Result_Invalid = Resources.GetMemberString(culture: default);
     internal static readonly string Result_ErrorHasNoValue = Resources.GetMemberString(culture: default);
