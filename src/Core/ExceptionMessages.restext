@@ -1,3 +1,5 @@
+ExceptionFactoryReturnedNull=Exception factory returned a null exception.
+
 JsonConversionForTypeNotSupported=Conversion for type "{0}" is not supported by this factory.
 JsonConverterFactoryCouldNotCreateConverter=Failed to create JsonConverter instance.
 
@@ -6,7 +8,7 @@ Option_Invalid=Invalid option.
 Option_NoneHasNoValue=None option has no value.
 Option_SomeMustHaveValue=Some option must have a value.
 
-Result_CannotUnwrapError=Cannot unwrap Error result.
+Result_CannotUnwrapValueFromError=Cannot unwrap value from Error result.
 Result_Invalid=Invalid result.
 Result_ErrorHasNoValue=Error result has no value.
 Result_ErrorMustHaveError=Error result must have an error.
