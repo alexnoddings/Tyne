@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Tyne.Blazor;
 
+#pragma warning disable TYNE_OLD_TABLEKEY
 public class TyneTablePersistedFilterHelpersTests : TestContext
 {
     public static object?[][] InitialisePersistedValueAsync_Data { get; } =
@@ -244,3 +245,4 @@ public class TyneTablePersistedFilterHelpersTests : TestContext
             SetValueAsync(default, false, cancellationToken);
     }
 }
+#pragma warning restore TYNE_OLD_TABLEKEY
