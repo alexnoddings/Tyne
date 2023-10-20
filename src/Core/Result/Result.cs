@@ -1,4 +1,6 @@
 using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
+using MediatR;
 
 namespace Tyne;
 
@@ -19,10 +21,41 @@ public static class Result
     /// </remarks>
     /// <exception cref="BadOptionException">When <paramref name="value"/> is <see langword="null"/>.</exception>
     [Pure]
-    public static Result<T> Ok<T>(T value)
+    // Method looks longer than AggressiveInlining would usually support,
+    // but when inlined for a given T, the unnecessary branches can
+    // be culled to result in a relatively small amount of asm.
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Result<T> Ok<T>(in T value)
     {
         if (value is null)
             throw new BadResultException(ExceptionMessages.Result_OkMustHaveValue);
+
+        // Checking for value type first helps the JIT avoid running any caching checks for ref types
+        if (typeof(T).IsValueType)
+        {
+            // Only the relevant branches are kept for value-type generic instantiations
+            if (typeof(T) == typeof(Unit))
+            {
+                // Unit only has one possible value.
+                // Unsafe.As avoids dynamic type checks from casting since we know T is Unit.
+                return Unsafe.As<Result<T>>(Cache.OkUnit);
+            }
+            else if (typeof(T) == typeof(bool))
+            {
+                // Cache both true and false bools.
+                // Can't Unsafe.As a generic T into a bool as only ref types are supported.
+                var val = (bool)(object)value;
+                var result = val ? Cache.OkTrue : Cache.OkFalse;
+                return Unsafe.As<Result<T>>(result);
+            }
+            else if (typeof(T) == typeof(int))
+            {
+                // Only cache the int 0
+                var val = (int)(object)value;
+                if (val == 0)
+                    return Unsafe.As<Result<T>>(Cache.OkIntZero);
+            }
+        }
 
         return new(value);
     }
@@ -82,5 +115,16 @@ public static class Result
     public static Result<T> Error<T>(in Error error)
     {
         return new Result<T>(error);
+    }
+
+    /// <summary>
+    ///     Caches common and simple result types.
+    /// </summary>
+    internal static class Cache
+    {
+        public static readonly Result<Unit> OkUnit = new(Unit.Value);
+        public static readonly Result<bool> OkTrue = new(true);
+        public static readonly Result<bool> OkFalse = new(false);
+        public static readonly Result<int> OkIntZero = new(0);
     }
 }
