@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
+using MediatR;
 
 namespace Tyne;
 
@@ -306,7 +307,7 @@ public class Result<T> : IEquatable<Result<T>>
     /// <summary>
     ///     Converts <paramref name="value"/> into an <see cref="Option{T}"/>.
     /// </summary>
-    /// <param name="value">The <see cref="Error"/> to convert.</param>
+    /// <param name="value">The <see cref="Result{T}"/> to convert.</param>
     /// <remarks>
     ///     This is equivalent to calling <see cref="ToOption()"/>, but is done implicitly.
     /// </remarks>
@@ -316,6 +317,26 @@ public class Result<T> : IEquatable<Result<T>>
         value is null
         ? Option<T>.None
         : value.ToOption();
+
+    /// <summary>
+    ///     Converts <paramref name="value"/> into an <see cref="Option{T}"/> of <see cref="Tyne.Error"/>.
+    /// </summary>
+    /// <param name="value">The <see cref="Result{T}"/> to convert.</param>
+    /// <remarks>
+    ///     This is equivalent to calling <see cref="ToErrorOption()"/>, but is done implicitly.
+    /// </remarks>
+    [Pure]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static implicit operator Option<Error>(Result<T>? value)
+    {
+        if (value is null)
+            return Option.Some(Error.Default);
+
+        if (value._isOk)
+            return Option<Error>.None;
+
+        return Option.Some(value.Error);
+    }
 
     /// <summary>
     ///     Attempts to unwrap <paramref name="result"/>.
@@ -331,6 +352,28 @@ public class Result<T> : IEquatable<Result<T>>
     {
         ArgumentNullException.ThrowIfNull(result);
         return result.Value;
+    }
+
+    /// <summary>
+    ///     Converts <paramref name="result"/> into a <see cref="Result"/> of type <see cref="Unit"/>.
+    /// </summary>
+    /// <param name="result">The <see cref="Result{T}"/> to convert.</param>
+    /// <remarks>
+    ///     This is useful to discard the generic value from a result,
+    ///     such as when passing it into a method that only cares about success/failure.
+    /// </remarks>
+    [Pure]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [return: NotNullIfNotNull(nameof(result))]
+    public static implicit operator Result<Unit>?(Result<T>? result)
+    {
+        if (result is null)
+            return null;
+
+        if (result._isOk)
+            return Result.Cache.OkUnit;
+
+        return new Result<Unit>(result.Error);
     }
 
     // Debugger proxy exposes _value directly.
