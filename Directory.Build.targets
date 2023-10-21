@@ -94,19 +94,19 @@
   <!-- These warnings can be ignored for non-shipped code. -->
   <PropertyGroup Label="Warnings and errors" Condition=" !$(IsPackable) ">
     <!--
+      CA1303: Method passes a literal string to Console.WriteLine(). Retrieve them from a resource table instead.
+              This is not necessary for non-shipped code, and makes examples harder to read.
+    -->
+    <NoWarn>$(NoWarn);CA1303</NoWarn>
+    <!--
       CA1819: Do not directly await a Task.
               .ConfigureAwait(...) isn't applicable to non-shipped code, and makes examples harder to read.
     -->
     <NoWarn>$(NoWarn);CA2007</NoWarn>
   </PropertyGroup>
-  
+
   <!-- These warnings can be ignored for test code. -->
   <PropertyGroup Label="Warnings and errors" Condition=" $(IsTestProject) ">
-    <!--
-      CA1303: Method passes a literal string to Console.WriteLine(). Retrieve them from a resource table instead.
-              This is not necessary for non-shipped code, and makes examples harder to read.
-    -->
-    <NoWarn>$(NoWarn);CA1303</NoWarn>
     <!--
       CA1707: Identifiers should not contain underscores.
               Underscores help clarify what test cases are testing.
