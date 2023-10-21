@@ -1,0 +1,12 @@
+﻿@using Tyne.Blazor.Filtering.Controllers;
+@namespace Tyne.Blazor.Tables.Columns
+@typeparam TRequest
+@typeparam TResponse
+@inherits TyneStringFilterController<TRequest>
+
+<TyneColumnPopoverHeader TResponse="TResponse"
+                         IsActive="!string.IsNullOrWhiteSpace(Value)"
+                         OrderBy="OrderByKey"
+                         ClearValue="ClearFilterValueAsync"
+                         Header="ChildContent"
+                         Content="base.BuildRenderTree" />

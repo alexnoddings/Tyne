@@ -1,0 +1,67 @@
+﻿@namespace Tyne.Blazor.Tables.Columns
+@typeparam TResponse
+
+<MudTh>
+    <div class="d-flex">
+        <MudOverlay Visible="IsOpen" VisibleChanged="IsOpenChanged" DarkBackground="true" AutoClose="true" />
+        <MudTooltip Text="@(IsOpen ? "Hide filter" : "Show filter")"
+                    Delay="400"
+                    Duration="200"
+                    Arrow="true">
+            <MudIconButton Class="pa-1 ma-0"
+                           Icon="@FilterIcon"
+                           Color="FilterIconColour"
+                           OnClick="() => IsOpenChanged.InvokeAsync(!IsOpen)" />
+        </MudTooltip>
+        @if (OrderBy.IsEmpty)
+        {
+            if (Header is not null)
+            {
+                <div class="d-flex align-center">
+                    @Header
+                </div>
+            }
+        }
+        else
+        {
+            <MudTableSortLabel T="TResponse" SortLabel="@OrderBy.Key">
+                @if (Header is not null)
+                {
+                    @Header
+                }
+            </MudTableSortLabel>
+        }
+        <MudPopover Open="IsOpen"
+                    Fixed="true"
+                    AnchorOrigin="Origin.CenterCenter"
+                    TransformOrigin="Origin.CenterCenter">
+            <div class="d-flex align-center px-2 py-2 gap-2">
+                <MudTooltip Text="Close"
+                            Delay="400"
+                            Duration="200"
+                            Arrow="true">
+                    <MudIconButton Class="pa-1"
+                                   Icon="@Icons.Material.Outlined.ExpandLess"
+                                   Color="Color.Primary"
+                                   OnClick="() => IsOpenChanged.InvokeAsync(false)" />
+                </MudTooltip>
+                @if (Content is not null)
+                {
+                    @Content
+                }
+                @if (ClearValue is not null)
+                {
+                    <MudTooltip Text="Clear"
+                                Delay="400"
+                                Duration="200"
+                                Arrow="true">
+                        <MudIconButton Class="pa-1"
+                                        Icon="@Icons.Material.Outlined.Backspace"
+                                        Color="Color.Primary"
+                                        OnClick="ClearValue" />
+                    </MudTooltip>
+                }
+            </div>
+        </MudPopover>
+    </div>
+</MudTh>
