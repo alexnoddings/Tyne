@@ -16,8 +16,11 @@ More detailed information about Tyne's Blazor APIs can be found in the API tab.
 ## Forms
 > [!TODO]
 
+## Filtering
+See the [filtering page](./filtering.md).
+
 ## Tables
-> [!TODO]
+See the [tables page](./tables.md).
 
 ## Title
 - [TynePageTitle](xref:Tyne.Blazor.TynePageTitle)

@@ -55,7 +55,14 @@ When enabled, Tyne's Blazor component namespaces will be added as [global usings
 
 ```razor
 @using Tyne.Blazor
+@using Tyne.Blazor.Filtering
+@using Tyne.Blazor.Filtering.Context
+@using Tyne.Blazor.Filtering.Controllers
+@using Tyne.Blazor.Filtering.Values
 @using Tyne.Blazor.Localisation
+@using Tyne.Blazor.Persistence
+@using Tyne.Blazor.Tables
+@using Tyne.Blazor.Tables.Columns
 ```
 
 ## Components
