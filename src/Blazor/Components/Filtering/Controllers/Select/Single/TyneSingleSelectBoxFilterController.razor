@@ -1,0 +1,20 @@
+﻿@using Tyne.Blazor.Filtering;
+@namespace Tyne.Blazor.Filtering.Controllers
+@typeparam TRequest
+@typeparam TValue
+@inherits TyneSingleSelectFilterControllerBase<TRequest, TValue>
+
+@{
+    var selectItems = SelectItems;
+    <MudSelect T="TValue" Value="Value" ValueChanged="SetValueAsync" Label="@(Label ?? ForKey)" Disabled="selectItems is null">
+        @if (selectItems is not null)
+        {
+            foreach (var selectItem in selectItems)
+            {
+                <MudSelectItem Value="selectItem.Value">
+                    @selectItem.Content
+                </MudSelectItem>
+            }
+        }
+    </MudSelect>
+}

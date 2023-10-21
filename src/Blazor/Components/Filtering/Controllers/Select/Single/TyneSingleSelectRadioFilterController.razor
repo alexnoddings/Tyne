@@ -1,0 +1,30 @@
+﻿@using Tyne.Blazor.Filtering;
+@namespace Tyne.Blazor.Filtering.Controllers
+@typeparam TRequest
+@typeparam TValue
+@inherits TyneSingleSelectFilterControllerBase<TRequest, TValue>
+
+@{
+    var selectItems = SelectItems;
+    <div class="d-flex flex-column">
+        @if (Label is not null)
+        {
+            <MudText Typo="Typo.h6" Align="Align.Center">
+                @Label
+            </MudText>
+        }
+        <MudRadioGroup T="TValue" SelectedOption="Value" SelectedOptionChanged="SetValueAsync" Disabled="selectItems is null">
+            @if (selectItems is not null)
+            {
+                <div class="@RadioOptionContainerClassName">
+                    @foreach (var selectItem in selectItems)
+                    {
+                        <MudRadio Option="selectItem.Value" Dense="true">
+                            @selectItem.Content
+                        </MudRadio>
+                    }
+                </div>
+            }
+        </MudRadioGroup>
+    </div>
+}

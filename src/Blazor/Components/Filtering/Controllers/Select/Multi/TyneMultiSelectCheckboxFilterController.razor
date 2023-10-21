@@ -1,0 +1,28 @@
+﻿@using Tyne.Blazor.Filtering;
+@namespace Tyne.Blazor.Filtering.Controllers
+@typeparam TRequest
+@typeparam TValue
+@inherits TyneMultiSelectFilterControllerBase<TRequest, TValue>
+
+@{
+    var selectItems = SelectItems;
+    <div class="d-flex flex-column">
+        @if (Label is not null)
+        {
+            <MudText Typo="Typo.h6" Align="Align.Center">
+                @Label
+            </MudText>
+        }
+        @if (selectItems is not null)
+        {
+            <div class="@CheckboxContainerClassName">
+                @foreach (var selectItem in selectItems)
+                {
+                    <MudCheckBox T="bool" Checked="Value?.Contains(selectItem.Value) == true" CheckedChanged="isSelected => UpdateSelectedAsync(selectItem.Value, isSelected)" Dense="true">
+                        @selectItem.Content
+                    </MudCheckBox>
+                }
+            </div>
+        }
+    </div>
+}
