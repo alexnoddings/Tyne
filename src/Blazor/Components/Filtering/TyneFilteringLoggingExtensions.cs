@@ -62,4 +62,15 @@ internal static partial class TyneFilteringLoggingExtensions
     [LoggerMessage(EventId = 101_004_019, Level = LogLevel.Debug, Message = "Re-initialising context after hot reload.")]
     public static partial void LogFilterContextHotReloadReinitialise(this ILogger logger);
     #endregion
+
+    #region Values
+    [LoggerMessage(EventId = 101_005_001, Level = LogLevel.Warning, Message = "Cannot create setter for '{PropertyName}' on '{RequestType}': public instance property  not found.")]
+    public static partial void LogFilterValueCreateSetterPropertyNotFound(this ILogger logger, string propertyName, Type requestType);
+
+    [LoggerMessage(EventId = 101_005_002, Level = LogLevel.Warning, Message = "Cannot create setter for '{PropertyName}' on '{RequestType}': value type '{ValueType}' is not assignable to property type '{PropertyType}'.")]
+    public static partial void LogFilterValueCreateSetterIncompatibleType(this ILogger logger, string propertyName, Type requestType, Type valueType, Type propertyType);
+
+    [LoggerMessage(EventId = 101_005_003, Level = LogLevel.Warning, Message = "Cannot create setter for '{PropertyName}' on '{RequestType}': property does not have a valid setter.")]
+    public static partial void LogFilterValueCreateSetterNoPropertySetter(this ILogger logger, string propertyName, Type requestType);
+    #endregion
 }
