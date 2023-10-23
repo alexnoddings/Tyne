@@ -1,0 +1,13 @@
+﻿@using Tyne.Blazor.Filtering.Controllers;
+@namespace Tyne.Blazor.Tables.Columns
+@typeparam TRequest
+@typeparam TResponse
+@typeparam TValue
+@inherits TyneMultiSelectBoxFilterController<TRequest, TValue>
+
+<TyneColumnPopoverHeader TResponse="TResponse"
+                         IsActive="Value?.Count > 0"
+                         OrderBy="OrderByKey"
+                         ClearValue="ClearFilterValueAsync"
+                         Header="ChildContent"
+                         Content="base.BuildRenderTree" />

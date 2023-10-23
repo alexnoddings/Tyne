@@ -1,4 +1,6 @@
 using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
+using MediatR;
 
 namespace Tyne;
 
@@ -13,6 +15,7 @@ public static class Option
     /// <typeparam name="T">The type of value the option encapsulates.</typeparam>
     /// <returns>A <see langword="ref"/> <see langword="readonly"/> <c>None</c> <see cref="Option{T}"/>.</returns>
     [Pure]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ref readonly Option<T> None<T>() =>
         ref Option<T>.None;
 
@@ -29,10 +32,40 @@ public static class Option
     /// </remarks>
     /// <exception cref="BadOptionException">When <paramref name="value"/> is <see langword="null"/>.</exception>
     [Pure]
+    // Method looks longer than AggressiveInlining would usually support,
+    // but when inlined for a given T, the unnecessary branches can
+    // be culled to result in a relatively small amount of asm.
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Option<T> Some<T>(T value)
     {
         if (value is null)
             throw new BadOptionException(ExceptionMessages.Option_SomeMustHaveValue);
+
+        // Checking for value type first helps the JIT avoid running any caching checks for ref types
+        if (typeof(T).IsValueType)
+        {
+            // Only the relevant branches are kept for value-type generic instantiations
+            if (typeof(T) == typeof(Unit))
+            {
+                // Unit only has one possible value.
+                return (Option<T>)(object)Cache.SomeUnit;
+            }
+            else if (typeof(T) == typeof(bool))
+            {
+                // Cache both true and false bools.
+                // Can't Unsafe.As a generic T into a bool as only ref types are supported.
+                var val = (bool)(object)value;
+                var option = val ? Cache.SomeTrue : Cache.SomeFalse;
+                return (Option<T>)(object)option;
+            }
+            else if (typeof(T) == typeof(int))
+            {
+                // Only cache the int 0
+                var val = (int)(object)value;
+                if (val == 0)
+                    return (Option<T>)(object)Cache.SomeIntZero;
+            }
+        }
 
         return new(value);
     }
@@ -57,4 +90,15 @@ public static class Option
         value is null
         ? Option<T>.None
         : new(value);
+
+    /// <summary>
+    ///     Caches common and simple option types.
+    /// </summary>
+    internal static class Cache
+    {
+        public static readonly Option<Unit> SomeUnit = new(Unit.Value);
+        public static readonly Option<bool> SomeTrue = new(true);
+        public static readonly Option<bool> SomeFalse = new(false);
+        public static readonly Option<int> SomeIntZero = new(0);
+    }
 }

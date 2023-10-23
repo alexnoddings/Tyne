@@ -1,3 +1,5 @@
+using MediatR;
+
 namespace Tyne;
 
 public class ResultOtherTests
@@ -65,6 +67,54 @@ public class ResultOtherTests
     }
 
     [Fact]
+    public void Ok_ImplicitCastToErrorOption_ReturnsNoneOption()
+    {
+        var result1 = Result.Ok(42);
+        var result2 = Result.Ok((int?)42);
+        var result3 = Result.Ok("abc");
+
+        Option<Error> option1 = result1;
+        Option<Error> option2 = result2;
+        Option<Error> option3 = result3;
+
+        AssertOption.IsNone(option1);
+        AssertOption.IsNone(option2);
+        AssertOption.IsNone(option3);
+    }
+
+    [Fact]
+    public void Error_ImplicitCastToErrorOption_ReturnsSomeOption()
+    {
+        var result1 = Result.Error<int>(TestError.Instance);
+        var result2 = Result.Error<int?>(TestError.Instance);
+        var result3 = Result.Error<string>(TestError.Instance);
+
+        Option<Error> option1 = result1;
+        Option<Error> option2 = result2;
+        Option<Error> option3 = result3;
+
+        AssertOption.IsSome(TestError.Instance, option1);
+        AssertOption.IsSome(TestError.Instance, option2);
+        AssertOption.IsSome(TestError.Instance, option3);
+    }
+
+    [Fact]
+    public void Null_ImplicitCastToErrorOption_ReturnsSomeOption()
+    {
+        Result<int>? result1 = null;
+        Result<int?>? result2 = null;
+        Result<string>? result3 = null;
+
+        Option<Error> option1 = result1;
+        Option<Error> option2 = result2;
+        Option<Error> option3 = result3;
+
+        AssertOption.IsSome(Error.Default, option1);
+        AssertOption.IsSome(Error.Default, option2);
+        AssertOption.IsSome(Error.Default, option3);
+    }
+
+    [Fact]
     public void Ok_ToOption_ReturnsSomeOption()
     {
         var result1 = Result.Ok(42);
@@ -126,6 +176,54 @@ public class ResultOtherTests
         AssertOption.IsNone(option1);
         AssertOption.IsNone(option2);
         AssertOption.IsNone(option3);
+    }
+
+    [Fact]
+    public void Ok_ImplicitCastToUnitResult_ReturnsOkUnitResult()
+    {
+        var result1 = Result.Ok(42);
+        var result2 = Result.Ok((int?)42);
+        var result3 = Result.Ok("abc");
+
+        Result<Unit> result1unit = result1;
+        Result<Unit> result2unit = result2;
+        Result<Unit> result3unit = result3;
+
+        AssertResult.IsOk(Unit.Value, result1unit);
+        AssertResult.IsOk(Unit.Value, result2unit);
+        AssertResult.IsOk(Unit.Value, result3unit);
+    }
+
+    [Fact]
+    public void Error_ImplicitCastToUnitResult_ReturnsErrorUnitResult()
+    {
+        var result1 = Result.Error<int>(TestError.Instance);
+        var result2 = Result.Error<int?>(TestError.Instance);
+        var result3 = Result.Error<string>(TestError.Instance);
+
+        Result<Unit> result1unit = result1;
+        Result<Unit> result2unit = result2;
+        Result<Unit> result3unit = result3;
+
+        AssertResult.IsError(TestError.Instance, result1unit);
+        AssertResult.IsError(TestError.Instance, result2unit);
+        AssertResult.IsError(TestError.Instance, result3unit);
+    }
+
+    [Fact]
+    public void Null_ImplicitCastToUnitResult_ReturnsNull()
+    {
+        Result<int>? result1 = null;
+        Result<int?>? result2 = null;
+        Result<string>? result3 = null;
+
+        Result<Unit>? result1unit = result1;
+        Result<Unit>? result2unit = result2;
+        Result<Unit>? result3unit = result3;
+
+        Assert.Null(result1unit);
+        Assert.Null(result2unit);
+        Assert.Null(result3unit);
     }
 
     [Fact]

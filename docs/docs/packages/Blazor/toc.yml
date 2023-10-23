@@ -1,2 +1,6 @@
 - name: Components
   href: components.md
+- name: Filtering
+  href: filtering.md
+- name: Tables
+  href: tables.md

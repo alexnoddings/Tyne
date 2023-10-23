@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -8,6 +9,9 @@ namespace Tyne.Blazor;
 ///     Represents a key for use with Tyne tables.
 /// </summary>
 /// <remarks>
+///     <para>
+///         <b><see cref="TyneTableKey"/> is deprecated in favour of <see cref="TyneKey"/>.</b>
+///     </para>
 ///     <para>
 ///         A key is either <see cref="string.Empty"/> (if no key is known or desired),
 ///         or a valid series of characters. These may not start, end with, or be exclusively, whitespace.
@@ -27,6 +31,11 @@ namespace Tyne.Blazor;
 /// </remarks>
 [StructLayout(LayoutKind.Auto)]
 [DebuggerDisplay($"{{{nameof(ToString)}(),nq}}")]
+// S1133: Deprecated code should be removed.
+//        It will be eventually. This is here to transition between versions.
+#pragma warning disable S1133
+[Obsolete($"Use {nameof(TyneKey)} instead.", DiagnosticId = "TYNE_OLD_TABLEKEY")]
+#pragma warning restore S1133
 public readonly struct TyneTableKey : IEquatable<TyneTableKey>
 {
     // When Key is used as an auto-implemented getter, it can end up as
@@ -168,6 +177,9 @@ public readonly struct TyneTableKey : IEquatable<TyneTableKey>
     /// </remarks>
     public static implicit operator string(TyneTableKey key) =>
         key.Key;
+
+    [SuppressMessage("Usage", "CA2225:Operator overloads have named alternates", Justification = "Transition method not intended for direct use.")]
+    public static implicit operator TyneKey(TyneTableKey key) => TyneKey.From(key._key);
 
     /// <summary>
     ///     Creates a <see cref="TyneTableKey"/> derived from <paramref name="persistAs"/>.

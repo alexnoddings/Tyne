@@ -25,4 +25,9 @@
     <PackageReference Include="MudBlazor" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <!-- Old table components still need to use the old table key system. -->
+    <NoWarn>$(NoWarn);TYNE_OLD_TABLEKEY</NoWarn>
+  </PropertyGroup>
+
 </Project>

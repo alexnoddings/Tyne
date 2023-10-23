@@ -13,7 +13,14 @@
   
   <ItemGroup Condition="$(_UseTyneBlazorPrelude)">
     <Using Include="Tyne.Blazor"/>
+    <Using Include="Tyne.Blazor.Filtering"/>
+    <Using Include="Tyne.Blazor.Filtering.Context"/>
+    <Using Include="Tyne.Blazor.Filtering.Controllers"/>
+    <Using Include="Tyne.Blazor.Filtering.Values"/>
     <Using Include="Tyne.Blazor.Localisation"/>
+    <Using Include="Tyne.Blazor.Persistence"/>
+    <Using Include="Tyne.Blazor.Tables"/>
+    <Using Include="Tyne.Blazor.Tables.Columns"/>
   </ItemGroup>
   
 </Project>

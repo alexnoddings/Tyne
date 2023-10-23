@@ -1,7 +1,11 @@
 ﻿@namespace Tyne.Blazor
 
 <MudAlert Severity="Severity ?? MudBlazor.Severity.Error">
-    @Error.Message (@Error.Code)
+    @Error.Message
+    @if (Error.Code is not 0)
+    {
+        <text> (@Error.Code)</text>
+    }
 </MudAlert>
 
 @code

@@ -1,0 +1,10 @@
+﻿@using System.Linq.Expressions;
+@using Tyne.Blazor.Filtering;
+@namespace Tyne.Blazor.Filtering.Controllers
+@typeparam TRequest
+@inherits TyneMinMaxFilterController<TRequest, DateTime?>
+
+<MudDateRangePicker Style="max-width: 275px;"
+                    DateRange="@DateRange"
+                    DateRangeChanged="SetFilterValuesAsync"
+                    Label="@Label" />

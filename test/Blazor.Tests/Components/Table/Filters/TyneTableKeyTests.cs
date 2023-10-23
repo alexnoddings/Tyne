@@ -2,6 +2,7 @@ using System.Reflection;
 
 namespace Tyne.Blazor;
 
+#pragma warning disable TYNE_OLD_TABLEKEY
 public class TyneTableKeyTests
 {
     [Fact]
@@ -178,3 +179,4 @@ public class TyneTableKeyTests
         Assert.Equal(expectedKey, key.Key);
     }
 }
+#pragma warning restore TYNE_OLD_TABLEKEY
