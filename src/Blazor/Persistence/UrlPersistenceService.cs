@@ -14,7 +14,7 @@ namespace Tyne.Blazor.Persistence;
 ///     Handles persisting data to the URL in the query string using <see cref="NavigationManager"/>.
 /// </summary>
 /// <inheritdoc/>
-public sealed class UrlPersistenceService : IUrlPersistenceService
+internal sealed class UrlPersistenceService : IUrlPersistenceService
 {
     // DateTimes use a custom format which less ugly and shorter than
     // the default "yyyy-MM-ddTdd%3Ahh%3Amm", and is also culture invariant.
