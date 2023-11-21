@@ -12,7 +12,8 @@
                    MultiSelection="true"
                    SelectedValues="Value"
                    SelectedValuesChanged="SetValueAsync"
-                   Label="@(Label ?? ForKey.Key)">
+                   Label="@(Label ?? ForKey.Key)"
+                   ToStringFunc="ConvertValueToString">
             @foreach (var selectItem in selectItems)
             {
                 <MudSelectItem Value="selectItem.Value">
