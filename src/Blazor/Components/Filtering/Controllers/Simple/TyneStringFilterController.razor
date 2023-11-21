@@ -4,4 +4,8 @@
 @typeparam TRequest
 @inherits TyneFilterControllerBase<TRequest, string>
 
-<MudTextField Class="@Class" T="string" Value="Value" ValueChanged="SetFilterValueAsync" Label="@(Label ?? ForKey)" />
+<MudTextField T="string"
+              Value="Value"
+              ValueChanged="SetFilterValueAsync"
+              Label="@(Label ?? ForKey.Key)"
+              Class="@Class" />
