@@ -1,0 +1,22 @@
+﻿@namespace Tyne.Blazor.Tables.Columns
+@typeparam TResponse
+
+<MudTh>
+    <div class="d-flex">
+        @if (OrderByKey.IsEmpty)
+        {
+            if (ChildContent is not null)
+            {
+                <div class="d-flex align-center">
+                    @ChildContent
+                </div>
+            }
+        }
+        else
+        {
+            <MudTableSortLabel T="TResponse" SortLabel="@OrderByKey.Key">
+                @ChildContent
+            </MudTableSortLabel>
+        }
+    </div>
+</MudTh>
