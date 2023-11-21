@@ -6,19 +6,23 @@
 
 @{
     var selectItems = SelectItems;
-    <MudSelect T="TValue" MultiSelection="true" SelectedValues="Value" SelectedValuesChanged="SetValueAsync" Label="@(Label ?? ForKey)" Disabled="selectItems is null">
-        @if (selectItems is not null)
-        {
-            foreach (var selectItem in selectItems)
+    @if (selectItems is not null)
+    {
+        <MudSelect T="TValue"
+                   MultiSelection="true"
+                   SelectedValues="Value"
+                   SelectedValuesChanged="SetValueAsync"
+                   Label="@(Label ?? ForKey.Key)">
+            @foreach (var selectItem in selectItems)
             {
                 <MudSelectItem Value="selectItem.Value">
-                    @selectItem.Content
+                    @RenderItem(selectItem)
                 </MudSelectItem>
             }
+        </MudSelect>
     }
     else
     {
         <MudProgressCircular Indeterminate="true" Color="Color.Default" />
-        }
-    </MudSelect>
+    }
 }

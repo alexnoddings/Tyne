@@ -19,7 +19,7 @@
                 @foreach (var selectItem in selectItems)
                 {
                     <MudCheckBox T="bool" Checked="Value?.Contains(selectItem.Value) == true" CheckedChanged="isSelected => UpdateSelectedAsync(selectItem.Value, isSelected)" Dense="true">
-                        @selectItem.Content
+                        @RenderItem(selectItem)
                     </MudCheckBox>
                 }
             </div>

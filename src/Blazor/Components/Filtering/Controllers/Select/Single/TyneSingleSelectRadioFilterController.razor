@@ -20,7 +20,7 @@
                     @foreach (var selectItem in selectItems)
                     {
                         <MudRadio Option="selectItem.Value" Dense="true">
-                            @selectItem.Content
+                            @RenderItem(selectItem)
                         </MudRadio>
                     }
                 </div>

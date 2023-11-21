@@ -6,13 +6,13 @@
 
 @{
     var selectItems = SelectItems;
-    <MudSelect T="TValue" Value="Value" ValueChanged="SetValueAsync" Label="@(Label ?? ForKey)" Disabled="selectItems is null">
+    <MudSelect T="TValue" Value="Value" ValueChanged="SetValueAsync" Label="@(Label ?? ForKey.Key)" Disabled="selectItems is null">
         @if (selectItems is not null)
         {
             foreach (var selectItem in selectItems)
             {
                 <MudSelectItem Value="selectItem.Value">
-                    @selectItem.Content
+                    @RenderItem(selectItem)
                 </MudSelectItem>
             }
         }
