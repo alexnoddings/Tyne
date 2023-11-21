@@ -28,7 +28,7 @@ public partial class TyneStringFilterController<TRequest>
     /// <summary>
     ///     An <see cref="Expression"/> for the <see cref="string"/> property to attach to.
     /// </summary>
-    [Parameter]
+    [Parameter, EditorRequired]
     public Expression<Func<TRequest, string>> For { get; set; } = null!;
     protected TynePropertyKeyCache<TRequest, string> ForCache { get; } = new();
     protected override TyneKey ForKey => ForCache.Update(For);

@@ -41,7 +41,7 @@ public sealed partial class TyneCustomFilterController<TRequest, TValue> : TyneF
     /// <summary>
     ///     An <see cref="Expression"/> for the <typeparamref name="TValue"/> property to attach to.
     /// </summary>
-    [Parameter]
+    [Parameter, EditorRequired]
     public Expression<Func<TRequest, TValue>> For { get; set; } = null!;
     private readonly TynePropertyKeyCache<TRequest, TValue> ForCache = new();
     protected override TyneKey ForKey => ForCache.Update(For);

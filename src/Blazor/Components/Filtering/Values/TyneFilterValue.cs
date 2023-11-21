@@ -15,7 +15,7 @@ public class TyneFilterValue<TRequest, TValue> : TyneFilterValueBase<TRequest, T
     ///     The <typeparamref name="TValue"/> property on <typeparamref name="TRequest"/>
     ///     which this value is for.
     /// </summary>
-    [Parameter]
+    [Parameter, EditorRequired]
     public Expression<Func<TRequest, TValue>> For { get; set; } = null!;
     private readonly TynePropertyKeyCache<TRequest, TValue> _forCache = new(onlyUpdateOnce: true);
     protected override TyneKey ForKey => _forCache.Update(For);
@@ -59,4 +59,3 @@ public class TyneFilterValue<TRequest, TValue> : TyneFilterValueBase<TRequest, T
         await ValueChanged.InvokeAsync(newValue).ConfigureAwait(false);
     }
 }
-
