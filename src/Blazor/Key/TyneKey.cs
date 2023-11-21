@@ -184,19 +184,6 @@ public readonly struct TyneKey : IEquatable<TyneKey>
         !(left == right);
 
     /// <summary>
-    ///     Implicitly converts this instance to a <see cref="string"/>.
-    /// </summary>
-    /// <param name="key">
-    ///     The <see cref="TyneKey"/> to convert.
-    /// </param>
-    /// <remarks>
-    ///     This simply returns <paramref name="key"/>'s <see cref="Key"/>.
-    /// </remarks>
-    [Pure]
-    public static implicit operator string(in TyneKey key) =>
-        key.Key;
-
-    /// <summary>
     ///     Creates a <see cref="TyneKey"/> derived from <paramref name="key"/>.
     /// </summary>
     /// <param name="key">

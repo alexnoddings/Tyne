@@ -44,4 +44,7 @@ public abstract partial class TyneSelectFilterControllerBase<TRequest, TValue, T
         _ = EnsureFilterSupportsSelection();
         return Task.CompletedTask;
     }
+
+    protected virtual RenderFragment RenderItem(IFilterSelectItem<TSelectItem?> item) =>
+        builder => builder.AddContent(0, item?.AsString);
 }

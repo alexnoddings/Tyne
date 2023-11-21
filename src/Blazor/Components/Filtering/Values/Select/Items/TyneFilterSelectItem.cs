@@ -12,7 +12,7 @@ namespace Tyne.Blazor.Filtering.Values;
 ///     such as <see cref="TyneFilterSelectSingleValue{TRequest, TValue}"/>
 ///     or <see cref="TyneFilterSelectMultiValue{TRequest, TValue}"/>.
 /// </remarks>
-public sealed class TyneFilterSelectItem<TValue> : ComponentBase, IFilterSelectItem<TValue>, IDisposable
+public sealed class TyneFilterSelectItem<TValue> : ComponentBase, IFilterSelectItem<TValue, RenderFragment>, IDisposable
 {
     /// <summary>
     ///     The <typeparamref name="TValue"/> of this item.
@@ -20,13 +20,16 @@ public sealed class TyneFilterSelectItem<TValue> : ComponentBase, IFilterSelectI
     [Parameter, EditorRequired]
     public TValue? Value { get; set; }
 
+    [Parameter]
+    public string? AsString { get; set; }
+
     /// <summary>
     ///     Renders <see cref="Value"/>.
     /// </summary>
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    RenderFragment IFilterSelectItem<TValue>.Content =>
+    RenderFragment IFilterSelectItem<TValue, RenderFragment>.Metadata =>
         ChildContent ?? EmptyRenderFragment.Instance;
 
     [CascadingParameter]

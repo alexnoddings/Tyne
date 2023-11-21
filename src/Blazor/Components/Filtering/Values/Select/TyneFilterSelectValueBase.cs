@@ -12,8 +12,8 @@ namespace Tyne.Blazor.Filtering.Values;
 /// <remarks>
 ///     <para>
 ///         <typeparamref name="TValue"/> and <typeparamref name="TSelectValue"/> may differ
-///         to support multi-selection by having <typeparamref name="TValue"/> be an
-///         <see cref="IEnumerable{T}"/> of <typeparamref name="TSelectValue"/>.
+///         to support multi-selection by having <typeparamref name="TValue"/> be a
+///         <see cref="HashSet{T}"/> of <typeparamref name="TSelectValue"/>.
 ///     </para>
 ///     <para>
 ///         By default, this does not enforce that any values set through

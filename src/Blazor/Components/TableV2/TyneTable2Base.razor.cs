@@ -116,13 +116,85 @@ public abstract partial class TyneTable2Base<TRequest, TResponse>
         return ReloadServerData();
     }
 
+    /// <summary>
+    ///     Creates a <typeparamref name="TRequest"/> and configures it based on the arguments and the tables <see cref="IFilterContext{TRequest}"/>.
+    /// </summary>
+    /// <param name="page">The page number.</param>
+    /// <param name="pageSize">The page size.</param>
+    /// <param name="orderBy">Which property, if any, to order by.</param>
+    /// <param name="orderByDescending">
+    ///     <see langword="true"/> to order <paramref name="orderBy"/> descending; otherwise, <see langword="false"/>.
+    ///     This will be ignored if no <paramref name="orderBy"/> is specified.
+    /// </param>
+    /// <returns>
+    ///     A <typeparamref name="TRequest"/> configured based on the arguments and the tables <see cref="IFilterContext{TRequest}"/>.
+    ///     This may be <see langword="null"/> if a request could not be created, such as if the filter context has faulted.
+    /// </returns>
+    protected virtual async Task<TRequest?> CreateRequestAsync(int page, int pageSize, string? orderBy, bool orderByDescending)
+    {
+        if (_filterContext.IsFaulted)
+            return default;
+
+        var request = new TRequest
+        {
+            PageIndex = page,
+            PageSize = pageSize,
+            OrderBy = orderBy,
+            OrderByDescending = orderByDescending
+        };
+
+        await _filterContext.WaitForInitialisedAsync().ConfigureAwait(true);
+        await _filterContext.ConfigureRequestAsync(request).ConfigureAwait(true);
+
+        return request;
+    }
+
+    /// <summary>
+    ///     Creates a <typeparamref name="TRequest"/> and configures it based on based on <paramref name="state"/> and the tables <see cref="IFilterContext{TRequest}"/>.
+    /// </summary>
+    /// <param name="state">The current <see cref="TableState"/>.</param>
+    /// <returns>
+    ///     A <typeparamref name="TRequest"/> configured based on the <paramref name="state"/> and the tables <see cref="IFilterContext{TRequest}"/>.
+    ///     This may be <see langword="null"/> if a request could not be created, such as if the filter context has faulted.
+    /// </returns>
+    /// <remarks>
+    ///     This simply transforms <paramref name="state"/> into parameters for <see cref="CreateRequestAsync(int, int, string?, bool)"/>.
+    ///     See that method for the actual request creation and configuration.
+    /// </remarks>
+    protected Task<TRequest?> CreateRequestAsync(TableState state)
+    {
+        ArgumentNullException.ThrowIfNull(state);
+
+        string? orderBy;
+        bool orderByDescending;
+
+        if (state.SortDirection is SortDirection.Ascending)
+        {
+            orderBy = state.SortLabel;
+            orderByDescending = false;
+        }
+        else if (state.SortDirection is SortDirection.Descending)
+        {
+            orderBy = state.SortLabel;
+            orderByDescending = true;
+        }
+        else
+        {
+            orderBy = null;
+            orderByDescending = false;
+        }
+
+        return CreateRequestAsync(state.Page, state.PageSize, orderBy, orderByDescending);
+    }
+
     private async Task<TableData<TResponse>> LoadTableDataAsync(TableState state)
     {
         ArgumentNullException.ThrowIfNull(state);
 
         Logger.LogDebug("Loading table data.");
 
-        if (_filterContext.IsFaulted)
+        var request = await CreateRequestAsync(state).ConfigureAwait(false);
+        if (request is null)
         {
             return new TableData<TResponse>
             {
@@ -130,26 +202,6 @@ public abstract partial class TyneTable2Base<TRequest, TResponse>
                 Items = Enumerable.Empty<TResponse>(),
             };
         }
-
-        var request = new TRequest
-        {
-            PageIndex = state.Page,
-            PageSize = state.PageSize
-        };
-
-        if (state.SortDirection is SortDirection.Ascending)
-        {
-            request.OrderBy = state.SortLabel;
-            request.OrderByDescending = false;
-        }
-        else if (state.SortDirection is SortDirection.Descending)
-        {
-            request.OrderBy = state.SortLabel;
-            request.OrderByDescending = true;
-        }
-
-        await _filterContext.WaitForInitialisedAsync().ConfigureAwait(true);
-        await _filterContext.ConfigureRequestAsync(request).ConfigureAwait(true);
 
         var searchResults = await LoadDataAsync(request).ConfigureAwait(true);
 

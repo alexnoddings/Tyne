@@ -8,4 +8,9 @@ namespace Tyne.Blazor.Filtering.Controllers;
 /// <inheritdoc/>
 public partial class TyneMultiSelectBoxFilterController<TRequest, TValue>
 {
+    private string ConvertValueToString(TValue value) =>
+        SelectItems
+        ?.FirstOrDefault(item => item.Value?.Equals(value) == true)
+        ?.AsString
+        ?? string.Empty;
 }

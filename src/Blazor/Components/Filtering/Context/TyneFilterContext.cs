@@ -350,7 +350,7 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
         KeyEmptyException.ThrowIfEmpty(key, exceptionMessage: "Cannot attach a controller for an empty key.");
 
         if (!_valueHandles.TryGetValue(key, out var valueHandle))
-            throw new ArgumentException($"No value attached for key '{key}'.");
+            throw new ArgumentException($"No value attached for key '{key}'. Are you missing an '{nameof(IFilterValue<object>)}'?");
 
         _logger.LogFilterContextAttachingFilterController(key, controller.GetType());
 

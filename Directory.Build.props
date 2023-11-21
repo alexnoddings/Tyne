@@ -23,7 +23,7 @@
     <TyneMajorVersion>3</TyneMajorVersion>
     <TyneMinorVersion>1</TyneMinorVersion>
     <TynePatchVersion>0</TynePatchVersion>
-    <TynePreReleaseTag>rc.1</TynePreReleaseTag>
+    <TynePreReleaseTag>rc.2</TynePreReleaseTag>
     <Version>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</Version>
     <Version Condition=" '$(TynePreReleaseTag)' != '' ">$(Version)-$(TynePreReleaseTag)</Version>
     <PackageVersion>$(Version)</PackageVersion>

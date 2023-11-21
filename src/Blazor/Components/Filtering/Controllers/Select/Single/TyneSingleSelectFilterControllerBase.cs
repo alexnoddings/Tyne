@@ -12,7 +12,7 @@ public abstract partial class TyneSingleSelectFilterControllerBase<TRequest, TVa
     /// <summary>
     ///     An <see cref="Expression"/> for the <typeparamref name="TValue"/> property to attach to.
     /// </summary>
-    [Parameter]
+    [Parameter, EditorRequired]
     public Expression<Func<TRequest, TValue>> For { get; set; } = null!;
     /// <summary>
     ///     A <see cref="TynePropertyKeyCache{TSource, TProperty}"/> which caches the <see cref="TyneKey"/> which <see cref="For"/> points to.

@@ -74,6 +74,9 @@ public abstract class TyneFilterControllerBase<TRequest, TValue> : ComponentBase
     /// </remarks>
     protected override void OnInitialized()
     {
+        if (ForKey.IsEmpty)
+            throw new KeyEmptyException($"Controller can't attach to empty {nameof(ForKey)}. Are you missing a For property?");
+
         _handle = Context.AttachController(ForKey, this);
     }
 
