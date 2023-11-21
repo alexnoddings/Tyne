@@ -146,7 +146,7 @@ public abstract class TyneFilterValueBase<TRequest, TValue> : ComponentBase, IFi
         // so this should always be the first method called
         var forKey = ForKey;
         if (forKey.IsEmpty)
-            throw new InvalidOperationException($"{nameof(ForKey)} cannot be empty.");
+            throw new KeyEmptyException($"Value can't be attached to empty {nameof(ForKey)}. Are you missing a For property?");
 
         // Always attach a handle, regardless of if we could generate a setter.
         // We won't be able to configure the request later, but it will stop as many
