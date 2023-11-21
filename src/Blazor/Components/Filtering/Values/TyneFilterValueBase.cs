@@ -26,24 +26,29 @@ public abstract class TyneFilterValueBase<TRequest, TValue> : ComponentBase, IFi
     protected enum SetValueBehaviour
     {
         /// <summary>
-        ///     Only update the <see cref="Value"/>.
+        ///     Does nothing.
         /// </summary>
         None = 0,
 
         /// <summary>
+        ///     Sets the <see cref="Value"/>.
+        /// </summary>
+        SetValue = 1 << 0,
+
+        /// <summary>
         ///     Notifies the <see cref="Context"/> that this value has updated.
         /// </summary>
-        NotifyContext = 1 << 0,
+        NotifyContext = 1 << 1,
 
         /// <summary>
         ///     Notifies the <see cref="Context"/> that the data being filtered should be reloaded.
         /// </summary>
-        ReloadData = 1 << 1,
+        ReloadData = 1 << 2,
 
         /// <summary>
         ///     Persists the new value.
         /// </summary>
-        Persist = 1 << 2,
+        Persist = 1 << 3,
 
         /// <summary>
         ///     The default behaviour.
@@ -51,12 +56,13 @@ public abstract class TyneFilterValueBase<TRequest, TValue> : ComponentBase, IFi
         /// <remarks>
         ///     This will:
         ///     <list type="bullet">
+        ///         <item><see cref="SetValue"/></item>
         ///         <item><see cref="NotifyContext"/></item>
         ///         <item><see cref="ReloadData"/></item>
         ///         <item><see cref="Persist"/></item>
         ///     </list>
         /// </remarks>
-        Default = NotifyContext | ReloadData | Persist
+        Default = SetValue | NotifyContext | ReloadData | Persist
     }
 
     /// <inheritdoc/>
@@ -277,7 +283,7 @@ public abstract class TyneFilterValueBase<TRequest, TValue> : ComponentBase, IFi
     protected virtual Task TryInitialiseValueFromDefaultAsync()
     {
         var value = DefaultValue;
-        return SetValueAsync(value, SetValueBehaviour.None);
+        return SetValueAsync(value, SetValueBehaviour.SetValue);
     }
 
     /// <summary>
@@ -295,12 +301,12 @@ public abstract class TyneFilterValueBase<TRequest, TValue> : ComponentBase, IFi
         if (persistAs.IsEmpty)
             return false;
 
-        var valueOption = Context.Persistence.GetValue<TValue>(persistAs);
+        var valueOption = Context.Persistence.GetValue<TValue>(persistAs.Key);
         if (!valueOption.HasValue)
             return false;
 
         var value = valueOption.Value;
-        await SetValueAsync(value, SetValueBehaviour.None).ConfigureAwait(false);
+        await SetValueAsync(value, SetValueBehaviour.SetValue).ConfigureAwait(false);
         return true;
     }
 
@@ -313,7 +319,7 @@ public abstract class TyneFilterValueBase<TRequest, TValue> : ComponentBase, IFi
     {
         var persistAs = PersistKey;
         if (!persistAs.IsEmpty)
-            Context.Persistence.SetValue(persistAs, value);
+            Context.Persistence.SetValue(persistAs.Key, value);
 
         return Task.CompletedTask;
     }
@@ -337,9 +343,10 @@ public abstract class TyneFilterValueBase<TRequest, TValue> : ComponentBase, IFi
     /// </remarks>
     protected virtual async Task SetValueAsync(TValue? newValue, SetValueBehaviour behaviour)
     {
-        Value = newValue;
-
         var handle = Handle;
+
+        if ((behaviour & SetValueBehaviour.SetValue) != 0)
+            Value = newValue;
 
         if ((behaviour & SetValueBehaviour.Persist) != 0)
             await TryPersistValueAsync(newValue).ConfigureAwait(false);
