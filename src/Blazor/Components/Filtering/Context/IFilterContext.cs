@@ -61,7 +61,7 @@ public interface IFilterContext<out TRequest>
     ///         goes out of scope to ensure that it is properly detached from the context.
     ///     </para>
     ///     <para>
-    ///         Filters should only be attached during context initialisation.
+    ///         Filters can only be attached during context initialisation.
     ///     </para>
     ///     <para>
     ///         See <see cref="IFilterValueHandle{TValue}"/>'s docs for what filters can do once attached to the context.
@@ -91,6 +91,9 @@ public interface IFilterContext<out TRequest>
     ///     <para>
     ///         This method should only be called once all values have been attached.
     ///         An exception will be thrown if a controller tries to attach to a key before a value is attached to it.
+    ///     </para>
+    ///     <para>
+    ///         Unlike filter values, controllers may be attached after context initialisation.
     ///     </para>
     ///     <para>
     ///         See <see cref="IFilterValueHandle{TValue}"/>'s docs for what controllers can do once attached to the context.

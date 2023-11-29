@@ -343,10 +343,6 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
     public IFilterControllerHandle<TValue> AttachController<TValue>(TyneKey key, IFilterController<TValue> controller)
     {
         ArgumentNullException.ThrowIfNull(controller);
-
-        if (_initTask is not null)
-            throw new InvalidOperationException("Filter controllers can only be registered prior to context initialisation.");
-
         KeyEmptyException.ThrowIfEmpty(key, exceptionMessage: "Cannot attach a controller for an empty key.");
 
         if (!_valueHandles.TryGetValue(key, out var valueHandle))
