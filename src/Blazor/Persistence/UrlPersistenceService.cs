@@ -87,7 +87,7 @@ internal sealed class UrlPersistenceService : IUrlPersistenceService
             }
             else if (typeof(T) == typeof(DateTime) || typeof(T) == typeof(DateTime?))
             {
-                if (DateTime.TryParseExact(valueStr, DateTimeFormat, provider: null, DateTimeStyles.None, out var dateTime))
+                if (DateTime.TryParseExact(valueStr, DateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateTime))
                     value = Option.Some((T)(object)dateTime);
                 else
                     value = Option.None<T>();

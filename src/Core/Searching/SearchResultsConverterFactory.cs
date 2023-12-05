@@ -37,6 +37,7 @@ public sealed class SearchResultsConverterFactory : JsonConverterFactory
     /// </remarks>
     /// <exception cref="ArgumentNullException">When <paramref name="typeToConvert"/> or <paramref name="options"/> are <see langword="null"/>.</exception>
     /// <exception cref="NotSupportedException">If <see cref="CanConvert(Type)"/> returns false for <paramref name="typeToConvert"/>.</exception>
+    [SuppressMessage("Major Code Smell", "S2589: Boolean expressions should not be gratuitous", Justification = "False positive.")]
     public override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
     {
         ArgumentNullException.ThrowIfNull(typeToConvert);

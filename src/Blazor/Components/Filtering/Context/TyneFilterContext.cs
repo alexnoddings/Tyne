@@ -43,7 +43,7 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
     ///         Use of a faulted context is not defined behaviour.
     ///     </para>
     /// </remarks>
-    public bool IsFaulted => _initTask?.IsCompleted is true && _initTask.IsCompletedSuccessfully is false;
+    public bool IsFaulted => _initTask?.IsCompleted is true && !_initTask.IsCompletedSuccessfully;
 
     // Used during hot reloading to allow filters to overwrite existing ones which haven't disposed yet
     private bool _allowValueOverwriting;
