@@ -5,6 +5,7 @@
 @typeparam TRequest where TRequest : ISearchQuery, new()
 @typeparam TResponse
 @inherits MudTable<TResponse>
+@implements ITyneTable2
 @implements IDisposable
 
 @if (_filterContext.IsFaulted)

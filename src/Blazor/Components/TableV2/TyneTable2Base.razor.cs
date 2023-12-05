@@ -106,10 +106,7 @@ public abstract partial class TyneTable2Base<TRequest, TResponse>
         await base.OnAfterRenderAsync(true).ConfigureAwait(false);
     }
 
-    /// <summary>
-    ///     Causes the data in the table to be reloaded.
-    /// </summary>
-    /// <returns>A <see cref="Task"/> representing the reload.</returns>
+    /// <inheritdoc/>
     public Task ReloadDataAsync()
     {
         Logger.LogDebug("Reloading server data.");
