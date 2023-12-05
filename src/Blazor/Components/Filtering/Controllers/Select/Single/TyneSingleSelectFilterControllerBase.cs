@@ -26,9 +26,7 @@ public abstract partial class TyneSingleSelectFilterControllerBase<TRequest, TVa
     /// <param name="newValue">The new <typeparamref name="TValue"/>.</param>
     /// <returns>A <see cref="Task"/> representing the value being set.</returns>
     /// <remarks>
-    ///     <para>
-    ///         This is a convenient shorthand to access <see cref="Handle"/>.
-    ///     </para>
+    ///     This is a convenient shorthand to access the handle.
     /// </remarks>
     protected Task SetValueAsync(TValue? newValue) =>
         Handle.Filter.SetValueAsync(newValue);
