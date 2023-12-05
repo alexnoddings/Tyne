@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Tyne;
 
 internal static class AssertOption
@@ -60,6 +62,8 @@ internal static class AssertOption
             Assert.NotEqual(expected.GetHashCode(), actual.GetHashCode());
     }
 
+    [SuppressMessage("Major Bug", "S2583: Conditionally executed code should be reachable", Justification = "False positive.")]
+    [SuppressMessage("Major Code Smell", "S2589: Boolean expressions should not be gratuitous", Justification = "False positive.")]
     public static void Assert_AreEqual<T>(T? expected, in Option<T> actual)
     {
         Assert.Equal(expected, actual);
