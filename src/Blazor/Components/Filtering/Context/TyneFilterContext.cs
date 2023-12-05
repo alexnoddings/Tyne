@@ -354,12 +354,24 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
         // so we need to type-check it first to make sure.
         if (valueHandle.FilterInstance is not IFilterValue<TRequest, TValue> filterValue)
         {
-            // With Value Types, Interface<TValue?> becomes Interface<Nullable<T>>, which will fail a type-test against Interface<T>,
-            // so we include a warning in the exception to hint users towards different nullabilities being the potential problem.
-            if (typeof(TValue).IsValueType)
-                throw new ArgumentException($"Value attached for key '{key}' is not of type {typeof(TValue)}. Do you have a mismatch between nullable annotations?");
+            var filterActualValueType = valueHandle.FilterInstance
+                .GetType()
+                .GetInterfaces()
+                .Where(i => i.IsGenericType)
+                .Where(i => i.GetGenericTypeDefinition() == typeof(IFilterValue<,>))
+                .Select(i => i.GetGenericArguments()[1])
+                .FirstOrDefault();
 
-            throw new ArgumentException($"Value attached for key '{key}' is not of type {typeof(TValue)}.");
+            // We shouldn't have filter values registered which don't implement IFilterValue<,>
+            if (filterActualValueType is null)
+                throw new ArgumentException($"Value attached for key '{key}' is not compatible with '{typeof(TValue)}'");
+
+            // With Value Types, Interface<TValue?> becomes Interface<Nullable<T>>, which will fail a type-test against Interface<T>.
+            // So we check if our TValue and IFilterValue's TValue are similar, but one is a Nullable<T> version of the other.
+            if (IsNullableOf(typeof(TValue), filterActualValueType) || IsNullableOf(filterActualValueType, typeof(TValue)))
+                throw new ArgumentException($"Value attached for key '{key}' is '{filterActualValueType}', but the controller is '{typeof(TValue)}', which is incompatible. Ensure nullable annotations match.");
+
+            throw new ArgumentException($"Value attached for key '{key}' is '{filterActualValueType}', but the controller is '{typeof(TValue)}', which is incompatible.");
         }
 
         // Create a new set of handles if one hasn't already been attached
@@ -369,6 +381,20 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
         var controllerHandle = new FilterControllerHandle<TRequest, TValue>(this, key, filterValue, controller);
         controllerHandles.Add(controllerHandle);
         return controllerHandle;
+    }
+
+    private static bool IsNullableOf(Type maybeNullableType, Type maybeValueType)
+    {
+        if (!maybeNullableType.IsValueType)
+            return false;
+
+        if (!maybeNullableType.IsGenericType || maybeNullableType.GetGenericTypeDefinition() != typeof(Nullable<>))
+            return false;
+
+        if (Nullable.GetUnderlyingType(maybeNullableType) != maybeValueType)
+            return false;
+
+        return true;
     }
 
     /// <summary>
