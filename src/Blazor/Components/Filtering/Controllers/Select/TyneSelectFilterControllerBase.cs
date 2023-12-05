@@ -29,7 +29,7 @@ public abstract partial class TyneSelectFilterControllerBase<TRequest, TValue, T
     private IFilterSelectValue<TSelectItem> EnsureFilterSupportsSelection()
     {
         if (Handle.Filter is not IFilterSelectValue<TSelectItem> filterSelectValue)
-            throw new InvalidOperationException($"{nameof(TyneSingleSelectBoxFilterController<TRequest, TValue>)} is not compatible with filter value for '{ForKey}'; filter value does not support {nameof(IFilterSelectValue<TSelectItem>)}<{typeof(TSelectItem).Name}>.");
+            throw new InvalidOperationException($"{nameof(TyneSelectFilterControllerBase<TRequest, TValue, TSelectItem>)} is not compatible with filter value for '{ForKey}'; filter value does not support {nameof(IFilterSelectValue<TSelectItem>)}<{typeof(TSelectItem).Name}>.");
 
         return filterSelectValue;
     }
