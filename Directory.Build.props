@@ -23,7 +23,7 @@
     <TyneMajorVersion>3</TyneMajorVersion>
     <TyneMinorVersion>1</TyneMinorVersion>
     <TynePatchVersion>0</TynePatchVersion>
-    <TynePreReleaseTag>rc.3</TynePreReleaseTag>
+    <TynePreReleaseTag>rc.4</TynePreReleaseTag>
     <Version>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</Version>
     <Version Condition=" '$(TynePreReleaseTag)' != '' ">$(Version)-$(TynePreReleaseTag)</Version>
     <PackageVersion>$(Version)</PackageVersion>
@@ -56,7 +56,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.4.0.72892">
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.14.0.81108">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>

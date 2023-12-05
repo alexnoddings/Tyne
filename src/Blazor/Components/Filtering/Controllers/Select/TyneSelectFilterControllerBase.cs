@@ -26,11 +26,16 @@ public abstract partial class TyneSelectFilterControllerBase<TRequest, TValue, T
     protected ICollection<IFilterSelectItem<TSelectItem?>>? SelectItems =>
             EnsureFilterSupportsSelection().SelectItems;
 
+    private IFilterSelectValue<TSelectItem>? _filterSelectValue;
     private IFilterSelectValue<TSelectItem> EnsureFilterSupportsSelection()
     {
-        if (Handle.Filter is not IFilterSelectValue<TSelectItem> filterSelectValue)
-            throw new InvalidOperationException($"{nameof(TyneSingleSelectBoxFilterController<TRequest, TValue>)} is not compatible with filter value for '{ForKey}'; filter value does not support {nameof(IFilterSelectValue<TSelectItem>)}<{typeof(TSelectItem).Name}>.");
+        if (_filterSelectValue is not null)
+            return _filterSelectValue;
 
+        if (Handle.Filter is not IFilterSelectValue<TSelectItem> filterSelectValue)
+            throw new InvalidOperationException($"{nameof(TyneSelectFilterControllerBase<TRequest, TValue, TSelectItem>)} is not compatible with filter value for '{ForKey}'; filter value does not support {nameof(IFilterSelectValue<TSelectItem>)}<{typeof(TSelectItem).Name}>.");
+
+        _filterSelectValue = filterSelectValue;
         return filterSelectValue;
     }
 

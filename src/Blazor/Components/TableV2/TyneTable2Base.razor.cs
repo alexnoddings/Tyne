@@ -106,10 +106,7 @@ public abstract partial class TyneTable2Base<TRequest, TResponse>
         await base.OnAfterRenderAsync(true).ConfigureAwait(false);
     }
 
-    /// <summary>
-    ///     Causes the data in the table to be reloaded.
-    /// </summary>
-    /// <returns>A <see cref="Task"/> representing the reload.</returns>
+    /// <inheritdoc/>
     public Task ReloadDataAsync()
     {
         Logger.LogDebug("Reloading server data.");
@@ -133,7 +130,10 @@ public abstract partial class TyneTable2Base<TRequest, TResponse>
     protected virtual async Task<TRequest?> CreateRequestAsync(int page, int pageSize, string? orderBy, bool orderByDescending)
     {
         if (_filterContext.IsFaulted)
+        {
+            Logger.LogDebug("Cannot create table request - filter context is faulted.");
             return default;
+        }
 
         var request = new TRequest
         {
@@ -187,28 +187,49 @@ public abstract partial class TyneTable2Base<TRequest, TResponse>
         return CreateRequestAsync(state.Page, state.PageSize, orderBy, orderByDescending);
     }
 
+    [SuppressMessage("Design", "CA1031: Do not catch general exception types", Justification = "Any uncaught exceptions are swallowed, this ensures they get logged.")]
     private async Task<TableData<TResponse>> LoadTableDataAsync(TableState state)
     {
         ArgumentNullException.ThrowIfNull(state);
 
-        Logger.LogDebug("Loading table data.");
+        using var loggerScope = Logger.BeginScope("Loading table data");
 
-        var request = await CreateRequestAsync(state).ConfigureAwait(false);
-        if (request is null)
+        Logger.LogDebug("Creating request.");
+        TRequest? request;
+        try
         {
-            return new TableData<TResponse>
-            {
-                TotalItems = 0,
-                Items = Enumerable.Empty<TResponse>(),
-            };
+            request = await CreateRequestAsync(state).ConfigureAwait(false);
+            if (request is null)
+                return EmptyTableData();
+        }
+        catch (Exception exception)
+        {
+            Logger.LogError(exception, "Error creating request to load table data.");
+            return EmptyTableData();
         }
 
-        var searchResults = await LoadDataAsync(request).ConfigureAwait(true);
+        Logger.LogDebug("Executing search.");
+        SearchResults<TResponse> searchResults;
+        try
+        {
+            searchResults = await LoadDataAsync(request).ConfigureAwait(true);
+        }
+        catch (Exception exception)
+        {
+            Logger.LogError(exception, "Error loading table data.");
+            return EmptyTableData();
+        }
 
         return new TableData<TResponse>
         {
             TotalItems = searchResults.TotalCount,
             Items = searchResults
+        };
+
+        static TableData<TResponse> EmptyTableData() => new TableData<TResponse>
+        {
+            TotalItems = 0,
+            Items = Enumerable.Empty<TResponse>(),
         };
     }
 
