@@ -40,6 +40,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFramework.UserService.Core", "src\EntityFramework.UserService.Core\EntityFramework.UserService.Core.csproj", "{5D0BAB8E-6D31-4C54-B4B8-907AC7CEAD8E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9183680E-6DB6-4E34-BF2E-7A75CC775D22}"
+	ProjectSection(SolutionItems) = preProject
+		test\Directory.Build.props = test\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Tests", "test\Blazor.Tests\Blazor.Tests.csproj", "{78422848-9F95-4E3A-9950-4004D047EAEA}"
 EndProject
