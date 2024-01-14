@@ -149,6 +149,9 @@ public abstract class TyneFilterValueCore<TRequest, TValue> : ComponentBase, IFi
         if (forKey.IsEmpty)
             throw new KeyEmptyException($"Value can't be attached to empty {nameof(ForKey)}. Are you missing a For property?");
 
+        if (Context is null)
+            throw new InvalidOperationException($"{GetType().Name} requires a cascading parameter of type {nameof(IFilterContext<object>)}<{typeof(TRequest).Name}>.");
+
         // Always attach a handle, regardless of if we could generate a setter.
         // We won't be able to configure the request later, but it will stop as many
         // errors where controllers try to attach to invalid values.
