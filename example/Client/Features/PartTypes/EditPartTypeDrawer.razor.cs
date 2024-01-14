@@ -1,7 +1,5 @@
 using MediatR;
 using Microsoft.AspNetCore.Components;
-using Tyne.Blazor;
-using Tyne;
 
 namespace Tyne.Aerospace.Client.Features.PartTypes;
 
@@ -26,7 +24,7 @@ public partial class EditPartTypeDrawer : TyneFormBase<Guid, EditPartType.Reques
     {
         await CloseAsync(FormCloseTrigger.FromCode);
         if (Table is not null)
-            await Table.ReloadServerDataAsync();
+            await Table.ReloadDataAsync();
     }
 
     private async Task DeleteAsync()
@@ -39,6 +37,6 @@ public partial class EditPartTypeDrawer : TyneFormBase<Guid, EditPartType.Reques
 
         await CloseAsync(FormCloseTrigger.FromCode);
         if (Table is not null)
-            await Table.ReloadServerDataAsync();
+            await Table.ReloadDataAsync();
     }
 }

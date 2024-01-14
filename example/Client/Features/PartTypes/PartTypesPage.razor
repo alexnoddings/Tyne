@@ -20,50 +20,22 @@
                Dense="true"
                Hover="true"
                Striped="true">
-        <TyneHeaderContent>
-            <TyneStringColumn TRequest="SearchPartTypes.Request" TResponse="SearchPartTypes.Response" OrderBy="partType => partType.Name" For="partType => partType.Name" PersistAs="*" SyncAs="*">
-                Name
-            </TyneStringColumn>
-            <TyneSelectColumn TRequest="SearchPartTypes.Request" TResponse="SearchPartTypes.Response" TValue="string" OrderBy="partType => partType.Name" For="partType => partType.Name" Type="TyneSelectColumnType.Radio" PersistAs="*" SyncAs="*">
-                <ChildContent>
-                    Name (select)
-                </ChildContent>
-                <Values>
-                    <TyneSelectValue Value="@("Consumables")">Consumable parts</TyneSelectValue>
-                    <TyneSelectValue Value="@("Electronics")">Electronics</TyneSelectValue>
-                    <TyneSelectValue Value="@("Engines")">Engines</TyneSelectValue>
-                    <TyneSelectValue Value="@("Other")">Other</TyneSelectValue>
-                </Values>
-            </TyneSelectColumn>
-            <TyneMultiSelectColumn TRequest="SearchPartTypes.Request" TResponse="SearchPartTypes.Response" TValue="string" OrderBy="partType => partType.Name" For="partType => partType.Names" Type="TyneMultiSelectColumnType.Checkbox" PersistAs="*" SyncAs="*">
-                <ChildContent>
-                    Name (multi select)
-                </ChildContent>
-                <Values>
-                    <TyneSelectValue Value="@("Consumables")">Consumable parts</TyneSelectValue>
-                    <TyneSelectValue Value="@("Electronics")">Electronics</TyneSelectValue>
-                    <TyneSelectValue Value="@("Engines")">Engines</TyneSelectValue>
-                    <TyneSelectValue Value="@("Other")">Other</TyneSelectValue>
-                </Values>
-            </TyneMultiSelectColumn>
-            <TyneDateRangeColumn TRequest="SearchPartTypes.Request" TResponse="SearchPartTypes.Response" OrderBy="partType => partType.CreatedAt" ForMin="partType => partType.CreatedAtMin" ForMax="partType => partType.CreatedAtMax">
-                Created
-            </TyneDateRangeColumn>
-            <TyneDateRangeColumn TRequest="SearchPartTypes.Request" TResponse="SearchPartTypes.Response" OrderBy="partType => partType.LastUpdatedAt" ForMin="partType => partType.LastUpdatedAtMin" ForMax="partType => partType.LastUpdatedAtMax">
-                Last updated
-            </TyneDateRangeColumn>
+        <HeaderContent>
+            <MudTh>
+                TBA
+            </MudTh>
+            <MudTh>
+                TBA
+            </MudTh>
+            <MudTh>
+                TBA
+            </MudTh>
             <MudTh>
             </MudTh>
-        </TyneHeaderContent>
+        </HeaderContent>
         <RowTemplate Context="PartType">
             <MudTd>
                 @PartType.Name
-            </MudTd>
-            <MudTd>
-                &lt;--
-            </MudTd>
-            <MudTd>
-                &lt;--
             </MudTd>
             <MudTd>
                 <ActionByAt AtUtc="PartType.CreatedAt" ByName="@PartType.CreatedByName" />
