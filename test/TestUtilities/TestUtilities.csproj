@@ -2,14 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <AssemblyName>Tyne.Core.Tests</AssemblyName>
+    <AssemblyName>Tyne.TestUtilities</AssemblyName>
     <RootNamespace>Tyne</RootNamespace>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Core\Core.csproj" />
-    <ProjectReference Include="..\TestUtilities\TestUtilities.csproj" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="coverlet.collector" PrivateAssets="all" />
@@ -18,6 +13,10 @@
     <PackageReference Include="NSubstitute.Analyzers.CSharp" PrivateAssets="all" />
     <PackageReference Include="xunit" />
     <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Core\Core.csproj" />
   </ItemGroup>
 
 </Project>

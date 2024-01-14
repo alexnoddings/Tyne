@@ -16,9 +16,14 @@
     <ContinuousIntegrationBuild Condition=" '$(GITHUB_ACTIONS)' == 'true' ">true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
-  <!-- Makes internals of non-test projects available to their *.Tests project counterpart. -->
+  <!--
+    Makes internals of non-test projects available to:
+    - their *.Tests project counterpart
+    - the test utilities project
+  -->
   <ItemGroup Label="Visibility for test projects" Condition="!$(IsTestProject)">
     <InternalsVisibleTo Include="$(AssemblyName).Tests" />
+    <InternalsVisibleTo Include="Tyne.TestUtilities" />
   </ItemGroup>
 
   <!-- Ensures a <Description> property is set for anything packable. -->

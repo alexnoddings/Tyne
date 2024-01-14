@@ -1,9 +1,11 @@
 namespace Tyne;
 
-internal static class AssertResult
+public static class AssertResult
 {
     public static void IsOk<T>(T expected, Result<T> actual)
     {
+        ArgumentNullException.ThrowIfNull(actual);
+
         Assert.True(actual.IsOk);
         Assert.Equal(expected, actual.Value);
 
@@ -13,6 +15,8 @@ internal static class AssertResult
 
     public static void IsError<T>(in Error expected, in Result<T> actual)
     {
+        ArgumentNullException.ThrowIfNull(actual);
+
         Assert.False(actual.IsOk);
         Assert.Equal(expected, actual.Error);
 
@@ -27,6 +31,8 @@ internal static class AssertResult
 
     public static void IsError<T>(int expectedErrorCode, string expectedErrorMessage, Exception? expectedException, in Result<T> actual)
     {
+        ArgumentNullException.ThrowIfNull(actual);
+
         Assert.False(actual.IsOk);
         Assert.Equal(expectedErrorCode, actual.Error.Code);
         Assert.Equal(expectedErrorMessage, actual.Error.Message);
@@ -45,6 +51,9 @@ internal static class AssertResult
 
     public static void AreEqual<T>(in Result<T> expected, in Result<T> actual)
     {
+        ArgumentNullException.ThrowIfNull(expected);
+        ArgumentNullException.ThrowIfNull(actual);
+
         Assert.Equal(expected, actual);
 
         Assert.True(expected == actual);
@@ -67,6 +76,9 @@ internal static class AssertResult
 
     public static void AreNotEqual<T>(in Result<T> expected, in Result<T> actual)
     {
+        ArgumentNullException.ThrowIfNull(expected);
+        ArgumentNullException.ThrowIfNull(actual);
+
         Assert.NotEqual(expected, actual);
 
         Assert.False(expected == actual);

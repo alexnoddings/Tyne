@@ -1,6 +1,6 @@
 namespace Tyne;
 
-internal static class AssertExt
+public static class AssertExt
 {
     // Shorthands to check a valid arg null exception is thrown
     // (we don't bother checking message/param are anything other than not-empty)

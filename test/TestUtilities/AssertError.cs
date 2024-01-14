@@ -1,6 +1,6 @@
 namespace Tyne;
 
-internal static class AssertError
+public static class AssertError
 {
     public static void IsDefault(in Error actual) =>
         AreEqual(Error.Default, actual);
@@ -9,6 +9,9 @@ internal static class AssertError
 
     public static void AreEqual(in Error expected, in Error actual)
     {
+        ArgumentNullException.ThrowIfNull(expected);
+        ArgumentNullException.ThrowIfNull(actual);
+
         Assert.Equal(expected, actual);
 
         Assert.True(expected == actual);
@@ -31,6 +34,9 @@ internal static class AssertError
 
     public static void AreNotEqual(in Error expected, in Error actual)
     {
+        ArgumentNullException.ThrowIfNull(expected);
+        ArgumentNullException.ThrowIfNull(actual);
+
         Assert.NotEqual(expected, actual);
 
         Assert.False(expected == actual);
