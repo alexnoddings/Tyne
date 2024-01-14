@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 namespace Tyne.Blazor.Tables.Columns;
 
 /// <summary>
-///     A column for use in a <see cref="TyneTable2Base{TRequest, TResponse}"/>.
+///     A column for use in a <see cref="TyneTableBase{TRequest, TResponse}"/>.
 /// </summary>
 /// <typeparam name="TResponse">The type of response.</typeparam>
 public partial class TyneColumnHeader<TResponse> : ComponentBase

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Tyne.Blazor.Tables;
 using Tyne.MediatorEndpoints;
 using Tyne.Searching;
 

@@ -3,7 +3,7 @@ title: Tables
 ---
 
 # Tables
-As of v3.1, Tyne has a new [V2 table](xref:Tyne.Blazor.Tables.TyneTable2Base`2). This uses the new [filtering context](./filtering.md) also introduced in v3.1. New tables should use V2 as the V1 table system will be phased out eventually.
+Tyne's tables are based on Tyne's [filtering context](./filtering.md).
 
 ## Column headers controllers
 Tyne provides the following controllers designed for use in column headers.

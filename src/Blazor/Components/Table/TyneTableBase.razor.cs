@@ -22,9 +22,9 @@ namespace Tyne.Blazor.Tables;
 /// <typeparam name="TResponse">The type of data being loaded.</typeparam>
 [CascadingTypeParameter(nameof(TRequest))]
 [CascadingTypeParameter(nameof(TResponse))]
-public abstract partial class TyneTable2Base<TRequest, TResponse>
+public abstract partial class TyneTableBase<TRequest, TResponse>
 {
-    private const string ServerDataErrorMessage = $"ServerData should not be used on {nameof(TyneTable2Base<TRequest, TResponse>)}s as this is how Tyne overrides Mud's data loading.";
+    private const string ServerDataErrorMessage = $"ServerData should not be used on {nameof(TyneTableBase<TRequest, TResponse>)}s as this is how Tyne overrides Mud's data loading.";
     /// <summary>
     ///     Do not use this property.
     /// </summary>
@@ -60,16 +60,16 @@ public abstract partial class TyneTable2Base<TRequest, TResponse>
     private TyneFilterContext<TRequest> _filterContext = null!;
 
     /// <summary>
-    ///     Constructs a new <see cref="TyneTable2Base{TRequest, TResponse}"/>.
+    ///     Constructs a new <see cref="TyneTableBase{TRequest, TResponse}"/>.
     /// </summary>
-    protected TyneTable2Base()
+    protected TyneTableBase()
     {
         UserAttributes.Add("aria-role", "table");
         base.ServerData = LoadTableDataAsync;
     }
 
     /// <summary>
-    ///     Initialises the <see cref="TyneTable2Base{TRequest, TResponse}"/>'s filtering context.
+    ///     Initialises the <see cref="TyneTableBase{TRequest, TResponse}"/>'s filtering context.
     /// </summary>
     protected override void OnInitialized()
     {
