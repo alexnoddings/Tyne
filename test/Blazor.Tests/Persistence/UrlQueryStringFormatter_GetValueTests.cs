@@ -1,12 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using Bunit;
-using Bunit.TestDoubles;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Tyne.Blazor.Persistence;
 
-public class UrlPersistenceService_GetValueTests : TestContext
+public class UrlQueryStringFormatter_GetValueTests
 {
     private const string QueryParameterKey = "testGetValue";
 
@@ -14,10 +11,10 @@ public class UrlPersistenceService_GetValueTests : TestContext
     private static MethodInfo Get_GetValueT_MethodInfo()
     {
         const string methodName = nameof(GetValueT_Works);
-        const BindingFlags methodFlags = BindingFlags.NonPublic | BindingFlags.Instance;
+        const BindingFlags methodFlags = BindingFlags.NonPublic | BindingFlags.Static;
 
         var method =
-            typeof(UrlPersistenceService_GetValueTests)
+            typeof(UrlQueryStringFormatter_GetValueTests)
             .GetMethod(methodName, methodFlags);
 
         if (method is null)
@@ -26,17 +23,10 @@ public class UrlPersistenceService_GetValueTests : TestContext
         return method;
     }
 
-    public UrlPersistenceService_GetValueTests() : base()
-    {
-        Services.AddSingleton<IUrlQueryStringFormatter, UrlQueryStringFormatter>();
-        Services.AddSingleton<UrlPersistenceService>();
-    }
-
     public static IEnumerable<object?[]> GetValue_Data => UrlUtilities_TestHelpers.StringToValue_Data;
 
     [Theory]
     [MemberData(nameof(GetValue_Data))]
-    [SuppressMessage("Usage", "xUnit1026: Theory methods should use all of their parameters", Justification = "False positive, expectedOption is used.")]
     [SuppressMessage("Blocker Code Smell", "S2699:Tests should include assertions", Justification = "Assertions are handled by the generic method invoked.")]
     public void GetValue_Works(string queryParameterValue, object expectedOption)
     {
@@ -51,19 +41,18 @@ public class UrlPersistenceService_GetValueTests : TestContext
             ? Uri.EscapeDataString(queryParameterValue)
             : null;
 
-        var navigationManager = Services.GetRequiredService<FakeNavigationManager>();
-        navigationManager.NavigateTo($"/test/page?{QueryParameterKey}={queryParameterEncodedValue}");
+        var uri = $"https://localhost/test/page?{QueryParameterKey}={queryParameterEncodedValue}";
 
         var optionType = expectedOptionType.GenericTypeArguments[0];
         GetValueT_MethodInfo
             .MakeGenericMethod(optionType)
-            .Invoke(this, [expectedOption]);
+            .Invoke(null, [uri, expectedOption]);
     }
 
-    private void GetValueT_Works<T>(Option<T> expectedOption)
+    private static void GetValueT_Works<T>(string uri, Option<T> expectedOption)
     {
-        var persistenceService = Services.GetRequiredService<UrlPersistenceService>();
-        var actualValue = persistenceService.GetValue<T>(QueryParameterKey);
+        var urlQueryStringFormatter = new UrlQueryStringFormatter();
+        var actualValue = urlQueryStringFormatter.GetValue<T>(uri, QueryParameterKey);
         Assert.Equal(expectedOption, actualValue);
     }
 }

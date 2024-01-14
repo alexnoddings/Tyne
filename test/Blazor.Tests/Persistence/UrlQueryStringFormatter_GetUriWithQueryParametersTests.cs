@@ -1,25 +1,26 @@
 using System.Web;
-using Bunit;
-using Bunit.TestDoubles;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Tyne.Blazor.Persistence;
 
-public class UrlPersistenceService_BulkSetValuesTests : TestContext
+public class UrlQueryStringFormatter_GetUriWithQueryParametersTests
 {
-    public UrlPersistenceService_BulkSetValuesTests() : base()
+    private const string QueryParameterKey = "testSetValue";
+
+    [Fact]
+    public void SetValue_Null_RemovesParameter()
     {
-        Services.AddSingleton<IUrlQueryStringFormatter, UrlQueryStringFormatter>();
-        Services.AddSingleton<UrlPersistenceService>();
+        var uri = $"https://localhost/test/page?{QueryParameterKey}=42";
+
+        var urlQueryStringFormatter = new UrlQueryStringFormatter();
+        var newUri = urlQueryStringFormatter.GetUriWithQueryParameter(uri, QueryParameterKey, null);
+
+        Assert.Equal($"https://localhost/test/page", newUri);
     }
 
     [Fact]
     public void BulkSetValues_Dictionary_Works()
     {
-        var navigationManager = Services.GetRequiredService<FakeNavigationManager>();
-
-        var uri = "/test/page?param1=123&param2=456&param3=789";
-        navigationManager.NavigateTo(uri);
+        var uri = "https://localhost/test/page?param1=123&param2=456&param3=789";
 
         var queryParameters = new Dictionary<string, object?>
         {
@@ -28,19 +29,16 @@ public class UrlPersistenceService_BulkSetValuesTests : TestContext
             { "param4", nameof(SomeEnumType.ValueTwo) },
         };
 
-        var persistenceService = Services.GetRequiredService<UrlPersistenceService>();
-        persistenceService.BulkSetValues(queryParameters);
+        var urlQueryStringFormatter = new UrlQueryStringFormatter();
+        var newUri = urlQueryStringFormatter.GetUriWithQueryParameters(uri, queryParameters);
 
-        AssertParamsUpdated(navigationManager.Uri);
+        AssertParamsUpdated(newUri);
     }
 
     [Fact]
     public void BulkSetValues_Object_Works()
     {
-        var navigationManager = Services.GetRequiredService<FakeNavigationManager>();
-
-        var uri = "/test/page?param1=123&param2=456&param3=789";
-        navigationManager.NavigateTo(uri);
+        var uri = "https://localhost/test/page?param1=123&param2=456&param3=789";
 
         var queryParameters = new
         {
@@ -49,10 +47,10 @@ public class UrlPersistenceService_BulkSetValuesTests : TestContext
             param4 = nameof(SomeEnumType.ValueTwo),
         };
 
-        var persistenceService = Services.GetRequiredService<UrlPersistenceService>();
-        persistenceService.BulkSetValues(queryParameters);
+        var urlQueryStringFormatter = new UrlQueryStringFormatter();
+        var newUri = urlQueryStringFormatter.GetUriWithQueryParameters(uri, queryParameters);
 
-        AssertParamsUpdated(navigationManager.Uri);
+        AssertParamsUpdated(newUri);
     }
 
     private static void AssertParamsUpdated(string uri)
