@@ -1,7 +1,9 @@
+using System.Buffers.Text;
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using MediatR;
@@ -41,7 +43,7 @@ internal static class UrlUtilities
             // Some types are ugly when json serialised, such as chars being "quoted"
             // We handle these cases specifically for nicer looking strings
             char chr => chr.ToString(),
-            Guid guid => guid.ToString("D"),
+            Guid guid => CompactGuid(guid),
             DateTime dateTime => dateTime.ToString(DateTimeToStringFormat, provider: null),
             // Enum types are represented as strings, but IEnumerable<Enum>s are (currently) just their numeric value
             Enum enm => enm.ToString(),
@@ -94,7 +96,10 @@ internal static class UrlUtilities
             }
             else if (typeof(T) == typeof(Guid) || typeof(T) == typeof(Guid?))
             {
-                if (Guid.TryParse(valueStr, out var guid))
+                // First try de-compacting the GUID, and fall back to regular GUID parsing if that fails
+                if (TryDecompactGuid(valueStr, out var guid))
+                    value = Option.Some((T)(object)guid);
+                else if (Guid.TryParse(valueStr, out guid))
                     value = Option.Some((T)(object)guid);
                 else
                     value = Option.None<T>();
@@ -170,5 +175,123 @@ internal static class UrlUtilities
             enumType = null;
             return false;
         }
+    }
+
+    private const byte ForwardSlashByte = (byte)'/';
+    private const char ForwardSlashReplacementChar = '@';
+
+    private const byte PlusByte = (byte)'+';
+    private const char PlusReplacementChar = '%';
+
+    // GUIDs are compacted into a special Base64 form which cuts down
+    // their footprint in URLs from 32 chars to 22 chars (~31% smaller).
+    // This helps keep URLs shorter for pages (e.g. tables) which persist a few GUIDs.
+    private static string CompactGuid(Guid guid)
+    {
+        // Short circuit empty GUIDs
+        if (guid == Guid.Empty)
+            return "AAAAAAAAAAAAAAAAAAAAAA";
+
+        // Guids are always 16 bytes (128 bit)
+        Span<byte> guidBytes = stackalloc byte[16];
+        // Our base64 encoding is always 22 chars + 2 padding chars
+        Span<byte> encodedBytes = stackalloc byte[24];
+
+        // Marshal the GUID struct into a byte span
+        MemoryMarshal.TryWrite(guidBytes, ref guid);
+
+        // Converts the GUID bytes to Base64 bytes
+        Base64.EncodeToUtf8(guidBytes, encodedBytes, out _, out _);
+
+        // The output chars (we disregard the last 2 padding chars)
+        Span<char> chars = stackalloc char[22];
+
+        // Convert our bytes to chars, then replace special chars (/ and +)
+        // with our own symbols which are more friendly for URL encoding
+        for (var i = 0; i < 22; i++)
+        {
+            chars[i] = encodedBytes[i] switch
+            {
+                // Replace special chars
+                ForwardSlashByte => ForwardSlashReplacementChar,
+                PlusByte => PlusReplacementChar,
+                // Cast other bytes to their char counterpart
+                _ => (char)encodedBytes[i],
+            };
+        }
+
+        // Create a string from the char span
+        return new string(chars);
+    }
+
+    // The inverse of GUID compacting
+    private static bool TryDecompactGuid(string str, out Guid guid)
+    {
+        // Compacted GUIDs should always be 22 chars long
+        if (str.Length != 22)
+        {
+            guid = Guid.Empty;
+            return false;
+        }
+
+        // Short circuit for empty GUIDs
+        if (str == "AAAAAAAAAAAAAAAAAAAAAA")
+        {
+            guid = Guid.Empty;
+            return true;
+        }
+
+        // Ensure that it is a valid compressed GUID
+        for (var i = 0; i < 22; i++)
+        {
+            var c = str[i];
+            // Chars must be a-z
+            if ('a' <= c && c <= 'z')
+                continue;
+            // Or A-Z
+            if ('A' <= c && c <= 'Z')
+                continue;
+            // Or 0-9
+            if ('0' <= c && c <= '9')
+                continue;
+            // Or one of our replacement chars
+            if (c == ForwardSlashReplacementChar || c == PlusReplacementChar)
+                continue;
+
+            // If it isn't one of those, then it isn't valid
+            // All 22 char combinations of the above chars are valid
+            guid = Guid.Empty;
+            return false;
+        }
+
+        // Guids are always 16 bytes (128 bit)
+        Span<byte> guidBytes = stackalloc byte[16];
+        // Our base64 encoding is always 22 chars + 2 padding chars
+        Span<byte> decodedBytes = stackalloc byte[24];
+
+        // Convert our chars to bytes, and swap back special chars
+        for (var i = 0; i < 22; i++)
+        {
+            decodedBytes[i] = str[i] switch
+            {
+                // Replace special chars
+                ForwardSlashReplacementChar => ForwardSlashByte,
+                PlusReplacementChar => PlusByte,
+                // Cast other char to their byte counterpart
+                _ => (byte)str[i],
+            };
+        }
+
+        // Final two bytes are always the same padding
+        decodedBytes[22] = 61;
+        decodedBytes[23] = 61;
+
+        // Converts the Base64 bytes to GUID bytes
+        Base64.DecodeFromUtf8(decodedBytes, guidBytes, out _, out _);
+
+        // Marshal the bytes into the GUID struct
+        MemoryMarshal.TryRead(guidBytes, out guid);
+
+        return true;
     }
 }
