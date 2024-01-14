@@ -6,7 +6,16 @@
 
 @{
     var selectItems = SelectItems;
-    <MudSelect T="TValue" Value="Value" ValueChanged="SetValueAsync" Label="@(Label ?? ForKey.Key)" Disabled="selectItems is null">
+    <MudSelect T="TValue"
+               Value="Value"
+               ValueChanged="SetValueAsync"
+               MaxHeight="MaxHeight"
+               AnchorOrigin="AnchorOrigin"
+               TransformOrigin="TransformOrigin"
+               Clearable="Clearable"
+               Dense="Dense"
+               Label="@(Label ?? ForKey.Key)"
+               Disabled="selectItems is null">
         @if (selectItems is not null)
         {
             foreach (var selectItem in selectItems)

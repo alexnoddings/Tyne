@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using Tyne.Blazor.Filtering.Values;
 
 namespace Tyne.Blazor.Filtering.Controllers;
@@ -8,6 +10,26 @@ namespace Tyne.Blazor.Filtering.Controllers;
 /// <inheritdoc/>
 public partial class TyneMultiSelectBoxFilterController<TRequest, TValue>
 {
+    /// <inheritdoc cref="MudSelect{T}.MaxHeight"/>
+    [Parameter]
+    public int MaxHeight { get; set; } = 300;
+
+    /// <inheritdoc cref="MudSelect{T}.AnchorOrigin"/>
+    [Parameter]
+    public Origin AnchorOrigin { get; set; } = Origin.TopCenter;
+
+    /// <inheritdoc cref="MudSelect{T}.TransformOrigin"/>
+    [Parameter]
+    public Origin TransformOrigin { get; set; } = Origin.TopCenter;
+
+    /// <inheritdoc cref="MudSelect{T}.Clearable"/>
+    [Parameter]
+    public bool Clearable { get; set; }
+
+    /// <inheritdoc cref="MudSelect{T}.Dense"/>
+    [Parameter]
+    public bool Dense { get; set; }
+
     private string ConvertValueToString(TValue value) =>
         SelectItems
         ?.FirstOrDefault(item => item.Value?.Equals(value) == true)
