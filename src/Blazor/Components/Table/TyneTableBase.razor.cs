@@ -45,12 +45,6 @@ public abstract partial class TyneTableBase<TRequest, TResponse>
     [Parameter]
     public RenderFragment? ValueFilters { get; set; }
 
-    [Parameter]
-    public bool PersistOrderBy { get; set; }
-
-    [Parameter]
-    public bool PersistPageNumber { get; set; }
-
     [Inject]
     private ILoggerFactory LoggerFactory { get; init; } = null!;
 
