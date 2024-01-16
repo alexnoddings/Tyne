@@ -1,0 +1,16 @@
+/* Makes the loading circle smaller for small buttons to fit better */
+.tyne-button-spinner.mud-button-text-size-small .tyne-button-locked-progress-circular,
+.tyne-button-spinner.mud-button-filled-size-small .tyne-button-locked-progress-circular,
+.tyne-button-spinner.mud-button-outlined-size-small .tyne-button-locked-progress-circular {
+    height: 18px;
+    width: 18px;
+}
+
+/* Pins the loading bar to the bottom of the button */
+    .tyne-button-loading-bar .tyne-button-locked-progress-linear {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
