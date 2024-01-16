@@ -16,8 +16,7 @@ public partial class CreatePartTypeDrawer : TyneFormBase<Unit, CreatePartType.Re
 
     protected override async Task<Result<Unit>> TrySaveAsync(CreatePartType.Request request)
     {
-        var result = await Mediator.Send(request);
-        return result.Select(_ => Unit.Value);
+        return await Mediator.Send(request);
     }
 
     protected override async Task OnSavedAsync(CreatePartType.Request model)

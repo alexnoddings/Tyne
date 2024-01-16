@@ -23,8 +23,7 @@ public class ThemeService
 			{
 				Default = Normalise(new Default
 				{
-					FontWeight = 400,
-					FontSize = "14px",
+					FontSize = "16px",
 				}),
 				H1 = NormaliseHeader(new H1
 				{
@@ -60,30 +59,33 @@ public class ThemeService
 				}),
 				Body1 = Normalise(new Body1
 				{
-					FontSize = "14px",
+					FontSize = "16px",
 				}),
 				Body2 = Normalise(new Body2
 				{
-					FontSize = "12px",
+					FontSize = "14px",
 				}),
 				Button = Normalise(new Button
 				{
-					FontSize = "14px",
+					FontSize = "16px",
 				}),
 				Caption = Normalise(new Caption
 				{
+					FontSize = "14px",
 				}),
-				Overline = Normalise(new Overline
+                Overline = Normalise(new Overline
 				{
+					FontSize = "14px",
 				})
-			}
+            }
 		};
 	}
 
 	private static TTypography Normalise<TTypography>(TTypography typography) where TTypography : BaseTypography
 	{
+        typography.FontWeight = 400;
 		typography.FontFamily = FontFamily;
-		typography.LineHeight = 1.5;
+        typography.LineHeight = 1.5;
 		typography.LetterSpacing = "normal";
 		typography.TextTransform = string.Empty;
 		return typography;
@@ -91,7 +93,8 @@ public class ThemeService
 
 	private static TTypography NormaliseHeader<TTypography>(TTypography typography) where TTypography : BaseTypography
 	{
-		typography.FontWeight = 600;
-		return Normalise(typography);
+        Normalise(typography);
+        typography.FontWeight = 600;
+		return typography;
 	}
 }

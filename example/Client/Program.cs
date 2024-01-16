@@ -30,7 +30,9 @@ builder.Services.AddTyne()
     .ConfigurePageTitle("Tyne:Title")
     .AddEnvironmentService(builder.HostEnvironment.Environment)
     .AddDbContextModificationTracker(ServiceLifetime.Singleton)
-    .AddUserTimeZoneFromJavascript();
+    .AddUserTimeZoneFromJavascript()
+    .AddUrlQueryStringFormatter()
+    .AddUrlPersistenceService();
 
 builder.Services.AddSqliteWasmDbContextFactory<AppDbContext>(options => {
     options.UseSqlite("Data Source=tyne-aerospace.sqlite3");

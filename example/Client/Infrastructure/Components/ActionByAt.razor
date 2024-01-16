@@ -1,24 +1,16 @@
 ﻿@using Humanizer;
 
-<span>
-    <MudText Class="d-inline">
-        <RelativeDateTime DateTimeUtc="AtUtc" />
-    </MudText>
-
-    <MudText Class="d-inline">
-        by
-    </MudText>
-
-    @if (ByName is null)
-    {
-        <MudText Class="mud-text-disabled d-inline">
-            (deleted user)
-        </MudText>
-    }
-    else
-    {
-        <MudText Class="d-inline">
-            @ByName
-        </MudText>
-    }
-</span>
+<RelativeDateTime DateTimeUtc="AtUtc" />
+by
+@if (ByName is null)
+{
+    <span class="mud-text-disabled">
+        (deleted user)
+    </span>
+}
+else
+{
+    <span>
+        @ByName
+    </span>
+}

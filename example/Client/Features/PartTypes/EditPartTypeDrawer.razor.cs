@@ -16,8 +16,8 @@ public partial class EditPartTypeDrawer : TyneFormBase<Guid, EditPartType.Reques
 
     protected override async Task<Result<Unit>> TrySaveAsync(EditPartType.Request request)
     {
-        var result = await Mediator.Send(request);
-        return result.Select(_ => Unit.Value);
+        await Task.Yield();
+        return await Mediator.Send(request);
     }
 
     protected override async Task OnSavedAsync(EditPartType.Request model)

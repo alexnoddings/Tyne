@@ -20,18 +20,24 @@
                Dense="true"
                Hover="true"
                Striped="true">
+        <ValueFilters>
+            <TyneFilterValue TRequest="SearchPartTypes.Request" TValue="string" For="m => m.Name" PersistAs="*" />
+            <TyneFilterValue TRequest="SearchPartTypes.Request" TValue="DateTime?" For="m => m.CreatedAtMin" PersistAs="cs" />
+            <TyneFilterValue TRequest="SearchPartTypes.Request" TValue="DateTime?" For="m => m.CreatedAtMax" PersistAs="ce" />
+            <TyneFilterValue TRequest="SearchPartTypes.Request" TValue="DateTime?" For="m => m.LastUpdatedAtMin" PersistAs="ue" />
+            <TyneFilterValue TRequest="SearchPartTypes.Request" TValue="DateTime?" For="m => m.LastUpdatedAtMax" PersistAs="us" />
+        </ValueFilters>
         <HeaderContent>
-            <MudTh>
-                TBA
-            </MudTh>
-            <MudTh>
-                TBA
-            </MudTh>
-            <MudTh>
-                TBA
-            </MudTh>
-            <MudTh>
-            </MudTh>
+            <TyneStringColumnHeader TRequest="SearchPartTypes.Request" TResponse="SearchPartTypes.Response" For="m => m.Name" OrderBy="*">
+                Name
+            </TyneStringColumnHeader>
+            <TyneDateRangeColumnHeader TRequest="SearchPartTypes.Request" TResponse="SearchPartTypes.Response" ForMin="m => m.CreatedAtMin" ForMax="m => m.CreatedAtMax" OrderBy="@nameof(SearchPartTypes.Response.CreatedAt)" Label="Created at">
+                Created
+            </TyneDateRangeColumnHeader>
+            <TyneDateRangeColumnHeader TRequest="SearchPartTypes.Request" TResponse="SearchPartTypes.Response" ForMin="m => m.LastUpdatedAtMin" ForMax="m => m.LastUpdatedAtMax" OrderBy="@nameof(SearchPartTypes.Response.LastUpdatedAt)" Label="Last updated at">
+                Updated
+            </TyneDateRangeColumnHeader>
+            <MudTd />
         </HeaderContent>
         <RowTemplate Context="PartType">
             <MudTd>
