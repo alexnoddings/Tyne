@@ -24,11 +24,25 @@
             <MudPaper>
                 <MudPaper Elevation="0" Class="d-flex flex-column align-start py-1" Style="height: 100%;">
                     <div class="d-flex flex-row gap-2 align-center px-2">
+                        <MudIcon Icon="@Icons.Material.Filled.FilterList" Color="Color.Primary" Style="width:54px; height:54px;"></MudIcon>
+                        <MudText Typo="Typo.h5">Table filters</MudText>
+                    </div>
+                    <div class="mud-list d-flex flex-column" style="width: 100%;">
+                        @RenderLink("./examples/table/intro", "Intro")
+                        @RenderLink("./examples/table/simple-filters", "Simple filters")
+                    </div>
+                </MudPaper>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper>
+                <MudPaper Elevation="0" Class="d-flex flex-column align-start py-1" Style="height: 100%;">
+                    <div class="d-flex flex-row gap-2 align-center px-2">
                         <MudIcon Icon="@Icons.Material.Filled.SmartButton" Color="Color.Primary" Style="width:54px; height:54px;"></MudIcon>
                         <MudText Typo="Typo.h5">TyneButton</MudText>
                     </div>
                     <div class="mud-list d-flex flex-column" style="width: 100%;">
-                        @RenderLink("/examples/buttons", "TyneButtons")
+                        @RenderLink("./examples/buttons", "TyneButtons")
                     </div>
                 </MudPaper>
             </MudPaper>
