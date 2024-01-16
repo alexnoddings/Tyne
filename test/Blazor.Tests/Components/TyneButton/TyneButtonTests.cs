@@ -168,11 +168,41 @@ public class TyneButtonTests : TestContext
     }
 
     [Theory]
-    [InlineData(ButtonLockStyle.SpinnerStart, "")]
-    [InlineData(ButtonLockStyle.SpinnerEnd, "")]
-    [InlineData(ButtonLockStyle.Bar, "")]
+    [InlineData(ButtonLockStyle.SpinnerStart, ".tyne-button-locked-progress-circular")]
+    [InlineData(ButtonLockStyle.SpinnerEnd, ".tyne-button-locked-progress-circular")]
+    [InlineData(ButtonLockStyle.Bar, ".tyne-button-locked-progress-linear")]
     public async Task Click_ShowsLoadingContent(ButtonLockStyle buttonStyle, string loadingContentClass)
     {
+        // Arrange
+        var tcs = new TaskCompletionSource();
+        Task onClick() => tcs.Task;
 
+        var cut = RenderComponent<TyneButton>(parameters => parameters
+          .Add(p => p.OnClick, onClick)
+          .Add(p => p.LockStyle, buttonStyle)
+        );
+
+        var buttonElement = cut.Find("button");
+        Assert.NotNull(buttonElement);
+        // Button should start enabled
+        AssertButton.Enabled(buttonElement);
+
+        // Act
+        var clickTask = buttonElement.ClickAsync(new MouseEventArgs());
+
+        // Assert
+        // Button should trigger a re-render and be disabled
+        cut.WaitForState(() => buttonElement.HasAttribute("disabled"));
+        AssertButton.Disabled(buttonElement);
+
+        // Should be showing the loading content
+        cut.Find(loadingContentClass);
+
+        // Complete the task
+        tcs.SetResult();
+        await clickTask;
+
+        // The button should trigger a re-render and be enabled again after the click completes
+        AssertButton.Enabled(buttonElement);
     }
 }
