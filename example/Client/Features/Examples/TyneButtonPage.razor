@@ -3,9 +3,19 @@
 <TynePageTitle Value="Examples" />
 
 <MudContainer MaxWidth="MaxWidth.Medium" Class="pt-6">
+    <MudText Typo="Typo.h3" Align="Align.Center" Class="mb-3">
+        @nameof(TyneButton) examples
+    </MudText>
     <MudPaper Class="ml-n4 px-2 pt-4 pb-2">
+        <MudText Typo="Typo.h5" Align="Align.Center">
+            <code>@nameof(ButtonLockStyle)</code> variants
+        </MudText>
+        <MudDivider Class="my-3" Light="true" />
         <MudGrid>
             <MudItem Class="d-flex flex-column align-center gap-2" xs="3">
+                <MudText Typo="Typo.h6">
+                    @ButtonLockStyle.SpinnerStart
+                </MudText>
                 <TyneButton Size="_size" Color="_colour" OnClick="ClickHandler" LockStyle="ButtonLockStyle.SpinnerStart" Variant="Variant.Text">
                     TyneButton
                 </TyneButton>
@@ -17,6 +27,9 @@
                 </TyneButton>
             </MudItem>
             <MudItem Class="d-flex flex-column align-center gap-2" xs="3">
+                <MudText Typo="Typo.h6">
+                    @ButtonLockStyle.SpinnerEnd
+                </MudText>
                 <TyneButton Size="_size" Color="_colour" OnClick="ClickHandler" LockStyle="ButtonLockStyle.SpinnerEnd" Variant="Variant.Text">
                     TyneButton
                 </TyneButton>
@@ -28,6 +41,9 @@
                 </TyneButton>
             </MudItem>
             <MudItem Class="d-flex flex-column align-center gap-2" xs="3">
+                <MudText Typo="Typo.h6">
+                    @ButtonLockStyle.Bar
+                </MudText>
                 <TyneButton Size="_size" Color="_colour" OnClick="ClickHandler" LockStyle="ButtonLockStyle.Bar" Variant="Variant.Text">
                     TyneButton
                 </TyneButton>
@@ -39,6 +55,9 @@
                 </TyneButton>
             </MudItem>
             <MudItem Class="d-flex flex-column align-center gap-2" xs="3">
+                <MudText Typo="Typo.h6">
+                    @ButtonLockStyle.None
+                </MudText>
                 <TyneButton Size="_size" Color="_colour" OnClick="ClickHandler" LockStyle="ButtonLockStyle.None" Variant="Variant.Text">
                     TyneButton
                 </TyneButton>
@@ -50,6 +69,7 @@
                 </TyneButton>
             </MudItem>
         </MudGrid>
+        <MudDivider Class="mt-6" Light="true" />
         <div class="d-flex flex-row gap-4 align-stretch my-4 px-4">
             <MudSelect @bind-Value="_size" Variant="Variant.Outlined" Label="Size">
                 <MudSelectItem Value="Size.Small">Small</MudSelectItem>
