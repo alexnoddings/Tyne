@@ -43,6 +43,10 @@
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
+  <!--
+    Configures .NET's analysers.
+    We enable pretty much everything available.
+  -->
   <PropertyGroup Label=".NET analysers">
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
@@ -50,7 +54,7 @@
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
-  <!-- Project-wide analysers. -->
+  <!-- Analysers included in every project. -->
   <ItemGroup Label="Project analysers">
     <PackageReference Include="AsyncFixer" Version="1.6.0">
       <PrivateAssets>all</PrivateAssets>
@@ -63,17 +67,26 @@
   </ItemGroup>
 
   <PropertyGroup Label="Warnings and errors">
+    <!--
+      Forces the compiler to treat any warnings as errors.
+      This stops potential issues from building up, and keeps the code clean.
+    -->
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <!--
       AsyncFixer01: The method does not need to use async/await.
-                    While technically true, it can lead to uglier code and poor stack traces.
+      REASON:       While technically true, it can lead to uglier code and poor stack traces.
     -->
     <NoWarn>$(NoWarn);AsyncFixer01</NoWarn>
     <!--
       CS1591: Missing XML comment for publicly visible type or member.
-              This should be removed once all public types have XML docs associated.
+      REASON: There are too many undocumented types/members to have this enabled. It should be removed once all public types have XML docs associated.
     -->
     <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <!--
+      S1133:  Do not forget to remove this deprecated code someday.
+      REASON: This just gets in the way of deprecations. We still show it as an error though.
+    -->
+    <WarningsNotAsErrors>$(WarningsNotAsErrors);S1133</WarningsNotAsErrors>
   </PropertyGroup>
 
   <!-- Automatically embed .restext files in projects as resources. -->

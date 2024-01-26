@@ -2,17 +2,24 @@
 
   <!-- Sets flags for certain project types -->
   <PropertyGroup Label="Project flags">
-    <!-- If docs/example/test flags aren't set, we default them to false. -->
+    <!--
+      docs/example/test projects should set their own flags.
+      If they aren't already set, we assume them to be false.
+    -->
     <IsDocsProject Condition=" '$(IsDocsProject)' == '' ">false</IsDocsProject>
     <IsExampleProject Condition=" '$(IsExampleProject)' == '' ">false</IsExampleProject>
     <IsTestProject Condition=" '$(IsTestProject)' == '' ">false</IsTestProject>
-    <!-- Everything should be packable unless it's docs, example, or a test project. -->
+    <!--
+      Packages should be marked as packable.
+      The easiest way to do this is by excluding docs/examples/tests.
+    -->
     <IsPackable Condition="
                 '$(IsPackable)' == ''
                 AND !$(IsDocsProject)
                 AND !$(IsExampleProject)
                 AND !$(IsTestProject)">true</IsPackable>
     <IsPackable Condition=" '$(IsPackable)' == '' ">false</IsPackable>
+    <!-- Ensure this is a CI build if we're executing on a GitHub action. -->
     <ContinuousIntegrationBuild Condition=" '$(GITHUB_ACTIONS)' == 'true' ">true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
@@ -26,22 +33,41 @@
     <InternalsVisibleTo Include="Tyne.TestUtilities" />
   </ItemGroup>
 
-  <!-- Ensures a <Description> property is set for anything packable. -->
+  <!--
+    Ensures a <Description> property is set for anything packable.
+    If a <Description> property isn't found, and the project is packable, raise an error.
+  -->
   <Target Name="EnsureDescriptionSet" BeforeTargets="Build" Condition="$(IsPackable)">
     <Error Code="TYNE_PKG_NO_DESCRIPTION" Text="No &lt;Description&gt; property set." Condition=" '$(Description)' == '' " />
   </Target>
 
   <!-- Packaging properties for packable projects. -->
   <PropertyGroup Label="Packaging" Condition="$(IsPackable)">
+    <!-- Embed project source files that are not tracked by the source control or imported from a source package to the generated PDB. -->
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <!-- Generate a symbols file when building. -->
     <IncludeSymbols>true</IncludeSymbols>
+    <!-- Use snupkgs for symbol packages. -->
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <!-- Generates an XML documentation file. -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- The 'Project website' link on nuget.org. -->
     <PackageProjectUrl>https://alexnoddings.github.io/Tyne</PackageProjectUrl>
+    <!-- Publish the repository URL along with the package. -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <!-- The SPDX license of the repo - ensures that nuget/vs/etc show the right license. -->
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <!--
+      Path to the Tyne icon - every package shares the same icon for ease.
+      Note that this file doesn't actually *exist* anywhere, instead the targets file includes it from the assets folder for each packable project.
+    -->
     <PackageIcon>package.png</PackageIcon>
+    <!-- Path to the package's readme - every package has their own tailored readme. -->
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <!--
+      Causes the compiler to produce an assembly whose byte-for-byte output is identical across compilations for identical inputs.
+      This is important for builds to be verifiable.
+    -->
     <Deterministic>true</Deterministic>
   </PropertyGroup>
 
@@ -53,24 +79,19 @@
     <None Include="Package.targets" Pack="true" PackagePath="build\$(AssemblyName).targets" Condition="Exists('Package.targets')" />
   </ItemGroup>
 
-  <!-- SourceLinking for packable projects. -->
+  <!--
+    SourceLinking for packable projects.
+    This adds source control metadata to built assets, which improves the developer debugging experience.
+  -->
   <ItemGroup Label="Packaging" Condition="$(IsPackable)">
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
   </ItemGroup>
 
-  <!-- These are dependant on Configuration. -->
-  <PropertyGroup Label="Warnings and errors">
-    <!--
-      S125: Sections of code should not be commented out.
-            While true for shipped code, this can be a real pain while developing.
-            NOTE: This is only set as a warning during development.
-    -->
-    <WarningsNotAsErrors Condition=" '$(Configuration)' == 'Debug' ">
-      $(WarningsNotAsErrors);S125
-    </WarningsNotAsErrors>
-  </PropertyGroup>
-
-  <!-- Common versions of packages used across the solution. -->
+  <!--
+    Common versions of packages used across the solution.
+    This doesn't *add* these packages to every project, instead it ensures that
+    every package set up to use one of these is using the same unified version.
+  -->
   <ItemGroup Label="Package versions">
     <PackageReference Update="FluentValidation" Version="11.8.1" />
     <PackageReference Update="MediatR" Version="12.2.0" />
@@ -86,6 +107,7 @@
     <PackageReference Update="MudBlazor" Version="6.11.1" />
   </ItemGroup>
 
+  <!-- Same as above, but for test packages. -->
   <ItemGroup Label="Test package versions">
     <PackageReference Update="bunit" Version="1.21.9" />
     <PackageReference Update="coverlet.collector" Version="6.0.0" />
@@ -94,6 +116,12 @@
     <PackageReference Update="NSubstitute.Analyzers.CSharp" Version="1.0.16" />
     <PackageReference Update="xunit" Version="2.4.2" />
     <PackageReference Update="xunit.runner.visualstudio" Version="2.4.5" />
+  </ItemGroup>
+
+  <!-- Configures global usings for very common namespaces in test projects. -->
+  <ItemGroup Label="Global usings" Condition="$(IsTestProject)">
+    <Using Include="NSubstitute" />
+    <Using Include="Xunit" />
   </ItemGroup>
 
   <!-- These warnings can be ignored for non-shipped code. -->
@@ -105,28 +133,36 @@
     <NoWarn>$(NoWarn);CA1303</NoWarn>
     <!--
       CA1819: Do not directly await a Task.
-              .ConfigureAwait(...) isn't applicable to non-shipped code, and makes examples harder to read.
+              .ConfigureAwait(...) is beneficial to packages, but it's benefits are
+              eclipsed by it's added difficulty to read in example and test projects.
     -->
     <NoWarn>$(NoWarn);CA2007</NoWarn>
   </PropertyGroup>
 
-  <!-- These warnings can be ignored for test code. -->
+  <!-- These warnings can be ignored for specifically test code. -->
   <PropertyGroup Label="Warnings and errors" Condition=" $(IsTestProject) ">
     <!--
       CA1707: Identifiers should not contain underscores.
-              Underscores help clarify what test cases are testing.
+      REASON: Underscores help clarify what test cases are testing.
     -->
     <NoWarn>$(NoWarn);CA1707</NoWarn>
     <!--
       CA1819: Properties should not return arrays.
-              This is useful for providing theories with member data in tests.
+      REASON: This is useful for providing theories with member data in tests.
     -->
     <NoWarn>$(NoWarn);CA1819</NoWarn>
   </PropertyGroup>
 
-  <ItemGroup Label="Global usings" Condition="$(IsTestProject)">
-    <Using Include="NSubstitute" />
-    <Using Include="Xunit" />
-  </ItemGroup>
+  <!-- These warnings are dependant on Configuration. -->
+  <PropertyGroup Label="Warnings and errors">
+    <!--
+      S125: Sections of code should not be commented out.
+            While true for shipped code, this can be a real pain while developing.
+            NOTE: This is only set as a warning during development.
+    -->
+    <WarningsNotAsErrors Condition=" '$(Configuration)' == 'Debug' ">
+      $(WarningsNotAsErrors);S125
+    </WarningsNotAsErrors>
+  </PropertyGroup>
 
 </Project>

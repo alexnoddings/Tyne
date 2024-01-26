@@ -45,12 +45,12 @@
   <PropertyGroup Label="Warnings and Errors">
     <!--
       CA1034: Do not nest type. Alternatively, change its accessibility so that it is not externally visible.
-              Public type nesting is useful with MediatR.
+      REASON: Public type nesting is useful with MediatR.
     -->
     <NoWarn>$(NoWarn);CA1034</NoWarn>
     <!--
       CA1034: Parameter names should match base declaration.
-              More specific names can be useful in app code.
+      REASON: More specific names can be useful in app code.
     -->
     <NoWarn>$(NoWarn);CA1725</NoWarn>
   </PropertyGroup>

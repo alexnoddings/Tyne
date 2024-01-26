@@ -20,7 +20,7 @@
   <PropertyGroup Label="Warnings and Errors">
     <!--
       WASM0001: Found a native function (sqlite3_config) with varargs in e_sqlite3. Calling such functions is not supported, and will fail at runtime.
-                There's nothing we can do about it.
+      REASON:   There's nothing we can do about it.
     -->
     <NoWarn>$(NoWarn);WASM0001</NoWarn>
   </PropertyGroup>
