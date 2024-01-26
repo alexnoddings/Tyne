@@ -48,7 +48,7 @@ public interface IUrlQueryStringFormatter
     /// <param name="parameters">A dictionary of parameters to update the query string with.</param>
     /// <returns>A new URI, whose query string has been updated.</returns>
     /// <remarks>
-    ///     This modifies the URI using the same behaviour described in <see cref="GetUriWithQueryParameter{T}(string, string, T)"/>'s remarks.
+    ///     This modifies the URI using the same behaviour described in <see cref="GetUriWithQueryParameter(string, string, object?)"/>'s remarks.
     /// </remarks>
     /// <exception cref="ArgumentNullException">When <paramref name="uri"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentNullException">When <paramref name="parameters"/> is <see langword="null"/>.</exception>
@@ -65,7 +65,7 @@ public interface IUrlQueryStringFormatter
     ///         This method reflects across <paramref name="parameters"/>' public properties to form query string parameters.
     ///     </para>
     ///     <para>
-    ///         This modifies the URI using the same behaviour described in <see cref="GetUriWithQueryParameter{T}(string, string, T)"/>'s remarks.
+    ///         This modifies the URI using the same behaviour described in <see cref="GetUriWithQueryParameter(string, string, object?)"/>'s remarks.
     ///     </para>
     /// </remarks>
     /// <exception cref="ArgumentNullException">When <paramref name="uri"/> is <see langword="null"/>.</exception>
