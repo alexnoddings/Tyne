@@ -80,7 +80,7 @@ jobs:
 
       - name: Publish demo
         run: |
-          dotnet publish ./example/Client/ --configuration Release --output ./artifacts/demo/
+          dotnet publish ./example/Host.Wasm/ --configuration Release --output ./artifacts/demo/
           mkdir ./artifacts/docs/demo
           mv ./artifacts/demo/wwwroot/* ./artifacts/docs/demo/
           sed -i 's@<base href="/" />@<base href="/Tyne/demo/" />@g' ./artifacts/docs/demo/index.html

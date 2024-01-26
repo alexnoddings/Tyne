@@ -11,16 +11,16 @@ public abstract class SearchHandler<TQuery, TResult, TEntity>
     where TQuery : ISearchQuery, IRequest<SearchResults<TResult>>
     where TEntity : class
 {
-    private readonly IAppDbContextFactory appDbContextFactory;
+    private readonly IAppDbContextFactory _appDbContextFactory;
 
     protected SearchHandler(IAppDbContextFactory appDbContextFactory)
     {
-        this.appDbContextFactory = appDbContextFactory ?? throw new ArgumentNullException(nameof(appDbContextFactory));
+        _appDbContextFactory = appDbContextFactory ?? throw new ArgumentNullException(nameof(appDbContextFactory));
     }
 
     public async Task<SearchResults<TResult>> Handle(TQuery request, CancellationToken cancellationToken)
     {
-        await using var dbContext = await appDbContextFactory.CreateDbContextAsync();
+        await using var dbContext = await _appDbContextFactory.CreateDbContextAsync(cancellationToken);
         var queryable = dbContext.Set<TEntity>().AsNoTracking();
         return await ExecuteAsync(request, queryable, cancellationToken);
     }

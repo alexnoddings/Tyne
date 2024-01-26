@@ -1,0 +1,14 @@
+﻿@page "/examples"
+
+<TynePageTitle Value="Examples" />
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="pt-6 d-flex flex-column">
+    <MudText Typo="Typo.h1" Align="Align.Center">
+        Tyne examples
+    </MudText>
+    <MudPaper Class="d-flex flex-column gap-2 mx-auto px-4 py-2">
+        <MudLink Href="@($"/examples/components/{nameof(TyneButton)}")" Typo="Typo.h5">
+            <code>@nameof(TyneButton)</code>
+        </MudLink>
+    </MudPaper>
+</MudContainer>

@@ -1,5 +1,9 @@
-﻿@inherits LayoutComponentBase
+﻿@namespace Tyne.Aerospace.Client
+@using Microsoft.Extensions.Options
+@using Tyne.Aerospace.Client.Infrastructure.Layouts
+@inherits LayoutComponentBase
 @inject ThemeService ThemeService
+@inject IOptions<BuildTag> BuildTagOptions
 
 <div class="ta-bg-container">
     <div class="ta-bg-img">
@@ -18,16 +22,19 @@
                      Color="Color.Inherit"
                      Underline="Underline.None"
                      Class="d-flex flex-row align-center">
-                <img src="./tyne-aerospace-simple.svg" alt="Tyne Aerospace logo" height="26rem" />
+                <img src="./_content/TyneAerospaceClient/tyne-aerospace-simple.svg" alt="Tyne Aerospace logo" height="26rem" />
             </MudLink>
             <NavLink href="./" Match="NavLinkMatch.All" class="mud-typography mud-link mud-inherit-text mud-typography-h5" ActiveClass="mud-link-underline-always">
                 Dashboard
             </NavLink>
-            <NavLink href="./part-types" class="mud-typography mud-link mud-inherit-text mud-typography-h5" ActiveClass="mud-link-underline-always">
-                Part types
+            <NavLink href="./data" class="mud-typography mud-link mud-inherit-text mud-typography-h5" ActiveClass="mud-link-underline-always">
+                Data
             </NavLink>
             <NavLink href="./examples" class="mud-typography mud-link mud-inherit-text mud-typography-h5" ActiveClass="mud-link-underline-always">
                 Examples
+            </NavLink>
+            <NavLink href="./guides" class="mud-typography mud-link mud-inherit-text mud-typography-h5" ActiveClass="mud-link-underline-always">
+                Guides
             </NavLink>
             <Environment Mode="EnvironmentMode.Include" Matching="EnvironmentMatching.Exact" Filter="Production">
                 <MudDivider Vertical="true"
@@ -50,6 +57,21 @@
                     @EnvironmentName
                 </MudText>
             </Environment>
+            @{
+                var buildTag = BuildTagOptions.Value.Tag;
+                if (!string.IsNullOrEmpty(buildTag))
+                {
+                    <MudDivider Vertical="true"
+                                FlexItem="true"
+                                Class="my-2"
+                                Style="opacity: 50%;" />
+                    <MudText Typo="Typo.h5"
+                             Class="pointer-events-none"
+                             Style="opacity: 50%;">
+                        @buildTag
+                    </MudText>
+                }
+            }
             <MudSpacer />
             <MudMenu FullWidth="true" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter">
                 <ActivatorContent>

@@ -7,25 +7,22 @@
         Tyne Aerospace
     </MudText>
     <MudGrid>
-        <MudItem Class="d-none d-sm-block" xs="0" sm="2" md="3">
-        </MudItem>
-        <MudItem xs="12" sm="8" md="6">
+        <MudItem Class="d-none d-sm-block" xs="0" sm="1" md="2" />
+        <MudItem xs="12" sm="10" md="8">
             <MudPaper>
-                <MudAlert Variant="Variant.Outlined" Severity="Severity.Info">
-                    <MudText Typo="Typo.h6">
-                        Tyne Aerospace is an example app using Tyne libraries.
+                <MudAlert Variant="Variant.Outlined" Severity="Severity.Info" NoIcon="true">
+                    <MudText Typo="Typo.h5" Align="Align.Center">
+                        This is an example app designed to demonstrate <MudLink Typo="Typo.inherit" Color="Color.Inherit" Href="https://github.com/alexnoddings/Tyne">Tyne</MudLink> libraries.
                     </MudText>
-                    <MudText Typo="Typo.body2">
-                        Data is seeded from <code>data.json</code>, and stored in-browser in a SQLite database.
-                    </MudText>
-                    <MudText Typo="Typo.body2">
-                        To reset it, clear <code>/data/cache/tyne-aerospace.sqlite3</code> from this site's cache.
+                    <MudText Typo="Typo.body1">
+                        It is loosely themed around a management system for a fictional aerospace company, Tyne Aerospace.
+                        <br class="d-none d-lg-block"/>
+                        All data is scoped to this app instance. It will be lost when closed, and re-generated next time it is opened.
                     </MudText>
                 </MudAlert>
             </MudPaper>
         </MudItem>
-        <MudItem Class="d-none d-sm-block" xs="0" sm="2" md="3">
-        </MudItem>
+        <MudItem Class="d-none d-sm-block" xs="0" sm="1" md="2" />
         <MudItem xs="12" sm="6" md="3">
             <NextLaunchCard />
         </MudItem>
@@ -54,8 +51,7 @@
                 </MudPaper>
             </MudPaper>
         </MudItem>
-        <MudItem Class="d-none d-md-block" xs="0" sm="0" md="3">
-        </MudItem>
+        <MudItem Class="d-none d-md-block" xs="0" sm="1" md="3" />
         <MudItem xs="12" sm="6" md="3">
             <PartTypesCountCard />
         </MudItem>

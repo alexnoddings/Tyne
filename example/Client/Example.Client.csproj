@@ -1,10 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
-
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+  
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>TyneAerospaceClient</AssemblyName>
     <RootNamespace>Tyne.Aerospace.Client</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
 
   <PropertyGroup>
     <TynePrelude>enable</TynePrelude>
@@ -16,28 +20,6 @@
   -->
   <Import Project="..\..\src\Core\Package.targets" />
   <Import Project="..\..\src\Blazor\Package.targets" />
-  
-  <PropertyGroup>
-    <!-- Allows the Roslyn compiler to code gen with pointers for JS interop. -->
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <!-- For SQLite WASM -->
-    <WasmBuildNative>true</WasmBuildNative>
-    <!-- Disables a WASM warning emitted from e_sqlite3 which we can't do anything about. -->
-    <NoWarn>$(NoWarn);WASM0001</NoWarn>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2" />
-    <PackageReference Include="Humanizer.Core" Version="2.14.1" />
-    <PackageReference Include="MediatR" Version="12.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.8" PrivateAssets="all" />
-    <PackageReference Include="MudBlazor" />
-    <PackageReference Include="SqliteWasmHelper" Version="1.1.1-beta-gd0df7e5d62" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Blazor\Blazor.csproj" />
@@ -46,15 +28,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Using Alias="IAppDbContextFactory" Include="SqliteWasmHelper.ISqliteWasmDbContextFactory&lt;global::Tyne.Aerospace.Data.AppDbContext&gt;" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2" />
+    <PackageReference Include="Humanizer.Core" Version="2.14.1" />
+    <PackageReference Include="MediatR" Version="12.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.8" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.15" />
+    <PackageReference Include="MudBlazor" />
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <Using Alias="IAppDbContextFactory" Include="Microsoft.EntityFrameworkCore.IDbContextFactory&lt;global::Tyne.Aerospace.Data.AppDbContext&gt;" />
+  </ItemGroup>
+
   <PropertyGroup Label="Warnings and Errors">
-    <!--
-      CA2007: Consider calling ConfigureAwait on the awaited task.
-              This just clutters up the example.
-    -->
-    <NoWarn>$(NoWarn);CA2007</NoWarn>
     <!--
       CA1034: Do not nest type. Alternatively, change its accessibility so that it is not externally visible.
               Public type nesting is useful with MediatR.
@@ -66,5 +54,5 @@
     -->
     <NoWarn>$(NoWarn);CA1725</NoWarn>
   </PropertyGroup>
-
+  
 </Project>
