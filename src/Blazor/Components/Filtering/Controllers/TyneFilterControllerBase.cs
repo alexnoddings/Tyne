@@ -16,7 +16,8 @@ namespace Tyne.Blazor.Filtering.Controllers;
 ///         This handle is automatically detached when disposed.
 ///     </para>
 ///     <para>
-///         It also provides some convenient shorthands getting/setting the filter value.
+///         It also provides some convenient shorthands accessing the filter value
+///         - see <see cref="SetFilterValueAsync(TValue?)"/> and <see cref="ClearFilterValueAsync"/>.
 ///     </para>
 ///     <para>
 ///         Inheritors only need to implement <see cref="ForKey"/> so this
@@ -26,7 +27,7 @@ namespace Tyne.Blazor.Filtering.Controllers;
 public abstract class TyneFilterControllerBase<TRequest, TValue> : ComponentBase, IFilterController<TValue>, IDisposable
 {
     [CascadingParameter]
-    private IFilterContext<TRequest> Context { get; init; } = null!;
+    protected IFilterContext<TRequest> Context { get; init; } = null!;
 
     /// <summary>
     ///     The <see cref="TyneKey"/> to attach to on the <see cref="IFilterContext{TRequest}"/>.

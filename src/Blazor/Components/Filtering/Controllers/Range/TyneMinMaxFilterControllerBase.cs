@@ -30,7 +30,7 @@ namespace Tyne.Blazor.Filtering.Controllers;
 public abstract partial class TyneMinMaxFilterControllerBase<TRequest, TValue> : ComponentBase, IFilterController<TValue?>, IDisposable
 {
     [CascadingParameter]
-    private IFilterContext<TRequest> Context { get; init; } = null!;
+    protected IFilterContext<TRequest> Context { get; init; } = null!;
 
     /// <summary>
     ///     The <see cref="TyneKey"/> of the minimum property to attach to on the <see cref="IFilterContext{TRequest}"/>.
