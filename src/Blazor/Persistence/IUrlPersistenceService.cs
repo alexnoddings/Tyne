@@ -56,7 +56,7 @@ public interface IUrlPersistenceService
     /// <inheritdoc cref="BulkSetValues(IReadOnlyDictionary{string, object?})"/>
     /// <example>
     ///     <code lang="cs">
-    ///         BulkSetValues(new { ParamA = 42, ParamB = "101" });
+    ///         _urlPersistenceService.BulkSetValues(new { ParamA = 42, ParamB = "101" });
     ///     </code>
     /// </example>
     [RequiresUnreferencedCode($"This API is not trim safe. It relies on reflecting on {nameof(parameters)}'s properties.")]
