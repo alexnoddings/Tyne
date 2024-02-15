@@ -179,3 +179,27 @@ footer .build-info {
     footer .build-info a {
         text-decoration: none;
     }
+
+h1, .h1 {
+    font-size: calc(1.75rem + 1.6vw);
+}
+
+h2, .h2 {
+    font-size: calc(1.5rem + 1.3vw);
+}
+
+h3, .h3 {
+    font-size: calc(1.2rem + 1vw);
+}
+
+h4, .h4 {
+    font-size: calc(1.2rem + .65vw);
+}
+
+h5, .h5 {
+    font-size: calc(1.1rem + .5vw);
+}
+
+h6, .h6 {
+    font-size: calc(1rem + .25vw);
+}
