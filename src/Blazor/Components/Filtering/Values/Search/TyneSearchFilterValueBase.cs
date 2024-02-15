@@ -1,6 +1,6 @@
 using Tyne.Blazor.Filtering.Values;
 
-namespace Tyne.Blazor.Components.Filtering.Values;
+namespace Tyne.Blazor.Filtering.Values;
 
 /// <summary>
 ///     A <see cref="TyneFilterValueCore{TRequest, TValue}"/> which also implements <see cref="IFilterSearchValue{TSearchValue}"/>.

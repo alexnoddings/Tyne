@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using System.Linq.Expressions;
-using Tyne.Blazor.Filtering;
 
-namespace Tyne.Blazor.Components.Filtering.Values;
+namespace Tyne.Blazor.Filtering.Values;
 
 public abstract class TyneSearchFilterValue<TRequest, TSearchValue, TFilterValue> : TyneSearchFilterValueBase<TRequest, TSearchValue, TFilterValue>
 {
