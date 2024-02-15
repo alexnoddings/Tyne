@@ -1,6 +1,14 @@
 - name: Components
   href: components.md
 - name: Filtering
-  href: filtering.md
+  items:
+  - name: Intro
+    href: filtering/intro.md
+  - name: Persistence
+    href: filtering/persistence.md
+  - name: Components
+    href: filtering/components.md
+  - name: Diagrams
+    href: filtering/diagrams.md
 - name: Tables
   href: tables.md
