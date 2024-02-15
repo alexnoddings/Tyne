@@ -61,6 +61,9 @@ internal static partial class TyneFilteringLoggingExtensions
 
     [LoggerMessage(EventId = 101_004_019, Level = LogLevel.Debug, Message = "Re-initialising context after hot reload.")]
     public static partial void LogFilterContextHotReloadReinitialise(this ILogger logger);
+
+    [LoggerMessage(EventId = 101_004_020, Level = LogLevel.Debug, Message = "Notifying controllers attached to '{Key}' of a state change.")]
+    public static partial void LogFilterContextNotifyingControllersOfStateChange(this ILogger logger, TyneKey key);
     #endregion
 
     #region Values

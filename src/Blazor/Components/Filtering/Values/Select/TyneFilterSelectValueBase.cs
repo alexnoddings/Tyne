@@ -1,5 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-
 namespace Tyne.Blazor.Filtering.Values;
 
 /// <summary>
@@ -35,31 +33,30 @@ public abstract class TyneFilterSelectValueBase<TRequest, TValue, TSelectValue> 
     /// <inheritdoc/>
     protected override async Task InitialiseAsync()
     {
-        await InitialiseAvailableValuesAsync().ConfigureAwait(false);
+        await UpdateAvailableValuesAsync().ConfigureAwait(false);
 
         // base handles initialising the value, which we only want to try once available values is set
         await base.InitialiseAsync().ConfigureAwait(false);
     }
 
-    [SuppressMessage("Performance", "CA1849: Call async methods when in an async method", Justification = "We explicitly check IsCompletedSuccessfully first.")]
-    private Task InitialiseAvailableValuesAsync()
+    protected async Task UpdateAvailableValuesAsync()
     {
-        var availableValuesTask = LoadAvailableValuesAsync();
-        // Try to complete synchronously if value loading is synchronous
-        if (availableValuesTask.IsCompletedSuccessfully)
+        if (SelectItems is not null)
         {
-            SelectItems = availableValuesTask.Result.ToList();
-            return Task.CompletedTask;
+            SelectItems = null;
+            await NotifyContextOfSelectItemsUpdatedAsync().ConfigureAwait(false);
         }
 
-        // Otherwise fall back to running it async
-        return InitialiseAvailableValuesAndUpdateAsync(availableValuesTask);
+        var availableValues = await LoadAvailableValuesAsync().ConfigureAwait(false);
+
+        SelectItems = availableValues?.ToList();
+        await NotifyContextOfSelectItemsUpdatedAsync().ConfigureAwait(false);
     }
 
-    private async Task InitialiseAvailableValuesAndUpdateAsync(Task<List<IFilterSelectItem<TSelectValue?>>> availableValuesTask)
+    private async Task NotifyContextOfSelectItemsUpdatedAsync()
     {
-        var availableValues = await availableValuesTask.ConfigureAwait(false);
-        SelectItems = availableValues.ToList();
+        if (IsInitialised)
+            await Handle.NotifyStateChangedAsync().ConfigureAwait(false);
     }
 
     /// <summary>

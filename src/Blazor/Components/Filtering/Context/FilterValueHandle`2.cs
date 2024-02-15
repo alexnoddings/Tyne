@@ -61,6 +61,16 @@ internal sealed class FilterValueHandle<TRequest, TValue> : FilterValueHandle<TR
         return _context.NotifyValueUpdatedAsync(_key, newValue);
     }
 
+    /// <summary>
+    ///     Notifies the context of this filter value's state having changed.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the state change notification.</returns>
+    public Task NotifyStateChangedAsync()
+    {
+        EnsureNotDisposed();
+        return _context.NotifyStateChangedAsync(_key);
+    }
+
     [MemberNotNull(nameof(_context))]
     private void EnsureNotDisposed()
     {

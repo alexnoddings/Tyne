@@ -150,6 +150,20 @@ public abstract partial class TyneMinMaxFilterControllerBase<TRequest, TValue> :
     }
 
     /// <summary>
+    ///     Invoked by <see cref="IFilterContext{TRequest}"/> when the
+    ///     min or max <see cref="IFilterValue{TValue}"/> this instance
+    ///     is attached to has a state change.
+    /// </summary>
+    /// <returns>
+    ///     The default implementation of this is to just invoke <see cref="ComponentBase.StateHasChanged"/>.
+    /// </returns>
+    public Task OnStateChangedAsync()
+    {
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
     ///     Disposes of the filter controller's resources and
     ///     detaches the <see cref="MinHandle"/> and <see cref="MaxHandle"/>.
     /// </summary>

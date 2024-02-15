@@ -122,6 +122,20 @@ public abstract class TyneFilterControllerBase<TRequest, TValue> : ComponentBase
     }
 
     /// <summary>
+    ///     Invoked by <see cref="IFilterContext{TRequest}"/>
+    ///     when the <see cref="IFilterValue{TValue}"/> this instance
+    ///     is attached to has a state change.
+    /// </summary>
+    /// <returns>
+    ///     The default implementation of this is to just invoke <see cref="ComponentBase.StateHasChanged"/>.
+    /// </returns>
+    public Task OnStateChangedAsync()
+    {
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
     ///     Disposes of the filter controller's resources
     ///     and detaches the <see cref="Handle"/>.
     /// </summary>
