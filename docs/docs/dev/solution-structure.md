@@ -7,11 +7,11 @@ title: Solution structure
 ## Folder structure
 
 The solution has the following top-level folders:
-- `assets` for static assets, such as project logos
-- `docs` which contains the source for these docs
-- `example` which contains the source for the example project
-- `src` which contains the main package source code
-- `test` which contains the test projects
+- `assets` contains static assets, such as project logos
+- `docs` contains the source for these docs
+- `example` contains the source for the example project
+- `src` contains the main package source code
+- `test` contains the test projects
 
 ## MSBuild
 
