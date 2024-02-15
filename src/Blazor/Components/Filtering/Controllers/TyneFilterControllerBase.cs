@@ -26,6 +26,9 @@ namespace Tyne.Blazor.Filtering.Controllers;
 /// </remarks>
 public abstract class TyneFilterControllerBase<TRequest, TValue> : ComponentBase, IFilterController<TValue>, IDisposable
 {
+    /// <summary>
+    ///     The cascading filtering context this controller is running in.
+    /// </summary>
     [CascadingParameter]
     protected IFilterContext<TRequest> Context { get; init; } = null!;
 

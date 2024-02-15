@@ -29,6 +29,9 @@ namespace Tyne.Blazor.Filtering.Controllers;
 // to also know about the DateRange type, which introduces a dependency on MudBlazor to the server.
 public abstract partial class TyneMinMaxFilterControllerBase<TRequest, TValue> : ComponentBase, IFilterController<TValue?>, IDisposable
 {
+    /// <summary>
+    ///     The cascading filtering context this controller is running in.
+    /// </summary>
     [CascadingParameter]
     protected IFilterContext<TRequest> Context { get; init; } = null!;
 
