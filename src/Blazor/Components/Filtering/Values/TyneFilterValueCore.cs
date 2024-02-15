@@ -162,6 +162,15 @@ public abstract class TyneFilterValueCore<TRequest, TValue> : ComponentBase, IFi
     private Task? _initTask;
 
     /// <summary>
+    ///     <see langword="true"/> if the value has been successfully initialised; otherwise, <see langword="false"/>.
+    /// </summary>
+    /// <remarks>
+    ///     This will be false if the value has not began initialisation, is initialising, or has faulted during initialisation.
+    ///     It will only be <see langword="true"/> if initialisation has completed successfully.
+    /// </remarks>
+    protected bool IsInitialised => _initTask?.IsCompletedSuccessfully ?? false;
+
+    /// <summary>
     ///     Initialises the value.
     /// </summary>
     /// <returns>A <see cref="Task"/> representing the value initialising.</returns>
@@ -206,7 +215,7 @@ public abstract class TyneFilterValueCore<TRequest, TValue> : ComponentBase, IFi
     public async Task EnsureInitialisedAsync()
     {
         if (_initTask is null)
-            throw new InvalidOperationException();
+            throw new InvalidOperationException("Filter value initialisation has not started.");
 
         await _initTask.ConfigureAwait(false);
         // If initialisation yields (e.g. loading values from an API), then controllers will have
