@@ -24,7 +24,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Blazor\Blazor.csproj" />
     <ProjectReference Include="..\..\src\EntityFramework\EntityFramework.csproj" />
-    <ProjectReference Include="..\Data\Example.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,10 +35,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.8" PrivateAssets="all" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.15" />
     <PackageReference Include="MudBlazor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Using Alias="IAppDbContextFactory" Include="Microsoft.EntityFrameworkCore.IDbContextFactory&lt;global::Tyne.Aerospace.Data.AppDbContext&gt;" />
   </ItemGroup>
 
   <PropertyGroup Label="Warnings and Errors">

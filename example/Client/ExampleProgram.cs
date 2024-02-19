@@ -3,9 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 using Tyne.Aerospace.Client.Infrastructure;
-using Tyne.Aerospace.Client.Infrastructure.Data;
 using Tyne.Aerospace.Client.Infrastructure.Layouts;
-using Tyne.Aerospace.Client.Infrastructure.Users;
 
 namespace Tyne.Aerospace.Client;
 
@@ -36,15 +34,9 @@ public static class ExampleProgram
         services.AddMediatR(options => options.RegisterServicesFromAssemblyContaining<ExampleApp>());
         services.AddValidatorsFromAssemblyContaining<ExampleApp>();
         
-        services.AddSingleton<ITyneUserService, UserService>();
-
-        services.AddScoped<SqliteInMemoryConnectionFactory>();
-        services.AddTransient<IAppDbContextFactory, SqliteInMemoryDbContextFactory>();
-
         services.AddTyne()
             .ConfigurePageTitle("Tyne:Title")
             .AddEnvironmentService(environmentName)
-            .AddDbContextModificationTracker(ServiceLifetime.Singleton)
             .AddUserTimeZoneFromJavascript()
             .AddUrlQueryStringFormatter()
             .AddUrlPersistenceService();
