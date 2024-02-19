@@ -1,0 +1,13 @@
+﻿@typeparam T
+
+<MudItem xs="12" sm="6" md="4">
+    <MudLink Href="@($"./components/{typeof(T).Name}")">
+        <MudPaper Class="mud-theme-secondary pe-1 pb-1" Style="height: 100%">
+            <MudPaper Class="px-3 py-2" Elevation="0" Style="overflow-wrap: anywhere">
+                <MudText Typo="Typo.h4" Color="Color.Primary">
+                    @typeof(T).Name
+                </MudText>
+            </MudPaper>
+        </MudPaper>
+    </MudLink>
+</MudItem>

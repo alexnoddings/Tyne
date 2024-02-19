@@ -1,0 +1,21 @@
+﻿@page "/systems/filtering/custom-controller"
+@layout FilteringExampleLayout
+@attribute [SystemTitle("Custom controller (simple)")]
+
+<DocsTextBlock MultiLine="true">
+    <p>
+        Some system requirements require bespoke controllers which don't belong in a general-purpose library like Tyne.
+        In these cases, you can use custom controllers.
+    </p>
+    <p>
+        This example shows a <i>simple</i> custom controller which just defines content to interact with the filter value.
+        If this is too limiting, you can <MudLink>define a fully custom controller component</MudLink> (example TBA).
+    </p>
+</DocsTextBlock>
+
+<SourceCode T="CustomFilterControllerExampleContent" SourceType="SourceCodeType.Component" Name="Filter context">
+    <div class="d-flex flex-column align-center">
+        <CustomFilterControllerExampleContent />
+    </div>
+</SourceCode>
+<SourceCode T="CustomControllerExampleRequest" SourceType="SourceCodeType.Type" Name="Request type" ShowSourceByDefault="false" />

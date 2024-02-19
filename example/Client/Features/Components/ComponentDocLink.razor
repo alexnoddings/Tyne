@@ -1,0 +1,30 @@
+﻿@typeparam T
+
+<MudLink Href="@DocsPath" Class="ms-2 mb-5">
+    <MudTooltip RootClass="d-flex align-center gap-1" Text="@($"API docs for {typeof(T).Name}")">
+        <span>
+            API
+        </span>
+        <MudIcon Icon="@Icons.Material.Filled.OpenInNew" Class="mud-icon-size-extra-small" />
+    </MudTooltip>
+</MudLink>
+
+@code
+{
+    // This path is based on the deployed system, not the local development docs
+    private string DocsPath => $"/Tyne/api/{DocsTypeIdentifier}.html";
+
+    private string TypeBaseName
+    {
+        get
+        {
+            var type = typeof(T);
+            if (type.IsGenericType)
+                type = type.GetGenericTypeDefinition();
+
+            return type.FullName ?? type.Name;
+        }
+    }
+
+    private string DocsTypeIdentifier => TypeBaseName.Replace("`", "-");
+}

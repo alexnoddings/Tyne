@@ -1,0 +1,15 @@
+﻿<SimpleFilterContext TRequest="SyncExampleRequest">
+    <FilterValues>
+        <TyneFilterValue For="m => m.MissionName" />
+    </FilterValues>
+    <ChildContent Context="ConfiguredRequest">
+        <div class="d-flex">
+            <TyneStringFilterController For="m => m.MissionName" Label="Controller 1" />
+            <TyneStringFilterController For="m => m.MissionName" Label="Controller 2" />
+            <TyneStringFilterController For="m => m.MissionName" Label="Controller 3" />
+        </div>
+        <MudText Class="mt-2">
+            Mission name: @ConfiguredRequest.MissionName
+        </MudText>
+    </ChildContent>
+</SimpleFilterContext>

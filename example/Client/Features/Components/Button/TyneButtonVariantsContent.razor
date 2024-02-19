@@ -1,0 +1,63 @@
+﻿<div class="d-flex gap-2">
+    @RenderButton(ButtonLockVariant.None)
+    @RenderButton(ButtonLockVariant.Bar)
+    @RenderButton(ButtonLockVariant.SpinnerStart)
+    @RenderButton(ButtonLockVariant.SpinnerEnd)
+</div>
+
+<MudText Typo="Typo.h6">
+    Button styling
+</MudText>
+<div class="d-flex gap-2">
+    <MudSelect @bind-Value="ButtonVariant" Variant="Variant.Outlined" Label="Variant" Margin="Margin.Dense" FullWidth="true">
+        <MudSelectItem Value="Variant.Text">Text</MudSelectItem>
+        <MudSelectItem Value="Variant.Filled">Filled</MudSelectItem>
+        <MudSelectItem Value="Variant.Outlined">Outlined</MudSelectItem>
+    </MudSelect>
+    <MudSelect @bind-Value="ButtonColour" Variant="Variant.Outlined" Label="Colour" Margin="Margin.Dense" FullWidth="true">
+        <MudSelectItem Value="Color.Primary"><MudText Color="Color.Primary">Primary</MudText></MudSelectItem>
+        <MudSelectItem Value="Color.Secondary"><MudText Color="Color.Secondary">Secondary</MudText></MudSelectItem>
+        <MudSelectItem Value="Color.Tertiary"><MudText Color="Color.Tertiary">Tertiary</MudText></MudSelectItem>
+        <MudSelectItem Value="Color.Info"><MudText Color="Color.Info">Info</MudText></MudSelectItem>
+        <MudSelectItem Value="Color.Success"><MudText Color="Color.Success">Success</MudText></MudSelectItem>
+        <MudSelectItem Value="Color.Warning"><MudText Color="Color.Warning">Warning</MudText></MudSelectItem>
+        <MudSelectItem Value="Color.Error"><MudText Color="Color.Error">Error</MudText></MudSelectItem>
+    </MudSelect>
+    <MudSelect @bind-Value="ButtonSize" Variant="Variant.Outlined" Label="Size" Margin="Margin.Dense" FullWidth="true">
+        <MudSelectItem Value="Size.Small">Small</MudSelectItem>
+        <MudSelectItem Value="Size.Medium">Medium</MudSelectItem>
+        <MudSelectItem Value="Size.Large">Large</MudSelectItem>
+    </MudSelect>
+    <MudCheckBox @bind-Checked="ButtonDisabled">
+        Disable buttons
+    </MudCheckBox>
+</div>
+
+@code
+{
+    private Variant ButtonVariant { get; set; } = Variant.Outlined;
+    private Color ButtonColour { get; set; } = Color.Primary;
+    private Size ButtonSize { get; set; } = Size.Medium;
+    private bool ButtonDisabled { get; set; }
+
+    private async Task ConnectToSatelliteAsync()
+    {
+        // Doing something long-running
+        await Task.Delay(3000);
+    }
+
+    private RenderFragment RenderButton(ButtonLockVariant buttonLockVariant) =>
+        @<div class="d-flex flex-column align-center">
+            <TyneButton Variant="ButtonVariant"
+                        Color="ButtonColour"
+                        Size="ButtonSize"
+                        LockVariant="buttonLockVariant"
+                        Disabled="ButtonDisabled"
+                        OnClick="ConnectToSatelliteAsync">
+                Connect to satellite
+            </TyneButton>
+            <code>
+                @buttonLockVariant
+            </code>
+        </div>;
+}

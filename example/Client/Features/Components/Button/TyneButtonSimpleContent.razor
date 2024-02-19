@@ -1,0 +1,26 @@
+﻿@* Parameter usage is identical to MudButton *@
+<TyneButton Color="Color.Secondary"
+            Variant="Variant.Filled"
+            OnClick="LaunchRocketAsync"
+            StartIcon="@Icons.Material.Outlined.RocketLaunch">
+    Launch rocket
+</TyneButton>
+
+<MudText Typo="Typo.h5">
+    <MudText Typo="Typo.inherit" Color="Color.Primary" Inline="true">
+        @RocketsLaunched
+    </MudText>
+    rockets launched
+</MudText>
+
+@code
+{
+    private int RocketsLaunched { get; set; }
+
+    private async Task LaunchRocketAsync()
+    {
+        // Doing something long-running
+        await Task.Delay(1000);
+        RocketsLaunched++;
+    }
+}

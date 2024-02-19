@@ -5,7 +5,7 @@
     <AssemblyName>TyneAerospaceClient</AssemblyName>
     <RootNamespace>Tyne.Aerospace.Client</RootNamespace>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
@@ -36,7 +36,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.15" />
     <PackageReference Include="MudBlazor" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <!-- Imports the SourceRef source generators. -->
     <ProjectReference Include="..\SourceRef.SourceGenerators\SourceRef.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
@@ -53,6 +53,11 @@
       REASON: More specific names can be useful in app code.
     -->
     <NoWarn>$(NoWarn);CA1725</NoWarn>
+    <!--
+      CA5394: Random is an insecure random number generator. Use cryptographically secure random number generators when randomness is required for security.
+      REASON: This is an example app with no secure requirements.
+    -->
+    <NoWarn>$(NoWarn);CA5394</NoWarn>
   </PropertyGroup>
   
 </Project>
