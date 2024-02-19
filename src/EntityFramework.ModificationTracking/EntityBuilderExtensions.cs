@@ -15,18 +15,18 @@ public static class EntityBuilderExtensions
     public static EntityTypeBuilder<TEntity> IsCreatable<TEntity, TUser>(this EntityTypeBuilder<TEntity> builder)
         where TEntity : class, ICreatable<TUser>
         where TUser : class
-	{
-		ArgumentNullException.ThrowIfNull(builder);
+    {
+        ArgumentNullException.ThrowIfNull(builder);
 
-		builder
-			.HasOne(entity => entity.CreatedBy)
-			.WithMany()
-			.HasForeignKey(entity => entity.CreatedById)
-			.OnDelete(DeleteBehavior.Restrict)
-			.IsRequired(false);
+        builder
+            .HasOne(entity => entity.CreatedBy)
+            .WithMany()
+            .HasForeignKey(entity => entity.CreatedById)
+            .OnDelete(DeleteBehavior.Restrict)
+            .IsRequired(false);
 
         return builder;
-	}
+    }
 
     /// <summary>
     ///     Configures a one-to-many relationship between <typeparamref name="TEntity"/> and <typeparamref name="TUser"/> via <see cref="IUpdatable{TUser}.LastUpdatedBy"/>.
@@ -38,16 +38,16 @@ public static class EntityBuilderExtensions
     public static EntityTypeBuilder<TEntity> IsUpdatable<TEntity, TUser>(this EntityTypeBuilder<TEntity> builder)
         where TEntity : class, IUpdatable<TUser>
         where TUser : class
-	{
-		ArgumentNullException.ThrowIfNull(builder);
+    {
+        ArgumentNullException.ThrowIfNull(builder);
 
-		builder
-			.HasOne(entity => entity.LastUpdatedBy)
-			.WithMany()
-			.HasForeignKey(entity => entity.LastUpdatedById)
-			.OnDelete(DeleteBehavior.Restrict)
-			.IsRequired(false);
+        builder
+            .HasOne(entity => entity.LastUpdatedBy)
+            .WithMany()
+            .HasForeignKey(entity => entity.LastUpdatedById)
+            .OnDelete(DeleteBehavior.Restrict)
+            .IsRequired(false);
 
         return builder;
-	}
+    }
 }

@@ -93,7 +93,7 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
             _logger.LogFilterContextAlreadyInitialising();
             throw new InvalidOperationException("Context has already began initialising.");
         }
-        
+
         // Pre-fill _initTask with an empty, running task.
         // This ensures no race conditions where InitialiseCoreAsync
         // hasn't returned and set _initTask before a value

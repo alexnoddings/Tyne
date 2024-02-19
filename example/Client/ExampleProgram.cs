@@ -30,10 +30,10 @@ public static class ExampleProgram
     {
         services.AddMudServices();
         services.AddScoped<ThemeService>();
-        
+
         services.AddMediatR(options => options.RegisterServicesFromAssemblyContaining<ExampleApp>());
         services.AddValidatorsFromAssemblyContaining<ExampleApp>();
-        
+
         services.AddTyne()
             .ConfigurePageTitle("Tyne:Title")
             .AddEnvironmentService(environmentName)
