@@ -1,6 +1,6 @@
+using System.Linq.Expressions;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using System.Linq.Expressions;
 
 namespace Tyne.Blazor.Filtering.Controllers;
 

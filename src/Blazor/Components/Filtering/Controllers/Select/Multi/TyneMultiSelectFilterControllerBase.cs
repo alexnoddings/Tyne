@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Components;
 using System.Linq.Expressions;
+using Microsoft.AspNetCore.Components;
 
 namespace Tyne.Blazor.Filtering.Controllers;
 

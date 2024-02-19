@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Components;
-using MudBlazor;
 using System.Linq.Expressions;
 using System.Reflection.Metadata;
+using Microsoft.AspNetCore.Components;
+using MudBlazor;
 
 namespace Tyne.Blazor.Filtering.Controllers;
 
