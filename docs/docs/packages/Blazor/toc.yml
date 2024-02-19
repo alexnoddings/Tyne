@@ -3,12 +3,12 @@
 - name: Filtering
   items:
   - name: Intro
-    href: filtering/intro.md
+    href: Filtering/intro.md
   - name: Persistence
-    href: filtering/persistence.md
+    href: Filtering/persistence.md
   - name: Components
-    href: filtering/components.md
+    href: Filtering/components.md
   - name: Diagrams
-    href: filtering/diagrams.md
+    href: Filtering/diagrams.md
 - name: Tables
   href: tables.md
