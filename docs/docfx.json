@@ -28,7 +28,7 @@
       "noRestore": false,
       "namespaceLayout": "flattened",
       "memberLayout": "separatePages",
-      "EnumSortOrder": "alphabetic",
+      "EnumSortOrder": "declaringOrder",
       "allowCompilationErrors": false
     }
   ],

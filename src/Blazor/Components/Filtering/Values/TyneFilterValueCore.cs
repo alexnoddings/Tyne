@@ -149,6 +149,9 @@ public abstract class TyneFilterValueCore<TRequest, TValue> : ComponentBase, IFi
         if (forKey.IsEmpty)
             throw new KeyEmptyException($"Value can't be attached to empty {nameof(ForKey)}. Are you missing a For property?");
 
+        if (Context is null)
+            throw new InvalidOperationException($"{GetType().Name} requires a cascading parameter of type {nameof(IFilterContext<object>)}<{typeof(TRequest).Name}>.");
+
         // Always attach a handle, regardless of if we could generate a setter.
         // We won't be able to configure the request later, but it will stop as many
         // errors where controllers try to attach to invalid values.
@@ -157,6 +160,15 @@ public abstract class TyneFilterValueCore<TRequest, TValue> : ComponentBase, IFi
 
     // Used to check if init has started, and to await it completing
     private Task? _initTask;
+
+    /// <summary>
+    ///     <see langword="true"/> if the value has been successfully initialised; otherwise, <see langword="false"/>.
+    /// </summary>
+    /// <remarks>
+    ///     This will be false if the value has not began initialisation, is initialising, or has faulted during initialisation.
+    ///     It will only be <see langword="true"/> if initialisation has completed successfully.
+    /// </remarks>
+    protected bool IsInitialised => _initTask?.IsCompletedSuccessfully ?? false;
 
     /// <summary>
     ///     Initialises the value.
@@ -203,7 +215,7 @@ public abstract class TyneFilterValueCore<TRequest, TValue> : ComponentBase, IFi
     public async Task EnsureInitialisedAsync()
     {
         if (_initTask is null)
-            throw new InvalidOperationException();
+            throw new InvalidOperationException("Filter value initialisation has not started.");
 
         await _initTask.ConfigureAwait(false);
         // If initialisation yields (e.g. loading values from an API), then controllers will have

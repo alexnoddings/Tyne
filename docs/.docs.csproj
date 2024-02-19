@@ -14,9 +14,9 @@
   
   <!--
       Allows `dotnet watch` to automatically recompile the docs.
-      To use, execute:
-      - `dotnet watch docfx ./docfx` in one window
-      - `dotnet docfx serve ./_site` in another window
+      To use, in the `./docs` directory execute:
+      - `dotnet watch docfx ./docfx.json` in one terminal
+      - `dotnet docfx serve ./_site` in another terminal
       This ensures that the site is still navigable while dotnet watch rebuilds the site.
     -->
   <ItemGroup Label="Docs files">
@@ -52,6 +52,9 @@
   <ItemGroup>
     <!-- Hide the built site in VS -->
     <None Remove="_site/**/*.*" />
+    <!-- And any built API files -->
+    <None Remove="api/.manifest" />
+    <None Remove="api/*.yml" />
   </ItemGroup>
 
 </Project>

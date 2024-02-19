@@ -185,6 +185,20 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
         return Task.WhenAll(filterInitialisationTasks);
     }
 
+    private void EnsureReadyToDispatchNotifications(TyneKey key)
+    {
+        // Init doesn't have to be completed, only started.
+        // This is so that values may notify controllers of updates during init.
+        // This isn't important for synchronous/fast values, but is important
+        // for values which don't notify til after the first render has completed
+        // (e.g. loading values from an API)
+        if (_initTask is null)
+            throw new InvalidOperationException("Notifications cannot be dispatched before initialisation has begun.");
+
+        if (key.IsEmpty)
+            throw new KeyEmptyException("Cannot notify for for an empty key.");
+    }
+
     /// <summary>
     ///     Notifies the context that the value for <paramref name="key"/> has been updated with <paramref name="newValue"/>.
     /// </summary>
@@ -205,16 +219,7 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
     /// <exception cref="KeyEmptyException">When <paramref name="key"/> is empty.</exception>
     internal async Task NotifyValueUpdatedAsync<TValue>(TyneKey key, TValue? newValue)
     {
-        // Init doesn't have to be completed, only started.
-        // This is so that values may notify controllers of a value update during init.
-        // This isn't important for synchronous/fast values, but is important
-        // for values which don't notify til after the first render has completed
-        // (e.g. loading values from an API)
-        if (_initTask is null)
-            throw new InvalidOperationException("Notifications cannot be dispatched before initialisation has begun.");
-
-        if (key.IsEmpty)
-            throw new KeyEmptyException("Cannot notify for for an empty key.");
+        EnsureReadyToDispatchNotifications(key);
 
         _logger.LogFilterContextNotifyingControllersOfValueUpdate(key, newValue);
 
@@ -229,6 +234,22 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
                 await valueControllerHandle.FilterController.OnValueUpdatedAsync(newValue).ConfigureAwait(false);
             else
                 Debug.Fail("Controller handle is not of the expected type.", $"Controller handle was expected to be of type {nameof(FilterControllerHandle)}<{typeof(TRequest).Name}, {typeof(TValue).Name}>, but was of type {controllerHandle.GetType().Name}.");
+        }
+    }
+
+    internal async Task NotifyStateChangedAsync(TyneKey key)
+    {
+        EnsureReadyToDispatchNotifications(key);
+
+        _logger.LogFilterContextNotifyingControllersOfStateChange(key);
+
+        // Don't fail if no controller handles are found, having none attached is valid
+        if (!_controllerHandles.TryGetValue(key, out var controllerHandles))
+            return;
+
+        foreach (var controllerHandle in controllerHandles)
+        {
+            await controllerHandle.FilterControllerBase.OnStateChangedAsync().ConfigureAwait(false);
         }
     }
 

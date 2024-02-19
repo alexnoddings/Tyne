@@ -1,0 +1,23 @@
+﻿@namespace Tyne.Aerospace.Client.Infrastructure
+
+<MudBreadcrumbs Items="Breadcrumbs" Class="py-0">
+    <SeparatorTemplate>
+        <MudText Class="mud-text-primary" Typo="Typo.h6">
+            /
+        </MudText>
+    </SeparatorTemplate>
+    <ItemTemplate Context="item">
+        @if (item.Href is not null)
+        {
+            <MudLink Href="@item.Href" Color="Color.Primary" Typo="Typo.h6">
+                @item.Text
+            </MudLink>
+        }
+        else
+        {
+            <MudText Typo="Typo.h6">
+                @item.Text
+            </MudText>
+        }
+    </ItemTemplate>
+</MudBreadcrumbs>

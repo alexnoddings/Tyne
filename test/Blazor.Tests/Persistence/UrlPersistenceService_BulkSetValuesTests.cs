@@ -9,11 +9,12 @@ public class UrlPersistenceService_BulkSetValuesTests : TestContext
 {
     public UrlPersistenceService_BulkSetValuesTests() : base()
     {
+        Services.AddSingleton<IUrlQueryStringFormatter, UrlQueryStringFormatter>();
         Services.AddSingleton<UrlPersistenceService>();
     }
 
     [Fact]
-    public void BulkSetValues_Works()
+    public void BulkSetValues_Dictionary_Works()
     {
         var navigationManager = Services.GetRequiredService<FakeNavigationManager>();
 
@@ -24,13 +25,39 @@ public class UrlPersistenceService_BulkSetValuesTests : TestContext
         {
             { "param2", null },
             { "param3", "aBc" },
-            { "param4", SomeEnumType.ValueTwo.ToString() },
+            { "param4", nameof(SomeEnumType.ValueTwo) },
         };
 
         var persistenceService = Services.GetRequiredService<UrlPersistenceService>();
         persistenceService.BulkSetValues(queryParameters);
 
-        var newQueryString = new Uri(navigationManager.Uri).Query;
+        AssertParamsUpdated(navigationManager.Uri);
+    }
+
+    [Fact]
+    public void BulkSetValues_Object_Works()
+    {
+        var navigationManager = Services.GetRequiredService<FakeNavigationManager>();
+
+        var uri = "/test/page?param1=123&param2=456&param3=789";
+        navigationManager.NavigateTo(uri);
+
+        var queryParameters = new
+        {
+            param2 = (object?)null,
+            param3 = "aBc",
+            param4 = nameof(SomeEnumType.ValueTwo),
+        };
+
+        var persistenceService = Services.GetRequiredService<UrlPersistenceService>();
+        persistenceService.BulkSetValues(queryParameters);
+
+        AssertParamsUpdated(navigationManager.Uri);
+    }
+
+    private static void AssertParamsUpdated(string uri)
+    {
+        var newQueryString = new Uri(uri).Query;
         var newQuery = HttpUtility.ParseQueryString(newQueryString);
 
         // Param2 should be removed
@@ -40,6 +67,6 @@ public class UrlPersistenceService_BulkSetValuesTests : TestContext
         // Param3 should be updated
         Assert.Equal("aBc", newQuery["param3"]);
         // Param4 should be added
-        Assert.Equal(SomeEnumType.ValueTwo.ToString(), newQuery["param4"]);
+        Assert.Equal(nameof(SomeEnumType.ValueTwo), newQuery["param4"]);
     }
 }

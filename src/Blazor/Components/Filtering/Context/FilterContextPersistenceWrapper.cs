@@ -1,3 +1,4 @@
+using System.Reflection;
 using Tyne.Blazor.Persistence;
 
 namespace Tyne.Blazor.Filtering.Context;
@@ -52,5 +53,24 @@ internal sealed class FilterContextPersistenceWrapper<TRequest> : IUrlPersistenc
         var parameterQueue = _filterContext.CurrentBatchUpdate.PersistenceParameterQueue;
         foreach (var (key, value) in parameters)
             parameterQueue[key] = value;
+    }
+
+    public void BulkSetValues(object parameters)
+    {
+        if (_filterContext.CurrentBatchUpdate is null)
+        {
+            _inner.BulkSetValues(parameters);
+            return;
+        }
+
+        var parameterQueue = _filterContext.CurrentBatchUpdate.PersistenceParameterQueue;
+        var parametersProperties =
+            parameters
+            .GetType()
+            .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+            .Where(propertyInfo => propertyInfo.CanRead);
+
+        foreach (var propertyInfo in parametersProperties)
+            parameterQueue[propertyInfo.Name] = propertyInfo.GetValue(parameters);
     }
 }

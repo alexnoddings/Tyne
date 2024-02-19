@@ -1,0 +1,37 @@
+﻿@page "/systems/filtering/"
+@layout SystemLayout
+@attribute [SystemTitle("Filtering examples")]
+@attribute [PageMaxWidth(MaxWidth.Large)]
+
+<MudPaper Class="mb-3">
+    <MudAlert Variant="Variant.Text" Severity="Severity.Info">
+        The following examples are designed to show how to use Tyne's filtering.
+        For an intro and more detailed look at how the filtering works, see the
+        <MudLink Underline="Underline.Always" Href="/Tyne/docs/packages/Blazor/Filtering/intro.html">filtering docs</MudLink>.
+    </MudAlert>
+</MudPaper>
+
+<MudGrid Justify="Justify.Center">
+    <MudItem xs="12" md="10" lg="12" Class="py-0 mt-6">
+        <MudText Typo="Typo.h3">Intro</MudText>
+    </MudItem>
+    <FilteringExampleLinkCard Title="Simple filter" Href="./systems/filtering/simple" Icon="@Icons.Material.Filled.Search">
+        A simple filtering context with one string property.
+    </FilteringExampleLinkCard>
+    <FilteringExampleLinkCard Title="Default value" Href="./systems/filtering/default-value" Icon="@Icons.Material.Outlined.IndeterminateCheckBox">
+        Filter values can have with default initial values.
+    </FilteringExampleLinkCard>
+    <FilteringExampleLinkCard Title="Synchronisation" Href="./systems/filtering/synchronisation" Icon="@Icons.Material.Filled.SyncAlt">
+        Filter controllers stay in sync with each other.
+    </FilteringExampleLinkCard>
+    <FilteringExampleLinkCard Title="Custom controller" Href="./systems/filtering/custom-controller" Icon="@Icons.Material.Outlined.SettingsApplications">
+        Custom controllers can be created for unique system requirements.
+    </FilteringExampleLinkCard>
+
+    <MudItem xs="12" md="10" lg="12" Class="py-0 mt-6">
+        <MudText Typo="Typo.h3">Select values</MudText>
+    </MudItem>
+    <FilteringExampleLinkCard Title="Update values" Href="./systems/filtering/select-update-values" Icon="@Icons.Material.Filled.Autorenew">
+        A select's available values can be dynamically updated.
+    </FilteringExampleLinkCard>
+</MudGrid>

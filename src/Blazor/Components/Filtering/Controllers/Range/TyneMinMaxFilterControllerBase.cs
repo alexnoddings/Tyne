@@ -29,8 +29,11 @@ namespace Tyne.Blazor.Filtering.Controllers;
 // to also know about the DateRange type, which introduces a dependency on MudBlazor to the server.
 public abstract partial class TyneMinMaxFilterControllerBase<TRequest, TValue> : ComponentBase, IFilterController<TValue?>, IDisposable
 {
+    /// <summary>
+    ///     The cascading filtering context this controller is running in.
+    /// </summary>
     [CascadingParameter]
-    private IFilterContext<TRequest> Context { get; init; } = null!;
+    protected IFilterContext<TRequest> Context { get; init; } = null!;
 
     /// <summary>
     ///     The <see cref="TyneKey"/> of the minimum property to attach to on the <see cref="IFilterContext{TRequest}"/>.
@@ -144,6 +147,20 @@ public abstract partial class TyneMinMaxFilterControllerBase<TRequest, TValue> :
     ///     The default implementation of this is to just invoke <see cref="ComponentBase.StateHasChanged"/>.
     /// </returns>
     public virtual Task OnValueUpdatedAsync(TValue? newValue)
+    {
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    ///     Invoked by <see cref="IFilterContext{TRequest}"/> when the
+    ///     min or max <see cref="IFilterValue{TValue}"/> this instance
+    ///     is attached to has a state change.
+    /// </summary>
+    /// <returns>
+    ///     The default implementation of this is to just invoke <see cref="ComponentBase.StateHasChanged"/>.
+    /// </returns>
+    public Task OnStateChangedAsync()
     {
         StateHasChanged();
         return Task.CompletedTask;

@@ -17,20 +17,16 @@
   <ItemGroup>
     <Using Alias="ICreatable" Include="Tyne.EntityFramework.ICreatable&lt;global::Tyne.Aerospace.Data.Entities.User&gt;" />
     <Using Alias="IUpdatable" Include="Tyne.EntityFramework.IUpdatable&lt;global::Tyne.Aerospace.Data.Entities.User&gt;" />
+    <Using Alias="IAppDbContextFactory" Include="Microsoft.EntityFrameworkCore.IDbContextFactory&lt;global::Tyne.Aerospace.Data.AppDbContext&gt;" />
   </ItemGroup>
 
   <PropertyGroup>
     <!--
       CA1002: Do not expose generic lists.
       CA2227: Collection properties should be read only.
-              These conflict with EF usage.
+      REASON: These conflict with EF usage.
     -->
     <NoWarn>$(NoWarn);CA1002;CA2227</NoWarn>
-    <!--
-      CA2007: Consider calling ConfigureAwait on the awaited task.
-              This just clutters up the example.
-    -->
-    <NoWarn>$(NoWarn);CA2007</NoWarn>
   </PropertyGroup>
 
 </Project>

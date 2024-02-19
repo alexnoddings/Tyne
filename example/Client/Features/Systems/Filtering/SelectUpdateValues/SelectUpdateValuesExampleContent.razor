@@ -1,0 +1,35 @@
+﻿<SimpleFilterContext TRequest="SelectUpdateValuesExampleRequest">
+    <FilterValues>
+        <OrbitalTypeSelectValue For="m => m.OrbitalType" OrbitalBody="OrbitalBody" />
+    </FilterValues>
+    <ChildContent Context="ConfiguredRequest">
+        <div class="d-flex flex-column gap-4 align-start">
+            <MudField Label="Orbital body" Variant="Variant.Outlined">
+                <div class="px-4">
+                    <MudRadioGroup @bind-SelectedOption="OrbitalBody">
+                        <MudRadio Option="OrbitalBody.Earth" Dense="true">Earth</MudRadio>
+                        <MudRadio Option="OrbitalBody.Moon" Dense="true">Moon</MudRadio>
+                        <MudRadio Option="OrbitalBody.Mars" Dense="true">Mars</MudRadio>
+                    </MudRadioGroup>
+                </div>
+            </MudField>
+            <MudField Label="Orbit type" Variant="Variant.Outlined">
+                <div class="px-4">
+                    <TyneSingleSelectRadioFilterController For="m => m.OrbitalType"
+                                                           Layout="FlexDirection.Row" />
+                </div>
+            </MudField>
+            <MudText Typo="Typo.h6">
+                Selected orbit type:
+                <MudText Color="Color.Secondary" Typo="Typo.inherit">
+                    @ConfiguredRequest.OrbitalType
+                </MudText>
+            </MudText>
+        </div>
+    </ChildContent>
+</SimpleFilterContext>
+
+@code
+{
+    private OrbitalBody OrbitalBody { get; set; }
+}

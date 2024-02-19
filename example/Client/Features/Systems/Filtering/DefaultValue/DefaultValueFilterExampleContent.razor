@@ -1,0 +1,11 @@
+﻿<SimpleFilterContext TRequest="DefaultValueExampleRequest">
+    <FilterValues>
+        <TyneFilterValue For="m => m.CommanderName" Default='"Jebediah K"' />
+    </FilterValues>
+    <ChildContent Context="ConfiguredRequest">
+        <TyneStringFilterController For="m => m.CommanderName" Label="Controller" />
+        <MudText Class="mt-3" Typo="Typo.h6">
+            Mission commander: @ConfiguredRequest.CommanderName
+        </MudText>
+    </ChildContent>
+</SimpleFilterContext>

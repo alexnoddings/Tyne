@@ -23,6 +23,23 @@ In a separate terminal in the `docs` directory, execute `dotnet docfx serve .\_s
 This will serve the DocFX project on `http://localhost:8080`, and will stay available while the docs are rebuilding.
 
 ## Versioning
-The publishing workflow is configured to populate build properties in the docs. These are:
+The publishing workflow is configured to populate build properties in the docs:
 - The `"_appFooter": "Built locally"` config in `docfx.json` is replaced with build info
-- Any reference to `${PACKAGE_VERSION}` is replaced with the version number
+- The package version number will replace references to `${PACKAGE_VERSION }`, but without the space
+    - The space character needs to be removed for the reference to be replaced, however doing so would cause the above text to also be replaced
+
+## File referencing
+The publishing workflow is configured to replace `gitfile` scheme references in the docs.
+Any docs files which contain a link whose scheme is `gitfile` will have that link updated to point to the blob which the docs were build from.
+
+For example, a markdown link to (without the space, otherwise it would be replaced here):
+```md
+[something](gitfile: //Directory.Build.props)
+```
+
+Will be replaced with:
+```md
+[something](gitfile://Directory.Build.props)
+```
+
+This custom scheme is relative to the root of the solution.

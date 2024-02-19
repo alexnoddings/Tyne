@@ -3,7 +3,7 @@ title: Tables
 ---
 
 # Tables
-As of v3.1, Tyne has a new [V2 table](xref:Tyne.Blazor.Tables.TyneTable2Base`2). This uses the new [filtering context](./filtering.md) also introduced in v3.1. New tables should use V2 as the V1 table system will be phased out eventually.
+Tyne's tables are based on Tyne's [filtering context](./filtering/intro.md).
 
 ## Column headers controllers
 Tyne provides the following controllers designed for use in column headers.
@@ -18,4 +18,4 @@ These usually inherit from a regular filter component and wrap it in a [TyneColu
 | [`TyneMultiSelectBoxColumnHeader`](xref:Tyne.Blazor.Tables.Columns.TyneMultiSelectBoxColumnHeader`3) | Provides a dropdown selection box for multi select values | [`TyneMultiSelectBoxFilterController`](xref:Tyne.Blazor.Filtering.Controllers.TyneMultiSelectBoxFilterController`2) |
 | [`TyneMultiSelectCheckboxColumnHeader`](xref:Tyne.Blazor.Tables.Columns.TyneMultiSelectCheckboxColumnHeader`3) | Provides checkboxes for multi select values | [`TyneMultiSelectCheckboxFilterController`](xref:Tyne.Blazor.Filtering.Controllers.TyneMultiSelectCheckboxFilterController`2) |
 
-See the [filtering page](./filtering.md) for more information about controllers provided for use in filtering contexts.
+See the [filtering page](./filtering/intro.md) for more information about controllers provided for use in filtering contexts.

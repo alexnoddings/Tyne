@@ -1,10 +1,5 @@
-﻿<MudPaper Class="pa-0 pb-1 pr-1 mud-theme-primary" Style="height: 100%;">
-	<MudPaper Elevation="0" Class="d-flex flex-row align-center pa-4" Style="height: 100%;">
-		<MudIcon Icon="@Icons.Material.Filled.SatelliteAlt" Color="Color.Primary" Class="mr-4" Style="width:54px; height:54px;"></MudIcon>
-		<div>
-            <MudText Typo="Typo.subtitle1" Class="mb-n1">Constellation efficiency</MudText>
-			<MudText Typo="Typo.h5">@CurrentValue.ToString("##.##")%</MudText>
-			<MudProgressLinear Color="Color.Primary" Min="0" Max="MaxProgressTicks" Value="@CurrentProgressTicks" />
-		</div>
-	</MudPaper>
-</MudPaper>
+﻿<DashboardCardContent Colour="Color.Primary" Icon="@Icons.Material.Filled.SatelliteAlt">
+    <MudText Typo="Typo.subtitle1" Class="mb-n1">Constellation efficiency</MudText>
+	<MudText Typo="Typo.h5">@CurrentValue.ToString("##.##")%</MudText>
+	<MudProgressLinear Color="Color.Primary" Min="0" Max="MaxProgressTicks" Value="@CurrentProgressTicks" />
+</DashboardCardContent>

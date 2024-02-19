@@ -1,0 +1,46 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.Components.Web
+@using Tyne.Aerospace.Client
+@namespace Host.Server.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Tyne Aerospace 🚀</title>
+    <base href="/" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+    <link rel="stylesheet" href="_content/MudBlazor/MudBlazor.min.css" />
+    <link rel="stylesheet" href="_content/Tyne.Blazor/Tyne.Blazor.css" />
+    <link rel="stylesheet" href="_content/TyneAerospaceClient/app.css" />
+    <link rel="stylesheet" href="_content/TyneAerospaceClient/hljs.css" />
+    <link rel="stylesheet" href="_content/TyneAerospaceClient/TyneAerospaceClient.bundle.scp.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" integrity="sha512-hasIneQUHlh06VNBe7f6ZcHmeRTLIaQWFd43YriJ0UND19bvYRauxthDg8E4eVNPm9bRUhr5JGeqH7FRFXQu5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/csharp.min.js" integrity="sha512-2Mz4HPfbnPT0gLJwtbyMgAXzvsHt73xiIIkyFsrC0pc4XEf/UMQon8eXhdPQIideGBUla7eE1inLnzm9L/ZTFA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="_content/TyneAerospaceClient/app.js"></script>
+    <script src="_content/TyneAerospaceClient/cshtml-razor.js"></script>
+    <link rel="icon" type="image/png" href="_content/TyneAerospaceClient/favicon.png" />
+    <link rel="icon" type="image/svg" href="_content/TyneAerospaceClient/favicon.svg" />
+    <component type="typeof(HeadOutlet)" render-mode="Server" />
+</head>
+<body>
+    <component type="typeof(ExampleApp)" render-mode="Server" />
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+    <script src="_content/Tyne.Blazor/Tyne.Blazor.js"></script>
+    <script src="_framework/blazor.server.js"></script>
+    <script>
+        hljs.registerLanguage('cshtml-razor', hljsRazor);
+    </script>
+</body>
+</html>

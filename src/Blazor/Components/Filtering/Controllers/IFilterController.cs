@@ -1,15 +1,16 @@
 namespace Tyne.Blazor.Filtering.Controllers;
 
 /// <summary>
-///     A filter controller.
+///     Non-generic base for <see cref="IFilterController{TValue}"/>.
 /// </summary>
-/// <typeparam name="TValue">The type the filter value manages.</typeparam>
-public interface IFilterController<in TValue>
+public interface IFilterController
 {
     /// <summary>
-    ///     When attached to a context, this is invoked when the <typeparamref name="TValue"/> this controller is attached to is updated.
+    ///     When attached to a context, this is invoked when the filter this controller is attached to updates its state.
     /// </summary>
-    /// <param name="newValue">The new <typeparamref name="TValue"/>.</param>
-    /// <returns>A <see cref="Task"/> representing the controller handling a value update.</returns>
-    public Task OnValueUpdatedAsync(TValue? newValue);
+    /// <returns>A <see cref="Task"/> representing the controller handling a state change.</returns>
+    /// <remarks>
+    ///     This is only invoked for non-value changes to the state.
+    /// </remarks>
+    public Task OnStateChangedAsync();
 }

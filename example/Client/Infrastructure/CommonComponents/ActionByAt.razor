@@ -1,0 +1,17 @@
+﻿@using Humanizer;
+@namespace Tyne.Aerospace.Client
+
+<RelativeDateTime DateTimeUtc="AtUtc" />
+by
+@if (ByName is null)
+{
+    <span class="mud-text-disabled">
+        (deleted user)
+    </span>
+}
+else
+{
+    <span>
+        @ByName
+    </span>
+}

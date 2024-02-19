@@ -1,4 +1,7 @@
-﻿@inherits LayoutComponentBase
+﻿@namespace Tyne.Aerospace.Client
+@using Microsoft.Extensions.Options
+@using Tyne.Aerospace.Client.Infrastructure.Layouts
+@inherits LayoutComponentBase
 @inject ThemeService ThemeService
 
 <div class="ta-bg-container">
@@ -18,13 +21,16 @@
                      Color="Color.Inherit"
                      Underline="Underline.None"
                      Class="d-flex flex-row align-center">
-                <img src="./tyne-aerospace-simple.svg" alt="Tyne Aerospace logo" height="26rem" />
+                <img src="./_content/TyneAerospaceClient/tyne-aerospace-simple.svg" alt="Tyne Aerospace logo" height="26rem" />
             </MudLink>
             <NavLink href="./" Match="NavLinkMatch.All" class="mud-typography mud-link mud-inherit-text mud-typography-h5" ActiveClass="mud-link-underline-always">
                 Dashboard
             </NavLink>
-            <NavLink href="./part-types" class="mud-typography mud-link mud-inherit-text mud-typography-h5" ActiveClass="mud-link-underline-always">
-                Part types
+            <NavLink href="./components" class="mud-typography mud-link mud-inherit-text mud-typography-h5" ActiveClass="mud-link-underline-always">
+                Components
+            </NavLink>
+            <NavLink href="./systems" class="mud-typography mud-link mud-inherit-text mud-typography-h5" ActiveClass="mud-link-underline-always">
+                Systems
             </NavLink>
             <Environment Mode="EnvironmentMode.Include" Matching="EnvironmentMatching.Exact" Filter="Production">
                 <MudDivider Vertical="true"
@@ -47,22 +53,29 @@
                     @EnvironmentName
                 </MudText>
             </Environment>
+            <BuildTagContent />
             <MudSpacer />
-            <MudMenu FullWidth="true" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter">
+            <MudMenu AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight">
                 <ActivatorContent>
                     <div class="d-flex flex-row align-center">
-                        <MudAvatar Color="Color.Primary" Variant="Variant.Filled" Size="Size.Medium">
-                            D
-                        </MudAvatar>
-                        <MudText Typo="Typo.h5" class="ml-2 mr-1">
-                            Demo user
-                        </MudText>
-                        <MudIcon Icon="@Icons.Material.Filled.ExpandMore" />
+                        <MudIcon Color="Color.Primary" Icon="@Icons.Material.Filled.Architecture" Size="Size.Large" />
                     </div>
                 </ActivatorContent>
                 <ChildContent>
                     <MudMenuItem Href="./theme" Icon="@Icons.Material.Filled.Palette" IconColor="Color.Primary" IconSize="Size.Large">
                         Theme
+                    </MudMenuItem>
+                    <MudDivider Light="true" Class="my-2" />
+                    <MudMenuItem Disabled="true">
+                        <div class="d-inline-flex gap-1">
+                            <span>Breakpoint:</span>
+                            <code class="d-block d-sm-none">xs</code>
+                            <code class="d-none d-sm-block d-md-none">sm</code>
+                            <code class="d-none d-md-block d-lg-none">md</code>
+                            <code class="d-none d-lg-block d-xl-none">lg</code>
+                            <code class="d-none d-xl-block d-xxl-none">xl</code>
+                            <code class="d-none d-xxl-block">xxl</code>
+                        </div>
                     </MudMenuItem>
                 </ChildContent>
             </MudMenu>

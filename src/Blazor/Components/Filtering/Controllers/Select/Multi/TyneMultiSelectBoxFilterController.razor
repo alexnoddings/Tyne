@@ -12,6 +12,11 @@
                    MultiSelection="true"
                    SelectedValues="Value"
                    SelectedValuesChanged="SetValueAsync"
+                   MaxHeight="MaxHeight"
+                   AnchorOrigin="AnchorOrigin"
+                   TransformOrigin="TransformOrigin"
+                   Clearable="Clearable"
+                   Dense="Dense"
                    Label="@(Label ?? ForKey.Key)"
                    ToStringFunc="ConvertValueToString">
             @foreach (var selectItem in selectItems)

@@ -1,0 +1,18 @@
+﻿@using Microsoft.Extensions.Options
+@inject IOptions<BuildTag> BuildTagOptions
+
+@{
+    var buildTag = BuildTagOptions.Value.Tag;
+    if (!string.IsNullOrEmpty(buildTag))
+    {
+        <MudDivider Vertical="true"
+                    FlexItem="true"
+                    Class="my-2"
+                    Style="opacity: 50%;" />
+        <MudText Typo="Typo.h5"
+                    Class="pointer-events-none"
+                    Style="opacity: 50%;">
+            @buildTag
+        </MudText>
+    }
+}

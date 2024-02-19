@@ -1,0 +1,24 @@
+﻿@namespace Tyne.Aerospace.Client.Infrastructure
+@using MudBlazor.Utilities
+
+<MudPaper Class="@ClassName">
+    @ChildContent
+</MudPaper>
+
+@code
+{
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = EmptyRenderFragment.Instance;
+
+    [Parameter]
+    public bool TopMargin { get; set; }
+
+    [Parameter]
+    public bool MultiLine { get; set; }
+
+    private string ClassName =>
+        new CssBuilder("px-4 py-2")
+        .AddClass("d-flex flex-column gap-2", MultiLine)
+        .AddClass("mt-6", TopMargin)
+        .ToString();
+}

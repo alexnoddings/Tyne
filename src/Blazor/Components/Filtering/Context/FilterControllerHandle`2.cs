@@ -25,6 +25,8 @@ internal sealed class FilterControllerHandle<TRequest, TValue> : FilterControlle
     private IFilterController<TValue>? _filterController;
     internal IFilterController<TValue> FilterController => EnsureNotDisposed(_filterController);
 
+    internal override IFilterController FilterControllerBase => FilterController;
+
     /// <summary>
     ///     Constructs a new <see cref="FilterControllerHandle{TRequest, TValue}"/>.
     /// </summary>

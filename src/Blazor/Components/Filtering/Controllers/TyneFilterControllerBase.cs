@@ -16,7 +16,8 @@ namespace Tyne.Blazor.Filtering.Controllers;
 ///         This handle is automatically detached when disposed.
 ///     </para>
 ///     <para>
-///         It also provides some convenient shorthands getting/setting the filter value.
+///         It also provides some convenient shorthands accessing the filter value
+///         - see <see cref="SetFilterValueAsync(TValue?)"/> and <see cref="ClearFilterValueAsync"/>.
 ///     </para>
 ///     <para>
 ///         Inheritors only need to implement <see cref="ForKey"/> so this
@@ -25,8 +26,11 @@ namespace Tyne.Blazor.Filtering.Controllers;
 /// </remarks>
 public abstract class TyneFilterControllerBase<TRequest, TValue> : ComponentBase, IFilterController<TValue>, IDisposable
 {
+    /// <summary>
+    ///     The cascading filtering context this controller is running in.
+    /// </summary>
     [CascadingParameter]
-    private IFilterContext<TRequest> Context { get; init; } = null!;
+    protected IFilterContext<TRequest> Context { get; init; } = null!;
 
     /// <summary>
     ///     The <see cref="TyneKey"/> to attach to on the <see cref="IFilterContext{TRequest}"/>.
@@ -115,6 +119,20 @@ public abstract class TyneFilterControllerBase<TRequest, TValue> : ComponentBase
     ///     The default implementation of this is to just invoke <see cref="ComponentBase.StateHasChanged"/>.
     /// </returns>
     public virtual Task OnValueUpdatedAsync(TValue? newValue)
+    {
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    ///     Invoked by <see cref="IFilterContext{TRequest}"/>
+    ///     when the <see cref="IFilterValue{TValue}"/> this instance
+    ///     is attached to has a state change.
+    /// </summary>
+    /// <returns>
+    ///     The default implementation of this is to just invoke <see cref="ComponentBase.StateHasChanged"/>.
+    /// </returns>
+    public Task OnStateChangedAsync()
     {
         StateHasChanged();
         return Task.CompletedTask;

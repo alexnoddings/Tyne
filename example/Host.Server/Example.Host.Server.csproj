@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <AssemblyName>TyneAerospaceClient.ServerHost</AssemblyName>
+    <RootNamespace>Tyne.Aerospace.Host.Server</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Client\Example.Client.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -26,4 +26,16 @@ public interface IFilterValueHandle<in TValue> : IDisposable
     /// <param name="newValue">The new <typeparamref name="TValue"/>.</param>
     /// <returns>A <see cref="Task"/> representing the new value notification being handled.</returns>
     public Task NotifyValueUpdatedAsync(TValue? newValue);
+
+    /// <summary>
+    ///     Notifies the <see cref="IFilterContext{TRequest}"/>
+    ///     (and any controllers attached to this value)
+    ///     that this value's state has changed.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the state change notification being handled.</returns>
+    /// <remarks>
+    ///     Use <see cref="NotifyValueUpdatedAsync(TValue?)"/> if the <typeparamref name="TValue"/> has been updated.
+    ///     Otherwise, use this to notify of a non-value change to the filter state (e.g. remote data has loaded).
+    /// </remarks>
+    public Task NotifyStateChangedAsync();
 }

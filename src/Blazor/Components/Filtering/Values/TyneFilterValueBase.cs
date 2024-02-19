@@ -13,7 +13,6 @@ public abstract class TyneFilterValueBase<TRequest, TValue> : TyneFilterValueCor
     {
         base.OnInitialized();
 
-
         // Generating and caching a Delegate during init is a nice middle ground between:
         // - Running reflection every time we configure the request
         //   o no initialisation cost

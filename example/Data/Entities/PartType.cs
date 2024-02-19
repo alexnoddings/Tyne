@@ -16,6 +16,7 @@ public class PartType : IEntity, ICreatable, IUpdatable
     public User? LastUpdatedBy { get; set; }
 
     public string Name { get; set; } = string.Empty;
+    public PartSize Size { get; set; }
 
     public List<Part> Parts { get; set; } = null!;
 }

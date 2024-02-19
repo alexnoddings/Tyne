@@ -44,11 +44,26 @@ html[data-bs-theme="dark"] {
     text-decoration: underline;
 }
 
-/* Don't show external icon for links to MSDN docs */
+/* Show custom icon for links to MSDN docs */
 a.external[href^="https://learn.microsoft.com"]::after {
-    content: '';
+    content: '\f65d';
 }
 
+/* But not in type lists (e.g. inheritance, implements) since this just clutters it up */
+.typelist a.external[href^="https://learn.microsoft.com"]::after,
+/* Or in code blocks (this isn't common in custom docs, but is in API docs) */
+code a.external[href^="https://learn.microsoft.com"]::after,
+/* Or in definitions (e.g. namespaces for extension methods in non-Tyne namespaces) */
+.definition a.external[href^="https://learn.microsoft.com"]::after
+{
+    content: '';
+    margin: 0;
+}
+
+/* Show custom icon for links to GitHub */
+a.external[href^="https://github.com"]::after {
+    content: "\f3ed";
+}
 
 .definition {
     font-size: 14px;
@@ -179,3 +194,27 @@ footer .build-info {
     footer .build-info a {
         text-decoration: none;
     }
+
+h1, .h1 {
+    font-size: calc(1.75rem + 1.6vw);
+}
+
+h2, .h2 {
+    font-size: calc(1.5rem + 1.3vw);
+}
+
+h3, .h3 {
+    font-size: calc(1.2rem + 1vw);
+}
+
+h4, .h4 {
+    font-size: calc(1.2rem + .65vw);
+}
+
+h5, .h5 {
+    font-size: calc(1.1rem + .5vw);
+}
+
+h6, .h6 {
+    font-size: calc(1rem + .25vw);
+}

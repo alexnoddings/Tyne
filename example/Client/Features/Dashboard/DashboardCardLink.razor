@@ -1,0 +1,25 @@
+﻿<MudItem xs="12" sm="6">
+    <MudPaper Class="pa-0 pr-1 pb-1 mud-theme-tertiary" Style="height: 100%;">
+        <a href="@Href">
+            <MudPaper Elevation="0" Class="d-flex flex-row align-center pa-4" Style="height: 100%;">
+                <MudIcon Icon="@Icon" Color="Color.Tertiary" Class="mr-4" Style="width:54px; height:54px;" />
+                <MudText Typo="Typo.h6">
+                    @Title
+                </MudText>
+                <MudIcon Icon="@Icons.Material.Filled.NavigateNext" Color="Color.Tertiary" Class="ms-auto" Style="width:54px; height:54px;" />
+            </MudPaper>
+        </a>
+    </MudPaper>
+</MudItem>
+
+@code
+{
+    [Parameter]
+    public string Href { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Icon { get; set; } = string.Empty;
+}

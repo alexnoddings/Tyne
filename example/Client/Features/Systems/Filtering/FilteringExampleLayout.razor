@@ -1,0 +1,10 @@
+﻿@using System.Reflection
+@inherits SystemLayout
+
+@((RenderFragment)base.BuildRenderTree)
+
+@code
+{
+    protected override RenderFragment RenderBreadcrumbs() =>
+        @<FilteringBreadcrumbs PageName="@PageTitle" />;
+}

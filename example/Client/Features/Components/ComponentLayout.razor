@@ -1,0 +1,18 @@
+﻿@typeparam TComponent
+@inherits DocLayoutBase
+
+@((RenderFragment)base.BuildRenderTree)
+
+@code
+{
+    protected override string PageTitle => typeof(TComponent).Name;
+
+    protected override RenderFragment RenderBreadcrumbs() =>
+        @<ComponentsBreadcrumbs T="TComponent" />;
+
+    protected override RenderFragment RenderTitle() =>
+        @<div class="d-flex align-center">
+            <code>@PageTitle</code>
+            <ComponentDocLink T="TComponent" />
+        </div>;
+}

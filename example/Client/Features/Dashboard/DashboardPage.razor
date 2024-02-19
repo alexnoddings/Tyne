@@ -2,62 +2,27 @@
 
 <TynePageTitle Value="Dashboard" />
 
-<MudContainer MaxWidth="MaxWidth.Large" Class="pt-6">
+<MudContainer MaxWidth="MaxWidth.Small" Class="pt-6">
     <MudText Typo="Typo.h1" Align="Align.Center">
         Tyne Aerospace
     </MudText>
-    <div class="d-flex">
-        <MudCard Class="mx-auto">
-            <MudAlert Variant="Variant.Outlined" Severity="Severity.Info">
-                <MudText Typo="Typo.body1">
-                    Tyne Aerospace is running demo mode.
-                </MudText>
-                <MudText Typo="Typo.body2">
-                    Data is seeded from <code>data.json</code>, and stored in-browser in a SQLite database.
-                </MudText>
-                <MudText Typo="Typo.body2">
-                    To reset it, clear <code>/data/cache/tyne-aerospace.sqlite3</code> from this site's cache.
-                </MudText>
-            </MudAlert>
-        </MudCard>
-    </div>
-
-    <MudGrid Class="mt-2">
-        <MudItem xs="12" sm="6" md="3">
-            <NextLaunchCard />
-        </MudItem>
-        <MudItem xs="12" sm="6" md="3">
-            <MudPaper Class="pa-0 pb-1 pr-1 mud-theme-success" Style="height: 100%;">
-                <MudPaper Elevation="0" Class="d-flex flex-row align-center pa-4" Style="height: 100%;">
-                    <MudIcon Icon="@Icons.Material.Filled.Payments" Color="Color.Success" Class="mr-4" Style="width:54px; height:54px;"></MudIcon>
-                    <div>
-                        <MudText Typo="Typo.subtitle1" Class="mb-n1">Annual revenue</MudText>
-                        <MudText Typo="Typo.h5">£101m</MudText>
-                    </div>
-                </MudPaper>
-            </MudPaper>
-        </MudItem>
-        <MudItem xs="12" sm="6" md="3">
-            <ConstellationCard />
-        </MudItem>
-        <MudItem xs="12" sm="6" md="3">
-            <MudPaper Class="pa-0 pb-1 pr-1 mud-theme-info" Style="height: 100%;">
-                <MudPaper Elevation="0" Class="d-flex flex-row align-center pa-4" Style="height: 100%;">
-                    <MudIcon Icon="@Icons.Material.Filled.NightsStay" Color="Color.Info" Class="mr-4" Style="width:54px; height:54px;"></MudIcon>
-                    <div>
-                        <MudText Typo="Typo.subtitle1" Class="mb-n1">Lunar surface</MudText>
-                        <MudText Typo="Typo.h5">Silver and white</MudText>
-                    </div>
-                </MudPaper>
-            </MudPaper>
-        </MudItem>
-        <MudItem Class="d-none d-md-block" xs="0" sm="0" md="3">
-        </MudItem>
-        <MudItem xs="12" sm="6" md="3">
-            <PartTypesCountCard />
-        </MudItem>
-        <MudItem xs="12" sm="6" md="3">
-            <PartsCountCard />
-        </MudItem>
+    <MudPaper>
+        <MudAlert Variant="Variant.Outlined" Severity="Severity.Info" NoIcon="true">
+            <MudText Typo="Typo.h5" Align="Align.Center">
+                This is an example app to demonstrate Tyne libraries.
+            </MudText>
+            <MudText Typo="Typo.body1">
+                It is themed around a system for Tyne Aerospace, a fictional company.
+            </MudText>
+        </MudAlert>
+    </MudPaper>
+    <MudGrid Class="mt-4">
+        <DashboardCardLink Href="./components" Title="Component examples" Icon="@Icons.Material.Outlined.Category" />
+        <DashboardCardLink Href="./systems" Title="System examples" Icon="@Icons.Material.Outlined.AccountTree" />
+        <MudItem xs="12" />
+        <ConstellationCard />
+        <NextLaunchCard />
+        <GatewayUplinkCard />
+        <LunarSurfaceCard />
     </MudGrid>
 </MudContainer>

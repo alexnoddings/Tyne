@@ -1,0 +1,13 @@
+﻿@namespace Tyne.Aerospace.Client.Infrastructure
+@inherits LayoutComponentBase
+@layout MainLayout
+
+<TynePageTitle Value="@PageTitle" />
+<MudContainer MaxWidth="@(MaxWidth ?? DefaultMaxWidth)" Class="pt-6 d-flex flex-column gap-2" Style="padding-bottom: 15vh;">
+    @RenderBreadcrumbs()
+    <MudText Class="mx-3" Typo="Typo.h2">
+        @RenderTitle()
+    </MudText>
+    @RenderBanner()
+    @Body
+</MudContainer>

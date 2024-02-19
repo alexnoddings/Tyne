@@ -1,0 +1,31 @@
+﻿@page "/components/TyneButton"
+@layout ComponentLayout<TyneButton>
+
+<DocsTextBlock>
+    <code>@nameof(TyneButton)</code> behaves identically to the <code>@nameof(MudButton)</code>,
+    except it is <code>@nameof(MudButton.Disabled)</code> while the <code>@nameof(MudButton.OnClick)</code>
+    callback is being executed.
+</DocsTextBlock>
+
+<SourceCode T="TyneButtonSimpleContent" SourceType="SourceCodeType.Component" Name="Basic usage">
+    <div class="d-flex flex-column align-center gap-2">
+        <TyneButtonSimpleContent />
+    </div>
+</SourceCode>
+
+<DocsTextBlock TopMargin="true" MultiLine="true">
+    <p>
+        While running the <code>@nameof(MudButton.OnClick)</code> callback,
+        <code>@nameof(TyneButton)</code> will display an indicator that something is happening.
+    </p>
+    <p>
+        This default variant is <code>@nameof(ButtonLockVariant.Bar)</code>,
+        and can be disabled with <code>@nameof(ButtonLockVariant.None)</code>.
+    </p>
+</DocsTextBlock>
+
+<SourceCode T="TyneButtonVariantsContent" SourceType="SourceCodeType.Component" Name="@($"{nameof(ButtonLockVariant)}s")" ShowSourceByDefault="false">
+    <div class="d-flex flex-column align-center gap-2">
+        <TyneButtonVariantsContent />
+    </div>
+</SourceCode>
