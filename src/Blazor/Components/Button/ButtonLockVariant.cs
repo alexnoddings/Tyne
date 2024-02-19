@@ -1,9 +1,9 @@
 namespace Tyne.Blazor;
 
 /// <summary>
-///     The style of additional content <see cref="TyneButton"/>s should render when locked.
+///     The variant of additional content which <see cref="TyneButton"/>s should render when locked.
 /// </summary>
-public enum ButtonLockStyle
+public enum ButtonLockVariant
 {
     /// <summary>
     ///     Do not render any locked content.

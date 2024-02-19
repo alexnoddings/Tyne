@@ -168,10 +168,10 @@ public class TyneButtonTests : TestContext
     }
 
     [Theory]
-    [InlineData(ButtonLockStyle.SpinnerStart, ".tyne-button-locked-progress-circular")]
-    [InlineData(ButtonLockStyle.SpinnerEnd, ".tyne-button-locked-progress-circular")]
-    [InlineData(ButtonLockStyle.Bar, ".tyne-button-locked-progress-linear")]
-    public async Task Click_ShowsLoadingContent(ButtonLockStyle buttonStyle, string loadingContentClass)
+    [InlineData(ButtonLockVariant.SpinnerStart, ".tyne-button-locked-progress-circular")]
+    [InlineData(ButtonLockVariant.SpinnerEnd, ".tyne-button-locked-progress-circular")]
+    [InlineData(ButtonLockVariant.Bar, ".tyne-button-locked-progress-linear")]
+    public async Task Click_ShowsLoadingContent(ButtonLockVariant buttonLockVariant, string loadingContentClass)
     {
         // Arrange
         var tcs = new TaskCompletionSource();
@@ -179,7 +179,7 @@ public class TyneButtonTests : TestContext
 
         var cut = RenderComponent<TyneButton>(parameters => parameters
           .Add(p => p.OnClick, onClick)
-          .Add(p => p.LockStyle, buttonStyle)
+          .Add(p => p.LockVariant, buttonLockVariant)
         );
 
         var buttonElement = cut.Find("button");

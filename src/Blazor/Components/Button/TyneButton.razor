@@ -14,7 +14,7 @@
             disabled="@GetDisabledState()"
             ClickPropagation="@ClickPropagation">
     <span class="mud-button-label">
-        @if (_isLocked && LockStyle is ButtonLockStyle.SpinnerStart)
+        @if (_isLocked && LockVariant is ButtonLockVariant.SpinnerStart)
         {
             <MudProgressCircular Indeterminate="true" Size="Size.Small" Class="tyne-button-locked-progress-circular me-2" />
         }
@@ -31,12 +31,12 @@
                 <MudIcon Icon="@EndIcon" Size="@(IconSize ?? Size)" Color="@IconColor" />
             </span>
         }
-        @if (_isLocked && LockStyle is ButtonLockStyle.SpinnerEnd)
+        @if (_isLocked && LockVariant is ButtonLockVariant.SpinnerEnd)
         {
             <MudProgressCircular Indeterminate="true" Size="Size.Small" Class="tyne-button-locked-progress-circular ms-2" />
         }
     </span>
-    @if (_isLocked && LockStyle is ButtonLockStyle.Bar)
+    @if (_isLocked && LockVariant is ButtonLockVariant.Bar)
     {
         <MudProgressLinear Indeterminate="true" Size="Size.Small" Class="tyne-button-locked-progress-linear" />
     }

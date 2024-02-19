@@ -7,7 +7,7 @@ namespace Tyne.Blazor;
 
 /// <summary>
 ///     A <see cref="MudButton"/> which will be disabled while <see cref="MudBaseButton.OnClick"/> is being executed.
-///     Additionally, loading content will be displayed based on <see cref="LockStyle"/>.
+///     Additionally, loading content will be displayed based on <see cref="LockVariant"/>.
 /// </summary>
 /// <seealso cref="MudButton"/>
 public partial class TyneButton : MudButton
@@ -21,18 +21,18 @@ public partial class TyneButton : MudButton
     private new string Classname =>
         new CssBuilder(base.Classname)
         .AddClass("tyne-button")
-        .AddClass("tyne-button-loading-bar", LockStyle is ButtonLockStyle.Bar)
-        .AddClass("tyne-button-spinner", LockStyle is ButtonLockStyle.SpinnerStart or ButtonLockStyle.SpinnerEnd)
+        .AddClass("tyne-button-loading-bar", LockVariant is ButtonLockVariant.Bar)
+        .AddClass("tyne-button-spinner", LockVariant is ButtonLockVariant.SpinnerStart or ButtonLockVariant.SpinnerEnd)
         .ToString();
 
     /// <summary>
-    ///     The <see cref="ButtonLockStyle"/> of this button.
+    ///     The <see cref="ButtonLockVariant"/> of this button.
     /// </summary>
     /// <remarks>
-    ///     Defaults to <see cref="ButtonLockStyle.Bar"/>.
+    ///     Defaults to <see cref="ButtonLockVariant.Bar"/>.
     /// </remarks>
     [Parameter]
-    public ButtonLockStyle LockStyle { get; set; } = ButtonLockStyle.Bar;
+    public ButtonLockVariant LockVariant { get; set; } = ButtonLockVariant.Bar;
 
     public override Task SetParametersAsync(ParameterView parameters)
     {
