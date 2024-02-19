@@ -8,7 +8,7 @@ internal static class TypeSourceFormatter
     public static string Format(string contents)
     {
         // First split the source by newline, keep the empty entries
-        var split = contents.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+        var split = contents.Replace("\r\n", "\n").Split(new string[] { "\n" }, StringSplitOptions.None);
 
         // Calculate the minimum indentation - we use this do outdent the source
         // This is especially useful for nested types to avoid the source all being left-padded

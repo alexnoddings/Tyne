@@ -8,7 +8,7 @@ internal static class ComponentSourceFormatter
     public static string Format(string contents)
     {
         // First split the source by newline, keep the empty entries
-        var split = contents.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+        var split = contents.Replace("\r\n", "\n").Split(new string[] { "\n" }, StringSplitOptions.None);
 
         // Strip component directives
         var stripped = StripComponentDirectives(split);
