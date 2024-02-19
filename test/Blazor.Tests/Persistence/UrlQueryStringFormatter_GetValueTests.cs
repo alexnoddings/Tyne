@@ -15,11 +15,8 @@ public class UrlQueryStringFormatter_GetValueTests
 
         var method =
             typeof(UrlQueryStringFormatter_GetValueTests)
-            .GetMethod(methodName, methodFlags);
-
-        if (method is null)
-            throw new InvalidOperationException($"Could not load method info for generic test method '{methodName}'.");
-
+            .GetMethod(methodName, methodFlags)
+            ?? throw new InvalidOperationException($"Could not load method info for generic test method '{methodName}'.");
         return method;
     }
 

@@ -45,7 +45,10 @@ public class OptionMatchExtensionTests
         var someOption = Option.Some(42);
 
         Action<int> some = null!;
-        Action none = () => { };
+        static void none()
+        {
+            // Just a filler method
+        }
 
         AssertExt.ThrowsArgumentNullException(() => noneOption.Apply(some, none));
         AssertExt.ThrowsArgumentNullException(() => someOption.Apply(some, none));
@@ -57,7 +60,10 @@ public class OptionMatchExtensionTests
         var noneOption = Option.None<int>();
         var someOption = Option.Some(42);
 
-        Action<int> some = _ => { };
+        static void some(int _)
+        {
+            // Just a filler method
+        }
         Action none = null!;
 
         AssertExt.ThrowsArgumentNullException(() => noneOption.Apply(some, none));

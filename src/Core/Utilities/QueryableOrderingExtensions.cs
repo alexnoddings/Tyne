@@ -177,15 +177,15 @@ public static class QueryableOrderingExtensions
     /// <returns>An <see cref="IOrderedQueryable{TSource}"/> whose elements are sorted according to the <paramref name="propertyInfo"/>.</returns>
     private static IOrderedQueryable<TSource> OrderByCore<TSource>(IQueryable<TSource> source, PropertyInfo propertyInfo, bool isDescending)
     {
-        Type sourceType = typeof(TSource);
+        var sourceType = typeof(TSource);
         // An expression for the parameter (e.g. `$Foo =>`)
-        ParameterExpression parameter = Expression.Parameter(sourceType, sourceType.Name);
+        var parameter = Expression.Parameter(sourceType, sourceType.Name);
         // An expression for the property (e.g. `$Foo => $Foo.Bar`)
-        MemberExpression property = Expression.Property(parameter, propertyInfo);
+        var property = Expression.Property(parameter, propertyInfo);
         // Create a lambda for the property expression
-        LambdaExpression lambda = Expression.Lambda(property, parameter);
+        var lambda = Expression.Lambda(property, parameter);
 
-        MethodInfo orderByMethod = isDescending ? OrderByDescendingMethod : OrderByMethod;
+        var orderByMethod = isDescending ? OrderByDescendingMethod : OrderByMethod;
         // Creates a generic version of the OrderBy method (e.g. turns `.OrderBy<,>` into `.OrderBy<Foo, Bar>`)
         orderByMethod = orderByMethod.MakeGenericMethod(sourceType, propertyInfo.PropertyType);
 

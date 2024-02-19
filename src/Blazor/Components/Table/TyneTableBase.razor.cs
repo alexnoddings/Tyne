@@ -220,7 +220,7 @@ public abstract partial class TyneTableBase<TRequest, TResponse>
             Items = searchResults
         };
 
-        static TableData<TResponse> EmptyTableData() => new TableData<TResponse>
+        static TableData<TResponse> EmptyTableData() => new()
         {
             TotalItems = 0,
             Items = Enumerable.Empty<TResponse>(),

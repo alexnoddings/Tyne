@@ -18,11 +18,8 @@ public class UrlPersistenceService_GetValueTests : TestContext
 
         var method =
             typeof(UrlPersistenceService_GetValueTests)
-            .GetMethod(methodName, methodFlags);
-
-        if (method is null)
-            throw new InvalidOperationException($"Could not load method info for generic test method '{methodName}'.");
-
+            .GetMethod(methodName, methodFlags)
+            ?? throw new InvalidOperationException($"Could not load method info for generic test method '{methodName}'.");
         return method;
     }
 

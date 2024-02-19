@@ -6,8 +6,9 @@ public class ResultMatchExtensionTests
     public void MatchT_NullOk_Throws()
     {
         var result = Result.Error<int>(TestError.Instance);
+
         Func<int, int> ok = null!;
-        Func<Error, int> err = _ => 0;
+        static int err(Error _) => 0;
 
         AssertExt.ThrowsArgumentNullException(() => result.Match(ok, err));
     }
@@ -16,7 +17,8 @@ public class ResultMatchExtensionTests
     public void MatchT_NullError_Throws()
     {
         var result = Result.Error<int>(TestError.Instance);
-        Func<int, int> ok = _ => 0;
+
+        static int ok(int _) => 0;
         Func<Error, int> err = null!;
 
         AssertExt.ThrowsArgumentNullException(() => result.Match(ok, err));
