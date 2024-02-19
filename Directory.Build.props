@@ -83,6 +83,12 @@
     -->
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <!--
+      IDE0290: Use primary constructor.
+      REASON:  Not every class makes sense with a primary constructor.
+               (this is only an info severity)
+    -->
+    <NoWarn>$(NoWarn);IDE0290</NoWarn>
+    <!--
       S1133:  Do not forget to remove this deprecated code someday.
       REASON: This just gets in the way of deprecations. We still show it as an error though.
     -->
