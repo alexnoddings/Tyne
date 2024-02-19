@@ -53,10 +53,12 @@ public abstract class TyneFilterSelectValueBase<TRequest, TValue, TSelectValue> 
         await NotifyContextOfSelectItemsUpdatedAsync().ConfigureAwait(false);
     }
 
-    private async Task NotifyContextOfSelectItemsUpdatedAsync()
+    private Task NotifyContextOfSelectItemsUpdatedAsync()
     {
         if (IsInitialised)
-            await Handle.NotifyStateChangedAsync().ConfigureAwait(false);
+            return Handle.NotifyStateChangedAsync();
+
+        return Task.CompletedTask;
     }
 
     /// <summary>
