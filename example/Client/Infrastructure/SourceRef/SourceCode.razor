@@ -1,0 +1,41 @@
+﻿@namespace Tyne.Aerospace.Client.Infrastructure
+@using MudBlazor.Utilities
+@using Tyne.Aerospace.Client.Infrastructure.SourceRef
+@typeparam T
+
+<div class="ta-source-section">
+    <div class="d-flex flex-row align-center gap-2 mud-alert-text-primary px-3 py-2 rounded-t">
+        <MudIcon Icon="@Icons.Material.Filled.Code" Size="Size.Large" />
+        <div class="d-flex">
+            <MudText Typo="Typo.h5">
+                @(Name ?? DefaultName)
+            </MudText>
+            <MudLink Href="@SourceCodePath">
+                <MudTooltip Text="@($"{DefaultName} source code")">
+                    <MudIcon Icon="@Icons.Material.Filled.OpenInNew" Class="mud-icon-size-extra-small ms-1 mt-1" />
+                </MudTooltip>
+            </MudLink>
+        </div>
+        <MudButton OnClick="() => ShowSource = !ShowSource"
+                   Variant="Variant.Text"
+                   Color="Color.Inherit"
+                   EndIcon="@(ShowSource ? Icons.Material.Filled.ExpandLess : Icons.Material.Filled.ExpandMore)"
+                   Class="ms-auto">
+            @(ShowSource ? "Hide" : "Show") source code
+        </MudButton>
+    </div>
+    @if (ChildContent is not null)
+    {
+        <div class="pa-4">
+            @ChildContent
+        </div>
+    }
+    <div class="ta-source-code" data-ta-visible="@ShowSource">
+        <MudDivider />
+        <pre class="ta-source">
+        <code id="@_id" class="@CodeClassName">
+                @SourceCodeString
+            </code>
+        </pre>
+    </div>
+</div>

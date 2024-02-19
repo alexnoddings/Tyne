@@ -37,6 +37,11 @@
     <PackageReference Include="MudBlazor" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- Imports the SourceRef source generators. -->
+    <ProjectReference Include="..\SourceRef.SourceGenerators\SourceRef.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+  
   <PropertyGroup Label="Warnings and Errors">
     <!--
       CA1034: Do not nest type. Alternatively, change its accessibility so that it is not externally visible.

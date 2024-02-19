@@ -1,0 +1,55 @@
+.ta-source .language-cshtml-razor {
+    color: var(--mud-palette-dark);
+}
+
+    .ta-source .language-cshtml-razor .hljs-attr {
+        color: var(--mud-palette-primary-darken);
+    }
+
+    .ta-source .language-cshtml-razor .hljs-built_in {
+        color: var(--mud-palette-tertiary);
+    }
+
+    .ta-source .language-cshtml-razor .hljs-comment {
+        color: var(--mud-palette-success-darken);
+    }
+
+    .ta-source .language-cshtml-razor .hljs-name {
+        color: var(--mud-palette-primary);
+    }
+
+    .ta-source .language-cshtml-razor .hljs-string {
+        color: var(--mud-palette-secondary-darken);
+    }
+
+    .ta-source .language-cshtml-razor .hljs-tag {
+        color: var(--mud-palette-dark);
+    }
+
+    .ta-source .language-cshtml-razor span.language-csharp {
+        color: var(--mud-palette-tertiary-darken);
+    }
+
+.ta-source .language-csharp {
+    color: var(--mud-palette-dark);
+}
+
+    .ta-source .language-csharp .hljs-built_in {
+        color: var(--mud-palette-primary-darken);
+    }
+
+    .ta-source .language-csharp .hljs-comment {
+        color: var(--mud-palette-success-darken);
+    }
+
+    .ta-source .language-csharp .hljs-keyword {
+        color: var(--mud-palette-primary);
+    }
+
+    .ta-source .language-csharp .hljs-string {
+        color: var(--mud-palette-secondary-darken);
+    }
+
+    .ta-source .language-csharp .hljs-title {
+        color: var(--mud-palette-secondary-darken);
+    }
