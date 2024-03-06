@@ -6,28 +6,28 @@
 
 @{
     var selectItems = SelectItems;
-    <MudSelect T="TValue"
-               Value="Value"
-               ValueChanged="SetValueAsync"
-               MaxHeight="MaxHeight"
-               AnchorOrigin="AnchorOrigin"
-               TransformOrigin="TransformOrigin"
-               Clearable="Clearable"
-               Dense="Dense"
-               Label="@(Label ?? ForKey.Key)"
-               Disabled="selectItems is null">
-        @if (selectItems is not null)
-        {
-            foreach (var selectItem in selectItems)
+    @if (selectItems is not null)
+    {
+        <MudSelect T="TValue"
+                   Value="Value"
+                   ValueChanged="SetValueAsync"
+                   MaxHeight="MaxHeight"
+                   AnchorOrigin="AnchorOrigin"
+                   TransformOrigin="TransformOrigin"
+                   Clearable="Clearable"
+                   Dense="Dense"
+                   Label="@(Label ?? ForKey.Key)"
+                   PopoverClass="@(SizeToContent ? "tyne-select-size-to-content" : "")">
+            @foreach (var selectItem in selectItems)
             {
                 <MudSelectItem Value="selectItem.Value">
                     @RenderItem(selectItem)
                 </MudSelectItem>
             }
-        }
-        else
-        {
-            <MudProgressCircular Indeterminate="true" Color="Color.Default" />
-        }
-    </MudSelect>
+        </MudSelect>
+    }
+    else
+    {
+        <MudProgressCircular Indeterminate="true" Color="Color.Default" />
+    }
 }

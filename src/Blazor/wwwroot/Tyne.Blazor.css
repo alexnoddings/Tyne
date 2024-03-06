@@ -7,10 +7,15 @@
 }
 
 /* Pins the loading bar to the bottom of the button */
-    .tyne-button-loading-bar .tyne-button-locked-progress-linear {
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-    }
+.tyne-button-loading-bar .tyne-button-locked-progress-linear {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
 
+/* Sizes select boxes based on their content */
+.tyne-select-size-to-content {
+    max-width: unset !important;
+    width: min-content !important;
+}
