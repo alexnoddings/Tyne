@@ -28,6 +28,8 @@
   href: dev/docs.md
 - name: Package upgrades
   href: dev/package-upgrades.md
+- name: Releasing a version
+  href: dev/releasing-a-version.md
 - name: Solution structure
   href: dev/solution-structure.md
 

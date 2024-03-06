@@ -23,7 +23,7 @@
     <TyneMajorVersion>3</TyneMajorVersion>
     <TyneMinorVersion>2</TyneMinorVersion>
     <TynePatchVersion>0</TynePatchVersion>
-    <TynePreReleaseTag>rc.2</TynePreReleaseTag>
+    <TynePreReleaseTag></TynePreReleaseTag>
     <Version>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</Version>
     <Version Condition=" '$(TynePreReleaseTag)' != '' ">$(Version)-$(TynePreReleaseTag)</Version>
     <PackageVersion>$(Version)</PackageVersion>
@@ -60,7 +60,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.14.0.81108">
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.21.0.86780">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -82,6 +82,12 @@
       REASON: There are too many undocumented types/members to have this enabled. It should be removed once all public types have XML docs associated.
     -->
     <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <!--
+      IDE0290: Use primary constructor.
+      REASON:  Not every class makes sense with a primary constructor.
+               (this is only an info severity)
+    -->
+    <NoWarn>$(NoWarn);IDE0290</NoWarn>
     <!--
       S1133:  Do not forget to remove this deprecated code someday.
       REASON: This just gets in the way of deprecations. We still show it as an error though.

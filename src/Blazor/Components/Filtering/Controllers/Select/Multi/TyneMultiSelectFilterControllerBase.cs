@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Components;
 using System.Linq.Expressions;
+using Microsoft.AspNetCore.Components;
 
 namespace Tyne.Blazor.Filtering.Controllers;
 
@@ -84,8 +84,10 @@ public abstract partial class TyneMultiSelectFilterControllerBase<TRequest, TVal
         if (item is not null && currentValue.Contains(item))
             return Task.CompletedTask;
 
-        var newValue = new HashSet<TValue>(currentValue);
-        newValue.Add(item);
+        var newValue = new HashSet<TValue>(currentValue)
+        {
+            item
+        };
         return SetValueAsync(newValue);
     }
 

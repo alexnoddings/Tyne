@@ -6,8 +6,9 @@ public class OptionApplyExtensionTests
     public void MatchT_NullSome_Throws()
     {
         var option = Option.None<int>();
+
         Func<int, int> some = null!;
-        Func<int> none = () => 0;
+        static int none() => 0;
 
         AssertExt.ThrowsArgumentNullException(() => option.Match(some, none));
     }
@@ -16,7 +17,8 @@ public class OptionApplyExtensionTests
     public void MatchT_NullNone_Throws()
     {
         var option = Option.None<int>();
-        Func<int, int> some = (_) => 0;
+
+        static int some(int _) => 0;
         Func<int> none = null!;
 
         AssertExt.ThrowsArgumentNullException(() => option.Match(some, none));

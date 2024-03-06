@@ -45,7 +45,10 @@ public class ResultApplyExtensionTests
         var errorResult = Result.Error<int>(TestError.Instance);
 
         Action<int> ok = null!;
-        Action<Error> err = _ => { };
+        static void err(Error _)
+        {
+            // Just a filler method
+        }
 
         AssertExt.ThrowsArgumentNullException(() => okResult.Apply(ok, err));
         AssertExt.ThrowsArgumentNullException(() => errorResult.Apply(ok, err));
@@ -57,7 +60,10 @@ public class ResultApplyExtensionTests
         var okResult = Result.Ok(42);
         var errorResult = Result.Error<int>(TestError.Instance);
 
-        Action<int> ok = _ => { };
+        static void ok(int _)
+        {
+            // Just a filler method
+        }
         Action<Error> err = null!;
 
         AssertExt.ThrowsArgumentNullException(() => okResult.Apply(ok, err));

@@ -4,7 +4,7 @@ namespace Tyne.Aerospace.Client.Features.Dashboard;
 
 public sealed partial class NextLaunchCard : IDisposable
 {
-    private static TimeSpan LaunchTime = TimeSpan.Parse("19:42:00", CultureInfo.InvariantCulture);
+    private static readonly TimeSpan LaunchTime = TimeSpan.Parse("19:42:00", CultureInfo.InvariantCulture);
 
     private PeriodicTimer Timer { get; } = new(TimeSpan.FromMilliseconds(250));
 

@@ -13,11 +13,8 @@ public class UrlUtilities_TryParse_Tests
 
         var method =
             typeof(UrlUtilities_TryParse_Tests)
-            .GetMethod(methodName, methodFlags);
-
-        if (method is null)
-            throw new InvalidOperationException($"Could not load method info for generic test method '{methodName}'.");
-
+            .GetMethod(methodName, methodFlags)
+            ?? throw new InvalidOperationException($"Could not load method info for generic test method '{methodName}'.");
         return method;
     }
 

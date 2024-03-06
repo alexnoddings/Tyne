@@ -30,6 +30,15 @@ public partial class TyneMultiSelectBoxFilterController<TRequest, TValue>
     [Parameter]
     public bool Dense { get; set; }
 
+    /// <summary>
+    ///     Whether the select box's content should be sized based on it's content.
+    /// </summary>
+    /// <remarks>
+    ///     Defaults to <see langword="true"/>.
+    /// </remarks>
+    [Parameter]
+    public bool SizeToContent { get; set; } = true;
+
     private string ConvertValueToString(TValue value) =>
         SelectItems
         ?.FirstOrDefault(item => item.Value?.Equals(value) == true)

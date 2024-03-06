@@ -93,7 +93,7 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
             _logger.LogFilterContextAlreadyInitialising();
             throw new InvalidOperationException("Context has already began initialising.");
         }
-        
+
         // Pre-fill _initTask with an empty, running task.
         // This ensures no race conditions where InitialiseCoreAsync
         // hasn't returned and set _initTask before a value
@@ -381,11 +381,9 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
                 .Where(i => i.IsGenericType)
                 .Where(i => i.GetGenericTypeDefinition() == typeof(IFilterValue<,>))
                 .Select(i => i.GetGenericArguments()[1])
-                .FirstOrDefault();
-
-            // We shouldn't have filter values registered which don't implement IFilterValue<,>
-            if (filterActualValueType is null)
-                throw new ArgumentException($"Value attached for key '{key}' is not compatible with '{typeof(TValue)}'");
+                .FirstOrDefault()
+                // We shouldn't have filter values registered which don't implement IFilterValue<,>
+                ?? throw new ArgumentException($"Value attached for key '{key}' is not compatible with '{typeof(TValue)}'");
 
             // With Value Types, Interface<TValue?> becomes Interface<Nullable<T>>, which will fail a type-test against Interface<T>.
             // So we check if our TValue and IFilterValue's TValue are similar, but one is a Nullable<T> version of the other.

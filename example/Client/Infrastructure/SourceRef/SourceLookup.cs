@@ -51,11 +51,8 @@ internal static class SourceLookup
             targetType = targetType.GetGenericTypeDefinition();
 
         var typeIdentifier = NormaliseTypeIdentifier(targetType);
-        var lookupField = lookupType.GetField(typeIdentifier, _lookupBindingFlags);
-
-        if (lookupField is null)
-            throw new ArgumentException($"Target type \"{targetType.Name}\" does not have a lookup on lookup type \"{lookupType.Name}\".");
-
+        var lookupField = lookupType.GetField(typeIdentifier, _lookupBindingFlags)
+            ?? throw new ArgumentException($"Target type \"{targetType.Name}\" does not have a lookup on lookup type \"{lookupType.Name}\".");
         var value = lookupField.GetValue(null);
         if (value is not string valueStr)
             throw new InvalidOperationException("Lookup field value is not a valid string.");

@@ -18,6 +18,7 @@
                    Clearable="Clearable"
                    Dense="Dense"
                    Label="@(Label ?? ForKey.Key)"
+                   PopoverClass="@(SizeToContent ? "tyne-select-size-to-content" : "")"
                    ToStringFunc="ConvertValueToString">
             @foreach (var selectItem in selectItems)
             {
