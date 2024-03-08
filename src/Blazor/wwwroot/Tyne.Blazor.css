@@ -17,5 +17,5 @@
 /* Sizes select boxes based on their content */
 .tyne-select-size-to-content {
     max-width: unset !important;
-    width: min-content !important;
+    width: max-content !important;
 }
