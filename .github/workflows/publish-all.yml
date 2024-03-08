@@ -52,7 +52,7 @@ jobs:
       
       - name: Setup docs file references
         run: |
-          BLOB_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/blob/${{ env.PACKAGE_VERSION }}/"
+          BLOB_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/blob/v${{ env.PACKAGE_VERSION }}/"
           FILE_REF_FIND="gitfile://"
           FILE_REF_REPLACE="${BLOB_URL}"
           find ./docs -type f -name "*.md" -exec sed -i "s@${FILE_REF_FIND}@${FILE_REF_REPLACE}@g" {} +
