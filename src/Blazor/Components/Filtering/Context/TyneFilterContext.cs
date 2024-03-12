@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Logging;
 using Tyne.Blazor.Filtering.Controllers;
 using Tyne.Blazor.Filtering.Values;
@@ -22,12 +23,12 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
     // Stores the Task which is initialising the context, or null if init hasn't begun
     private Task? _initTask;
 
-    /// <summary>
-    ///     <see langword="true"/> if the context is initialised; otherwise, <see langword="false"/>.
-    /// </summary>
-    /// <remarks>
-    ///     This will be <see langword="false"/> if initialisation either hasn't began, or is ongoing.
-    /// </remarks>
+    /// <inheritdoc/>
+    [MemberNotNullWhen(true, nameof(_initTask))]
+    public bool IsInitialisationStarted => _initTask is not null;
+
+    /// <inheritdoc/>
+    [MemberNotNullWhen(true, nameof(_initTask))]
     public bool IsInitialised => _initTask?.IsCompletedSuccessfully is true;
 
     /// <summary>
@@ -43,11 +44,13 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
     ///         Use of a faulted context is not defined behaviour.
     ///     </para>
     /// </remarks>
+    [MemberNotNullWhen(true, nameof(_initTask))]
     public bool IsFaulted => _initTask?.IsCompleted is true && !_initTask.IsCompletedSuccessfully;
 
     // Used during hot reloading to allow filters to overwrite existing ones which haven't disposed yet
     private bool _allowValueOverwriting;
 
+    /// <inheritdoc/>
     public IUrlPersistenceService Persistence { get; }
 
     // Attached handles for values and controllers
@@ -88,7 +91,7 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
     {
         _logger.LogFilterContextInitialising();
 
-        if (_initTask is not null)
+        if (IsInitialisationStarted)
         {
             _logger.LogFilterContextAlreadyInitialising();
             throw new InvalidOperationException("Context has already began initialising.");
@@ -166,7 +169,7 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
     /// <exception cref="Exception">Any exceptions thrown during <see cref="InitialiseAsync"/> will be captured in the returned <see cref="Task"/>.</exception>
     public Task WaitForInitialisedAsync()
     {
-        if (_initTask is null)
+        if (!IsInitialisationStarted)
             throw new InvalidOperationException("Cannot wait for initialisation, context has not yet began initialisation.");
 
         return _initTask;
@@ -192,7 +195,7 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
         // This isn't important for synchronous/fast values, but is important
         // for values which don't notify til after the first render has completed
         // (e.g. loading values from an API)
-        if (_initTask is null)
+        if (!IsInitialisationStarted)
             throw new InvalidOperationException("Notifications cannot be dispatched before initialisation has begun.");
 
         if (key.IsEmpty)
@@ -261,11 +264,11 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
     /// <exception cref="InvalidOperationException">When the task is not initialised yet, or if <see cref="IsFaulted"/> is <see langword="true"/>.</exception>
     public async Task ConfigureRequestAsync(TRequest request)
     {
-        if (_initTask?.IsCompleted is not true)
-            throw new InvalidOperationException("Request can only be configured once context is initialised.");
-
         if (IsFaulted)
             throw new InvalidOperationException("Unable to configure request, context failed to initialise.");
+
+        if (!IsInitialised)
+            throw new InvalidOperationException("Request can only be configured once context is initialised.");
 
         _logger.LogFilterContextConfiguringRequest();
 
@@ -308,10 +311,10 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
         return Task.CompletedTask;
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public IFilterValueHandle<TValue> AttachValue<TValue>(TyneKey key, IFilterValue<TRequest, TValue> filter)
     {
-        if (_initTask is not null)
+        if (IsInitialisationStarted)
             throw new InvalidOperationException("Filter values can only be registered prior to context initialisation.");
 
         KeyEmptyException.ThrowIfEmpty(key, exceptionMessage: "Cannot attach a value for an empty key.");
@@ -360,7 +363,7 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
         _valueHandles.Remove(key);
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public IFilterControllerHandle<TValue> AttachController<TValue>(TyneKey key, IFilterController<TValue> controller)
     {
         ArgumentNullException.ThrowIfNull(controller);
@@ -444,7 +447,7 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
     /// </summary>
     internal FilterContextBatchUpdateQueue<TRequest>? CurrentBatchUpdate { get; private set; }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public async Task BatchUpdateValuesAsync(Func<Task> func)
     {
         ArgumentNullException.ThrowIfNull(func);
