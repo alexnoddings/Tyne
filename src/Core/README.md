@@ -8,6 +8,6 @@ Common types:
 - `Error`
 
 Links
-- [Documentation](https://alexnoddings.github.io/Tyne/docs/packages/Tyne.Core.html)
+- [Documentation](https://alexnoddings.github.io/Tyne/docs/packages/Core.html)
 - [Change history](https://alexnoddings.github.io/Tyne/docs/changes/index.html)
 - [Other Tyne packages](https://alexnoddings.github.io/Tyne/docs/packages/index.html)
