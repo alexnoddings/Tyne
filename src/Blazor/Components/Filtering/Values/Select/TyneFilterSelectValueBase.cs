@@ -55,7 +55,7 @@ public abstract class TyneFilterSelectValueBase<TRequest, TValue, TSelectValue> 
 
     private Task NotifyContextOfSelectItemsUpdatedAsync()
     {
-        if (IsInitialised)
+        if (Context.IsInitialisationStarted)
             return Handle.NotifyStateChangedAsync();
 
         return Task.CompletedTask;
