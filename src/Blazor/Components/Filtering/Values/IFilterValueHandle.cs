@@ -25,6 +25,11 @@ public interface IFilterValueHandle<in TValue> : IDisposable
     /// </summary>
     /// <param name="newValue">The new <typeparamref name="TValue"/>.</param>
     /// <returns>A <see cref="Task"/> representing the new value notification being handled.</returns>
+    /// <remarks>
+    ///     The context must have started initialisation prior to calling this.
+    ///     This can be checked with <see cref="IFilterContext{TRequest}.IsInitialisationStarted"/>
+    /// </remarks>
+    /// <exception cref="InvalidOperationException">When called prior to the context starting initialisation.</exception>
     public Task NotifyValueUpdatedAsync(TValue? newValue);
 
     /// <summary>
@@ -34,8 +39,15 @@ public interface IFilterValueHandle<in TValue> : IDisposable
     /// </summary>
     /// <returns>A <see cref="Task"/> representing the state change notification being handled.</returns>
     /// <remarks>
-    ///     Use <see cref="NotifyValueUpdatedAsync(TValue?)"/> if the <typeparamref name="TValue"/> has been updated.
-    ///     Otherwise, use this to notify of a non-value change to the filter state (e.g. remote data has loaded).
+    ///     <para>
+    ///         Use <see cref="NotifyValueUpdatedAsync(TValue?)"/> if the <typeparamref name="TValue"/> has been updated.
+    ///         Otherwise, use this to notify of a non-value change to the filter state (e.g. remote data has loaded).
+    ///     </para>
+    ///     <para>
+    ///         The context must have started initialisation prior to calling this.
+    ///         This can be checked with <see cref="IFilterContext{TRequest}.IsInitialisationStarted"/>
+    ///     </para>
     /// </remarks>
+    /// <exception cref="InvalidOperationException">When called prior to the context starting initialisation.</exception>
     public Task NotifyStateChangedAsync();
 }

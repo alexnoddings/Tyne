@@ -22,6 +22,23 @@ public interface IFilterContext<out TRequest>
     public IUrlPersistenceService Persistence { get; }
 
     /// <summary>
+    ///     <see langword="true"/> if the context has started initialising; otherwise, <see langword="false"/>.
+    /// </summary>
+    /// <remarks>
+    ///     This will be <see langword="false"/> ONLY if initialisation hasn't began.
+    ///     If it has completed or faulted, it will still be <see langword="true"/>.
+    /// </remarks>
+    public bool IsInitialisationStarted { get; }
+
+    /// <summary>
+    ///     <see langword="true"/> if the context is initialised; otherwise, <see langword="false"/>.
+    /// </summary>
+    /// <remarks>
+    ///     This will be <see langword="false"/> if initialisation either hasn't began, or is ongoing.
+    /// </remarks>
+    public bool IsInitialised { get; }
+
+    /// <summary>
     ///     Executes a batch update of values within the context.
     /// </summary>
     /// <param name="func">

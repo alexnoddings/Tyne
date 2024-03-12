@@ -3,6 +3,6 @@
 Change auditing extensions for Entity Framework.
 
 Links
-- [Documentation](https://alexnoddings.github.io/Tyne/docs/packages/Tyne.EntityFramework.ChangeAuditing.html)
+- [Documentation](https://alexnoddings.github.io/Tyne/docs/packages/EntityFramework/EntityFramework.ChangeAuditing.html)
 - [Change history](https://alexnoddings.github.io/Tyne/docs/changes/index.html)
 - [Other Tyne packages](https://alexnoddings.github.io/Tyne/docs/packages/index.html)

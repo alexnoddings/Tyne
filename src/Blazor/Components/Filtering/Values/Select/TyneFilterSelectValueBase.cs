@@ -39,15 +39,44 @@ public abstract class TyneFilterSelectValueBase<TRequest, TValue, TSelectValue> 
         await base.InitialiseAsync().ConfigureAwait(false);
     }
 
+    /// <summary>
+    ///     Updates <see cref="SelectItems"/> with the new values returned by <see cref="LoadAvailableValuesAsync"/>,
+    ///     and notifies the context via <see cref="IFilterValueHandle{TValue}.NotifyStateChangedAsync"/>.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the available value update.</returns>
+    /// <remarks>
+    ///     If <see cref="LoadAvailableValuesAsync"/> executes asynchronously,
+    ///     <see cref="SelectItems"/> will be temporarily updated with <see langword="null"/>.
+    /// </remarks>
     protected async Task UpdateAvailableValuesAsync()
     {
-        if (SelectItems is not null)
-        {
-            SelectItems = null;
-            await NotifyContextOfSelectItemsUpdatedAsync().ConfigureAwait(false);
-        }
+        // Kick off loading task
+        var availableValuesTask = LoadAvailableValuesAsync();
+        List<IFilterSelectItem<TSelectValue?>> availableValues;
 
-        var availableValues = await LoadAvailableValuesAsync().ConfigureAwait(false);
+        // If the task completes synchronously,
+        // then we don't need to bother updating the context with the
+        // intermediate 'no values' state (setting SelectItems to null)
+        if (availableValuesTask.IsCompleted)
+        {
+            // CA1849: Call async methods when in an async method
+            // REASON: We only run this branch when we know the task has already completed.
+#pragma warning disable CA1849
+            availableValues = availableValuesTask.Result;
+#pragma warning restore CA1849
+        }
+        else
+        {
+            // While we wait for the new values, update the context that there are no available values
+            // This prevents stale values from being select-able if LoadAvailableValuesAsync is slow
+            if (SelectItems is not null)
+            {
+                SelectItems = null;
+                await NotifyContextOfSelectItemsUpdatedAsync().ConfigureAwait(false);
+            }
+
+            availableValues = await availableValuesTask.ConfigureAwait(false);
+        }
 
         SelectItems = availableValues?.ToList();
         await NotifyContextOfSelectItemsUpdatedAsync().ConfigureAwait(false);
@@ -55,7 +84,7 @@ public abstract class TyneFilterSelectValueBase<TRequest, TValue, TSelectValue> 
 
     private Task NotifyContextOfSelectItemsUpdatedAsync()
     {
-        if (IsInitialised)
+        if (Context.IsInitialisationStarted)
             return Handle.NotifyStateChangedAsync();
 
         return Task.CompletedTask;

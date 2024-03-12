@@ -22,7 +22,7 @@
   <PropertyGroup Label="Versioning">
     <TyneMajorVersion>3</TyneMajorVersion>
     <TyneMinorVersion>2</TyneMinorVersion>
-    <TynePatchVersion>1</TynePatchVersion>
+    <TynePatchVersion>2</TynePatchVersion>
     <TynePreReleaseTag></TynePreReleaseTag>
     <Version>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</Version>
     <Version Condition=" '$(TynePreReleaseTag)' != '' ">$(Version)-$(TynePreReleaseTag)</Version>

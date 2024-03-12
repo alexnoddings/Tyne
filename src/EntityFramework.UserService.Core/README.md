@@ -3,6 +3,6 @@
 Used by Tyne's change auditing and modification tracking libraries to determine the active user.
 
 Links
-- [Documentation](https://alexnoddings.github.io/Tyne/docs/packages/Tyne.EntityFramework.UserService.Core.html)
+- [Documentation](https://alexnoddings.github.io/Tyne/docs/packages/EntityFramework/EntityFramework.UserService.Core.html)
 - [Change history](https://alexnoddings.github.io/Tyne/docs/changes/index.html)
 - [Other Tyne packages](https://alexnoddings.github.io/Tyne/docs/packages/index.html)
