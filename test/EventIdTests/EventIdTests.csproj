@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <AssemblyName>Tyne.EventIdTests</AssemblyName>
+    <RootNamespace>Tyne</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="NSubstitute" />
+    <PackageReference Include="NSubstitute.Analyzers.CSharp" PrivateAssets="all" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AspNetCore\AspNetCore.csproj" />
+    <ProjectReference Include="..\..\src\Blazor\Blazor.csproj" />
+    <ProjectReference Include="..\..\src\Core\Core.csproj" />
+    <ProjectReference Include="..\..\src\EntityFramework\EntityFramework.csproj" />
+    <ProjectReference Include="..\..\src\EntityFramework.ChangeAuditing\EntityFramework.ChangeAuditing.csproj" />
+    <ProjectReference Include="..\..\src\EntityFramework.ModificationTracking\EntityFramework.ModificationTracking.csproj" />
+    <ProjectReference Include="..\..\src\EntityFramework.UserService.Core\EntityFramework.UserService.Core.csproj" />
+    <ProjectReference Include="..\..\src\EntityFramework.UserService\EntityFramework.UserService.csproj" />
+    <ProjectReference Include="..\..\src\Testing\Testing.csproj" />
+  </ItemGroup>
+
+</Project>
