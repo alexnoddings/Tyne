@@ -67,7 +67,7 @@ public abstract partial class TyneTableBase<TRequest, TResponse>
     /// </summary>
     protected override void OnInitialized()
     {
-        Logger.LogDebug("Creating filter context.");
+        Logger.LogTableCreatingFilterContext();
         var contextLogger = LoggerFactory.CreateLogger<TyneFilterContext<TRequest>>();
         _filterContext = new(contextLogger, PersistenceService, ReloadDataAsync);
     }
@@ -80,8 +80,7 @@ public abstract partial class TyneTableBase<TRequest, TResponse>
     // Runs first-time initialisation after first render
     private async Task InitialiseAndRenderAsync()
     {
-        Logger.LogDebug("Initialising table.");
-
+        Logger.LogTableInitialising();
         Loading = true;
         StateHasChanged();
 
@@ -103,7 +102,7 @@ public abstract partial class TyneTableBase<TRequest, TResponse>
     /// <inheritdoc/>
     public Task ReloadDataAsync()
     {
-        Logger.LogDebug("Reloading server data.");
+        Logger.LogTableReloading();
         return ReloadServerData();
     }
 
