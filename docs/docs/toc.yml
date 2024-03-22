@@ -26,6 +26,8 @@
 - name: Developing
 - name: Docs
   href: dev/docs.md
+- name: EventIds
+  href: dev/event-ids.md
 - name: Package upgrades
   href: dev/package-upgrades.md
 - name: Releasing a version
