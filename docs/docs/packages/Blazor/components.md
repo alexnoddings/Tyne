@@ -17,7 +17,7 @@ More detailed information about Tyne's Blazor APIs can be found in the API tab.
 > [!TODO]
 
 ## Filtering
-See the [filtering page](./filtering/components.md).
+See the [filtering page](./Filtering/components.md).
 
 ## Tables
 See the [tables page](./tables.md).
