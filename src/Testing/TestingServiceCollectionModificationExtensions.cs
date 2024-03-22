@@ -1,11 +1,9 @@
-using Microsoft.Extensions.DependencyInjection;
-
 namespace Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
 ///     Extensions for removing/replacing <see cref="ServiceDescriptor"/>s in <see cref="IServiceCollection"/>s.
 /// </summary>
-public static class ServiceCollectionModificationExtensions
+public static class TestingServiceCollectionModificationExtensions
 {
     /// <summary>
     ///     Removes the service <typeparamref name="TService"/> from <paramref name="services"/>.
