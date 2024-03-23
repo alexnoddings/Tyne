@@ -133,7 +133,7 @@ public class Result<T> : IEquatable<Result<T>>
     /// <exception cref="BadResultException">When <paramref name="error"/> is <see langword="null"/>.</exception>
     /// <remarks>
     ///     This constructor is only available to inheritors.
-    ///     External callers must use <see cref="Result.Ok{T}(T)"/> (or similar for a derived result).
+    ///     External callers must use <see cref="Result.Error{T}(in Error)"/> (or similar for a derived result).
     /// </remarks>
     protected internal Result(Error error)
     {
@@ -355,7 +355,7 @@ public class Result<T> : IEquatable<Result<T>>
     }
 
     /// <summary>
-    ///     Converts <paramref name="result"/> into a <see cref="Result"/> of type <see cref="Unit"/>.
+    ///     Converts <paramref name="result"/> into a <see cref="Result{T}"/> of type <see cref="Unit"/>.
     /// </summary>
     /// <param name="result">The <see cref="Result{T}"/> to convert.</param>
     /// <remarks>
