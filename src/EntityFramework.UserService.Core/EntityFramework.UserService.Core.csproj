@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <IsPackable>true</IsPackable>
     <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Tyne.EntityFramework.UserService.Core</AssemblyName>
     <RootNamespace>Tyne</RootNamespace>

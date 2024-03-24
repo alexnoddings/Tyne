@@ -1,6 +1,8 @@
 <Project>
 
   <PropertyGroup>
+    <!-- Mark the project as a package. -->
+    <IsPackable>true</IsPackable>
     <!-- Ensure this is marked as a CI build if we're executing on a GitHub action. -->
     <ContinuousIntegrationBuild Condition=" '$(GITHUB_ACTIONS)' == 'true' ">true</ContinuousIntegrationBuild>
   </PropertyGroup>
