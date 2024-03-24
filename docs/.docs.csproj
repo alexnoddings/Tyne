@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
+    <!-- This project doesn't contain any .NET code. -->
     <EnableNETAnalyzers>false</EnableNETAnalyzers>
-    <IsDocsProject>true</IsDocsProject>
   </PropertyGroup>
   
   <ItemGroup>
-    <!-- Remove global analysers -->
+    <!-- Remove global analysers. -->
     <PackageReference Remove="AsyncFixer" />
     <PackageReference Remove="SonarAnalyzer.CSharp" />
   </ItemGroup>
@@ -30,20 +30,7 @@
   </ItemGroup>
   
   <ItemGroup Label="Project source files">
-    <Watch Include="../src/AspNetCore/**/*.cs" />
-    <Watch Include="../src/Core/**/*.cs" />
-    <Watch Include="../src/Blazor/**/*.razor" />
-    <Watch Include="../src/Blazor/**/*.cs" />
-    <Watch Include="../src/EntityFramework/**/*.cs" />
-    <Watch Include="../src/EntityFramework.ChangeAuditing/**/*.cs" />
-    <Watch Include="../src/EntityFramework.ModificationTracking/**/*.cs" />
-    <Watch Include="../src/EntityFramework.UserService/**/*.cs" />
-    <Watch Include="../src/EntityFramework.UserService.Core/**/*.cs" />
-    <Watch Include="../src/MediatorEndpoints.Blazor/**/*.cs" />
-    <Watch Include="../src/MediatorEndpoints.Client/**/*.cs" />
-    <Watch Include="../src/MediatorEndpoints.Core/**/*.cs" />
-    <Watch Include="../src/MediatorEndpoints.Server/**/*.cs" />
-    <Watch Include="../src/Testing/**/*.cs" />
+    <Watch Include="../src/**/*.cs" />
     <!-- Don't include generated CS files -->
     <Watch Remove="../src/**/bin/**/*.*" />
     <Watch Remove="../src/**/obj/**/*.*" />

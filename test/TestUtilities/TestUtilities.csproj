@@ -19,4 +19,7 @@
     <ProjectReference Include="..\..\src\Core\Core.csproj" />
   </ItemGroup>
 
+  <Import Project="../../eng/Tests.props" />
+
 </Project>
+

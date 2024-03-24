@@ -1,10 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
+    <IsPackable>true</IsPackable>
     <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Tyne.MediatorEndpoints.Blazor</AssemblyName>
     <RootNamespace>Tyne.Blazor</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Project Info">
     <Description>Blazor components integrating with Tyne's mediator endpoints.</Description>
+    <PackageTags>$(PackageTags)</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,5 +20,15 @@
   <ItemGroup>
     <PackageReference Include="MudBlazor" />
   </ItemGroup>
+
+  <PropertyGroup Label="Warnings and errors">
+    <!--
+      CS1591: Missing XML comment for publicly visible type or member.
+      REASON: This library is not yet fully documented.
+    -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <Import Project="../../eng/Packages.props" />
 
 </Project>

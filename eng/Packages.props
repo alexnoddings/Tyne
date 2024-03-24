@@ -1,0 +1,73 @@
+<Project>
+
+  <PropertyGroup>
+    <!-- Ensure this is marked as a CI build if we're executing on a GitHub action. -->
+    <ContinuousIntegrationBuild Condition=" '$(GITHUB_ACTIONS)' == 'true' ">true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+  
+  <!--
+    Makes internals available to:
+    - their *.Tests project counterpart
+    - the test utilities project
+  -->
+  <ItemGroup Label="Visibility for test projects">
+    <InternalsVisibleTo Include="$(AssemblyName).Tests" />
+    <InternalsVisibleTo Include="Tyne.TestUtilities" />
+  </ItemGroup>
+
+  <!-- Packaging properties. -->
+  <PropertyGroup Label="Packaging">
+    <!-- Embed project source files that are not tracked by the source control or imported from a source package to the generated PDB. -->
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <!-- Generate a symbols file when building. -->
+    <IncludeSymbols>true</IncludeSymbols>
+    <!-- Use snupkgs for symbol packages. -->
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <!-- Generates an XML documentation file. -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Source repo info. -->
+    <RepositoryUrl>https://github.com/alexnoddings/Tyne</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <!-- The 'Project website' link on nuget.org. -->
+    <PackageProjectUrl>https://alexnoddings.github.io/Tyne</PackageProjectUrl>
+    <!-- Publish the repository URL along with the package. -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <!-- The SPDX license of the repo - ensures that nuget/vs/etc show the right license. -->
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <!--
+      Path to the Tyne icon - every package shares the same icon for ease.
+      Note that this file doesn't actually *exist* anywhere, instead the targets file includes it from the assets folder for each packable project.
+    -->
+    <PackageIcon>package.png</PackageIcon>
+    <!-- Path to the package's readme - every package has their own tailored readme. -->
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <!--
+      Causes the compiler to produce an assembly whose byte-for-byte output is identical across compilations for identical inputs.
+      This is important for builds to be verifiable.
+    -->
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+
+  <!-- Package files. -->
+  <ItemGroup Label="Package files">
+    <None Include="README.md" Pack="true" PackagePath="" />
+    <None Include="$(MSBuildThisFileDirectory)..\assets\logo.png" Pack="true" PackagePath="package.png" Visible="false" />
+    <None Include="Package.props" Pack="true" PackagePath="build\$(AssemblyName).props" Condition="Exists('Package.props')" />
+    <None Include="Package.targets" Pack="true" PackagePath="build\$(AssemblyName).targets" Condition="Exists('Package.targets')" />
+  </ItemGroup>
+
+  <!--
+    SourceLinking adds source control metadata to built assets, which improves the developer debugging experience.
+  -->
+  <ItemGroup Label="Packaging">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+  </ItemGroup>
+
+  <!--
+    Ensures a <Description> property is set. If not, raise an error.
+  -->
+  <Target Name="EnsureDescriptionSet" BeforeTargets="Build">
+    <Error Code="TYNE_PKG_NO_DESCRIPTION" Text="No &lt;Description&gt; property set." Condition=" '$(Description)' == '' " />
+  </Target>
+
+</Project>

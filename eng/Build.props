@@ -1,0 +1,95 @@
+<Project>
+
+  <PropertyGroup Label="Project Info">
+    <Product>Tyne</Product>
+    <Authors>Alex Noddings</Authors>
+    <Copyright>Copyright 2023 Alex Noddings</Copyright>
+    <PackageTags>tyne</PackageTags>
+    <StrongNameKeyId>AlexNTyne</StrongNameKeyId>
+    <NeutralLanguage>en</NeutralLanguage>
+    <DefaultLanguage>en-GB</DefaultLanguage>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Conventions">
+    <LangVersion>preview</LangVersion>
+    <Features>$(Features);strict</Features>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+    <ArtifactsPath>$(MSBuildThisFileDirectory)artifacts</ArtifactsPath>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Versioning">
+    <TyneMajorVersion>3</TyneMajorVersion>
+    <TyneMinorVersion>2</TyneMinorVersion>
+    <TynePatchVersion>2</TynePatchVersion>
+    <TynePreReleaseTag></TynePreReleaseTag>
+    <Version>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</Version>
+    <Version Condition=" '$(TynePreReleaseTag)' != '' ">$(Version)-$(TynePreReleaseTag)</Version>
+    <PackageVersion>$(Version)</PackageVersion>
+    <AssemblyVersion>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</AssemblyVersion>
+  </PropertyGroup>
+
+  <!--
+    Ensures the CI version matches the PackageVersion.
+    This only runs if a CI version is set (e.g. by build pipelines).
+  -->
+  <Target Name="EnsureCorrectCiVersion" BeforeTargets="Build" Condition=" '$(CiVersion)' != '' ">
+    <Error Code="TYNE_CI_VERSION_MISMATCH" Text="The CI tag '$(CiVersion)' does not match the package version '$(Version)'." Condition=" '$(CiVersion)' != '' AND '$(CiVersion)' != '$(PackageVersion)' " />
+  </Target>
+
+  <!--
+    Configures .NET's analysers.
+    We enable pretty much everything available.
+  -->
+  <PropertyGroup Label=".NET analysers">
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
+  <!-- Analysers included in every project. -->
+  <ItemGroup Label="Project analysers">
+    <PackageReference Include="AsyncFixer" Version="1.6.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.21.0.86780">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <PropertyGroup Label="Warnings and errors">
+    <!--
+      Forces the compiler to treat any warnings as errors.
+      This stops potential issues from building up, and keeps the code clean.
+    -->
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <!--
+      AsyncFixer01: The method does not need to use async/await.
+      REASON:       While technically true, it can lead to uglier code and poor stack traces.
+    -->
+    <NoWarn>$(NoWarn);AsyncFixer01</NoWarn>
+    <!--
+      IDE0290: Use primary constructor.
+      REASON:  Not every class makes sense with a primary constructor.
+               (this is only an info severity)
+    -->
+    <NoWarn>$(NoWarn);IDE0290</NoWarn>
+    <!--
+      S1133:  Do not forget to remove this deprecated code someday.
+      REASON: This just gets in the way of deprecations. We still show it as an error though.
+    -->
+    <WarningsNotAsErrors>$(WarningsNotAsErrors);S1133</WarningsNotAsErrors>
+  </PropertyGroup>
+
+  <!-- Automatically embed .restext files in projects as resources. -->
+  <ItemGroup Label="Embedded resources">
+    <EmbeddedResource Include="**/*.restext">
+      <LogicalName>$(AssemblyName).%(FileName).resources</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

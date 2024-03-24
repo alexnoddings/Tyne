@@ -1,13 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <IsPackable>true</IsPackable>
     <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Tyne.AspNetCore</AssemblyName>
     <RootNamespace>Tyne.AspNetCore</RootNamespace>
-    <Description>ASP.NET extensions for Tyne.</Description>
   </PropertyGroup>
 
   <PropertyGroup Label="Project Info">
+    <Description>ASP.NET extensions for Tyne.</Description>
     <PackageTags>$(PackageTags), aspnet, aspnetcore</PackageTags>
   </PropertyGroup>
 
@@ -18,5 +19,15 @@
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
+
+  <PropertyGroup Label="Warnings and errors">
+    <!--
+      CS1591: Missing XML comment for publicly visible type or member.
+      REASON: This library is not yet fully documented.
+    -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+  
+  <Import Project="../../eng/Packages.props" />
 
 </Project>

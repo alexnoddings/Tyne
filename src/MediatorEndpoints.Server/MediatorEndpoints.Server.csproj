@@ -1,13 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <IsPackable>true</IsPackable>
     <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Tyne.MediatorEndpoints.Server</AssemblyName>
     <RootNamespace>Tyne.MediatorEndpoints</RootNamespace>
-    <Description>Server implementation of Tyne's mediator endpoints.</Description>
   </PropertyGroup>
 
   <PropertyGroup Label="Project Info">
+    <Description>Server implementation of Tyne's mediator endpoints.</Description>
     <PackageTags>$(PackageTags), aspnet, aspnetcore, api, endpoint</PackageTags>
   </PropertyGroup>
 
@@ -24,5 +25,15 @@
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\MediatorEndpoints.Core\MediatorEndpoints.Core.csproj" />
   </ItemGroup>
+
+  <PropertyGroup Label="Warnings and errors">
+    <!--
+      CS1591: Missing XML comment for publicly visible type or member.
+      REASON: This library is not yet fully documented.
+    -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <Import Project="../../eng/Packages.props" />
 
 </Project>
