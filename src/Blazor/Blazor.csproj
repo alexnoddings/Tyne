@@ -4,10 +4,10 @@
     <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Tyne.Blazor</AssemblyName>
     <RootNamespace>Tyne.Blazor</RootNamespace>
-    <Description>Blazor component library for Tyne.</Description>
   </PropertyGroup>
   
   <PropertyGroup Label="Project Info">
+    <Description>Blazor component library for Tyne.</Description>
     <PackageTags>$(PackageTags), blazor, aspnet</PackageTags>
   </PropertyGroup>
   
@@ -24,5 +24,15 @@
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
     <PackageReference Include="MudBlazor" />
   </ItemGroup>
+
+  <PropertyGroup Label="Warnings and errors">
+    <!--
+      CS1591: Missing XML comment for publicly visible type or member.
+      REASON: This library is not yet fully documented.
+    -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <Import Project="../../eng/Packages.props" />
 
 </Project>

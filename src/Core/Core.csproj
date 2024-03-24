@@ -4,7 +4,11 @@
     <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Tyne.Core</AssemblyName>
     <RootNamespace>Tyne</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Project Info">
     <Description>Core functionality for other Tyne packages.</Description>
+    <PackageTags>$(PackageTags)</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,6 +28,13 @@
       REASON: Tyne is designed for C#, and these alternatives clutter up the API surface.
     -->
     <NoWarn>$(NoWarn);CA2225</NoWarn>
+    <!--
+      CS1591: Missing XML comment for publicly visible type or member.
+      REASON: This library is not yet fully documented.
+    -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
   </PropertyGroup>
+
+  <Import Project="../../eng/Packages.props" />
 
 </Project>

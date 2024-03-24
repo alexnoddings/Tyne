@@ -1,0 +1,10 @@
+<Project>
+
+  <PropertyGroup>
+    <TyneMajorVersion>3</TyneMajorVersion>
+    <TyneMinorVersion>2</TyneMinorVersion>
+    <TynePatchVersion>2</TynePatchVersion>
+    <TynePreReleaseTag></TynePreReleaseTag>
+  </PropertyGroup>
+
+</Project>

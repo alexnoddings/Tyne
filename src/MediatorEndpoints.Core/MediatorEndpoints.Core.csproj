@@ -4,7 +4,11 @@
     <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Tyne.MediatorEndpoints.Core</AssemblyName>
     <RootNamespace>Tyne.MediatorEndpoints</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Project Info">
     <Description>Core library for Tyne's mediator endpoints.</Description>
+    <PackageTags>$(PackageTags)</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,5 +18,15 @@
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
+
+  <PropertyGroup Label="Warnings and errors">
+    <!--
+      CS1591: Missing XML comment for publicly visible type or member.
+      REASON: This library is not yet fully documented.
+    -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <Import Project="../../eng/Packages.props" />
 
 </Project>

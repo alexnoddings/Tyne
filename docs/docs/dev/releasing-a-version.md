@@ -8,7 +8,7 @@ title: Releasing a version
 - Consider adding tests for the changes
 
 # Preparaing to release a new version
-- Update the version info in [Directory.Build.props](gitfile://Directory.Build.props)
+- Update the version info in [Version.props](gitfile://eng/Version.props)
     - Increment `TyneMajorVersion`/`TyneMinorVersion`/`TynePatchVersion`/`TynePreReleaseTag` as appropriate
     - `TynePreReleaseTag` should be set to `rc.N` (e.g. `rc.1`) for RC versions, or not set for full release versions
 - Ensure you have a changes doc under [/docs/docs/changes/](gitfile://docs/docs/changes)
