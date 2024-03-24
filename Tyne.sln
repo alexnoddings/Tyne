@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".eng", ".eng", "{A0E31D93-3
 		eng\Build.targets = eng\Build.targets
 		eng\Packages.props = eng\Packages.props
 		eng\Tests.props = eng\Tests.props
+		eng\Version.props = eng\Version.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "src\Core\Core.csproj", "{06CAF317-D6F5-41E7-9C50-9F2FB858A54B}"
