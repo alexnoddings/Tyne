@@ -1,11 +1,9 @@
-repo:
-- '*'
+build:
 - '.github/**'
-- 'assets/**'
-- '!Directory.Build.props'
-- '!Directory.Build.targets'
-- '!global.json'
-- '!Tyne.sln'
+- 'eng/**'
+- '!eng/Version.props''
+- 'global.json'
+- 'Tyne.sln'
 
 docs:
 - docs/**

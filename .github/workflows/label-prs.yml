@@ -11,6 +11,9 @@ jobs:
       pull-requests: write
 
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
       - name: Label
         uses: actions/labeler@v5
         with:
