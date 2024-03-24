@@ -1,7 +1,7 @@
 namespace Tyne.Blazor.Filtering.Values;
 
 /// <summary>
-///     A simple implementation of <see cref="IFilterSelectItem<TValue>"/>
+///     A simple implementation of <see cref="IFilterSelectItem{TValue}"/>
 ///     which provides a value and content through the constructor.
 ///     This allows it to be created directly through code,
 ///     rather than with a component.
@@ -16,10 +16,10 @@ public class FilterSelectItem<TValue> : IFilterSelectItem<TValue>
     public string? AsString { get; }
 
     /// <summary>
-    ///     Constructs a new <see cref="FilterSelectItem{TValue}"/> for the <paramref name="value"/> and <paramref name="asString"/>.
+    ///     Constructs a new <see cref="FilterSelectItem{TValue}"/>.
     /// </summary>
-    /// <param name="value">The <see cref="Value"/>.</param>
-    /// <param name="asString">The <see cref="AsString"/>.</param>
+    /// <param name="value">The item's <typeparamref name="TValue"/>.</param>
+    /// <param name="asString">The item's <see cref="string"/> representation.</param>
     public FilterSelectItem(TValue? value, string asString)
     {
         Value = value;

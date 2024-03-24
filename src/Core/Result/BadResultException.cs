@@ -8,7 +8,7 @@ namespace Tyne;
 ///     The exception that is thrown when performing an invalid operation with a <see cref="Result{T}"/>.
 /// </summary>
 /// <remarks>
-///     This may occur during result creation (e.g. passing a null value to <see cref="Result.Ok{T}(T)"/>),
+///     This may occur during result creation (e.g. passing a null value to <see cref="Result.Ok{T}(in T)"/>),
 ///     or while accessing a result (e.g. calling <see cref="Result{T}.Value"/> when it is an error).
 /// </remarks>
 [Serializable]

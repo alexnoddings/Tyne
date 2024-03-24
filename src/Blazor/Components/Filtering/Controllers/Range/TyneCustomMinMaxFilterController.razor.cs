@@ -4,7 +4,7 @@ namespace Tyne.Blazor.Filtering.Controllers;
 
 /// <summary>
 ///     A controller which attaches to a min and a max <typeparamref name="TValue"/> on <typeparamref name="TRequest"/>.
-///     The values to attach to are provided by <see cref="ForMin"/> and <see cref="ForMax"/>.
+///     The values to attach to are provided by <see cref="TyneMinMaxFilterController{TRequest, TValue}.ForMin"/> and <see cref="TyneMinMaxFilterController{TRequest, TValue}.ForMax"/>.
 ///     This controller does not render it's own UI. Instead, it has a <see cref="ChildContent"/>
 ///     which interacts with the min and max values through <see cref="ITyneCustomMinMaxFilterContext{TValue}"/>.
 /// </summary>

@@ -7,7 +7,7 @@ namespace Tyne.Blazor.Tables.Columns;
 public partial class TyneColumnPopoverHeader<TResponse> : TyneColumnPopoverHeaderBase<TResponse>
 {
     /// <summary>
-    ///     The icon to use for the popover <see cref="Content"/> control.
+    ///     The icon to use for the popover <see cref="TyneColumnPopoverHeaderBase{TResponse}.Content"/> control.
     /// </summary>
     /// <remarks>
     ///     Leave this as <see cref="string.Empty"/> (or do not supply a parameter)
@@ -19,7 +19,7 @@ public partial class TyneColumnPopoverHeader<TResponse> : TyneColumnPopoverHeade
     public string Icon { get; set; } = string.Empty;
 
     /// <summary>
-    ///     The icon to use for the popover <see cref="Content"/> control.
+    ///     The icon to use for the popover <see cref="TyneColumnPopoverHeaderBase{TResponse}.Content"/> control.
     /// </summary>
     /// <remarks>
     ///     Uses the <see cref="Icon"/> if set,

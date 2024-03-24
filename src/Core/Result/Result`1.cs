@@ -115,7 +115,7 @@ public class Result<T> : IEquatable<Result<T>>
     /// <exception cref="BadResultException">When <paramref name="value"/> is <see langword="null"/>.</exception>
     /// <remarks>
     ///     This constructor is only available to inheritors.
-    ///     External callers must use <see cref="Result.Ok{T}(T)"/> (or similar for a derived result).
+    ///     External callers must use <see cref="Result.Ok{T}(in T)"/> (or similar for a derived result).
     /// </remarks>
     protected internal Result(T value)
     {

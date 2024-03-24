@@ -1,23 +1,21 @@
 namespace Tyne.Blazor.Filtering.Values;
 
 /// <summary>
-///     A simple implementation of <see cref="IFilterSelectItem<TValue>"/>
-///     which provides a value and content through the constructor.
-///     This allows it to be created directly through code,
-///     rather than with a component.
+///     An extension of <see cref="FilterSelectItem{TValue}"/> with <see cref="Metadata"/>.
 /// </summary>
 /// <typeparam name="TValue">The type of value the select is for.</typeparam>
+/// <typeparam name="TMetadata">The type of metadata on the item.</typeparam>
 public class FilterSelectItem<TValue, TMetadata> : FilterSelectItem<TValue>, IFilterSelectItem<TValue, TMetadata>
 {
     /// <inheritdoc/>
     public TMetadata? Metadata { get; }
 
     /// <summary>
-    ///     Constructs a new <see cref="FilterSelectItem{TValue, TMetadata}"/> for the <paramref name="value"/>, <paramref name="content"/>, and <paramref name="metadata"/>.
+    ///     Constructs a new <see cref="FilterSelectItem{TValue, TMetadata}"/>.
     /// </summary>
-    /// <param name="value">The <see cref="Value"/>.</param>
-    /// <param name="asString">The <see cref="AsString"/>.</param>
-    /// <param name="metadata">The <see cref="Metadata"/>.</param>
+    /// <param name="value">The item's <typeparamref name="TValue"/>.</param>
+    /// <param name="asString">The item's <see cref="string"/> representation.</param>
+    /// <param name="metadata">The item's <typeparamref name="TMetadata"/>.</param>
     public FilterSelectItem(TValue? value, string asString, TMetadata? metadata) : base(value, asString)
     {
         Metadata = metadata;

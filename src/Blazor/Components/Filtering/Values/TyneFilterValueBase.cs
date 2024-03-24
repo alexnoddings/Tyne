@@ -28,7 +28,8 @@ public abstract class TyneFilterValueBase<TRequest, TValue> : TyneFilterValueCor
 
     /// <summary>
     ///     Configures <paramref name="request"/> by setting the property
-    ///     matching <see cref="ForKey"/> to <see cref="Value"/>.
+    ///     matching <see cref="TyneFilterValueCore{TRequest, TValue}.ForKey"/>
+    ///     to <see cref="TyneFilterValueCore{TRequest, TValue}.Value"/>.
     /// </summary>
     /// <param name="request">The <typeparamref name="TRequest"/> to configure.</param>
     /// <returns>A <see cref="ValueTask"/> representing the <paramref name="request"/> being configured.</returns>
