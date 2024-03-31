@@ -42,7 +42,7 @@ jobs:
         run: dotnet tool restore
         
       - name: Build
-        run: dotnet build --configuration Release --no-restore /p:CiVersion=${{ env.PACKAGE_VERSION }}
+        run: dotnet build --configuration Release --no-restore /p:CiVersion=${{ env.PACKAGE_VERSION }} /p:GITHUB_ACTIONS=true
         
       - name: Test
         run: dotnet test --configuration Release --no-build --verbosity normal

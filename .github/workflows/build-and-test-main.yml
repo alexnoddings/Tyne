@@ -29,7 +29,7 @@ jobs:
         run: dotnet tool restore
         
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build --configuration Release --no-restore /p:GITHUB_ACTIONS=true
         
       - name: Test
         run: dotnet test --configuration Release --no-build --verbosity normal
