@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 
 namespace Tyne;
 
@@ -29,6 +30,7 @@ namespace Tyne;
 /// <seealso cref="ErrorJsonConverter" />
 [DebuggerDisplay("{ToString(),nq}")]
 [DebuggerTypeProxy(typeof(DebuggerTypeProxy))]
+[JsonConverter(typeof(ErrorJsonConverter))]
 [SuppressMessage("Performance", "CA1805: Do not initialize unnecessarily", Justification = "Improves clarity.")]
 public class Error : IEquatable<Error>
 {

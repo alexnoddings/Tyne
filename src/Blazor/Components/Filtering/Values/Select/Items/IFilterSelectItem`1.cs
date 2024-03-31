@@ -14,9 +14,5 @@ public interface IFilterSelectItem<out TValue>
     /// <summary>
     ///     A <see cref="string"/> representation of <see cref="Value"/>.
     /// </summary>
-    /// <remarks>
-    ///     This is needed for scenarios that don't support <see cref="Content"/>,
-    ///     such as inside multiselect dropdown boxes.
-    /// </remarks>
     public string? AsString { get; }
 }

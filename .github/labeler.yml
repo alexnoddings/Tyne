@@ -1,44 +1,63 @@
-repo:
-- '*'
-- '.github/**'
-- 'assets/**'
-- '!Directory.Build.props'
-- '!Directory.Build.targets'
-- '!global.json'
-- '!Tyne.sln'
+build:
+- all:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '.github/**'
+      - 'eng/**'
+      - 'global.json'
+      - 'Tyne.sln'
+    - all-globs-to-all-files: '!eng/Version.props'
 
 docs:
-- docs/**
+- changed-files:
+  - any-glob-to-any-file:
+    - docs/**
 
 demo:
-- example/**
+- changed-files:
+  - any-glob-to-any-file:
+    - example/**
 
 source:
-- src/**
-
-'area-AspNetCore':
-- src/AspNetCore/**
-- test/AspNetCore/**
-
-'area-Blazor':
-- src/Blazor/**
-- test/Blazor/**
-
-'area-Core':
-- src/Core/**
-- test/Core/**
-
-'area-EntityFramework':
-- src/EntityFramework*/**
-- test/EntityFramework*/**
-
-'area-MediatorEndpoints':
-- src/MediatorEndpoints*/**
-- test/MediatorEndpoints*/**
-
-'area-Testing':
-- src/Testing*/**
-- test/Testing*/**
+- changed-files:
+  - any-glob-to-any-file:
+    - src/**
 
 tests:
 - test/**
+
+'area-AspNetCore':
+- changed-files:
+  - any-glob-to-any-file:
+    - src/AspNetCore/**
+    - test/AspNetCore/**
+
+'area-Blazor':
+- changed-files:
+  - any-glob-to-any-file:
+    - src/Blazor/**
+    - test/Blazor/**
+
+'area-Core':
+- changed-files:
+  - any-glob-to-any-file:
+    - src/Core/**
+    - test/Core/**
+
+'area-EntityFramework':
+- changed-files:
+  - any-glob-to-any-file:
+    - src/EntityFramework*/**
+    - test/EntityFramework*/**
+
+'area-MediatorEndpoints':
+- changed-files:
+  - any-glob-to-any-file:
+    - src/MediatorEndpoints*/**
+    - test/MediatorEndpoints*/**
+
+'area-Testing':
+- changed-files:
+  - any-glob-to-any-file:
+    - src/Testing*/**
+    - test/Testing*/**

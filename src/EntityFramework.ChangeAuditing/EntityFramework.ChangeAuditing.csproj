@@ -4,10 +4,10 @@
     <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Tyne.EntityFramework.ChangeAuditing</AssemblyName>
     <RootNamespace>Tyne.EntityFramework</RootNamespace>
-    <Description>Change auditing extensions for Entity Framework.</Description>
   </PropertyGroup>
 
   <PropertyGroup Label="Project Info">
+    <Description>Change auditing extensions for Entity Framework.</Description>
     <PackageTags>$(PackageTags), EF, EFCore, EntityFramework, EntityFrameworkCore, entity-framework-core</PackageTags>
   </PropertyGroup>
 
@@ -20,5 +20,15 @@
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\EntityFramework.UserService.Core\EntityFramework.UserService.Core.csproj" />
   </ItemGroup>
+
+  <PropertyGroup Label="Warnings and errors">
+    <!--
+      CS1591: Missing XML comment for publicly visible type or member.
+      REASON: This library is not yet fully documented.
+    -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <Import Project="../../eng/Packages.props" />
 
 </Project>

@@ -1,9 +1,10 @@
 namespace Tyne.Blazor.Filtering.Values;
 
 /// <summary>
-///     Represents a select-able <see cref="Value"/> which can be rendered with <see cref="Content"/>.
+///     A <see cref="IFilterSelectItem{TValue}"/> with <typeparamref name="TMetadata"/>.
 /// </summary>
 /// <typeparam name="TValue">The type of value the select is for.</typeparam>
+/// <typeparam name="TMetadata">The type of metadata on the item.</typeparam>
 public interface IFilterSelectItem<out TValue, TMetadata> : IFilterSelectItem<TValue>
 {
     /// <summary>

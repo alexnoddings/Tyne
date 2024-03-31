@@ -62,21 +62,15 @@ public sealed class OptionJsonConverterFactory : JsonConverterFactory
         return converter;
     }
 
-    private sealed class OptionJsonProxyType<T>
-    {
-        public bool HasValue { get; set; }
-        public T? Value { get; set; }
-    }
-
     [SuppressMessage("Performance", "CA1812: Avoid un-instantiated internal classes", Justification = "Class is instantiated by Activator.")]
     [SuppressMessage("Major Code Smell", "S1144: Unused private types or members should be removed", Justification = "Constructor is used by Activator.")]
     private sealed class OptionJsonConverter<T> : JsonConverter<Option<T>>
     {
-        private readonly JsonConverter<OptionJsonProxyType<T>> _optionJsonProxyTypeConverter;
+        private readonly JsonConverter<T> _optionTConverter;
 
         public OptionJsonConverter(JsonSerializerOptions options)
         {
-            _optionJsonProxyTypeConverter = options.GetConverter<OptionJsonProxyType<T>>();
+            _optionTConverter = options.GetConverter<T>();
         }
 
         public override Option<T> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -84,14 +78,14 @@ public sealed class OptionJsonConverterFactory : JsonConverterFactory
             ArgumentNullException.ThrowIfNull(typeToConvert);
             ArgumentNullException.ThrowIfNull(options);
 
-            var optionJsonProxy = _optionJsonProxyTypeConverter.Read(ref reader, typeof(OptionJsonProxyType<T>), options);
-            if (optionJsonProxy is null)
+            if (reader.TokenType is JsonTokenType.Null)
                 return Option<T>.None;
 
-            if (!optionJsonProxy.HasValue || optionJsonProxy.Value is null)
+            var value = _optionTConverter.Read(ref reader, typeof(T), options);
+            if (value is null)
                 return Option<T>.None;
 
-            return Option.Some(optionJsonProxy.Value);
+            return Option.Some(value);
         }
 
         public override void Write(Utf8JsonWriter writer, Option<T> value, JsonSerializerOptions options)
@@ -99,19 +93,10 @@ public sealed class OptionJsonConverterFactory : JsonConverterFactory
             ArgumentNullException.ThrowIfNull(writer);
             ArgumentNullException.ThrowIfNull(options);
 
-            var optionJsonProxy = value.Match(
-                some: optionValue => new OptionJsonProxyType<T>
-                {
-                    HasValue = true,
-                    Value = optionValue
-                },
-                none: () => new OptionJsonProxyType<T>
-                {
-                    HasValue = false,
-                }
-            );
-
-            _optionJsonProxyTypeConverter.Write(writer, optionJsonProxy, options);
+            if (value.HasValue)
+                _optionTConverter.Write(writer, value.Value, options);
+            else
+                writer.WriteNullValue();
         }
     }
 }

@@ -1,0 +1,23 @@
+<Project>
+
+  <!-- Configures global usings for very common namespaces in test projects. -->
+  <ItemGroup Label="Global usings">
+    <Using Include="NSubstitute" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <!-- These warnings can be ignored for test code. -->
+  <PropertyGroup Label="Warnings and errors">
+    <!--
+      CA1707: Identifiers should not contain underscores.
+      REASON: Underscores help clarify what test cases are testing.
+    -->
+    <NoWarn>$(NoWarn);CA1707</NoWarn>
+    <!--
+      CA1819: Properties should not return arrays.
+      REASON: This is useful for providing theories with member data in tests.
+    -->
+    <NoWarn>$(NoWarn);CA1819</NoWarn>
+  </PropertyGroup>
+
+</Project>

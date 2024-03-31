@@ -1,0 +1,73 @@
+<Project>
+
+  <PropertyGroup Label="Project flags">
+    <!-- 'false' is much easier to work with than ''. -->
+    <IsPackable Condition=" '$(IsPackable)' != 'true' ">false</IsPackable>
+  </PropertyGroup>
+
+  <!--
+    Common versions of packages used across the solution.
+    This doesn't *add* these packages to every project, instead it ensures that
+    every package set up to use one of these is using the same unified version.
+  -->
+  <ItemGroup Label="Package versions">
+    <PackageReference Update="FluentValidation" Version="11.8.1" />
+    <PackageReference Update="MediatR" Version="12.2.0" />
+    <PackageReference Update="MediatR.Contracts" Version="2.0.1" />
+    <PackageReference Update="Microsoft.AspNetCore.Components" Version="7.0.14" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore" Version="7.0.8" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore.Relational" Version="7.0.8" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
+    <PackageReference Update="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Update="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
+    <PackageReference Update="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
+    <PackageReference Update="Microsoft.Extensions.Options" Version="7.0.1" />
+    <PackageReference Update="MudBlazor" Version="6.11.1" />
+  </ItemGroup>
+
+  <!-- Same as above, but for test packages. -->
+  <ItemGroup Label="Test package versions">
+    <PackageReference Update="bunit" Version="1.21.9" />
+    <PackageReference Update="coverlet.collector" Version="6.0.0" />
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+    <PackageReference Update="NSubstitute" Version="5.0.0" />
+    <PackageReference Update="NSubstitute.Analyzers.CSharp" Version="1.0.16" />
+    <PackageReference Update="xunit" Version="2.4.2" />
+    <PackageReference Update="xunit.runner.visualstudio" Version="2.4.5" />
+  </ItemGroup>
+
+  <!-- These warnings can be ignored for non-shipped code. -->
+  <PropertyGroup Label="Warnings and errors" Condition=" !$(IsPackable) ">
+    <!--
+      CA1303: Method passes a literal string to Console.WriteLine(). Retrieve them from a resource table instead.
+              This is not necessary for non-shipped code, and makes examples harder to read.
+    -->
+    <NoWarn>$(NoWarn);CA1303</NoWarn>
+    <!--
+      CA1819: Do not directly await a Task.
+              .ConfigureAwait(...) is beneficial to packages, but it's benefits are
+              eclipsed by it's added difficulty to read in example and test projects.
+    -->
+    <NoWarn>$(NoWarn);CA2007</NoWarn>
+  </PropertyGroup>
+
+  <!-- These warnings can be ignored during debugging. -->
+  <PropertyGroup Label="Warnings and errors" Condition=" '$(Configuration)' == 'Debug' ">
+    <!--
+      S125: Sections of code should not be commented out.
+      REASON: While true for shipped code, this can be a real pain while developing.
+    -->
+    <WarningsNotAsErrors>
+      $(WarningsNotAsErrors);S125
+    </WarningsNotAsErrors>
+    <!--
+      CS1591: Missing XML comment for publicly visible type or member.
+      REASON: This makes it annoying to add new API surface while developing.
+    -->
+    <WarningsNotAsErrors>
+      $(WarningsNotAsErrors);CS1591
+    </WarningsNotAsErrors>
+  </PropertyGroup>
+  
+</Project>

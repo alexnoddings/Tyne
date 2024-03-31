@@ -6,7 +6,7 @@ namespace Tyne.Blazor.Tables.Columns;
 /// <summary>
 ///     Renders a <see cref="MudTh"/> containing <see cref="Header"/>, which has a button to open a popover with <see cref="Content"/> in.
 /// </summary>
-/// <typeparam name="TRequest">The type of request which loads data in the context.</typeparam>
+/// <typeparam name="TResponse">The type of response.</typeparam>
 public abstract partial class TyneColumnPopoverHeaderBase<TResponse>
 {
     /// <summary>

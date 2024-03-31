@@ -62,22 +62,22 @@ public sealed class ResultJsonConverterFactory : JsonConverterFactory
         return converter;
     }
 
-    private sealed class ResultJsonProxyType<T>
-    {
-        public bool IsOk { get; set; }
-        public T? Value { get; set; }
-        public Error? Error { get; set; }
-    }
-
     [SuppressMessage("Performance", "CA1812: Avoid uninstantiated internal classes", Justification = "Class is instantiated by Activator.")]
     [SuppressMessage("Major Code Smell", "S1144: Unused private types or members should be removed", Justification = "Constructor is used by JsonSerializer's Activator.")]
     private sealed class ResultJsonConverter<T> : JsonConverter<Result<T>>
     {
-        private readonly JsonConverter<ResultJsonProxyType<T>> _resultJsonProxyTypeConverter;
+        private sealed class ResultJsonProxyType
+        {
+            public bool IsOk { get; set; }
+            public T? Value { get; set; }
+            public Error? Error { get; set; }
+        }
+
+        private readonly JsonConverter<ResultJsonProxyType> _resultJsonProxyTypeConverter;
 
         public ResultJsonConverter(JsonSerializerOptions options)
         {
-            _resultJsonProxyTypeConverter = options.GetConverter<ResultJsonProxyType<T>>();
+            _resultJsonProxyTypeConverter = options.GetConverter<ResultJsonProxyType>();
         }
 
         public override Result<T> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -85,7 +85,7 @@ public sealed class ResultJsonConverterFactory : JsonConverterFactory
             ArgumentNullException.ThrowIfNull(typeToConvert);
             ArgumentNullException.ThrowIfNull(options);
 
-            var resultJsonProxy = _resultJsonProxyTypeConverter.Read(ref reader, typeof(ResultJsonProxyType<T>), options);
+            var resultJsonProxy = _resultJsonProxyTypeConverter.Read(ref reader, typeof(ResultJsonProxyType), options);
             if (resultJsonProxy is null)
                 return Result.Error<T>(Error.Default);
 
@@ -106,12 +106,12 @@ public sealed class ResultJsonConverterFactory : JsonConverterFactory
             ArgumentNullException.ThrowIfNull(options);
 
             var resultJsonProxy = value.Match(
-                ok: resultValue => new ResultJsonProxyType<T>
+                ok: resultValue => new ResultJsonProxyType
                 {
                     IsOk = true,
                     Value = resultValue
                 },
-                err: resultError => new ResultJsonProxyType<T>
+                err: resultError => new ResultJsonProxyType
                 {
                     IsOk = false,
                     Error = resultError

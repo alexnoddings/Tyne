@@ -211,7 +211,7 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
     /// <returns>A <see cref="Task"/> representing the value update notification(s).</returns>
     /// <remarks>
     ///     <para>
-    ///         This calls <see cref="IFilterController{TValue}.OnValueUpdatedAsync(TValue?)"/>
+    ///         This calls <see cref="IFilterController{TValue}.OnValueUpdatedAsync(TValue)"/>
     ///         for the controllers attached for <paramref name="key"/>.
     ///     </para>
     ///     <para>
@@ -344,7 +344,7 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
     }
 
     /// <summary>
-    ///     Detaches a filter value for <paramref name="key"/> from the context via it's <paramref name="valueHandle"/>.
+    ///     Detaches a filter value from the context via it's <paramref name="valueHandle"/>.
     /// </summary>
     /// <typeparam name="TValue">The type the filter value manages.</typeparam>
     /// <param name="valueHandle">The value's handle.</param>
@@ -420,7 +420,7 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
     }
 
     /// <summary>
-    ///     Detaches a filter controller for <paramref name="key"/> from the context via it's <paramref name="controllerHandle"/>.
+    ///     Detaches a filter controller from the context via it's <paramref name="controllerHandle"/>.
     /// </summary>
     /// <typeparam name="TValue">The type the filter value manages.</typeparam>
     /// <param name="controllerHandle">The controller's handle.</param>

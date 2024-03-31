@@ -14,6 +14,7 @@ public interface IUrlQueryStringFormatter
     ///     Gets a <typeparamref name="T"/> value from <paramref name="uri"/>'s query string parameter <paramref name="key"/>.
     /// </summary>
     /// <typeparam name="T">The type to get.</typeparam>
+    /// <param name="uri">The uri to get the query string from.</param>
     /// <param name="key">The query string parameter key.</param>
     /// <returns>An <see cref="Option{T}"/> possibly containing the value.</returns>
     /// <remarks>

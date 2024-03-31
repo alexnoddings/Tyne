@@ -83,7 +83,7 @@ public readonly struct TyneKey : IEquatable<TyneKey>
     ///     and is equal to this instance.
     /// </returns>
     /// <remarks>
-    ///     See <see cref="Equals(TyneKey)"/> for how equality is determined.
+    ///     See <see cref="Equals(in TyneKey)"/> for how equality is determined.
     /// </remarks>
     [Pure]
     public override bool Equals(object? obj) =>
@@ -157,7 +157,7 @@ public readonly struct TyneKey : IEquatable<TyneKey>
     ///     are equal, otherwise <see langword="false"/>.
     /// </returns>
     /// <remarks>
-    ///     See <see cref="Equals(TyneKey)"/> for how equality is determined.
+    ///     See <see cref="Equals(in TyneKey)"/> for how equality is determined.
     /// </remarks>
     [Pure]
     public static bool operator ==(in TyneKey left, in TyneKey right) =>
@@ -177,7 +177,7 @@ public readonly struct TyneKey : IEquatable<TyneKey>
     ///     are equal, otherwise <see langword="true"/>.
     /// </returns>
     /// <remarks>
-    ///     See <see cref="Equals(TyneKey)"/> for how equality is determined.
+    ///     See <see cref="Equals(in TyneKey)"/> for how equality is determined.
     /// </remarks>
     [Pure]
     public static bool operator !=(in TyneKey left, in TyneKey right) =>

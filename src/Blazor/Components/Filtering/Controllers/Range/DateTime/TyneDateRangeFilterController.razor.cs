@@ -21,10 +21,10 @@ public partial class TyneDateRangeFilterController<TRequest>
     protected DateRange DateRange => new(Min, Max);
 
     /// <summary>
-    ///     Sets the values of the attached min and max filter's <typeparamref name="TValue"/>.
+    ///     Sets the values of the attached min and max filter's <see cref="DateTime"/>.
     /// </summary>
-    /// <param name="min">The new minimum <typeparamref name="TValue"/>.</param>
-    /// <param name="max">The new maximum <typeparamref name="TValue"/>.</param>
+    /// <param name="min">The new minimum <see cref="DateTime"/>.</param>
+    /// <param name="max">The new maximum <see cref="DateTime"/>.</param>
     /// <returns>A <see cref="Task"/> representing the values being set.</returns>
     /// <remarks>
     ///     <para>

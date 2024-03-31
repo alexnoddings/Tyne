@@ -31,4 +31,7 @@
     <ProjectReference Include="..\..\src\Testing\Testing.csproj" />
   </ItemGroup>
 
+  <Import Project="../../eng/Tests.props" />
+
 </Project>
+

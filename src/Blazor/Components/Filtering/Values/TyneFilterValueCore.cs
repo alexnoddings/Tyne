@@ -307,6 +307,7 @@ public abstract class TyneFilterValueCore<TRequest, TValue> : ComponentBase, IFi
     ///     Sets <see cref="Value"/> to <paramref name="newValue"/> according to <paramref name="behaviour"/>.
     /// </summary>
     /// <param name="newValue">The new <typeparamref name="TValue"/>.</param>
+    /// <param name="behaviour">The <see cref="SetValueBehaviour"/>.</param>
     /// <returns>A <see cref="Task"/> representing the value being set.</returns>
     /// <remarks>
     ///     This will notify all controllers attached to the same <see cref="ForKey"/> on <see cref="Context"/>

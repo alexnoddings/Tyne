@@ -11,7 +11,7 @@ namespace Tyne.Preludes.Core;
 /// </remarks>
 public static class ResultPrelude
 {
-    /// <inheritdoc cref="Result.Ok{T}(T)"/>
+    /// <inheritdoc cref="Result.Ok{T}(in T)"/>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Result<T> Ok<T>(T value) =>

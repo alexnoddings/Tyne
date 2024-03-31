@@ -17,20 +17,32 @@ The solution has the following top-level folders:
 
 The solution makes extensive use of MSBuild to standardise projects through build customisation.
 
-### [Directory.Build.props](gitfile://Directory.Build.props)
-The `Directory.Build.props` is imported early in the build sequence. It:
+### [eng/Build.props](gitfile://eng/Build.props)
+The `Build.props` is imported early in the MSBuild sequence by [Directory.Build.props](gitfile://Directory.Build.props). It:
 - Configures project info (e.g. product name, authors)
 - Configures conventions (e.g. enabling nullable types)
-- Sets the package version
 - Enables .NET analysers
 - Adds common third-party analysers
 - Configures solution-wide warnings and errors
 - Configures resources to be embedded in their respective assemblies
 
-### [Directory.Build.targets](gitfile://Directory.Build.targets)
-- Configures packaging properties
+### [eng/Build.targets](gitfile://eng/Build.targets)
+The `Build.props` is imported late in the MSBuild sequence by [Directory.Build.targets](gitfile://Directory.Build.targets). It:
 - Contains common package versions
 - Configures warnings and errors based on the project
+
+### [eng/Packages.props](gitfile://eng/Packages.props)
+- Marks projects to be published as packages
+- Configures packaging properties
+- This is imported at the end of the `.csproj`
+- Sanity checks the projects
+
+### [eng/Tests.props](gitfile://eng/Tests.props)
+- Configures testing-based global usings
+- Ignores some warnings not relevant to tests
+
+### [eng/Version.props](gitfile://eng/Version.props)
+- Configures the package version
 
 ## Docs
 The docs app consits of 4 folders:

@@ -15,7 +15,7 @@ namespace Tyne.Blazor.Filtering.Values;
 ///     </para>
 ///     <para>
 ///         By default, this does not enforce that any values set through
-///         <see cref="TyneFilterValueBase{TRequest, TValue}.SetValueAsync(TValue)"/>
+///         <see cref="TyneFilterValueCore{TRequest, TValue}.SetValueAsync(TValue)"/>
 ///         appears in <see cref="SelectItems"/>.
 ///     </para>
 /// </remarks>

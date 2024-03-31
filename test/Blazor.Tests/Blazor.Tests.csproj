@@ -21,4 +21,7 @@
     <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
   </ItemGroup>
 
+  <Import Project="../../eng/Tests.props" />
+
 </Project>
+

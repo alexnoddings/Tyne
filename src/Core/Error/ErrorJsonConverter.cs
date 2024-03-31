@@ -10,7 +10,18 @@ namespace Tyne;
 /// <seealso cref="Error"/>
 public sealed class ErrorJsonConverter : JsonConverter<Error>
 {
-    private readonly JsonConverter<ErrorJsonProxyType> _errorJsonProxyTypeConverter;
+    [SuppressMessage("Minor Code Smell", "S3459: Unassigned members should be removed", Justification = "Assignment is done by the json converter.")]
+    private sealed class ErrorJsonProxyType
+    {
+        public int? Code { get; set; }
+        public string? Message { get; set; }
+    }
+
+    private readonly JsonConverter<ErrorJsonProxyType>? _errorJsonProxyTypeConverter;
+
+    public ErrorJsonConverter()
+    {
+    }
 
     public ErrorJsonConverter(JsonSerializerOptions options)
     {
@@ -22,7 +33,11 @@ public sealed class ErrorJsonConverter : JsonConverter<Error>
         ArgumentNullException.ThrowIfNull(typeToConvert);
         ArgumentNullException.ThrowIfNull(options);
 
-        var errorJsonProxy = _errorJsonProxyTypeConverter.Read(ref reader, typeof(ErrorJsonConverter), options);
+        var errorJsonProxyConverter =
+            _errorJsonProxyTypeConverter
+            ?? options.GetConverter<ErrorJsonProxyType>();
+
+        var errorJsonProxy = errorJsonProxyConverter.Read(ref reader, typeof(ErrorJsonProxyType), options);
         if (errorJsonProxy is null)
             return Error.Default;
 
@@ -50,12 +65,5 @@ public sealed class ErrorJsonConverter : JsonConverter<Error>
         // CausedBy is intentionally never written
 
         writer.WriteEndObject();
-    }
-
-    [SuppressMessage("Minor Code Smell", "S3459: Unassigned members should be removed", Justification = "Assignment is done by its json converter.")]
-    private sealed class ErrorJsonProxyType
-    {
-        public int? Code { get; set; }
-        public string? Message { get; set; }
     }
 }
