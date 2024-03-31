@@ -43,7 +43,7 @@ public sealed class SearchResultsConverterFactory : JsonConverterFactory
         ArgumentNullException.ThrowIfNull(options);
 
         if (!CanConvert(typeToConvert))
-            throw new NotSupportedException($"Conversion for type \"{typeToConvert?.Name}\" is not supported by this factory.");
+            throw new NotSupportedException($"Conversion for type \"{typeToConvert.Name}\" is not supported by this factory.");
 
         var converterConstructorArgs = new object[] { options };
         var typeT = typeToConvert.GetGenericArguments()[0];

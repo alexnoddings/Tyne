@@ -54,6 +54,13 @@ public static class Result
                 if (val == 0)
                     return Unsafe.As<Result<T>>(Cache.OkIntZero);
             }
+            else if (typeof(T) == typeof(Guid))
+            {
+                // Only cache the empty guid
+                var val = (Guid)(object)value;
+                if (val == Guid.Empty)
+                    return Unsafe.As<Result<T>>(Cache.OkGuidEmpty);
+            }
         }
 
         return new(value);
@@ -66,6 +73,7 @@ public static class Result
     /// <param name="message">The error message to construct the <see cref="Result{T}.Error"/> with.</param>
     /// <returns>An <c>Error</c> <see cref="Result{T}"/> whose error is constructed using <paramref name="message"/>.</returns>
     [Pure]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Result<T> Error<T>(string message)
     {
         // Let Error handle a potentially null message
@@ -81,6 +89,7 @@ public static class Result
     /// <param name="message">The error message to construct the <see cref="Result{T}.Error"/> with.</param>
     /// <returns>An <c>Error</c> <see cref="Result{T}"/> whose error is constructed using <paramref name="code"/> and <paramref name="message"/>.</returns>
     [Pure]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Result<T> Error<T>(int code, string message)
     {
         // Let Error handle a potentially null message
@@ -97,6 +106,7 @@ public static class Result
     /// <param name="causedBy">The exception to construct the <see cref="Result{T}.Error"/> with.</param>
     /// <returns>An <c>Error</c> <see cref="Result{T}"/> whose error is constructed using <paramref name="code"/>, <paramref name="message"/>, and <paramref name="causedBy"/>.</returns>
     [Pure]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Result<T> Error<T>(int code, string message, Exception causedBy)
     {
         // Let Error handle potential nulls
@@ -111,10 +121,9 @@ public static class Result
     /// <param name="error">The error to use as <see cref="Result{T}.Error"/>.</param>
     /// <returns>An <c>Error</c> <see cref="Result{T}"/> whose error is constructed using <paramref name="error"/>.</returns>
     [Pure]
-    public static Result<T> Error<T>(in Error error)
-    {
-        return new Result<T>(error);
-    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static Result<T> Error<T>(in Error error) =>
+        new(error);
 
     /// <summary>
     ///     Caches common and simple result types.
@@ -125,5 +134,6 @@ public static class Result
         public static readonly Result<bool> OkTrue = new(true);
         public static readonly Result<bool> OkFalse = new(false);
         public static readonly Result<int> OkIntZero = new(0);
+        public static readonly Result<Guid> OkGuidEmpty = new(Guid.Empty);
     }
 }

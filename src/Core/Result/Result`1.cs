@@ -179,7 +179,7 @@ public class Result<T> : IEquatable<Result<T>>
     ///     </para>
     /// </remarks>
     [Pure]
-    public virtual bool Equals(Result<T>? other)
+    public virtual bool Equals([NotNullWhen(true)] Result<T>? other)
     {
         if (other is null)
             return false;

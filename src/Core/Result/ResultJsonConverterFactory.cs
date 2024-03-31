@@ -66,18 +66,18 @@ public sealed class ResultJsonConverterFactory : JsonConverterFactory
     [SuppressMessage("Major Code Smell", "S1144: Unused private types or members should be removed", Justification = "Constructor is used by JsonSerializer's Activator.")]
     private sealed class ResultJsonConverter<T> : JsonConverter<Result<T>>
     {
-        private sealed class ResultJsonProxyType
+        private sealed class ProxyType
         {
             public bool IsOk { get; set; }
             public T? Value { get; set; }
             public Error? Error { get; set; }
         }
 
-        private readonly JsonConverter<ResultJsonProxyType> _resultJsonProxyTypeConverter;
+        private readonly JsonConverter<ProxyType> _proxyTypeConverter;
 
         public ResultJsonConverter(JsonSerializerOptions options)
         {
-            _resultJsonProxyTypeConverter = options.GetConverter<ResultJsonProxyType>();
+            _proxyTypeConverter = options.GetConverter<ProxyType>();
         }
 
         public override Result<T> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -85,18 +85,18 @@ public sealed class ResultJsonConverterFactory : JsonConverterFactory
             ArgumentNullException.ThrowIfNull(typeToConvert);
             ArgumentNullException.ThrowIfNull(options);
 
-            var resultJsonProxy = _resultJsonProxyTypeConverter.Read(ref reader, typeof(ResultJsonProxyType), options);
-            if (resultJsonProxy is null)
+            var proxy = _proxyTypeConverter.Read(ref reader, typeof(ProxyType), options);
+            if (proxy is null)
                 return Result.Error<T>(Error.Default);
 
-            if (resultJsonProxy.Error is not null)
-                return Result.Error<T>(resultJsonProxy.Error);
+            if (proxy.Error is not null)
+                return Result.Error<T>(proxy.Error);
 
             // Must be ok and have a non-null value to be OK
-            if (!resultJsonProxy.IsOk || resultJsonProxy.Value is null)
+            if (!proxy.IsOk || proxy.Value is null)
                 return Result.Error<T>(Error.Default);
 
-            return Result.Ok(resultJsonProxy.Value);
+            return Result.Ok(proxy.Value);
         }
 
         public override void Write(Utf8JsonWriter writer, Result<T> value, JsonSerializerOptions options)
@@ -106,19 +106,19 @@ public sealed class ResultJsonConverterFactory : JsonConverterFactory
             ArgumentNullException.ThrowIfNull(options);
 
             var resultJsonProxy = value.Match(
-                ok: resultValue => new ResultJsonProxyType
+                ok: resultValue => new ProxyType
                 {
                     IsOk = true,
                     Value = resultValue
                 },
-                err: resultError => new ResultJsonProxyType
+                err: resultError => new ProxyType
                 {
                     IsOk = false,
                     Error = resultError
                 }
             );
 
-            _resultJsonProxyTypeConverter.Write(writer, resultJsonProxy, options);
+            _proxyTypeConverter.Write(writer, resultJsonProxy, options);
         }
     }
 }
