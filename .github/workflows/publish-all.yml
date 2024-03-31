@@ -4,13 +4,6 @@ on:
   push:
     tags: 
       - "v[0-9]+.[0-9]+.[0-9]+*"
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Tag ref (vX.Y.Z)'
-        required: true
-        default: ''
-        type: string
     
 jobs:
   publish:
