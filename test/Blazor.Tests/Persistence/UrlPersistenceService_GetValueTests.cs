@@ -33,8 +33,7 @@ public class UrlPersistenceService_GetValueTests : TestContext
 
     [Theory]
     [MemberData(nameof(GetValue_Data))]
-    [SuppressMessage("Usage", "xUnit1026: Theory methods should use all of their parameters", Justification = "False positive, expectedOption is used.")]
-    [SuppressMessage("Blocker Code Smell", "S2699:Tests should include assertions", Justification = "Assertions are handled by the generic method invoked.")]
+    [SuppressMessage("Blocker Code Smell", "S2699: Tests should include assertions.", Justification = "Assertions are handled by the generic method invoked.")]
     public void GetValue_Works(string queryParameterValue, object expectedOption)
     {
         ArgumentNullException.ThrowIfNull(expectedOption);
