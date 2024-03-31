@@ -16,9 +16,9 @@ public static class Result
     /// <param name="value">The <typeparamref name="T"/> to wrap.</param>
     /// <returns>An <c>Ok(<typeparamref name="T"/>)</c> <see cref="Result{T}"/> which wraps <paramref name="value"/>.</returns>
     /// <remarks>
-    ///     A <see cref="BadOptionException"/> will be thrown if <paramref name="value"/> is <see langword="null"/>.
+    ///     A <see cref="BadResultException"/> will be thrown if <paramref name="value"/> is <see langword="null"/>.
     /// </remarks>
-    /// <exception cref="BadOptionException">When <paramref name="value"/> is <see langword="null"/>.</exception>
+    /// <exception cref="BadResultException">When <paramref name="value"/> is <see langword="null"/>.</exception>
     [Pure]
     // Method looks longer than AggressiveInlining would usually support,
     // but when inlined for a given T, the unnecessary branches can

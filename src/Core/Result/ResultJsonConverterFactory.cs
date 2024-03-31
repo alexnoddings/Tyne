@@ -14,10 +14,10 @@ public sealed class ResultJsonConverterFactory : JsonConverterFactory
     private const BindingFlags CreateInstanceBindingFlags = BindingFlags.Public | BindingFlags.Instance;
 
     /// <summary>
-    ///     Determines whether the <paramref name="typeToConvert"/> can be converted to a <see cref="Error"/>.
+    ///     Determines whether the <paramref name="typeToConvert"/> can be converted to a <see cref="Result{T}"/>.
     /// </summary>
     /// <param name="typeToConvert">The <see cref="Type"/> to be checked.</param>
-    /// <returns><see langword="true"/> if the <paramref name="typeToConvert"/> can be converted, otherwise <see langword="true"/>.</returns>
+    /// <returns><see langword="true"/> if the <paramref name="typeToConvert"/> can be converted; otherwise, <see langword="false"/>.</returns>
     public override bool CanConvert(Type typeToConvert)
     {
         ArgumentNullException.ThrowIfNull(typeToConvert);
@@ -37,7 +37,7 @@ public sealed class ResultJsonConverterFactory : JsonConverterFactory
     ///     While this internally verifies <see cref="CanConvert(Type)"/>, this should be checked first by the caller.
     /// </remarks>
     /// <exception cref="ArgumentNullException">When <paramref name="typeToConvert"/> or <paramref name="options"/> are <see langword="null"/>.</exception>
-    /// <exception cref="NotSupportedException">If <see cref="CanConvert(Type)"/> returns false for <paramref name="typeToConvert"/>.</exception>
+    /// <exception cref="NotSupportedException">If <see cref="CanConvert(Type)"/> returns <see langword="false"/> for <paramref name="typeToConvert"/>.</exception>
     public override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
     {
         ArgumentNullException.ThrowIfNull(typeToConvert);
