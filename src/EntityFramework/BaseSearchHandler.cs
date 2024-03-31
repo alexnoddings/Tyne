@@ -7,12 +7,11 @@ namespace Tyne.EntityFramework;
 /// <summary>
 ///		Base implementation for a handler which returns <see cref="SearchResults{T}"/>.
 /// </summary>
-/// <typeparam name="TQuery">The input <see cref="ISearchQuery"/> type.</typeparam>
+/// <typeparam name="TQuery">The input search type.</typeparam>
 /// <typeparam name="TResult">The output of <see cref="SearchResults{T}"/>.</typeparam>
 /// <typeparam name="TEntity">The type of entity being loaded.</typeparam>
 /// <inheritdoc/>
 public abstract class BaseSearchHandler<TQuery, TResult, TEntity>
-    where TQuery : ISearchQuery
     where TEntity : class
 {
     /// <inheritdoc/>
@@ -59,11 +58,11 @@ public abstract class BaseSearchHandler<TQuery, TResult, TEntity>
     /// </remarks>
     protected virtual IQueryable<TResult> Order(IQueryable<TResult> source, TQuery query)
     {
-        if (!string.IsNullOrEmpty(query.OrderBy))
+        if (query is ISearchQueryOrder order && !string.IsNullOrEmpty(order.OrderBy))
         {
             // If Order.By is a valid property on TResult, then OrderByProperty will return an IOrderedQueryable.
             // Otherwise, it will return source unmodified. If maybeOrdered isn't ordered, fall back to default ordering.
-            var maybeOrdered = source.OrderByProperty(query.OrderBy, query.OrderByDescending);
+            var maybeOrdered = source.OrderByProperty(order.OrderBy, order.OrderByDescending);
             if (maybeOrdered is IOrderedQueryable<TResult>)
                 return maybeOrdered;
         }
@@ -92,7 +91,9 @@ public abstract class BaseSearchHandler<TQuery, TResult, TEntity>
     ///     The default implementation is to call <see cref="QueryablePaginationExtensions.Paginate{T}(IQueryable{T}, ISearchQueryPage)"/>.
     /// </remarks>
     protected virtual IQueryable<TResult> Paginate(IQueryable<TResult> source, TQuery query) =>
-        source.Paginate(query);
+        query is ISearchQueryPage page
+        ? source.Paginate(page)
+        : source;
 
     /// <summary>
     ///     Transforms the materialised results.
