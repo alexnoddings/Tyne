@@ -50,7 +50,7 @@
 
   <!-- Package files. -->
   <ItemGroup Label="Package files">
-    <None Include="README.md" Pack="true" PackagePath="" />
+    <None Include="README.md" Pack="true" PackagePath="./" />
     <None Include="$(MSBuildThisFileDirectory)..\assets\logo.png" Pack="true" PackagePath="package.png" Visible="false" />
     <None Include="Package.props" Pack="true" PackagePath="build\$(AssemblyName).props" Condition="Exists('Package.props')" />
     <None Include="Package.targets" Pack="true" PackagePath="build\$(AssemblyName).targets" Condition="Exists('Package.targets')" />
