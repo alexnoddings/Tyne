@@ -7,14 +7,13 @@
     <ContinuousIntegrationBuild Condition=" '$(GITHUB_ACTIONS)' == 'true' ">true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
-  <Import Project="Version.props" />
-  
-  <PropertyGroup Label="Versioning">
-    <Version>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</Version>
-    <Version Condition=" '$(TynePreReleaseTag)' != '' ">$(Version)-$(TynePreReleaseTag)</Version>
-    <PackageVersion>$(Version)</PackageVersion>
-    <AssemblyVersion>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</AssemblyVersion>
-  </PropertyGroup>
+  <!--
+    Ensures the CI version matches the PackageVersion.
+    This only runs for packages, and if a CI version is set (i.e. by the build pipelines).
+  -->
+  <Target Name="EnsureCorrectCiVersion" BeforeTargets="Build" Condition=" '$(CiVersion)' != '' ">
+    <Error Code="TYNE_CI_VERSION_MISMATCH" Text="The CI tag '$(CiVersion)' does not match the package version '$(Version)'." Condition=" '$(CiVersion)' != '' AND '$(CiVersion)' != '$(PackageVersion)' " />
+  </Target>
 
   <!-- Packaging properties. -->
   <PropertyGroup Label="Packaging">
