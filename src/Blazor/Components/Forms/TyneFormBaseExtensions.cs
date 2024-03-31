@@ -1,5 +1,3 @@
-using MediatR;
-
 namespace Tyne.Blazor;
 
 public static class TyneFormBaseExtensions
