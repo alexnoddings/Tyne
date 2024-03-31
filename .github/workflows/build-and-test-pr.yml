@@ -31,6 +31,9 @@ jobs:
         
       - name: Test
         run: dotnet test --configuration Release --no-build --verbosity normal
+      
+      - name: Verify packable
+        run: dotnet pack --configuration Release --no-build --output ./artifacts/nupkgs
 
       - name: Build docs
         run: dotnet docfx docs/docfx.json
