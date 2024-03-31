@@ -7,14 +7,6 @@
     <ContinuousIntegrationBuild Condition=" '$(GITHUB_ACTIONS)' == 'true' ">true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
-  <!--
-    Ensures the CI version matches the PackageVersion.
-    This only runs for packages, and if a CI version is set (i.e. by the build pipelines).
-  -->
-  <Target Name="EnsureCorrectCiVersion" BeforeTargets="Build" Condition=" '$(CiVersion)' != '' ">
-    <Error Code="TYNE_CI_VERSION_MISMATCH" Text="The CI tag '$(CiVersion)' does not match the package version '$(Version)'." Condition=" '$(CiVersion)' != '' AND '$(CiVersion)' != '$(PackageVersion)' " />
-  </Target>
-
   <!-- Packaging properties. -->
   <PropertyGroup Label="Packaging">
     <!-- Embed project source files that are not tracked by the source control or imported from a source package to the generated PDB. -->
@@ -82,9 +74,9 @@
 
   <!--
     Ensures the CI version matches the PackageVersion.
-    This only runs if a CI version is set (e.g. by build pipelines).
+    This only runs for packages if a CI version is set (i.e. by the build pipelines).
   -->
-  <Target Name="EnsureCorrectCiVersion" BeforeTargets="Build" Condition=" '$(CiVersion)' != '' ">
+  <Target Name="EnsureCorrectCiVersion" BeforeTargets="Pack" Condition=" '$(CiVersion)' != '' ">
     <Error Code="TYNE_CI_VERSION_MISMATCH" Text="The CI tag '$(CiVersion)' does not match the package version '$(Version)'." Condition=" '$(CiVersion)' != '' AND '$(CiVersion)' != '$(PackageVersion)' " />
   </Target>
 
