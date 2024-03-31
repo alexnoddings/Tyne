@@ -1,6 +1,6 @@
 namespace Tyne;
 
-// Castle (and thus NSubstitute) don't like intercepting calls to object as some of their internals use methods like GetHashCode.
+// Castle (and thus NSubstitute) doesn't like intercepting calls to object as some of their internals use methods like GetHashCode.
 // Instead, we use a mock object with known behaviour for testing Object-related methods.
 internal sealed class MockObject
 {
