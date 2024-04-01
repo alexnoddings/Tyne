@@ -28,6 +28,12 @@
     <ProjectReference Include="..\..\src\EntityFramework.ModificationTracking\EntityFramework.ModificationTracking.csproj" />
     <ProjectReference Include="..\..\src\EntityFramework.UserService.Core\EntityFramework.UserService.Core.csproj" />
     <ProjectReference Include="..\..\src\EntityFramework.UserService\EntityFramework.UserService.csproj" />
+    <ProjectReference Include="..\..\src\HttpMediator.Client\HttpMediator.Client.csproj" />
+    <ProjectReference Include="..\..\src\HttpMediator.Client.FluentValidation\HttpMediator.Client.FluentValidation.csproj" />
+    <ProjectReference Include="..\..\src\HttpMediator.Core\HttpMediator.Core.csproj" />
+    <ProjectReference Include="..\..\src\HttpMediator.Server\HttpMediator.Server.csproj" />
+    <ProjectReference Include="..\..\src\HttpMediator.Server.FluentValidation\HttpMediator.Server.FluentValidation.csproj" />
+    <ProjectReference Include="..\..\src\HttpMediator.Server.MediatR\HttpMediator.Server.MediatR.csproj" />
     <ProjectReference Include="..\..\src\Testing\Testing.csproj" />
   </ItemGroup>
 

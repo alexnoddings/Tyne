@@ -71,5 +71,5 @@ public class HttpSenderMiddlewareTests
 
     private static HttpMediatorDelegate<TRequest, TResponse> CreateAssertFailNextDelegate<TRequest, TResponse>()
         where TRequest : IHttpRequestBase<TResponse> =>
-        _ => throw FailException.ForFailure($"{nameof(HttpSenderMiddleware)} should be terminal and not invoke the next delegate.");
+        _ => throw new FailException($"{nameof(HttpSenderMiddleware)} should be terminal and not invoke the next delegate.");
 }
