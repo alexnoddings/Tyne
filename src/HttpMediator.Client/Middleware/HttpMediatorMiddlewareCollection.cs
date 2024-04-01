@@ -1,0 +1,10 @@
+using System.Collections.ObjectModel;
+
+namespace Tyne.HttpMediator.Client;
+
+/// <summary>
+///     A collection of <see cref="IHttpMediatorMiddleware"/> <see cref="Type"/>s.
+/// </summary>
+internal sealed class HttpMediatorMiddlewareCollection : Collection<Type>
+{
+}
