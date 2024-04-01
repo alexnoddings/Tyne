@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Tyne.HttpMediator.TestUtilities</AssemblyName>
+    <RootNamespace>Tyne.HttpMediator</RootNamespace>
+    <!-- Stops dotnet test from executing this project. -->
+    <IsTestProject>false</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\HttpMediator.Core\HttpMediator.Core.csproj" />
+    <ProjectReference Include="..\TestUtilities\TestUtilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="MediatR" />
+  </ItemGroup>
+
+  <Import Project="../../eng/Tests.props" />
+
+</Project>

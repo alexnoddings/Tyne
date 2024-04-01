@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <AssemblyName>Tyne.HttpMediator.IntegrationTests</AssemblyName>
+    <RootNamespace>Tyne.HttpMediator</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\HttpMediator.Client.FluentValidation\HttpMediator.Client.FluentValidation.csproj" />
+    <ProjectReference Include="..\..\src\HttpMediator.Client\HttpMediator.Client.csproj" />
+    <ProjectReference Include="..\..\src\HttpMediator.Server.FluentValidation\HttpMediator.Server.FluentValidation.csproj" />
+    <ProjectReference Include="..\..\src\HttpMediator.Server.MediatR\HttpMediator.Server.MediatR.csproj" />
+    <ProjectReference Include="..\..\src\HttpMediator.Server\HttpMediator.Server.csproj" />
+    <ProjectReference Include="..\HttpMediator.IntegrationTests.TestWebApp\HttpMediator.IntegrationTests.TestWebApp.csproj" />
+    <ProjectReference Include="..\HttpMediator.TestUtilities\HttpMediator.TestUtilities.csproj" />
+    <ProjectReference Include="..\TestUtilities\TestUtilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.16" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="NSubstitute" />
+    <PackageReference Include="NSubstitute.Analyzers.CSharp" PrivateAssets="all" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
+  </ItemGroup>
+
+  <Import Project="../../eng/Tests.props" />
+
+</Project>
