@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <AssemblyName>Tyne.MediatorEndpoints.IntegrationTests.TestApp</AssemblyName>
+    <RootNamespace>Tyne.MediatorEndpoints</RootNamespace>
+    <IsTestProject>false</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\MediatorEndpoints.Client\MediatorEndpoints.Client.csproj" />
+    <ProjectReference Include="..\..\src\MediatorEndpoints.Server\MediatorEndpoints.Server.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
+    <PackageReference Include="MediatR" />
+    <PackageReference Include="NSubstitute" />
+    <PackageReference Include="NSubstitute.Analyzers.CSharp" PrivateAssets="all" />
+    <PackageReference Include="xunit" />
+  </ItemGroup>
+
+  <Import Project="../../eng/Tests.props" />
+
+</Project>

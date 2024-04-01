@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Tyne.HttpMediator.Client.FluentValidation</AssemblyName>
+    <RootNamespace>Tyne.HttpMediator.Client</RootNamespace>
+    <Description>Adds Fluent Validation to the client implementation of Tyne's HTTP mediator.</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Project Info">
+    <PackageTags>$(PackageTags), mediator, FluentValidation</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HttpMediator.Client\HttpMediator.Client.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" />
+  </ItemGroup>
+
+  <ItemGroup Label="Visibility for test projects">
+    <InternalsVisibleTo Include="Tyne.HttpMediator.Client.UnitTests" />
+    <InternalsVisibleTo Include="Tyne.HttpMediator.IntegrationTests" />
+  </ItemGroup>
+
+  <Import Project="../../eng/Packages.props" />
+
+</Project>

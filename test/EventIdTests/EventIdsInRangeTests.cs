@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Tyne.Blazor;
 using Tyne.EntityFramework;
+using Tyne.HttpMediator;
+using Tyne.HttpMediator.Client;
+using Tyne.HttpMediator.Server;
 
 namespace Tyne;
 
@@ -17,7 +20,7 @@ public class EventIdsInRangeTests
 
     [Fact]
     public void Tyne_Blazor() =>
-        AssertLoggerMessages.AreInRange(typeof(TyneKey).Assembly, 101_001_001..101_001_999);
+        AssertLoggerMessages.AreInRange(typeof(TyneKey).Assembly, 101_001_000..101_001_999);
 
     [Fact]
     public void Tyne_Core() =>
@@ -42,6 +45,30 @@ public class EventIdsInRangeTests
     [Fact]
     public void Tyne_EntityFramework_UserService() =>
         AssertLoggerMessages.AreInRange(typeof(ITyneUserService).Assembly, 0..0);
+
+    [Fact]
+    public void Tyne_HttpMediator_Client() =>
+        AssertLoggerMessages.AreInRange(typeof(IHttpMediator).Assembly, 101_002_000..101_002_999);
+
+    [Fact]
+    public void Tyne_HttpMediator_Client_FluentValidation() =>
+        AssertLoggerMessages.AreInRange(typeof(HttpMediator.Client.FluentValidationMiddleware).Assembly, 0..0);
+
+    [Fact]
+    public void Tyne_HttpMediator_Core() =>
+        AssertLoggerMessages.AreInRange(typeof(HttpResult<>).Assembly, 0..0);
+
+    [Fact]
+    public void Tyne_HttpMediator_Server() =>
+        AssertLoggerMessages.AreInRange(typeof(HttpMediator.Server.HttpMediatorDelegate<,>).Assembly, 101_003_000..101_003_999);
+
+    [Fact]
+    public void Tyne_HttpMediator_Server_FluentValidation() =>
+        AssertLoggerMessages.AreInRange(typeof(HttpMediator.Server.FluentValidationMiddleware).Assembly, 0..0);
+
+    [Fact]
+    public void Tyne_HttpMediator_Server_MediatR() =>
+        AssertLoggerMessages.AreInRange(typeof(MediatRSenderMiddleware).Assembly, 0..0);
 
     [Fact]
     public void Tyne_Testing() =>

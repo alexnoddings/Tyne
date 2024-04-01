@@ -3,7 +3,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
-using MediatR;
 
 namespace Tyne;
 
@@ -145,11 +144,11 @@ public class Result<T> : IEquatable<Result<T>>
     }
 
     /// <summary>
-    ///		Determines whether the specified <paramref name="obj"/> is a <see cref="Error"/>, and if so is equal to the current instance.
+    ///		Determines whether the specified <paramref name="obj"/> is a <see cref="Result{T}"/>, and if so is equal to the current instance.
     /// </summary>
     /// <param name="obj">An <see cref="object"/> to compare with this instance.</param>
     /// <returns>
-    ///		<see langword="true"/> if the specified <paramref name="obj"/> is a <see cref="Error"/>,
+    ///		<see langword="true"/> if the specified <paramref name="obj"/> is a <see cref="Result{T}"/>,
     ///		and is equal to this instance; otherwise, <see langword="false"/>.
     /// </returns>
     [Pure]
@@ -164,15 +163,15 @@ public class Result<T> : IEquatable<Result<T>>
     /// <summary>
     ///		Determines whether the specified <paramref name="other"/> is equal to the current instance of the same type.
     /// </summary>
-    /// <param name="other">The other <see cref="Error"/> to compare with this instance.</param>
+    /// <param name="other">The other <see cref="Result{T}"/> to compare with this instance.</param>
     /// <returns>
     ///		<see langword="true"/> if the specified <paramref name="other"/> is equal to this instance; otherwise, <see langword="false"/>.
     /// </returns>
     /// <remarks>
     ///     <para>
-    ///         Two <see cref="Error"/>s are equal if
+    ///         Two <see cref="Result{T}"/>s are equal if
     ///         both are <c>Ok(<typeparamref name="T"/>)</c> and their <see cref="Value"/>s are equal,
-    ///         or if both are <c>Error</c> and their <see cref="Error"/>s are equal.
+    ///         or if both are <c>Error</c> and their <see cref="Result{T}"/>s are equal.
     ///     </para>
     ///     <para>
     ///         <typeparamref name="T"/> equality is determined by calling <see cref="object.Equals(object?)"/>.
@@ -180,7 +179,7 @@ public class Result<T> : IEquatable<Result<T>>
     ///     </para>
     /// </remarks>
     [Pure]
-    public virtual bool Equals(Result<T>? other)
+    public virtual bool Equals([NotNullWhen(true)] Result<T>? other)
     {
         if (other is null)
             return false;
@@ -199,13 +198,13 @@ public class Result<T> : IEquatable<Result<T>>
     /// <summary>
     ///		Determines whether the <paramref name="left"/> is equal to the <paramref name="right"/>.
     /// </summary>
-    /// <param name="left">The left-hand <see cref="Error"/>.</param>
-    /// <param name="right">The right-hand <see cref="Error"/>.</param>
+    /// <param name="left">The left-hand <see cref="Result{T}"/>.</param>
+    /// <param name="right">The right-hand <see cref="Result{T}"/>.</param>
     /// <returns>
     ///		<see langword="true"/> if <paramref name="left"/> is equal to <paramref name="right"/>; otherwise, <see langword="false"/>.
     /// </returns>
     /// <remarks>
-    ///     <see cref="Equals(Result{T})"/> for how <see cref="Error"/> equality is calculated.
+    ///     <see cref="Equals(Result{T})"/> for how <see cref="Result{T}"/> equality is calculated.
     /// </remarks>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -223,13 +222,13 @@ public class Result<T> : IEquatable<Result<T>>
     /// <summary>
     ///		Determines whether the <paramref name="left"/> is not equal to the <paramref name="right"/>.
     /// </summary>
-    /// <param name="left">The left-hand <see cref="Error"/>.</param>
-    /// <param name="right">The right-hand <see cref="Error"/>.</param>
+    /// <param name="left">The left-hand <see cref="Result{T}"/>.</param>
+    /// <param name="right">The right-hand <see cref="Result{T}"/>.</param>
     /// <returns>
     ///		<see langword="true"/> if <paramref name="left"/> is not equal to <paramref name="right"/>; otherwise, <see langword="false"/>.
     /// </returns>
     /// <remarks>
-    ///     <see cref="Equals(Result{T})"/> for how <see cref="Error"/> equality is calculated.
+    ///     <see cref="Equals(Result{T})"/> for how <see cref="Result{T}"/> equality is calculated.
     ///	</remarks>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -341,7 +340,7 @@ public class Result<T> : IEquatable<Result<T>>
     /// <summary>
     ///     Attempts to unwrap <paramref name="result"/>.
     /// </summary>
-    /// <param name="result">The <see cref="Error"/> to unwrap into <typeparamref name="T"/>.</param>
+    /// <param name="result">The <see cref="Result{T}"/> to unwrap into <typeparamref name="T"/>.</param>
     /// <remarks>
     ///     This is equivalent to directly accessing <see cref="Value"/>.
     ///     You should prefer accessing this directly over casting.

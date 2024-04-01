@@ -40,7 +40,7 @@ public static class ResultExtensions
     ///     Otherwise, does nothing.
     /// </summary>
     /// <typeparam name="T">The type of <c>Ok(<typeparamref name="T"/>)</c> value the <paramref name="result"/> encapsulates.</typeparam>
-    /// <param name="result">The <see langword="ref"/> <see cref="Error"/>.</param>
+    /// <param name="result">The <see cref="Result{T}"/>.</param>
     /// <param name="ok">An action which is invoked with <paramref name="result"/>'s value when it is <c>Ok(<typeparamref name="T"/>)</c>.</param>
     /// <returns>
     ///     The <see langword="ref"/> <paramref name="result"/> for chaining.
@@ -72,7 +72,7 @@ public static class ResultExtensions
     ///     Otherwise, executes <paramref name="err"/> with <see cref="Result{T}.Error"/>.
     /// </summary>
     /// <typeparam name="T">The type of <c>Ok(<typeparamref name="T"/>)</c> value the <paramref name="result"/> encapsulates.</typeparam>
-    /// <param name="result">The <see langword="ref"/> <see cref="Error"/>.</param>
+    /// <param name="result">The <see cref="Result{T}"/>.</param>
     /// <param name="ok">An action which is invoked with <paramref name="result"/>'s value when it is <c>Ok(<typeparamref name="T"/>)</c>.</param>
     /// <param name="err">An action which is invoked with <paramref name="result"/>'r error when it is <c>Error</c>.</param>
     /// <returns>
@@ -107,7 +107,7 @@ public static class ResultExtensions
     /// </summary>
     /// <typeparam name="T">The type of <c>Ok(<typeparamref name="T"/>)</c> value the <paramref name="result"/> encapsulates.</typeparam>
     /// <typeparam name="TResult">The type to return.</typeparam>
-    /// <param name="result">The <see cref="Error"/>.</param>
+    /// <param name="result">The <see cref="Result{T}"/>.</param>
     /// <param name="ok">
     ///     A function which is invoked with <paramref name="result"/>'s value when it is <c>Ok(<typeparamref name="T"/>)</c>, and returns a <typeparamref name="TResult"/>.
     /// </param>
@@ -147,7 +147,7 @@ public static class ResultExtensions
     ///     Otherwise, returns <paramref name="value"/>.
     /// </summary>
     /// <typeparam name="T">The type of <c>Ok(<typeparamref name="T"/>)</c> value the <paramref name="result"/> encapsulates.</typeparam>
-    /// <param name="result">The <see cref="Error"/>.</param>
+    /// <param name="result">The <see cref="Result{T}"/>.</param>
     /// <param name="value">
     ///     An alternative value to return when <paramref name="result"/> is <c>Error</c>.
     ///     This may not be <see langword="null"/>; use <see cref="OrDefault{T}(Result{T})"/> instead to return a <see langword="null"/> value.
@@ -260,7 +260,7 @@ public static class ResultExtensions
     /// </summary>
     /// <typeparam name="T">The type of <c>Ok(<typeparamref name="T"/>)</c> value the <paramref name="result"/> encapsulates.</typeparam>
     /// <typeparam name="TResult">The type to return.</typeparam>
-    /// <param name="result">The <see cref="Error"/>.</param>
+    /// <param name="result">The <see cref="Result{T}"/>.</param>
     /// <param name="selector">
     ///     A function which transforms <paramref name="result"/>'s <typeparamref name="T"/> value into a <typeparamref name="TResult"/>.
     ///     If this returns <see langword="null"/>, the returned <see cref="Error"/> will be <c>Error</c>. This will use a default <see cref="Error"/>.
@@ -305,7 +305,7 @@ public static class ResultExtensions
     /// </summary>
     /// <typeparam name="T">The type of <c>Ok(<typeparamref name="T"/>)</c> value the <paramref name="result"/> encapsulates.</typeparam>
     /// <typeparam name="TResult">The type to return.</typeparam>
-    /// <param name="result">The <see cref="Error"/>.</param>
+    /// <param name="result">The <see cref="Result{T}"/>.</param>
     /// <param name="selector">
     ///     A function which transforms <paramref name="result"/>'s <typeparamref name="T"/> value into a <typeparamref name="TResult"/>.
     ///     If this returns <see langword="null"/>, the returned <see cref="Error"/> will be <c>Error</c>. This will use a default <see cref="Error"/>.

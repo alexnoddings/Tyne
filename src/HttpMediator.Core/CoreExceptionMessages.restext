@@ -1,0 +1,5 @@
+HttpResult_ErrorStatusCodeOutOfRange=HTTP status codes for Error results must be in the range 400 <= statusCode <= 599.
+HttpResult_OkStatusCodeOutOfRange=HTTP status codes for Ok results must be in the range 200 <= statusCode <= 299.
+HttpResult_OkMustHaveValue=Ok result must have a value.
+
+ApiRequest_HttpMethodNotSupported=HTTP method {0} for "{1}" is not supported.

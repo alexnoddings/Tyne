@@ -1,5 +1,3 @@
-using MediatR;
-
 namespace Tyne;
 
 public class ResultOtherTests
