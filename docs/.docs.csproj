@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.Build.NoTargets">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
     <!-- This project doesn't contain any .NET code. -->
     <EnableNETAnalyzers>false</EnableNETAnalyzers>
   </PropertyGroup>

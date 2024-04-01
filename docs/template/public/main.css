@@ -49,13 +49,23 @@ a.external[href^="https://learn.microsoft.com"]::after {
     content: '\f65d';
 }
 
+/* Some xrefs can't be resolved (e.g. for MudBlazor types), so this visually distinguishes the reference */
+span.xref {
+    text-decoration: underline dotted;
+    color: #642121;
+}
+
+html[data-bs-theme="dark"] span.xref {
+    text-decoration: underline dotted;
+    color: #c49999;
+}
+
 /* But not in type lists (e.g. inheritance, implements) since this just clutters it up */
 .typelist a.external[href^="https://learn.microsoft.com"]::after,
 /* Or in code blocks (this isn't common in custom docs, but is in API docs) */
 code a.external[href^="https://learn.microsoft.com"]::after,
 /* Or in definitions (e.g. namespaces for extension methods in non-Tyne namespaces) */
-.definition a.external[href^="https://learn.microsoft.com"]::after
-{
+.definition a.external[href^="https://learn.microsoft.com"]::after {
     content: '';
     margin: 0;
 }

@@ -12,10 +12,12 @@
             "src/EntityFramework.ModificationTracking/EntityFramework.ModificationTracking.csproj",
             "src/EntityFramework.UserService/EntityFramework.UserService.csproj",
             "src/EntityFramework.UserService.Core/EntityFramework.UserService.Core.csproj",
-            "src/MediatorEndpoints.Blazor/MediatorEndpoints.Blazor.csproj",
-            "src/MediatorEndpoints.Client/MediatorEndpoints.Client.csproj",
-            "src/MediatorEndpoints.Core/MediatorEndpoints.Core.csproj",
-            "src/MediatorEndpoints.Server/MediatorEndpoints.Server.csproj",
+            "src/HttpMediator.Client/HttpMediator.Client.csproj",
+            "src/HttpMediator.Client.FluentValidation/HttpMediator.Client.FluentValidation.csproj",
+            "src/HttpMediator.Core/HttpMediator.Core.csproj",
+            "src/HttpMediator.Server/HttpMediator.Server.csproj",
+            "src/HttpMediator.Server.FluentValidation/HttpMediator.Server.FluentValidation.csproj",
+            "src/HttpMediator.Server.MediatR/HttpMediator.Server.MediatR.csproj",
             "src/Testing/Testing.csproj"
           ],
           "src": "../"

@@ -1,0 +1,12 @@
+- name: Tyne.HttpMediator.Client
+  href: HttpMediator.Client.md
+- name: Tyne.HttpMediator.Client.FluentValidation
+  href: HttpMediator.Client.FluentValidation.md
+- name: Tyne.HttpMediator.Core
+  href: HttpMediator.Core.md
+- name: Tyne.HttpMediator.Server
+  href: HttpMediator.Server.md
+- name: Tyne.HttpMediator.Server.FluentValidation
+  href: HttpMediator.Server.FluentValidation.md
+- name: Tyne.HttpMediator.Server.MediatR
+  href: HttpMediator.Server.MediatR.md

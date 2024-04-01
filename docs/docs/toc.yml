@@ -17,9 +17,9 @@
 - name: Tyne.EntityFramework
   href: packages/EntityFramework/toc.yml
   homepage: packages/EntityFramework.md
-- name: Tyne.MediatorEndpoints
-  href: packages/MediatorEndpoints/toc.yml
-  homepage: packages/MediatorEndpoints.md
+- name: Tyne.HttpMediator
+  href: packages/HttpMediator/toc.yml
+  homepage: packages/HttpMediator.md
 - name: Tyne.Testing
   href: packages/Testing.md
 
