@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Tyne.MediatorEndpoints.Client</AssemblyName>
     <RootNamespace>Tyne.MediatorEndpoints</RootNamespace>
   </PropertyGroup>
@@ -16,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HttpMediator.Client\HttpMediator.Client.csproj" />
     <ProjectReference Include="..\MediatorEndpoints.Core\MediatorEndpoints.Core.csproj" />
   </ItemGroup>
 

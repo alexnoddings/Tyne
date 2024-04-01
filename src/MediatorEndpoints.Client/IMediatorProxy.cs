@@ -1,5 +1,3 @@
-using MediatR;
-
 namespace Tyne.MediatorEndpoints;
 
 /// <summary>
