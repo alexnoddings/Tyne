@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Conventions">
-    <TargetFrameworks>net7.0</TargetFrameworks>
+    <TargetFrameworks>net7.0;net8.0</TargetFrameworks>
     <LangVersion>preview</LangVersion>
     <Features>$(Features);strict</Features>
     <Nullable>enable</Nullable>

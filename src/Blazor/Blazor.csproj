@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Tyne.Blazor</AssemblyName>
     <RootNamespace>Tyne.Blazor</RootNamespace>
   </PropertyGroup>

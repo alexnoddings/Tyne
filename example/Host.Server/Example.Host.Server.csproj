@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>TyneAerospaceClient.ServerHost</AssemblyName>
     <RootNamespace>Tyne.Aerospace.Host.Server</RootNamespace>
     <!-- Prevents dotnet pack from trying to pack this, and then warning when it can't -->
