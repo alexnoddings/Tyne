@@ -50,6 +50,12 @@ tests:
     - src/EntityFramework*/**
     - test/EntityFramework*/**
 
+'area-HttpMediator':
+- changed-files:
+  - any-glob-to-any-file:
+    - src/HttpMediator*/**
+    - test/HttpMediator*/**
+
 'area-MediatorEndpoints':
 - changed-files:
   - any-glob-to-any-file:
