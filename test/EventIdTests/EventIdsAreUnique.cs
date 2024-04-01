@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Tyne.Blazor;
 using Tyne.EntityFramework;
+using Tyne.HttpMediator;
+using Tyne.HttpMediator.Client;
+using Tyne.HttpMediator.Server;
 
 namespace Tyne;
 
@@ -40,6 +43,31 @@ public class EventIdsAreUnique
     [Fact]
     public void Tyne_EntityFramework_UserService() =>
         AssertLoggerMessages.AreUnique(typeof(ITyneUserService).Assembly);
+
+    [Fact]
+    public void Tyne_HttpMediator_Client() =>
+        AssertLoggerMessages.AreUnique(typeof(IHttpMediator).Assembly);
+
+    [Fact]
+    public void Tyne_HttpMediator_Client_FluentValidation() =>
+        AssertLoggerMessages.AreUnique(typeof(HttpMediator.Client.FluentValidationMiddleware).Assembly);
+
+    [Fact]
+    public void Tyne_HttpMediator_Core() =>
+        AssertLoggerMessages.AreUnique(typeof(HttpResult<>).Assembly);
+
+    [Fact]
+    public void Tyne_HttpMediator_Server() =>
+        // to-do: need a better type, this could be moved at some point
+        AssertLoggerMessages.AreUnique(typeof(IHttpResponseResultWriter).Assembly);
+
+    [Fact]
+    public void Tyne_HttpMediator_Server_FluentValidation() =>
+        AssertLoggerMessages.AreUnique(typeof(HttpMediator.Server.FluentValidationMiddleware).Assembly);
+
+    [Fact]
+    public void Tyne_HttpMediator_Server_MediatR() =>
+        AssertLoggerMessages.AreUnique(typeof(MediatRSenderMiddleware).Assembly);
 
     [Fact]
     public void Tyne_Testing() =>
