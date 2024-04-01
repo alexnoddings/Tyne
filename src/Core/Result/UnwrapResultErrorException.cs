@@ -1,6 +1,5 @@
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
 
 namespace Tyne;
 
@@ -10,7 +9,6 @@ namespace Tyne;
 /// <remarks>
 ///     See <see cref="ResultExtensions.UnwrapError{T}(Result{T})"/> for how unwrapping works.
 /// </remarks>
-[Serializable]
 public class UnwrapResultErrorException : BadResultException
 {
     internal new static string DefaultMessage
@@ -53,16 +51,6 @@ public class UnwrapResultErrorException : BadResultException
     /// <param name="innerException">The <see cref="Exception"/> that is the cause of the current exception.</param>
     public UnwrapResultErrorException(string message, Exception innerException)
         : base(MessageOrDefault(message), innerException)
-    {
-    }
-
-    /// <summary>
-    ///     Initializes a new instance of <see cref="UnwrapResultErrorException"/> with serialized data.
-    /// </summary>
-    /// <param name="info">The object that holds the serialized object data.</param>
-    /// <param name="context">The contextual information about the source or destination.</param>
-    protected UnwrapResultErrorException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
     {
     }
 

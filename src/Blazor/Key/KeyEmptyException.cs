@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
 
 namespace Tyne.Blazor;
 
@@ -7,7 +6,6 @@ namespace Tyne.Blazor;
 ///     The exception that is thrown when a <see cref="TyneKey"/> is
 ///     expected to have a value but is <see cref="TyneKey.IsEmpty"/>.
 /// </summary>
-[Serializable]
 public class KeyEmptyException : Exception
 {
     private const string DefaultMessage = "Key cannot be empty here.";
@@ -34,15 +32,6 @@ public class KeyEmptyException : Exception
     /// <param name="message">An error message that explains the reason for the exception.</param>
     /// <param name="innerException">The <see cref="Exception"/> that is the cause of the current exception.</param>
     public KeyEmptyException(string? message, Exception? innerException) : base(message, innerException)
-    {
-    }
-
-    /// <summary>
-    ///     Initializes a new instance of <see cref="KeyEmptyException"/> with serialized data.
-    /// </summary>
-    /// <param name="info">The object that holds the serialized object data.</param>
-    /// <param name="context">The contextual information about the source or destination.</param>
-    protected KeyEmptyException(SerializationInfo info, StreamingContext context) : base(info, context)
     {
     }
 

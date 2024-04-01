@@ -1,6 +1,5 @@
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
 
 namespace Tyne;
 
@@ -11,7 +10,6 @@ namespace Tyne;
 ///     This may occur during result creation (e.g. passing a null value to <see cref="Result.Ok{T}(in T)"/>),
 ///     or while accessing a result (e.g. calling <see cref="Result{T}.Value"/> when it is an error).
 /// </remarks>
-[Serializable]
 public class BadResultException : InvalidOperationException
 {
     internal static string DefaultMessage
@@ -53,16 +51,6 @@ public class BadResultException : InvalidOperationException
     /// <param name="innerException">The <see cref="Exception"/> that is the cause of the current exception.</param>
     public BadResultException(string message, Exception innerException)
         : base(MessageOrDefault(message), innerException)
-    {
-    }
-
-    /// <summary>
-    ///     Initializes a new instance of <see cref="BadResultException"/> with serialized data.
-    /// </summary>
-    /// <param name="info">The object that holds the serialized object data.</param>
-    /// <param name="context">The contextual information about the source or destination.</param>
-    protected BadResultException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
     {
     }
 

@@ -1,6 +1,5 @@
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
 
 namespace Tyne;
 
@@ -11,7 +10,6 @@ namespace Tyne;
 ///     This may occur during creation (e.g. passing a null value to <see cref="Option.Some{T}(T)"/>),
 ///     or while accessing an option (e.g. calling <see cref="Option{T}.Value"/> when it is <c>None</c>).
 /// </remarks>
-[Serializable]
 public class BadOptionException : InvalidOperationException
 {
     internal static string DefaultMessage
@@ -53,16 +51,6 @@ public class BadOptionException : InvalidOperationException
     /// <param name="innerException">The <see cref="Exception"/> that is the cause of the current exception.</param>
     public BadOptionException(string message, Exception innerException)
         : base(MessageOrDefault(message), innerException)
-    {
-    }
-
-    /// <summary>
-    ///     Initializes a new instance of <see cref="BadOptionException"/> with serialized data.
-    /// </summary>
-    /// <param name="info">The object that holds the serialized object data.</param>
-    /// <param name="context">The contextual information about the source or destination.</param>
-    protected BadOptionException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
     {
     }
 
