@@ -117,9 +117,16 @@ public abstract class TyneFormBase<TInput, TModel> : ComponentBase, ITyneForm<TM
         await UpdateStateAsync(FormState.Loading).ConfigureAwait(true);
 
         // Cancel any other existing openings
-        _openingCancellationTokenSource?.Cancel();
-        _openingCancellationTokenSource?.Dispose();
-        _openingCancellationTokenSource = null;
+        if (_openingCancellationTokenSource is CancellationTokenSource openingCts)
+        {
+#if NET8_0_OR_GREATER
+        await openingCts.CancelAsync().ConfigureAwait(true);
+#else
+            openingCts.Cancel();
+#endif
+            openingCts.Dispose();
+            _openingCancellationTokenSource = null;
+        }
 
         // Set up our opening
         _openingCancellationTokenSource = new();
@@ -244,9 +251,19 @@ public abstract class TyneFormBase<TInput, TModel> : ComponentBase, ITyneForm<TM
         if (shouldClose)
         {
             await UpdateStateAsync(FormState.Closed).ConfigureAwait(true);
-            _openingCancellationTokenSource?.Cancel();
-            _openingCancellationTokenSource?.Dispose();
-            _openingCancellationTokenSource = null;
+
+            // Cancel any other existing openings
+            if (_openingCancellationTokenSource is CancellationTokenSource openingCts)
+            {
+#if NET8_0_OR_GREATER
+                await openingCts.CancelAsync().ConfigureAwait(true);
+#else
+                openingCts.Cancel();
+#endif
+                openingCts.Dispose();
+                _openingCancellationTokenSource = null;
+            }
+
             Model = default;
             OpenResult = null;
             SaveResult = null;
