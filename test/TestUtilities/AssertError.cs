@@ -5,8 +5,6 @@ public static class AssertError
     public static void IsDefault(in Error actual) =>
         AreEqual(Error.Default, actual);
 
-    private static IEquatable<Error> AsEquatable(in Error error) => error;
-
     public static void AreEqual(in Error expected, in Error actual)
     {
         ArgumentNullException.ThrowIfNull(expected);
@@ -23,8 +21,8 @@ public static class AssertError
         Assert.True(expected.Equals(actual));
         Assert.True(actual.Equals(expected));
 
-        Assert.True(AsEquatable(expected).Equals(actual));
-        Assert.True(AsEquatable(actual).Equals(expected));
+        Assert.True(((IEquatable<Error>)expected).Equals(actual));
+        Assert.True(((IEquatable<Error>)actual).Equals(expected));
 
         Assert.True(expected.Equals(actual as object));
         Assert.True(actual.Equals(expected as object));
@@ -48,8 +46,8 @@ public static class AssertError
         Assert.False(expected.Equals(actual));
         Assert.False(actual.Equals(expected));
 
-        Assert.False(AsEquatable(expected).Equals(actual));
-        Assert.False(AsEquatable(actual).Equals(expected));
+        Assert.False(((IEquatable<Error>)expected).Equals(actual));
+        Assert.False(((IEquatable<Error>)actual).Equals(expected));
 
         Assert.False(expected.Equals(actual as object));
         Assert.False(actual.Equals(expected as object));

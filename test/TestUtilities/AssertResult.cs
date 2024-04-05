@@ -51,8 +51,6 @@ public static class AssertResult
     public static Error IsError<T>(int expectedErrorCode, string expectedErrorMessage, Exception? expectedException, in Result<T> actual) =>
         IsError(Error.From(expectedErrorCode, expectedErrorMessage, expectedException), actual);
 
-    private static IEquatable<Result<T>> AsEquatable<T>(in Result<T> result) => result;
-
     public static void AreEqual<T>(in Result<T> expected, in Result<T> actual)
     {
         ArgumentNullException.ThrowIfNull(expected);
@@ -69,8 +67,8 @@ public static class AssertResult
         Assert.True(expected.Equals(actual), "Equals method should return true.");
         Assert.True(actual.Equals(expected), "Equals method  should return true.");
 
-        Assert.True(AsEquatable(expected).Equals(actual), "Equatable.Equals method should return true.");
-        Assert.True(AsEquatable(actual).Equals(expected), "Equatable.Equals method should return true.");
+        Assert.True(((IEquatable<Result<T>>)expected).Equals(actual), "Equatable.Equals method should return true.");
+        Assert.True(((IEquatable<Result<T>>)actual).Equals(expected), "Equatable.Equals method should return true.");
 
         Assert.True(expected.Equals(actual as object), "Equals (as object) method should return true.");
         Assert.True(actual.Equals(expected as object), "Equals (as object) method should return true.");
@@ -94,8 +92,8 @@ public static class AssertResult
         Assert.False(expected.Equals(actual));
         Assert.False(actual.Equals(expected));
 
-        Assert.False(AsEquatable(expected).Equals(actual));
-        Assert.False(AsEquatable(actual).Equals(expected));
+        Assert.False(((IEquatable<Result<T>>)expected).Equals(actual));
+        Assert.False(((IEquatable<Result<T>>)actual).Equals(expected));
 
         Assert.False(expected.Equals(actual as object));
         Assert.False(actual.Equals(expected as object));

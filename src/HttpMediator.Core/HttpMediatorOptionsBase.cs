@@ -61,10 +61,10 @@ public abstract class HttpMediatorOptionsBase
             return "/";
         }
 
-        if (!apiBase.StartsWith("/", StringComparison.Ordinal))
+        if (!apiBase.StartsWith('/'))
             apiBase = "/" + apiBase;
 
-        if (!apiBase.EndsWith("/", StringComparison.Ordinal))
+        if (!apiBase.EndsWith('/'))
             apiBase += "/";
 
         return apiBase;
