@@ -3,6 +3,7 @@
   <PropertyGroup>
     <AssemblyName>Tyne.HttpMediator.Server.UnitTests</AssemblyName>
     <RootNamespace>Tyne.HttpMediator.Server</RootNamespace>
+    <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,15 +11,6 @@
     <ProjectReference Include="..\..\src\HttpMediator.Server\HttpMediator.Server.csproj" />
     <ProjectReference Include="..\HttpMediator.TestUtilities\HttpMediator.TestUtilities.csproj" />
     <ProjectReference Include="..\TestUtilities\TestUtilities.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="coverlet.collector" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="NSubstitute" />
-    <PackageReference Include="NSubstitute.Analyzers.CSharp" PrivateAssets="all" />
-    <PackageReference Include="xunit" />
-    <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
   </ItemGroup>
 
   <Import Project="../../eng/Tests.props" />

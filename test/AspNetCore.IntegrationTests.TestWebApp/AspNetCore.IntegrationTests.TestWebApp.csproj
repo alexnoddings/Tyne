@@ -16,4 +16,6 @@
     <PackageReference Include="MediatR" />
   </ItemGroup>
 
+  <Import Project="../../eng/Tests.props" />
+
 </Project>
