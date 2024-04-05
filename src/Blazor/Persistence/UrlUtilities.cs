@@ -42,7 +42,11 @@ internal static class UrlUtilities
             // Some types are ugly when json serialised, such as chars being "quoted"
             // We handle these cases specifically for nicer looking strings
             char chr => chr.ToString(),
-            Guid guid => CompactGuid(guid),
+#if NET8_0_OR_GREATER
+            Guid guid => CompactGuid(in guid),
+#else
+            Guid guid => CompactGuid(ref guid),
+#endif
             DateTime dateTime => dateTime.ToString(DateTimeToStringFormat, provider: null),
             // Enum types are represented as strings, but IEnumerable<Enum>s are (currently) just their numeric value
             Enum enm => enm.ToString(),
@@ -185,7 +189,13 @@ internal static class UrlUtilities
     // GUIDs are compacted into a special Base64 form which cuts down
     // their footprint in URLs from 32 chars to 22 chars (~31% smaller).
     // This helps keep URLs shorter for pages (e.g. tables) which persist a few GUIDs.
-    private static string CompactGuid(Guid guid)
+    private static string CompactGuid(
+#if NET8_0_OR_GREATER
+        in Guid guid
+#else
+        ref Guid guid
+#endif
+    )
     {
         // Short circuit empty GUIDs
         if (guid == Guid.Empty)
@@ -197,7 +207,11 @@ internal static class UrlUtilities
         Span<byte> encodedBytes = stackalloc byte[24];
 
         // Marshal the GUID struct into a byte span
+#if NET8_0_OR_GREATER
+        MemoryMarshal.TryWrite(guidBytes, in guid);
+#else
         MemoryMarshal.TryWrite(guidBytes, ref guid);
+#endif
 
         // Converts the GUID bytes to Base64 bytes
         Base64.EncodeToUtf8(guidBytes, encodedBytes, out _, out _);
