@@ -45,10 +45,10 @@ public static class AssertResult
     public static Error IsError<T>(string expectedErrorMessage, in Result<T> actual) =>
         IsError(Error.DefaultCode, expectedErrorMessage, null, actual);
 
-    public static Error IsError<T>(int expectedErrorCode, string expectedErrorMessage, in Result<T> actual) =>
+    public static Error IsError<T>(string expectedErrorCode, string expectedErrorMessage, in Result<T> actual) =>
         IsError(expectedErrorCode, expectedErrorMessage, null, actual);
 
-    public static Error IsError<T>(int expectedErrorCode, string expectedErrorMessage, Exception? expectedException, in Result<T> actual) =>
+    public static Error IsError<T>(string expectedErrorCode, string expectedErrorMessage, Exception? expectedException, in Result<T> actual) =>
         IsError(Error.From(expectedErrorCode, expectedErrorMessage, expectedException), actual);
 
     public static void AreEqual<T>(in Result<T> expected, in Result<T> actual)

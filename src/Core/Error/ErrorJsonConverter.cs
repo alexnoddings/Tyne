@@ -13,7 +13,7 @@ public sealed class ErrorJsonConverter : JsonConverter<Error>
     [SuppressMessage("Minor Code Smell", "S3459: Unassigned members should be removed", Justification = "Assignment is done by the json converter.")]
     private sealed class ErrorJsonProxyType
     {
-        public int? Code { get; set; }
+        public string? Code { get; set; }
         public string? Message { get; set; }
     }
 
@@ -41,15 +41,7 @@ public sealed class ErrorJsonConverter : JsonConverter<Error>
         if (errorJsonProxy is null)
             return Error.Default;
 
-        var code = errorJsonProxy.Code ?? Error.DefaultCode;
-        var message = errorJsonProxy.Message;
-
-        if (!Error.IsValidMessage(message))
-            message = Error.DefaultErrorMessage;
-
-        var error = new Error(code, message, null);
-
-        return error;
+        return new Error(errorJsonProxy.Code, errorJsonProxy.Message, null);
     }
 
     public override void Write(Utf8JsonWriter writer, Error value, JsonSerializerOptions options)
@@ -60,7 +52,7 @@ public sealed class ErrorJsonConverter : JsonConverter<Error>
 
         writer.WriteStartObject();
 
-        writer.WriteNumber(nameof(ErrorJsonProxyType.Code), value.Code);
+        writer.WriteString(nameof(ErrorJsonProxyType.Code), value.Code);
         writer.WriteString(nameof(ErrorJsonProxyType.Message), value.Message);
         // CausedBy is intentionally never written
 

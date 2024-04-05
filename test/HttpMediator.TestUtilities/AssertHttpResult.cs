@@ -40,12 +40,12 @@ public static class AssertHttpResult
     }
 
     public static Error IsError<T>(HttpStatusCode expectedStatusCode, string expectedErrorMessage, in HttpResult<T> actual) =>
-        IsError(expectedStatusCode, Error.DefaultCode, expectedErrorMessage, null, actual);
+        IsError(expectedStatusCode, Error.Default.Code, expectedErrorMessage, null, actual);
 
-    public static Error IsError<T>(HttpStatusCode expectedStatusCode, int expectedErrorCode, string expectedErrorMessage, in HttpResult<T> actual) =>
+    public static Error IsError<T>(HttpStatusCode expectedStatusCode, string expectedErrorCode, string expectedErrorMessage, in HttpResult<T> actual) =>
         IsError(expectedStatusCode, expectedErrorCode, expectedErrorMessage, null, actual);
 
-    public static Error IsError<T>(HttpStatusCode expectedStatusCode, int expectedErrorCode, string expectedErrorMessage, Exception? expectedException, in HttpResult<T> actual) =>
+    public static Error IsError<T>(HttpStatusCode expectedStatusCode, string expectedErrorCode, string expectedErrorMessage, Exception? expectedException, in HttpResult<T> actual) =>
         IsError(expectedStatusCode, Error.From(expectedErrorCode, expectedErrorMessage, expectedException), actual);
 
     public static void AreEqual<T>(in HttpResult<T> expected, in HttpResult<T> actual)

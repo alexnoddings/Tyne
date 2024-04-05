@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using Tyne.Internal.HttpMediator;
 
 namespace Tyne.HttpMediator.Server;
 

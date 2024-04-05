@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
+using Tyne.Internal.HttpMediator;
 
 namespace Tyne.HttpMediator.Server;
 
@@ -11,7 +12,7 @@ namespace Tyne.HttpMediator.Server;
 ///     <para>
 ///         While this can be achieved through <see cref="JsonConverter{T}"/>,
 ///         this way writes <c>Ok(T)</c> results directly,
-///         and transforms <c>Error</c> results into <see cref="ProblemDetails"/>.
+///         and transforms <c>Error</c> results into <see href="https://datatracker.ietf.org/doc/html/rfc7807"/> (<see cref="ProblemDetails"/>).
 ///         It also handles setting the <see cref="HttpResponse.StatusCode"/>.
 ///     </para>
 ///     <para>

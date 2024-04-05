@@ -62,7 +62,7 @@ public static class HttpResult
     public static HttpResult<T> Error<T>(string message, HttpStatusCode statusCode)
     {
         // Let Error handle a potentially null message
-        var error = Tyne.Error.From(Tyne.Error.DefaultCode, message);
+        var error = Tyne.Error.From(message);
         // HttpResult's constructor handles invalid status codes
         return new(error, statusCode);
     }
@@ -85,9 +85,9 @@ public static class HttpResult
     /// </exception>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static HttpResult<T> Error<T>(int code, string message, HttpStatusCode statusCode)
+    public static HttpResult<T> Error<T>(string code, string message, HttpStatusCode statusCode)
     {
-        // Let Error handle a potentially null message
+        // Let Error handle a potentially null code/message
         var error = Tyne.Error.From(code, message);
         // HttpResult's constructor handles invalid status codes
         return new(error, statusCode);

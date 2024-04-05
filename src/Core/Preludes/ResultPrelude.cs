@@ -23,16 +23,16 @@ public static class ResultPrelude
     public static Result<T> Error<T>(string message) =>
         Result.Error<T>(message);
 
-    /// <inheritdoc cref="Result.Error{T}(int, string)"/>
+    /// <inheritdoc cref="Result.Error{T}(string, string)"/>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Result<T> Error<T>(int code, string message) =>
+    public static Result<T> Error<T>(string code, string message) =>
         Result.Error<T>(code, message);
 
-    /// <inheritdoc cref="Result.Error{T}(int, string, Exception)"/>
+    /// <inheritdoc cref="Result.Error{T}(string, string, Exception)"/>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Result<T> Error<T>(int code, string message, Exception causedBy) =>
+    public static Result<T> Error<T>(string code, string message, Exception causedBy) =>
         Result.Error<T>(code, message, causedBy);
 
     /// <inheritdoc cref="Result.Error{T}(in Error)"/>

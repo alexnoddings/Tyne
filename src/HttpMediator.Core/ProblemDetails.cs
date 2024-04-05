@@ -14,14 +14,15 @@
 
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
-namespace Tyne.HttpMediator;
+namespace Tyne.Internal.HttpMediator;
 
 /// <summary>
 ///     A machine-readable format for specifying errors in HTTP API responses based on <see href="https://tools.ietf.org/html/rfc7807"/>.
 /// </summary>
-internal sealed class ProblemDetails
+public sealed class ProblemDetails
 {
     /// <summary>
     ///     A URI reference [RFC3986] that identifies the problem type.
@@ -81,5 +82,6 @@ internal sealed class ProblemDetails
     ///     In particular, complex types or collection types may not round-trip to the original type when using the built-in JSON or XML formatters.
     /// </remarks>
     [JsonExtensionData]
+    [SuppressMessage("Usage", "CA2227: Collection properties should be read only.", Justification = "This should be mutable for JSON de/serialisation.")]
     public IDictionary<string, object?> Extensions { get; set; } = new Dictionary<string, object?>(StringComparer.Ordinal);
 }

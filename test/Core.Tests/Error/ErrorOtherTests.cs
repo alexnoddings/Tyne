@@ -8,26 +8,26 @@ public class ErrorOtherTests
         AssertError.IsDefault(Error.Default);
 
         // The default error message shouldn't be null or empty
-        Assert.False(string.IsNullOrWhiteSpace(Error.DefaultErrorMessage));
+        Assert.False(string.IsNullOrWhiteSpace(Error.DefaultMessage));
 
         // And it should be valid
-        Assert.True(Error.IsValidMessage(Error.DefaultErrorMessage));
+        Assert.True(Internal.Error.IsValidMessage(Error.DefaultMessage));
 
         // The default error should use the default code
         Assert.Equal(Error.DefaultCode, Error.Default.Code);
 
         // And use the default error message
-        Assert.Equal(Error.DefaultErrorMessage, Error.Default.Message);
+        Assert.Equal(Error.DefaultMessage, Error.Default.Message);
     }
 
     [Fact]
     public void IsValidMessage_Works()
     {
-        Assert.False(Error.IsValidMessage(null));
-        Assert.False(Error.IsValidMessage(""));
-        Assert.False(Error.IsValidMessage("\t "));
+        Assert.False(Internal.Error.IsValidMessage(null));
+        Assert.False(Internal.Error.IsValidMessage(""));
+        Assert.False(Internal.Error.IsValidMessage("\t "));
 
-        Assert.True(Error.IsValidMessage("An error message"));
+        Assert.True(Internal.Error.IsValidMessage("An error message"));
     }
 
     [Fact]
@@ -92,10 +92,44 @@ public class ErrorOtherTests
     }
 
     [Fact]
-    public void ToString_Works()
+    public void ToString_IncludeCode_WithCode_ContainsCodeAndMessage()
     {
-        var error = Error.From(42, "Some error");
+        const string code = "ErrorOtherTestsErrorCode";
+        const string message = "Some error message.";
 
-        Assert.Equal("Error(42: Some error)", error.ToString());
+        var error = Error.From(code, message);
+
+        Assert.Equal($"Error({code}: {message})", error.ToString(includeCode: true));
+    }
+
+    [Fact]
+    public void ToString_IncludeCode_WithDefaultCode_ContainsOnlyMessage()
+    {
+        const string message = "Some error message.";
+
+        var error = Error.From(message);
+
+        Assert.Equal($"Error({message})", error.ToString(includeCode: true));
+    }
+
+    [Fact]
+    public void ToString_DoNotIncludeCode_WithCode_OnlyMessage()
+    {
+        const string code = "ErrorOtherTestsErrorCode";
+        const string message = "Some error message.";
+
+        var error = Error.From(code, message);
+
+        Assert.Equal($"Error({message})", error.ToString(includeCode: false));
+    }
+
+    [Fact]
+    public void ToString_DoNotIncludeCode_WithDefaultCode_ContainsOnlyMessage()
+    {
+        const string message = "Some error message.";
+
+        var error = Error.From(message);
+
+        Assert.Equal($"Error({message})", error.ToString(includeCode: false));
     }
 }

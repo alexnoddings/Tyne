@@ -2,7 +2,7 @@
 
 <MudAlert Severity="Severity ?? MudBlazor.Severity.Error">
     @Error.Message
-    @if (Error.Code is not 0)
+    @if (IncludeCode && Error.Code != Tyne.Error.Default.Code)
     {
         <text> (@Error.Code)</text>
     }
@@ -15,6 +15,9 @@
 
     [Parameter]
     public Severity? Severity { get; set; }
+
+    [Parameter]
+    public bool IncludeCode { get; set; } = true;
 
     protected override void OnParametersSet()
     {

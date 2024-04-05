@@ -76,7 +76,7 @@ public static class Result
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Result<T> Error<T>(string message)
     {
-        // Let Error handle a potentially null message
+        // Let Error handle invalid codes/messages
         var error = new Error(Tyne.Error.DefaultCode, message, null);
         return new Result<T>(error);
     }
@@ -90,9 +90,9 @@ public static class Result
     /// <returns>An <c>Error</c> <see cref="Result{T}"/> whose error is constructed using <paramref name="code"/> and <paramref name="message"/>.</returns>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Result<T> Error<T>(int code, string message)
+    public static Result<T> Error<T>(string code, string message)
     {
-        // Let Error handle a potentially null message
+        // Let Error handle invalid codes/messages
         var error = new Error(code, message, null);
         return new Result<T>(error);
     }
@@ -107,9 +107,9 @@ public static class Result
     /// <returns>An <c>Error</c> <see cref="Result{T}"/> whose error is constructed using <paramref name="code"/>, <paramref name="message"/>, and <paramref name="causedBy"/>.</returns>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Result<T> Error<T>(int code, string message, Exception causedBy)
+    public static Result<T> Error<T>(string code, string message, Exception causedBy)
     {
-        // Let Error handle potential nulls
+        // Let Error handle invalid codes/messages
         var error = new Error(code, message, causedBy);
         return new Result<T>(error);
     }
