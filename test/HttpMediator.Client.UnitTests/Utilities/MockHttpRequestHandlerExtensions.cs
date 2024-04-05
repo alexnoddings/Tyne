@@ -1,8 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Json;
-using RichardSzalay.MockHttp;
-using System.Web;
 using System.Text.Json;
+using System.Web;
+using RichardSzalay.MockHttp;
 
 namespace Tyne.HttpMediator.Client;
 
@@ -27,10 +27,8 @@ public static class MockHttpRequestHandlerExtensions
         {
             var requestUri = http.RequestUri!.Query;
             var queryString = HttpUtility.ParseQueryString(requestUri);
-            var requestStr = queryString[HttpSenderRequestMessageFactory.QueryParameterName];
-            if (requestStr is null)
-                throw new InvalidOperationException("Test HTTP handler could not get request from query string.");
-
+            var requestStr = queryString[HttpSenderRequestMessageFactory.QueryParameterName]
+                ?? throw new InvalidOperationException("Test HTTP handler could not get request from query string.");
             var request = JsonSerializer.Deserialize<TRequest>(requestStr, options: HttpMediatorClientTestScope.JsonSerializerOptions)
                 ?? throw new InvalidOperationException("Test HTTP handler could not parse request from URI.");
 
