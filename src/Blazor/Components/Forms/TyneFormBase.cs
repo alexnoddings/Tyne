@@ -28,7 +28,7 @@ public abstract class TyneFormBase<TInput, TModel> : ComponentBase, ITyneForm<TM
         _onInitialised = _initialiseTaskSource.Task;
     }
 
-    private List<FormUpdatedCallback> FormUpdatedCallbacks { get; } = new();
+    private List<FormUpdatedCallback> FormUpdatedCallbacks { get; } = [];
     public IDisposable Attach(FormUpdatedCallback formUpdatedCallback)
     {
         FormUpdatedCallbacks.Add(formUpdatedCallback);

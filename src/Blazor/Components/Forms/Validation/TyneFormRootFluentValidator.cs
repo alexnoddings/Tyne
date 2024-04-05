@@ -11,7 +11,7 @@ public class TyneFormRootFluentValidator<TModel>
     [Parameter]
     public RenderFragment ChildContent { get; set; } = EmptyRenderFragment.Instance;
 
-    private readonly HashSet<ITyneFormFluentValidator> _nestedValidators = new();
+    private readonly HashSet<ITyneFormFluentValidator> _nestedValidators = [];
 
     protected override void OnInitialized()
     {

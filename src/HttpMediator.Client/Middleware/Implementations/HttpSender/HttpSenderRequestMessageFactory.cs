@@ -95,7 +95,7 @@ internal sealed class HttpSenderRequestMessageFactory
         object? requestDataObj;
         try
         {
-            requestDataObj = genericMethodInfo.Invoke(this, Array.Empty<object?>());
+            requestDataObj = genericMethodInfo.Invoke(this, []);
         }
         catch (TargetInvocationException invocationException)
         {

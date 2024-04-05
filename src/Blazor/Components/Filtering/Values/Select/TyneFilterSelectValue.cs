@@ -12,7 +12,7 @@ public abstract class TyneFilterSelectValue<TRequest, TValue, TSelectValue> : Ty
     [Parameter, EditorRequired]
     public RenderFragment Values { get; set; } = EmptyRenderFragment.Instance;
 
-    private readonly HashSet<ItemHandle> _selectItemHandles = new();
+    private readonly HashSet<ItemHandle> _selectItemHandles = [];
 
     // Used to force LoadAvailableValuesAsync to wait for Values to have rendered
     // so that the specified values can attach themselves to this instance.

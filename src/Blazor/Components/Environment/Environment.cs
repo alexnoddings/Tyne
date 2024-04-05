@@ -45,7 +45,7 @@ public partial class Environment : ComponentBase
     [Parameter, EditorRequired]
     public string Filter { get; set; } = string.Empty;
 
-    private string[] _environmentNormalisedNameFilters = Array.Empty<string>();
+    private string[] _environmentNormalisedNameFilters = [];
 
     private string _environmentName = string.Empty;
     private string _environmentNormalisedName = string.Empty;

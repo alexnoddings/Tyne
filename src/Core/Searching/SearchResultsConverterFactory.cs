@@ -64,7 +64,7 @@ public sealed class SearchResultsConverterFactory : JsonConverterFactory
     private sealed class SearchResultsJsonProxyType<T>
     {
         public int TotalCount { get; set; }
-        public List<T> Values { get; set; } = new();
+        public List<T> Values { get; set; } = [];
     }
 
     [SuppressMessage("Performance", "CA1812: Avoid uninstantiated internal classes", Justification = "Class is instantiated by Activator.CreateInstance.")]
@@ -93,7 +93,7 @@ public sealed class SearchResultsConverterFactory : JsonConverterFactory
             var searchResultsJsonProxy = new SearchResultsJsonProxyType<T>
             {
                 TotalCount = value.TotalCount,
-                Values = value.ToList()
+                Values = [..value]
             };
             _proxyTypeConverter.Write(writer, searchResultsJsonProxy, options);
         }

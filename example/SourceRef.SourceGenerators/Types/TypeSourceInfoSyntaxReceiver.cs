@@ -6,7 +6,7 @@ namespace Tyne.SourceRef.SourceGenerators.Types;
 // Visits type declarations and creates SourceInfos
 internal sealed class TypeSourceInfoSyntaxReceiver : ISyntaxReceiver
 {
-    public List<SourceInfo> TypeSources { get; } = new();
+    public List<SourceInfo> TypeSources { get; } = [];
 
     public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
     {

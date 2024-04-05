@@ -46,7 +46,7 @@ public abstract partial class TyneMultiSelectFilterControllerBase<TRequest, TVal
         if (newValue is not HashSet<TValue> hashSet)
         {
             if (newValue is null)
-                hashSet = new();
+                hashSet = [];
             else
                 hashSet = new(newValue);
         }
@@ -71,7 +71,7 @@ public abstract partial class TyneMultiSelectFilterControllerBase<TRequest, TVal
     ///     </para>
     /// </remarks>
     protected Task SetValueAsync(HashSet<TValue>? newValue) =>
-        Handle.Filter.SetValueAsync(newValue ?? new());
+        Handle.Filter.SetValueAsync(newValue ?? []);
 
     /// <summary>
     ///     Adds <paramref name="item"/> to the selected filter value <see cref="HashSet{T}"/>.
@@ -80,7 +80,7 @@ public abstract partial class TyneMultiSelectFilterControllerBase<TRequest, TVal
     /// <returns>A <see cref="Task"/> representing the value being added.</returns>
     protected Task AddValueAsync(TValue item)
     {
-        var currentValue = Handle.Filter.Value ?? new HashSet<TValue>();
+        var currentValue = Handle.Filter.Value ?? [];
         if (item is not null && currentValue.Contains(item))
             return Task.CompletedTask;
 

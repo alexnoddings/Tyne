@@ -25,7 +25,7 @@ internal sealed class FilterContextBatchUpdateQueue<TRequest>
     ///     Because of this, multiple calls in quick succession (such as a batch update) are likely to fail as the current URL will not have updated yet.
     /// </remarks>
     /// <seealso href="https://github.com/dotnet/aspnetcore/blob/main/src/Components/WebAssembly/WebAssembly/src/Services/WebAssemblyNavigationManager.cs#L57"/>
-    public Dictionary<string, object?> PersistenceParameterQueue { get; } = new();
+    public Dictionary<string, object?> PersistenceParameterQueue { get; } = [];
 
     public FilterContextBatchUpdateQueue(TyneFilterContext<TRequest> filterContext)
     {

@@ -103,7 +103,7 @@ public class DbContextChangeAuditor<TEvent, TProperty, TRelation> : IDbContextCh
                             };
                         })
                         .ToList(),
-                    Parents = new()
+                    Parents = []
                 },
                 ParentInfos =
                     entry.Navigations

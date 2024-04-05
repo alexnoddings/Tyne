@@ -16,7 +16,7 @@ public sealed class HttpMediatorMiddlewareBuilder
 
     internal HttpMediatorMiddlewareBuilder(IServiceCollection services)
     {
-        Middleware = new();
+        Middleware = [];
         Services = services;
     }
 
