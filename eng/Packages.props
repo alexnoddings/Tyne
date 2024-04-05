@@ -1,6 +1,8 @@
 <Project>
 
   <PropertyGroup>
+    <!-- Multi-target .NET7 and .NET8. -->
+    <TargetFrameworks>net7.0;net8.0</TargetFrameworks>
     <!-- Mark the project as a package. -->
     <IsPackable>true</IsPackable>
     <!-- Ensure this is marked as a CI build if we're executing on a GitHub action. -->

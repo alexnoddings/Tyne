@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
     <AssemblyName>TyneAerospaceClient.WasmHost</AssemblyName>
     <RootNamespace>Tyne.Aerospace.Host.Wasm</RootNamespace>
     <!-- Allows the Roslyn compiler to code gen with pointers for JS interop. -->

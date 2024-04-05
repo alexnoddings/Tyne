@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.Build.NoTargets">
 
   <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
     <!-- This project doesn't contain any .NET code. -->
     <EnableNETAnalyzers>false</EnableNETAnalyzers>
   </PropertyGroup>

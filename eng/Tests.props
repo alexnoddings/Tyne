@@ -1,5 +1,10 @@
 <Project>
 
+  <PropertyGroup>
+    <!-- Multi-target .NET7 and .NET8. -->
+    <TargetFrameworks>net7.0;net8.0</TargetFrameworks>
+  </PropertyGroup>
+  
   <!-- Configures global usings for very common namespaces in test projects. -->
   <ItemGroup Label="Global usings">
     <Using Include="NSubstitute" />

@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <!-- Disable building for other .NET versions -->
-    <TargetFrameworks></TargetFrameworks>
     <AssemblyName>Tyne.SourceRef.SourceGenerators</AssemblyName>
     <RootNamespace>Tyne.SourceRef.SourceGenerators</RootNamespace>
   </PropertyGroup>
