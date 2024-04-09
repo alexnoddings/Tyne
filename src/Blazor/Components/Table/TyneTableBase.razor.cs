@@ -22,6 +22,8 @@ namespace Tyne.Blazor.Tables;
 [CascadingTypeParameter(nameof(TRequest))]
 [CascadingTypeParameter(nameof(TResponse))]
 public abstract partial class TyneTableBase<TRequest, TResponse>
+    : MudTable<TResponse>, ITyneTable, IDisposable
+    where TRequest : ISearchQuery, new()
 {
     private const string ServerDataErrorMessage = $"ServerData should not be used on {nameof(TyneTableBase<TRequest, TResponse>)}s as this is how Tyne overrides Mud's data loading.";
     /// <summary>
