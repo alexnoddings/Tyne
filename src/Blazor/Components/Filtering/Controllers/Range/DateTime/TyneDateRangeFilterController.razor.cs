@@ -7,7 +7,7 @@ namespace Tyne.Blazor.Filtering.Controllers;
 ///     A controller which attaches to a minimum and maximum <see cref="DateTime"/> property.
 /// </summary>
 /// <inheritdoc/>
-public partial class TyneDateRangeFilterController<TRequest>
+public partial class TyneDateRangeFilterController<TRequest> : TyneMinMaxFilterController<TRequest, DateTime?>
 {
     /// <summary>
     ///     A label which the <see cref="MudDateRangePicker"/> should use.
