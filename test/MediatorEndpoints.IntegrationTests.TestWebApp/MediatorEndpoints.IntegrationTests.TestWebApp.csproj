@@ -4,6 +4,9 @@
     <AssemblyName>Tyne.MediatorEndpoints.IntegrationTests.TestApp</AssemblyName>
     <RootNamespace>Tyne.MediatorEndpoints</RootNamespace>
     <IsTestProject>false</IsTestProject>
+    <!-- Prevents dotnet pack from trying to pack this, and then warning when it can't -->
+    <IsPackable>false</IsPackable>
+    <WarnOnPackingNonPackableProject>false</WarnOnPackingNonPackableProject>
   </PropertyGroup>
 
   <ItemGroup>
