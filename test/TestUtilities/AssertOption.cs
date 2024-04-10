@@ -18,8 +18,6 @@ public static class AssertOption
         Assert.False(actual.HasValue);
     }
 
-    private static IEquatable<Option<T>> AsEquatable<T>(in Option<T> option) => option;
-
     public static void AreEqual<T>(in Option<T> expected, in Option<T> actual)
     {
         Assert.Equal(expected, actual);
@@ -33,8 +31,8 @@ public static class AssertOption
         Assert.True(expected.Equals(actual));
         Assert.True(actual.Equals(expected));
 
-        Assert.True(AsEquatable(expected).Equals(actual));
-        Assert.True(AsEquatable(actual).Equals(expected));
+        Assert.True(((IEquatable<Option<T>>)expected).Equals(actual));
+        Assert.True(((IEquatable<Option<T>>)actual).Equals(expected));
 
         Assert.True(expected.Equals(actual as object));
         Assert.True(actual.Equals(expected as object));
@@ -55,8 +53,8 @@ public static class AssertOption
         Assert.False(expected.Equals(actual));
         Assert.False(actual.Equals(expected));
 
-        Assert.False(AsEquatable(expected).Equals(actual));
-        Assert.False(AsEquatable(actual).Equals(expected));
+        Assert.False(((IEquatable<Option<T>>)expected).Equals(actual));
+        Assert.False(((IEquatable<Option<T>>)actual).Equals(expected));
 
         Assert.False(expected.Equals(actual as object));
         Assert.False(actual.Equals(expected as object));
