@@ -265,7 +265,7 @@ public class Result<T> : IEquatable<Result<T>>
     public override string ToString()
     {
         if (!_isOk)
-            return _error!.ToString();
+            return _error!.ToString(includeCode: true);
 
         var valueString = _value!.ToString();
         // 4 accounts for "Ok(" + ")"

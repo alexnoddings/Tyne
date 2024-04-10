@@ -1,8 +1,9 @@
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Tyne.Internal.HttpMediator;
 
 namespace Tyne.HttpMediator.Client;
 
@@ -134,7 +135,7 @@ public class HttpResponseResultReaderTest
         using var scope = HttpMediatorClientTestScope.Create();
         var jsonOptions = scope.Services.GetRequiredService<IOptions<JsonSerializerOptions>>().Value;
 
-        var expectedError = Error.From(451, "Response result reader test error.");
+        var expectedError = Error.From("Tyne.HttpMediator.Client.UnitTests.Error", "Response result reader test error.");
         var expectedResult = HttpResult.Error<int>(expectedError, ErrorStatusCode);
         using var responseMessage = CreateHttpResponseMessage(expectedResult, jsonOptions);
         var resultReader = scope.Services.GetRequiredService<IHttpResponseResultReader>();

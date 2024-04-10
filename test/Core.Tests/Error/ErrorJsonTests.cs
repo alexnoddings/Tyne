@@ -50,7 +50,7 @@ public class ErrorJsonTests
     {
         // Arrange
         var expectedError = TestError.Instance;
-        var json = @$"{{""Code"":{TestError.Code},""Message"":""{TestError.Message}"",""CausedBy"":{{""Message"":""Some exception.""}}}}";
+        var json = @$"{{""Code"":""{TestError.Code}"",""Message"":""{TestError.Message}"",""CausedBy"":{{""Message"":""Some exception.""}}}}";
 
         // Act
         var actualError = JsonSerializer.Deserialize<Error>(json);
@@ -65,7 +65,7 @@ public class ErrorJsonTests
     {
         // Arrange
         var expectedError = TestError.Instance;
-        var json = @$"{{""Code"":{TestError.Code},""Message"":""{TestError.Message}"",""CausedBy"":{{""HasValue"":true,""Value"":{{""Message"":""Some exception.""}}}}}}";
+        var json = @$"{{""Code"":""{TestError.Code}"",""Message"":""{TestError.Message}"",""CausedBy"":{{""HasValue"":true,""Value"":{{""Message"":""Some exception.""}}}}}}";
 
         // Act
         var actualError = JsonSerializer.Deserialize<Error>(json);

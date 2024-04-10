@@ -9,10 +9,10 @@ public class UrlPersistenceService_SetValueTests : TestContext
 {
     private const string QueryParameterKey = "testSetValue";
 
-    public UrlPersistenceService_SetValueTests() : base()
+    public UrlPersistenceService_SetValueTests()
     {
         Services.AddSingleton<IUrlQueryStringFormatter, UrlQueryStringFormatter>();
-        Services.AddSingleton<UrlPersistenceService>();
+        Services.AddScoped<UrlPersistenceService>();
     }
 
     public static IEnumerable<object?[]> SetValue_Data => UrlUtilities_TestHelpers.ValueToString_Data;

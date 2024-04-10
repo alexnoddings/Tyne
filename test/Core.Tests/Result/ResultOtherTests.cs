@@ -339,7 +339,7 @@ public class ResultOtherTests
         var result2 = Result.Error<int?>(error);
         var result3 = Result.Error<string>(error);
 
-        var errorToString = error.ToString();
+        var errorToString = error.ToString(includeCode: true);
         Assert.Equal(errorToString, result1.ToString());
         Assert.Equal(errorToString, result2.ToString());
         Assert.Equal(errorToString, result3.ToString());

@@ -37,14 +37,14 @@ internal static class UrlUtilities_TestHelpers
         ["", Option.None<string>()],
         ["  \t ", Option.None<string>()],
         ["hello", Option.Some("hello")],
-        
+
         // None GUIDs
         ["", Option.None<Guid>()],
         ["", Option.None<Guid?>()],
         ["ThisIsNotValid", Option.None<Guid>()],
         ["RightLengthButInvalid!", Option.None<Guid>()],
         ["FullUnco-mpre-ssed-Leng-thButInvalid", Option.None<Guid>()],
-        
+
         // Compact GUIDs
         ["AAAAAAAAAAAAAAAAAAAAAA", Option.Some(Guid.Empty)],
         ["ULV9Za34j0GZJ13FVSWOeA", Option.Some(Guid.Parse("657db550-f8ad-418f-9927-5dc555258e78"))],

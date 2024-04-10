@@ -52,5 +52,5 @@ public class FluentValidationMiddlewareTests
     }
 
     private static HttpMediatorDelegate<ValidatedRequest, ValidatedResponse> CreateAssertFailNextDelegate() =>
-        _ => throw new FailException($"{nameof(FluentValidationMiddleware)} should be terminal for invalid requests, and not invoke the next delegate.");
+        _ => throw FailException.ForFailure($"{nameof(FluentValidationMiddleware)} should be terminal for invalid requests, and not invoke the next delegate.");
 }

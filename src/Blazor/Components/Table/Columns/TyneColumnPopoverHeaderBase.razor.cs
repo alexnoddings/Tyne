@@ -7,7 +7,7 @@ namespace Tyne.Blazor.Tables.Columns;
 ///     Renders a <see cref="MudTh"/> containing <see cref="Header"/>, which has a button to open a popover with <see cref="Content"/> in.
 /// </summary>
 /// <typeparam name="TResponse">The type of response.</typeparam>
-public abstract partial class TyneColumnPopoverHeaderBase<TResponse>
+public abstract partial class TyneColumnPopoverHeaderBase<TResponse> : ComponentBase
 {
     /// <summary>
     ///     <see langword="true"/> if the column is being actively filtered; otherwise, <see langword="false"/>.

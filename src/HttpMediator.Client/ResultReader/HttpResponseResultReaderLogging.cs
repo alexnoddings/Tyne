@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Tyne.Internal.HttpMediator;
 
 namespace Tyne.HttpMediator.Client;
 

@@ -1,5 +1,23 @@
 <Project>
 
+  <PropertyGroup>
+    <!-- Multi-target .NET releases -->
+    <TargetFrameworks>net7.0;net8.0;net9.0</TargetFrameworks>
+  </PropertyGroup>
+  
+  <!-- Add common testing packages. -->
+  <ItemGroup>
+    <PackageReference Include="NSubstitute" />
+    <PackageReference Include="NSubstitute.Analyzers.CSharp" PrivateAssets="all" />
+    <PackageReference Include="xunit" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(IsTestProject)' == 'true' ">
+    <PackageReference Include="coverlet.collector" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
+  </ItemGroup>
+
   <!-- Configures global usings for very common namespaces in test projects. -->
   <ItemGroup Label="Global usings">
     <Using Include="NSubstitute" />

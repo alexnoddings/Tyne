@@ -11,13 +11,12 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Conventions">
-    <TargetFrameworks>net7.0</TargetFrameworks>
     <LangVersion>preview</LangVersion>
     <Features>$(Features);strict</Features>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
-    <ArtifactsPath>$(MSBuildThisFileDirectory)artifacts</ArtifactsPath>
+    <ArtifactsPath>$(MSBuildThisFileDirectory)../artifacts</ArtifactsPath>
   </PropertyGroup>
 
   <!--

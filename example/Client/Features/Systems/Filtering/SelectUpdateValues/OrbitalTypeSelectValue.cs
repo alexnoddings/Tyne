@@ -33,24 +33,24 @@ public class OrbitalTypeSelectValue<TRequest> : TyneFilterSelectSingleValueBase<
         // This content could be loaded from an API instead
         List<IFilterSelectItem<string?>> orbitalTypes = OrbitalBody switch
         {
-            OrbitalBody.Earth => new()
-            {
+            OrbitalBody.Earth =>
+            [
                 FilterSelectItem.Create("LEO", "Low earth"),
                 FilterSelectItem.Create("SSO", "Sun-synchronous"),
                 FilterSelectItem.Create("GEO", "Geostationary"),
-            },
-            OrbitalBody.Moon => new()
-            {
+            ],
+            OrbitalBody.Moon =>
+            [
                 FilterSelectItem.Create("LLO", "Low lunar"),
                 FilterSelectItem.Create("NRHO", "Near-rectilinear halo"),
                 FilterSelectItem.Create("DRO", "Distant retrograde")
-            },
-            _ => new()
-            {
+            ],
+            _ =>
+            [
                 FilterSelectItem.Create("LMO", "Low mars"),
                 FilterSelectItem.Create("AEO", "Areostationary"),
                 FilterSelectItem.Create("ASO", "Areosynchronous"),
-            }
+            ]
         };
 
         return Task.FromResult(orbitalTypes);

@@ -54,8 +54,8 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
     public IUrlPersistenceService Persistence { get; }
 
     // Attached handles for values and controllers
-    private readonly Dictionary<TyneKey, FilterValueHandle<TRequest>> _valueHandles = new();
-    private readonly Dictionary<TyneKey, HashSet<FilterControllerHandle>> _controllerHandles = new();
+    private readonly Dictionary<TyneKey, FilterValueHandle<TRequest>> _valueHandles = [];
+    private readonly Dictionary<TyneKey, HashSet<FilterControllerHandle>> _controllerHandles = [];
 
     /// <summary>
     ///     Constructs an instance of <see cref="TyneFilterContext{TRequest}"/>.
@@ -398,7 +398,7 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
 
         // Create a new set of handles if one hasn't already been attached
         if (!_controllerHandles.TryGetValue(key, out var controllerHandles))
-            controllerHandles = _controllerHandles[key] = new();
+            controllerHandles = _controllerHandles[key] = [];
 
         var controllerHandle = new FilterControllerHandle<TRequest, TValue>(this, key, filterValue, controller);
         controllerHandles.Add(controllerHandle);

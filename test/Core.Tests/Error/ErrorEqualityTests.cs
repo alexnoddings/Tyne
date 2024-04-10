@@ -41,10 +41,11 @@ public class ErrorEqualityTests
     [Fact]
     public void From_DifferentCodeAndSameMessage_AreNotEqual()
     {
-        Assert.NotEqual(137, TestError.Code);
+        const string code1 = "test-code-1";
+        const string code2 = "test-code-2";
 
-        var error1 = Error.From(TestError.Code, TestError.Message);
-        var error2 = Error.From(137, TestError.Message);
+        var error1 = Error.From(code1, TestError.Message);
+        var error2 = Error.From(code2, TestError.Message);
 
         AssertError.AreNotEqual(error1, error2);
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using Xunit;
 namespace Tyne.HttpMediator;
@@ -39,15 +40,13 @@ public static class AssertHttpResult
     }
 
     public static Error IsError<T>(HttpStatusCode expectedStatusCode, string expectedErrorMessage, in HttpResult<T> actual) =>
-        IsError(expectedStatusCode, Error.DefaultCode, expectedErrorMessage, null, actual);
+        IsError(expectedStatusCode, Error.Default.Code, expectedErrorMessage, null, actual);
 
-    public static Error IsError<T>(HttpStatusCode expectedStatusCode, int expectedErrorCode, string expectedErrorMessage, in HttpResult<T> actual) =>
+    public static Error IsError<T>(HttpStatusCode expectedStatusCode, string expectedErrorCode, string expectedErrorMessage, in HttpResult<T> actual) =>
         IsError(expectedStatusCode, expectedErrorCode, expectedErrorMessage, null, actual);
 
-    public static Error IsError<T>(HttpStatusCode expectedStatusCode, int expectedErrorCode, string expectedErrorMessage, Exception? expectedException, in HttpResult<T> actual) =>
+    public static Error IsError<T>(HttpStatusCode expectedStatusCode, string expectedErrorCode, string expectedErrorMessage, Exception? expectedException, in HttpResult<T> actual) =>
         IsError(expectedStatusCode, Error.From(expectedErrorCode, expectedErrorMessage, expectedException), actual);
-
-    private static IEquatable<HttpResult<T>> AsEquatable<T>(in HttpResult<T> result) => result;
 
     public static void AreEqual<T>(in HttpResult<T> expected, in HttpResult<T> actual)
     {
@@ -67,8 +66,8 @@ public static class AssertHttpResult
         Assert.True(expected.Equals(actual), "Equals method should return true.");
         Assert.True(actual.Equals(expected), "Equals method  should return true.");
 
-        Assert.True(AsEquatable(expected).Equals(actual), "Equatable.Equals method should return true.");
-        Assert.True(AsEquatable(actual).Equals(expected), "Equatable.Equals method should return true.");
+        Assert.True(((IEquatable<HttpResult<T>>)expected).Equals(actual), "Equatable.Equals method should return true.");
+        Assert.True(((IEquatable<HttpResult<T>>)actual).Equals(expected), "Equatable.Equals method should return true.");
 
         Assert.True(expected.Equals(actual as object), "Equals (as object) method should return true.");
         Assert.True(actual.Equals(expected as object), "Equals (as object) method should return true.");
@@ -94,8 +93,8 @@ public static class AssertHttpResult
         Assert.False(expected.Equals(actual));
         Assert.False(actual.Equals(expected));
 
-        Assert.False(AsEquatable(expected).Equals(actual));
-        Assert.False(AsEquatable(actual).Equals(expected));
+        Assert.False(((IEquatable<HttpResult<T>>)expected).Equals(actual));
+        Assert.False(((IEquatable<HttpResult<T>>)actual).Equals(expected));
 
         Assert.False(expected.Equals(actual as object));
         Assert.False(actual.Equals(expected as object));

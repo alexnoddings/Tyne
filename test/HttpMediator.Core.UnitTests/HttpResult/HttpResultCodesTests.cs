@@ -71,7 +71,7 @@ public class HttpResultCodesTests
     private static void AssertStatusCode_Message(HttpStatusCode expectedStatusCode, Func<string, HttpResult<int>> resultFunc) =>
         AssertStatusCodeCore(expectedStatusCode, resultFunc(TestError.Message));
 
-    private static void AssertStatusCode_CodeAndMessage(HttpStatusCode expectedStatusCode, Func<int, string, HttpResult<int>> resultFunc) =>
+    private static void AssertStatusCode_CodeAndMessage(HttpStatusCode expectedStatusCode, Func<string, string, HttpResult<int>> resultFunc) =>
         AssertStatusCodeCore(expectedStatusCode, resultFunc(TestError.Code, TestError.Message));
 
     private static void AssertStatusCode_Error(HttpStatusCode expectedStatusCode, Func<Error, HttpResult<int>> resultFunc) =>

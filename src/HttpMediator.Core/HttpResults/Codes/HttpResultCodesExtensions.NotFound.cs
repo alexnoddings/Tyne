@@ -22,10 +22,10 @@ public static partial class HttpResultCodesExtensions
     ///     (i.e. <see cref="Result{T}.IsOk"/> is <see langword="false"/>)
     ///     with <see cref="HttpStatusCode.NotFound"/>.
     /// </summary>
-    /// <inheritdoc cref="BadRequest{T}(HttpResultCodes, int, string)"/>
+    /// <inheritdoc cref="BadRequest{T}(HttpResultCodes, string, string)"/>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static HttpResult<T> NotFound<T>(this HttpResultCodes _, int code, string message) =>
+    public static HttpResult<T> NotFound<T>(this HttpResultCodes _, string code, string message) =>
         HttpResult.Error<T>(code, message, HttpStatusCode.NotFound);
 
     /// <summary>

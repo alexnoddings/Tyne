@@ -4,7 +4,7 @@ namespace Tyne.AspNetCore.Routing;
 
 internal sealed class RouteAuthorisationOptions : IRouteAuthorisationOptions
 {
-    internal List<RouteAuthorisation> RouteAuthorisations { get; } = new();
+    internal List<RouteAuthorisation> RouteAuthorisations { get; } = [];
 
     public IRouteAuthorisationOptions AuthoriseRoute(Func<HttpContext, bool> authoriseWhen, bool shouldHandleUnauthorised, params string[] policies)
     {

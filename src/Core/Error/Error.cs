@@ -31,14 +31,10 @@ namespace Tyne;
 [DebuggerDisplay("{ToString(),nq}")]
 [DebuggerTypeProxy(typeof(DebuggerTypeProxy))]
 [JsonConverter(typeof(ErrorJsonConverter))]
-[SuppressMessage("Performance", "CA1805: Do not initialize unnecessarily", Justification = "Improves clarity.")]
 public class Error : IEquatable<Error>
 {
-    /// <summary>
-    ///     The default <see cref="Code"/> if one is not provided, <c>0</c>.
-    /// </summary>
-    // Intentionally static readonly rather than const to avoid potential issues with it inlining at compile time.
-    public static readonly int DefaultCode = 0;
+    internal const string DefaultCode = "default";
+    internal const string DefaultMessage = "Unknown error.";
 
     /// <summary>
     ///     The default instance of <see cref="Error"/>.
@@ -47,22 +43,24 @@ public class Error : IEquatable<Error>
     ///     This should be avoided unless you have no other context for creating an <see cref="Error"/>.
     /// </remarks>
     [Pure]
-    public static Error Default { get; } = new(DefaultCode, DefaultErrorMessage, null);
-
-    // Can be const rather than static readonly as it is internal only, eliminating any issues with inlining.
-    internal const string DefaultErrorMessage = "Unknown error.";
+    public static Error Default { get; } = new(DefaultCode, DefaultMessage, null);
 
     /// <summary>
     ///     The error's code.
     /// </summary>
+    /// <remarks>
+    ///     <para>This is never <see langword="null"/>, empty, or whitespace.</para>
+    ///     <para>Codes are case-insensitive when <see cref="Error"/>s are compared.</para>
+    /// </remarks>
     [Pure]
-    public int Code { get; }
+    public string Code { get; }
 
     /// <summary>
     ///     The error's message.
     /// </summary>
     /// <remarks>
-    ///     This is never <see langword="null"/>, empty, or whitespace.
+    ///     <para>This is never <see langword="null"/>, empty, or whitespace.</para>
+    ///     <para>Messages are case-sensitive when <see cref="Error"/>s are compared.</para>
     /// </remarks>
     [Pure]
     public string Message { get; }
@@ -79,24 +77,23 @@ public class Error : IEquatable<Error>
     /// <summary>
     ///     Creates an <see cref="Error"/> with all properties populated.
     /// </summary>
-    /// <param name="code">The code to create the error with.</param>
-    /// <param name="message">The message to create the error with.</param>
-    /// <param name="causedBy">The exception which caused this error.</param>
-    protected internal Error(int code, string message, Exception? causedBy)
+    /// <param name="code">The code to create the <see cref="Error"/> with.</param>
+    /// <param name="message">The message to create the <see cref="Error"/> with.</param>
+    /// <param name="causedBy">The <see cref="Exception"/> which caused this <see cref="Error"/>.</param>
+    /// <remarks>
+    ///     Invalid codes (<see cref="Internal.Error.IsValidCode(string?)"/>) and messages (<see cref="Internal.Error.IsValidMessage(string?)"/>) are replaced with defaults.
+    /// </remarks>
+    protected internal Error(string? code, string? message, Exception? causedBy)
     {
-        Code = code;
-        Message = IsValidMessage(message) ? message : DefaultErrorMessage;
+        Code = Internal.Error.CodeOrDefault(code);
+        Message = Internal.Error.MessageOrDefault(message);
         CausedBy = causedBy;
     }
 
     /// <summary>
-    ///     Checks whether <paramref name="message"/> is a valid <see cref="Message"/>.
+    ///     How <see cref="Code"/>s should be compared.
     /// </summary>
-    /// <param name="message">The error message.</param>
-    /// <returns><see langword="true"/> if the message is a valid error message; otherwise, <see langword="false"/>.</returns>
-    [Pure]
-    protected internal static bool IsValidMessage([NotNullWhen(true)] string? message) =>
-        !string.IsNullOrWhiteSpace(message);
+    protected static readonly StringComparison CodeComparisonType = StringComparison.OrdinalIgnoreCase;
 
     /// <summary>
     ///     How <see cref="Message"/>s should be compared.
@@ -137,7 +134,8 @@ public class Error : IEquatable<Error>
         if (other is null)
             return false;
 
-        return Code == other.Code && Message.Equals(other.Message, MessageComparisonType);
+        return Code.Equals(other.Code, CodeComparisonType)
+            && Message.Equals(other.Message, MessageComparisonType);
     }
 
     /// <summary>
@@ -194,7 +192,7 @@ public class Error : IEquatable<Error>
     [Pure]
     public override int GetHashCode() =>
         HashCode.Combine(
-            Code,
+            Code.GetHashCode(CodeComparisonType),
             Message.GetHashCode(MessageComparisonType)
         );
 
@@ -203,19 +201,41 @@ public class Error : IEquatable<Error>
     /// </summary>
     /// <returns>A <see cref="string"/> that represents this instance.</returns>
     /// <remarks>
-    ///     The string contains the <see cref="Code"/> and <see cref="Message"/>.
+    ///     The string contains the <see cref="Message"/>, and <see cref="Code"/> if it is not default.
     /// </remarks>
     [Pure]
-    public override string ToString()
+    public override string ToString() =>
+        ToString(includeCode: true);
+
+    /// <summary>
+    ///		Returns a <see cref="string"/> that represents this instance.
+    /// </summary>
+    /// <param name="includeCode">Whether to include the <see cref="Code"/>. If the code is default, it is ignored regardless of this parameter.</param>
+    /// <returns>A <see cref="string"/> that represents this instance.</returns>
+    /// <remarks>
+    ///     The string contains the <see cref="Message"/>, and <see cref="Code"/> if it is not default and <paramref name="includeCode"/> is <see langword="true"/>.
+    /// </remarks>
+    [Pure]
+    public string ToString(bool includeCode)
     {
-        var codeString = Code.ToString(CultureInfo.InvariantCulture);
+        var code = Code;
         var message = Message;
 
-        var outputLength = 9 + codeString.Length + message.Length;
+        if (!includeCode || code == DefaultCode)
+        {
+            var shortOutputLength = 7 + message.Length;
+            return string.Create(
+                null,
+                stackalloc char[shortOutputLength],
+                $"Error({message})"
+            );
+        }
+
+        var longOutputLength = 9 + code.Length + message.Length;
         return string.Create(
             null,
-            stackalloc char[outputLength],
-            $"Error({codeString}: {message})"
+            stackalloc char[longOutputLength],
+            $"Error({code}: {message})"
         );
     }
 
@@ -235,7 +255,7 @@ public class Error : IEquatable<Error>
     /// <param name="message">The message to create the error with.</param>
     /// <returns>The created <see cref="Error"/>.</returns>
     [Pure]
-    public static Error From(int code, string message) =>
+    public static Error From(string code, string message) =>
         new(code, message, null);
 
     /// <summary>
@@ -246,7 +266,7 @@ public class Error : IEquatable<Error>
     /// <param name="causedBy">The exception which caused this error.</param>
     /// <returns>The created <see cref="Error"/>.</returns>
     [Pure]
-    public static Error From(int code, string message, Exception? causedBy) =>
+    public static Error From(string code, string message, Exception? causedBy) =>
         new(code, message, causedBy);
 
     // Debugger proxy exposes members nicely
@@ -260,7 +280,7 @@ public class Error : IEquatable<Error>
             _error = error;
         }
 
-        public int Code => _error.Code;
+        public string Code => _error.Code;
         public string Message => _error.Message;
 
         public Exception? CausedBy =>

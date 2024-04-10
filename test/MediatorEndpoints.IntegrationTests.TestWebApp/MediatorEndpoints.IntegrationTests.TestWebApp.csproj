@@ -4,6 +4,9 @@
     <AssemblyName>Tyne.MediatorEndpoints.IntegrationTests.TestApp</AssemblyName>
     <RootNamespace>Tyne.MediatorEndpoints</RootNamespace>
     <IsTestProject>false</IsTestProject>
+    <!-- Prevents dotnet pack from trying to pack this, and then warning when it can't -->
+    <IsPackable>false</IsPackable>
+    <WarnOnPackingNonPackableProject>false</WarnOnPackingNonPackableProject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,9 +18,6 @@
     <PackageReference Include="FluentValidation" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
     <PackageReference Include="MediatR" />
-    <PackageReference Include="NSubstitute" />
-    <PackageReference Include="NSubstitute.Analyzers.CSharp" PrivateAssets="all" />
-    <PackageReference Include="xunit" />
   </ItemGroup>
 
   <Import Project="../../eng/Tests.props" />

@@ -12,10 +12,13 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         
-      - name: Setup .NET
+      - name: Setup .NET ${{ matrix.dotnet }}
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 7.0.x
+          dotnet-version: |
+            7.x
+            8.x
+            9.x
           
       - name: Setup workloads
         run: dotnet workload install wasm-tools

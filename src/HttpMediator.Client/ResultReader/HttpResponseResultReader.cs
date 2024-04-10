@@ -2,6 +2,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Tyne.Internal.HttpMediator;
 
 namespace Tyne.HttpMediator.Client;
 
@@ -72,15 +73,8 @@ internal sealed class HttpResponseResultReader : IHttpResponseResultReader
             return HttpResult.Error<T>("Invalid response error.", statusCode);
         }
 
-        var message = problemDetails.Detail ?? problemDetails.Title ?? "Unknown error.";
-        var code = Error.DefaultCode;
-        if (problemDetails.Extensions.TryGetValue(nameof(Error.Code), out var codeObj))
-        {
-            if (codeObj is int codeInt)
-                code = codeInt;
-            else if (codeObj is JsonElement jsonElement && jsonElement.TryGetInt32(out codeInt))
-                code = codeInt;
-        }
+        var message = Internal.Error.MessageOrDefault(problemDetails.Detail ?? problemDetails.Title);
+        var code = GetErrorCodeOrDefault(problemDetails);
 
         // We don't log this error as it has been handled successfully,
         // it's an error in the user's domain, not in our processing
@@ -88,5 +82,16 @@ internal sealed class HttpResponseResultReader : IHttpResponseResultReader
 
         Task<TContent?> ReadResponseContentAsAsync<TContent>() =>
             response.Content.ReadFromJsonAsync<TContent>(options, cancellationToken);
+    }
+
+    private static string GetErrorCodeOrDefault(ProblemDetails problemDetails)
+    {
+        if (!problemDetails.Extensions.TryGetValue(nameof(Error.Code), out var codeElement))
+            return Error.Default.Code;
+
+        if (codeElement is not JsonElement { ValueKind: JsonValueKind.String } jsonString)
+            return Error.Default.Code;
+
+        return Internal.Error.CodeOrDefault(jsonString.GetString());
     }
 }

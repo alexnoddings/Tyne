@@ -32,7 +32,7 @@ public static partial class HttpResultCodesExtensions
     /// <returns>An <c>Error</c> <see cref="HttpResult{T}"/> whose error is constructed using <paramref name="code"/> and <paramref name="message"/>.</returns>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static HttpResult<T> BadRequest<T>(this HttpResultCodes _, int code, string message) =>
+    public static HttpResult<T> BadRequest<T>(this HttpResultCodes _, string code, string message) =>
         HttpResult.Error<T>(code, message, HttpStatusCode.BadRequest);
 
     /// <summary>

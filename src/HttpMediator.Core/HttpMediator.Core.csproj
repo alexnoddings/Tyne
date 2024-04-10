@@ -15,7 +15,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <InternalsVisibleTo Include="Tyne.HttpMediator.Client" />
     <InternalsVisibleTo Include="Tyne.HttpMediator.Client.UnitTests" />
     <InternalsVisibleTo Include="Tyne.HttpMediator.Server" />
   </ItemGroup>

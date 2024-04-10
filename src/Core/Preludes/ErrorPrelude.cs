@@ -17,15 +17,15 @@ public static class ErrorPrelude
     public static Error Error(string message) =>
         Tyne.Error.From(message);
 
-    /// <inheritdoc cref="Error.From(int, string)"/>
+    /// <inheritdoc cref="Error.From(string, string)"/>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Error Error(int code, string message) =>
+    public static Error Error(string code, string message) =>
         Tyne.Error.From(code, message);
 
-    /// <inheritdoc cref="Error.From(int, string, Exception?)"/>
+    /// <inheritdoc cref="Error.From(string, string, Exception?)"/>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Error Error(int code, string message, Exception? causedBy) =>
+    public static Error Error(string code, string message, Exception? causedBy) =>
         Tyne.Error.From(code, message, causedBy);
 }

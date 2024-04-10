@@ -2,13 +2,15 @@ namespace Tyne.SourceRef.SourceGenerators.Components;
 
 internal static class ComponentSourceFormatter
 {
+    private static readonly string[] FileContentsSplit = ["\n"];
+
     /// <summary>
     ///     Formats the source code of a Razor component.
     /// </summary>
     public static string Format(string contents)
     {
         // First split the source by newline, keep the empty entries
-        var split = contents.Replace("\r\n", "\n").Split(new string[] { "\n" }, StringSplitOptions.None);
+        var split = contents.Replace("\r\n", "\n").Split(FileContentsSplit, StringSplitOptions.None);
 
         // Strip component directives
         var stripped = StripComponentDirectives(split);

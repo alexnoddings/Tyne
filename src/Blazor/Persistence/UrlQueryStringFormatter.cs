@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Web;
 
 namespace Tyne.Blazor.Persistence;
@@ -26,22 +25,20 @@ internal sealed class UrlQueryStringFormatter : IUrlQueryStringFormatter
     }
 
     /// <inheritdoc/>
-    [RequiresUnreferencedCode($"This API is not trim safe.")]
+    [RequiresUnreferencedCode("This API is not trim safe.")]
     public string GetUriWithQueryParameter(string uri, string key, object? value)
     {
         ArgumentNullException.ThrowIfNull(uri);
         ArgumentNullException.ThrowIfNull(key);
 
         if (string.IsNullOrWhiteSpace(key))
-            return uri.ToString();
+            return uri;
 
-        var valueStr = UrlUtilities.FormatValueToString(value);
-        var newUri =
-            valueStr is not null
-            ? NavigationManagerHelper.GetUriWithUpdatedQueryParameter(uri, key, valueStr)
-            : NavigationManagerHelper.GetUriWithRemovedQueryParameter(uri, key);
-
-        return newUri;
+        return UrlUtilities.FormatValueToString(value) switch
+        {
+            string valueStr => NavigationManagerHelper.GetUriWithUpdatedQueryParameter(uri, key, valueStr),
+            null => NavigationManagerHelper.GetUriWithRemovedQueryParameter(uri, key)
+        };
     }
 
     /// <inheritdoc/>
@@ -52,7 +49,7 @@ internal sealed class UrlQueryStringFormatter : IUrlQueryStringFormatter
 
         var formattedParameters = parameters.ToDictionary(
             kv => kv.Key,
-            kv => ValueToString(kv.Value)
+            kv => (object?)UrlUtilities.FormatValueToString(kv.Value)
         );
 
         return NavigationManagerHelper.GetUriWithQueryParameters(uri, formattedParameters);
@@ -75,14 +72,9 @@ internal sealed class UrlQueryStringFormatter : IUrlQueryStringFormatter
                 Value: propertyInfo.GetValue(parameters))
             ).ToDictionary(
                 kv => kv.Key,
-                kv => ValueToString(kv.Value)
+                kv => (object?)UrlUtilities.FormatValueToString(kv.Value)
             );
 
         return NavigationManagerHelper.GetUriWithQueryParameters(uri, formattedParameters);
     }
-
-    // This is just convenience to avoid ugly long casting inline
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static object? ValueToString(object? value) =>
-        UrlUtilities.FormatValueToString(value);
 }

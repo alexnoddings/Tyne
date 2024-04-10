@@ -15,7 +15,7 @@ public class MethodInfoExtensionsTests
     private static MethodInfo GetMethod(string methodName)
     {
         var method = typeof(MethodInfoExtensionsTests).GetMethod(methodName, GetMethodBindingFlags)!;
-        Debug.Assert(method is not null, "Test method not found.", $"Expected test method '{methodName}' not found.");
+        Debug.Assert(method is not null, "Test method not found.", $"Expected test method was '{methodName}' not found.");
         return method;
     }
 

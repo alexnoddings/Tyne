@@ -11,7 +11,7 @@ namespace Tyne.Blazor.Filtering.Controllers;
 /// <remarks>
 ///     This controller renders as a <see cref="MudTextField{T}"/>.
 /// </remarks>
-public partial class TyneStringFilterController<TRequest>
+public partial class TyneStringFilterController<TRequest> : TyneFilterControllerBase<TRequest, string>
 {
     /// <summary>
     ///     A class to apply to the rendered <see cref="MudTextField{T}"/>.

@@ -27,8 +27,9 @@ internal sealed class ExceptionHandlerMiddleware : IHttpMediatorMiddleware
         catch (Exception exception)
         {
             _logger.LogUnhandledHttpMediatorPipelineException(exception);
+            var error = Error.From(ErrorsCodes.UnhandledExceptionMiddleware, Error.Default.Message, exception);
             // We don't know what happened, fall back to it being a server error
-            return HttpResult.Codes.InternalServerError<TResponse>("An unknown error occurred.");
+            return HttpResult.Codes.InternalServerError<TResponse>(error);
         }
     }
 }

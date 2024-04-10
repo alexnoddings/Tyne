@@ -23,10 +23,10 @@ public class UrlPersistenceService_GetValueTests : TestContext
         return method;
     }
 
-    public UrlPersistenceService_GetValueTests() : base()
+    public UrlPersistenceService_GetValueTests()
     {
         Services.AddSingleton<IUrlQueryStringFormatter, UrlQueryStringFormatter>();
-        Services.AddSingleton<UrlPersistenceService>();
+        Services.AddScoped<UrlPersistenceService>();
     }
 
     public static IEnumerable<object?[]> GetValue_Data => UrlUtilities_TestHelpers.StringToValue_Data;

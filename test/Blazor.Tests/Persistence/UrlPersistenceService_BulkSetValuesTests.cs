@@ -7,10 +7,10 @@ namespace Tyne.Blazor.Persistence;
 
 public class UrlPersistenceService_BulkSetValuesTests : TestContext
 {
-    public UrlPersistenceService_BulkSetValuesTests() : base()
+    public UrlPersistenceService_BulkSetValuesTests()
     {
         Services.AddSingleton<IUrlQueryStringFormatter, UrlQueryStringFormatter>();
-        Services.AddSingleton<UrlPersistenceService>();
+        Services.AddScoped<UrlPersistenceService>();
     }
 
     [Fact]
