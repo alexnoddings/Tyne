@@ -11,7 +11,7 @@ internal static class SourceLookup
         Path
     }
 
-    private const BindingFlags _lookupBindingFlags = BindingFlags.Public | BindingFlags.Static;
+    private const BindingFlags LookupBindingFlags = BindingFlags.Public | BindingFlags.Static;
 
     public static string Source<T>(SourceCodeType sourceCodeType) =>
         Source(sourceCodeType, typeof(T));
@@ -51,7 +51,7 @@ internal static class SourceLookup
             targetType = targetType.GetGenericTypeDefinition();
 
         var typeIdentifier = NormaliseTypeIdentifier(targetType);
-        var lookupField = lookupType.GetField(typeIdentifier, _lookupBindingFlags)
+        var lookupField = lookupType.GetField(typeIdentifier, LookupBindingFlags)
             ?? throw new ArgumentException($"Target type \"{targetType.Name}\" does not have a lookup on lookup type \"{lookupType.Name}\".");
         var value = lookupField.GetValue(null);
         if (value is not string valueStr)
