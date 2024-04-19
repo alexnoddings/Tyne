@@ -37,7 +37,7 @@ internal sealed class UrlQueryStringFormatter : IUrlQueryStringFormatter
         return UrlUtilities.FormatValueToString(value) switch
         {
             string valueStr => NavigationManagerHelper.GetUriWithUpdatedQueryParameter(uri, key, valueStr),
-            null => NavigationManagerHelper.GetUriWithRemovedQueryParameter(uri, key)
+            _ => NavigationManagerHelper.GetUriWithRemovedQueryParameter(uri, key)
         };
     }
 
