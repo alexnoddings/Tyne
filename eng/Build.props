@@ -17,6 +17,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
     <ArtifactsPath>$(MSBuildThisFileDirectory)../artifacts</ArtifactsPath>
+    <!--
+      Generate documentation files even for non-shipped projects so the compiler will properly report some diagnostics.
+      See https://github.com/dotnet/roslyn/issues/41640
+      To suppress the generated warnings, non-shipping code should add:
+      > `<NoWarn>$(NoWarn);CS1591</NoWarn>`
+    -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <!--
