@@ -13,10 +13,8 @@ internal sealed class DbContextModificationTracker : IDbContextModificationTrack
         _userService = userServices.SingleOrDefault();
     }
 
-    public void TrackModifications(DbContext dbContext)
-    {
+    public void TrackModifications(DbContext dbContext) =>
         TrackModificationsCore(dbContext);
-    }
 
     public Task TrackModificationsAsync(DbContext dbContext, CancellationToken cancellationToken = default)
     {

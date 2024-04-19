@@ -93,7 +93,7 @@ public sealed class SearchResultsConverterFactory : JsonConverterFactory
             var searchResultsJsonProxy = new SearchResultsJsonProxyType<T>
             {
                 TotalCount = value.TotalCount,
-                Values = [..value]
+                Values = [.. value]
             };
             _proxyTypeConverter.Write(writer, searchResultsJsonProxy, options);
         }

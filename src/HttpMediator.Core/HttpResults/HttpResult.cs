@@ -121,11 +121,11 @@ public static class HttpResult
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static bool IsValidOkStatusCode(HttpStatusCode statusCode) =>
-        (HttpStatusCode)200 <= statusCode && statusCode <= (HttpStatusCode)299;
+        statusCode is >= ((HttpStatusCode)200) and <= ((HttpStatusCode)299);
 
     // Error status codes must be 4XX (client error) or 5XX (server error)
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static bool IsValidErrorStatusCode(HttpStatusCode statusCode) =>
-        (HttpStatusCode)400 <= statusCode && statusCode <= (HttpStatusCode)599;
+        statusCode is >= ((HttpStatusCode)400) and <= (HttpStatusCode)599;
 }

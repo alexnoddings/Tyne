@@ -7,10 +7,8 @@ public class TypeSourceInfoGenerator : BaseSourceRefGenerator
 {
     protected override string GeneratorTypeName => "Type";
 
-    public override void Initialize(GeneratorInitializationContext context)
-    {
+    public override void Initialize(GeneratorInitializationContext context) =>
         context.RegisterForSyntaxNotifications(() => new TypeSourceInfoSyntaxReceiver());
-    }
 
     protected override ICollection<SourceInfo> GetSources(GeneratorExecutionContext context)
     {

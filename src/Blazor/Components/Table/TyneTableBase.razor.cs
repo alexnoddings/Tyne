@@ -1,5 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
 using MudBlazor;
@@ -223,16 +222,18 @@ public abstract partial class TyneTableBase<TRequest, TResponse>
         static TableData<TResponse> EmptyTableData() => new()
         {
             TotalItems = 0,
+#if NET8_0_OR_GREATER
+            Items = [],
+#else
             Items = Enumerable.Empty<TResponse>(),
+#endif
         };
     }
 
     protected abstract Task<SearchResults<TResponse>> LoadDataAsync(TRequest request);
 
-    protected virtual void Dispose(bool disposing)
-    {
+    protected virtual void Dispose(bool disposing) =>
         _filterContext.Dispose();
-    }
 
     public void Dispose()
     {

@@ -47,7 +47,11 @@ public static class EndpointRouteBuilderAuthoriseRoutesExtensions
                     policies.Add(singlePolicy);
             }
 
+#if NET8_0_OR_GREATER
             var policy = await AuthorizationPolicy.CombineAsync(policyProvider, Enumerable.Empty<IAuthorizeData>(), policies).ConfigureAwait(false);
+#else
+            var policy = await AuthorizationPolicy.CombineAsync(policyProvider, [], policies).ConfigureAwait(false);
+#endif
             return policy ?? await policyProvider.GetDefaultPolicyAsync().ConfigureAwait(false);
         }
 

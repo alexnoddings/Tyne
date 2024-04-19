@@ -2,10 +2,8 @@ namespace Tyne;
 
 public static class AssertOption
 {
-    public static void IsSome<T>(in Option<T> actual)
-    {
+    public static void IsSome<T>(in Option<T> actual) =>
         Assert.True(actual.HasValue);
-    }
 
     public static void IsSome<T>(T expected, in Option<T> actual)
     {
@@ -13,10 +11,8 @@ public static class AssertOption
         Assert.Equal(expected, actual.Value);
     }
 
-    public static void IsNone<T>(Option<T> actual)
-    {
+    public static void IsNone<T>(Option<T> actual) =>
         Assert.False(actual.HasValue);
-    }
 
     public static void AreEqual<T>(in Option<T> expected, in Option<T> actual)
     {
