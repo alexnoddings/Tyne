@@ -222,11 +222,7 @@ public abstract partial class TyneTableBase<TRequest, TResponse>
         static TableData<TResponse> EmptyTableData() => new()
         {
             TotalItems = 0,
-#if NET8_0_OR_GREATER
             Items = [],
-#else
-            Items = Enumerable.Empty<TResponse>(),
-#endif
         };
     }
 

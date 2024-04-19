@@ -10,8 +10,7 @@ public partial class TyneBreadcrumbs : ComponentBase
 
     private List<BreadcrumbItem> Breadcrumbs { get; set; } = null!;
 
-    protected virtual IEnumerable<BreadcrumbItem> GetParents() =>
-        Enumerable.Empty<BreadcrumbItem>();
+    protected virtual IEnumerable<BreadcrumbItem> GetParents() => [];
 
     protected override void OnInitialized()
     {
