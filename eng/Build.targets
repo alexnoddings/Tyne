@@ -67,6 +67,15 @@
     <PackageReference Update="Microsoft.Extensions.Options" Version="9.0.0-preview.2.24128.5" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <!--
+      NU5104: A stable release of a package should not have a prerelease dependency.
+      REASON: This prevents multi-targetting prerelease .NET versions
+              without making Tyne prerelease even for stable .NET versions.
+    -->
+    <NoWarn>$(NoWarn);NU5104</NoWarn>
+  </PropertyGroup>
+
   <!-- These warnings can be ignored for non-shipped code. -->
   <PropertyGroup Label="Warnings and errors" Condition=" !$(IsPackable) ">
     <!--
