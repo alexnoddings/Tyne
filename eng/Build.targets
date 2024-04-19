@@ -71,13 +71,12 @@
   <PropertyGroup Label="Warnings and errors" Condition=" !$(IsPackable) ">
     <!--
       CA1303: Method passes a literal string to Console.WriteLine(). Retrieve them from a resource table instead.
-              This is not necessary for non-shipped code, and makes examples harder to read.
+      REASON: This is not necessary for non-shipped code, and makes examples harder to read.
     -->
     <NoWarn>$(NoWarn);CA1303</NoWarn>
     <!--
       CA1819: Do not directly await a Task.
-              .ConfigureAwait(...) is beneficial to packages, but it's benefits are
-              eclipsed by it's added difficulty to read in example and test projects.
+      REASON: .ConfigureAwait(...) is beneficial in packages, not in example/test projects.
     -->
     <NoWarn>$(NoWarn);CA2007</NoWarn>
   </PropertyGroup>

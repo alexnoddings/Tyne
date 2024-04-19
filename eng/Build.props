@@ -77,7 +77,7 @@
     <NoWarn>$(NoWarn);IDE0290</NoWarn>
     <!--
       S1133:  Do not forget to remove this deprecated code someday.
-      REASON: This just gets in the way of deprecations. We still show it as an error though.
+      REASON: This is a reminder, it doesn't belong as an error.
     -->
     <WarningsNotAsErrors>$(WarningsNotAsErrors);S1133</WarningsNotAsErrors>
     <!--
