@@ -34,9 +34,11 @@ public class JsUserTimeZoneServiceTests
             .Returns(_ => getTimeZoneName());
 
         if (getTimeZoneOffset is not null)
+        {
             jsRuntime
                 .InvokeAsync<int>(TyneJsRuntimeExtensions.GetTimeZoneOffsetFunctionName, Arg.Is<object[]>(arr => arr.Length == 0))
                 .Returns(_ => getTimeZoneOffset());
+        }
 
         return jsRuntime;
     }
