@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Web;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -33,6 +34,7 @@ public partial class ThemePage
             _selectedTypo = typo;
     }
 
+    [SuppressMessage("Style", "IDE0072: Add missing cases.", Justification = "Other cases are handled by the default branch.")]
     private int Md => SelectedTypo switch
     {
         Typo.inherit => 12,
