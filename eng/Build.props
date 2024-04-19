@@ -73,6 +73,13 @@
       REASON: This just gets in the way of deprecations. We still show it as an error though.
     -->
     <WarningsNotAsErrors>$(WarningsNotAsErrors);S1133</WarningsNotAsErrors>
+    <!--
+      IDE0058: Remove unnecessary expression value
+      REASON:  This was added in the .NET 9 SDK, creating many hundreds of warning (which were turned into errors).
+               It is being suppressed temporarily (https://github.com/alexnoddings/Tyne/issues/125)
+               until we take a pass over the database to fix occurrences.
+    -->
+    <NoWarn>$(NoWarn);IDE0058</NoWarn>
   </PropertyGroup>
 
   <!-- Automatically embed .restext files in projects as resources. -->
