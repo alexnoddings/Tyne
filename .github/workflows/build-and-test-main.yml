@@ -21,6 +21,9 @@ jobs:
             7.x
             8.x
             9.x
+
+      - name: .NET SDKs
+        run: dotnet --list-sdks
           
       - name: Setup workloads
         run: dotnet workload install wasm-tools

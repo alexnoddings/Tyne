@@ -40,10 +40,13 @@ internal static class ComponentSourceFormatter
         foreach (var line in lines)
         {
             // These directives just clutter up examples
-            if (line.StartsWith("@page", StringComparison.OrdinalIgnoreCase)
+            var isKnownDirective =
+                line.StartsWith("@page", StringComparison.OrdinalIgnoreCase)
                 || line.StartsWith("@using", StringComparison.OrdinalIgnoreCase)
                 || line.StartsWith("@layout", StringComparison.OrdinalIgnoreCase)
-                || line.StartsWith("@namespace", StringComparison.OrdinalIgnoreCase))
+                || line.StartsWith("@namespace", StringComparison.OrdinalIgnoreCase);
+
+            if (isKnownDirective)
                 continue;
 
             // We purposefully don't skip the inject, attribute, or implements

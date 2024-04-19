@@ -45,12 +45,13 @@ public class OrbitalTypeSelectValue<TRequest> : TyneFilterSelectSingleValueBase<
                 FilterSelectItem.Create("NRHO", "Near-rectilinear halo"),
                 FilterSelectItem.Create("DRO", "Distant retrograde")
             ],
-            _ =>
+            OrbitalBody.Mars =>
             [
                 FilterSelectItem.Create("LMO", "Low mars"),
                 FilterSelectItem.Create("AEO", "Areostationary"),
                 FilterSelectItem.Create("ASO", "Areosynchronous"),
-            ]
+            ],
+            _ => throw new InvalidOperationException($"Unexpected value for {nameof(OrbitalBody)}: {OrbitalBody}.")
         };
 
         return Task.FromResult(orbitalTypes);

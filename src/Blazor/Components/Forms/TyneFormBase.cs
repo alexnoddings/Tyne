@@ -120,7 +120,7 @@ public abstract class TyneFormBase<TInput, TModel> : ComponentBase, ITyneForm<TM
         if (_openingCancellationTokenSource is CancellationTokenSource openingCts)
         {
 #if NET8_0_OR_GREATER
-        await openingCts.CancelAsync().ConfigureAwait(true);
+            await openingCts.CancelAsync().ConfigureAwait(true);
 #else
             openingCts.Cancel();
 #endif

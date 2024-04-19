@@ -47,7 +47,7 @@ public static class EndpointRouteBuilderAuthoriseRoutesExtensions
                     policies.Add(singlePolicy);
             }
 
-            var policy = await AuthorizationPolicy.CombineAsync(policyProvider, Enumerable.Empty<IAuthorizeData>(), policies).ConfigureAwait(false);
+            var policy = await AuthorizationPolicy.CombineAsync(policyProvider, [], policies).ConfigureAwait(false);
             return policy ?? await policyProvider.GetDefaultPolicyAsync().ConfigureAwait(false);
         }
 

@@ -57,22 +57,22 @@ public readonly struct Unit : IEquatable<Unit>, IComparable<Unit>, IComparable
     public override bool Equals(object? obj) => obj is Unit;
 
     /// <summary>
-    ///		Determines whether the <paramref name="left"/> is equal to the <paramref name="right"/>.
+    ///		Determines whether <see cref="Unit"/>s are equal.
     /// </summary>
-    /// <param name="left">The left-hand <see cref="Unit"/>.</param>
-    /// <param name="right">The right-hand <see cref="Unit"/>.</param>
+    /// <param name="_1">The left-hand <see cref="Unit"/>. This is ignored.</param>
+    /// <param name="_2">The right-hand <see cref="Unit"/>. This is ignored.</param>
     /// <returns><see langword="true"/></returns>
     /// <remarks>This always returns <see langword="true"/>.</remarks>
-    public static bool operator ==(Unit left, Unit right) => true;
+    public static bool operator ==(Unit _1, Unit _2) => true;
 
     /// <summary>
-    ///		Determines whether the <paramref name="left"/> is not equal to the <paramref name="right"/>.
+    ///		Determines whether <see cref="Unit"/>s are not equal.
     /// </summary>
-    /// <param name="left">The left-hand <see cref="Unit"/>.</param>
-    /// <param name="right">The right-hand <see cref="Unit"/>.</param>
+    /// <param name="_1">The left-hand <see cref="Unit"/>. This is ignored.</param>
+    /// <param name="_2">The right-hand <see cref="Unit"/>. This is ignored.</param>
     /// <returns><see langword="false"/></returns>
     /// <remarks>This always returns <see langword="false"/>.</remarks>
-    public static bool operator !=(Unit left, Unit right) => false;
+    public static bool operator !=(Unit _1, Unit _2) => false;
 
     /// <summary>
     ///		Returns a hash code for this instance.
@@ -84,48 +84,50 @@ public readonly struct Unit : IEquatable<Unit>, IComparable<Unit>, IComparable
     public override int GetHashCode() => 0;
 
     /// <inheritdoc />
+    /// <param name="_">The other <see cref="Unit"/>. This is ignored.</param>
     /// <remarks>This is always <c>0</c>.</remarks>
-    public int CompareTo(Unit other) => 0;
+    public int CompareTo(Unit _) => 0;
 
     /// <inheritdoc />
+    /// <param name="obj">The other <see cref="object"/>. This is ignored.</param>
     /// <remarks>This is always <c>0</c>.</remarks>
     public int CompareTo(object? obj) => 0;
 
     /// <summary>
-    ///		Determines whether the <paramref name="left"/> is less than the <paramref name="right"/>.
+    ///		Determines whether one <see cref="Unit"/>s is less than another <see cref="Unit"/>.
     /// </summary>
-    /// <param name="left">The left-hand <see cref="Unit"/>.</param>
-    /// <param name="right">The right-hand <see cref="Unit"/>.</param>
+    /// <param name="_1">The left-hand <see cref="Unit"/>. This is ignored.</param>
+    /// <param name="_2">The right-hand <see cref="Unit"/>. This is ignored.</param>
     /// <returns><see langword="false"/></returns>
     /// <remarks>This always returns <see langword="false"/>.</remarks>
-    public static bool operator <(Unit left, Unit right) => false;
+    public static bool operator <(Unit _1, Unit _2) => false;
 
     /// <summary>
-    ///		Determines whether the <paramref name="left"/> is less than or equal to the <paramref name="right"/>.
+    ///		Determines whether one <see cref="Unit"/>s is less than or equal to another <see cref="Unit"/>.
     /// </summary>
-    /// <param name="left">The left-hand <see cref="Unit"/>.</param>
-    /// <param name="right">The right-hand <see cref="Unit"/>.</param>
+    /// <param name="_1">The left-hand <see cref="Unit"/>. This is ignored.</param>
+    /// <param name="_2">The right-hand <see cref="Unit"/>. This is ignored.</param>
     /// <returns><see langword="true"/></returns>
     /// <remarks>This always returns <see langword="true"/>.</remarks>
-    public static bool operator <=(Unit left, Unit right) => true;
+    public static bool operator <=(Unit _1, Unit _2) => true;
 
     /// <summary>
-    ///		Determines whether the <paramref name="left"/> is greater than the <paramref name="right"/>.
+    ///		Determines whether one <see cref="Unit"/>s is greater than another <see cref="Unit"/>.
     /// </summary>
-    /// <param name="left">The left-hand <see cref="Unit"/>.</param>
-    /// <param name="right">The right-hand <see cref="Unit"/>.</param>
+    /// <param name="_1">The left-hand <see cref="Unit"/>. This is ignored.</param>
+    /// <param name="_2">The right-hand <see cref="Unit"/>. This is ignored.</param>
     /// <returns><see langword="false"/></returns>
     /// <remarks>This always returns <see langword="false"/>.</remarks>
-    public static bool operator >(Unit left, Unit right) => false;
+    public static bool operator >(Unit _1, Unit _2) => false;
 
     /// <summary>
-    ///		Determines whether the <paramref name="left"/> is greater than or equal to the <paramref name="right"/>.
+    ///		Determines whether one <see cref="Unit"/>s is greater than or equal to another <see cref="Unit"/>.
     /// </summary>
-    /// <param name="left">The left-hand <see cref="Unit"/>.</param>
-    /// <param name="right">The right-hand <see cref="Unit"/>.</param>
+    /// <param name="_1">The left-hand <see cref="Unit"/>. This is ignored.</param>
+    /// <param name="_2">The right-hand <see cref="Unit"/>. This is ignored.</param>
     /// <returns><see langword="true"/></returns>
     /// <remarks>This always returns <see langword="true"/>.</remarks>
-    public static bool operator >=(Unit left, Unit right) => true;
+    public static bool operator >=(Unit _1, Unit _2) => true;
 
     /// <summary>
     ///		Returns a <see cref="string" /> that represents this instance.

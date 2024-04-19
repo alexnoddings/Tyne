@@ -39,7 +39,6 @@ namespace Tyne;
 [JsonConverter(typeof(ResultJsonConverterFactory))]
 public class Result<T> : IEquatable<Result<T>>
 {
-    private readonly bool _isOk;
     private readonly T? _value;
     private readonly Error? _error;
 
@@ -51,7 +50,8 @@ public class Result<T> : IEquatable<Result<T>>
     ///     otherwise, <see langword="false"/> if it is <c>Error</c>.
     /// </returns>
     [Pure]
-    public bool IsOk => _isOk;
+    // Inline the property's backing field getter as it's one of the most common usages of the class
+    public bool IsOk { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; }
 
     /// <summary>
     ///     The unwrapped <typeparamref name="T"/> which this result encapsulates, if it is <c>Ok(<typeparamref name="T"/>)</c>.
@@ -75,7 +75,7 @@ public class Result<T> : IEquatable<Result<T>>
     {
         get
         {
-            if (!_isOk)
+            if (!IsOk)
                 throw new BadResultException(ExceptionMessages.Result_ErrorHasNoValue);
 
             return _value!;
@@ -100,7 +100,7 @@ public class Result<T> : IEquatable<Result<T>>
     {
         get
         {
-            if (_isOk)
+            if (IsOk)
                 throw new BadResultException(ExceptionMessages.Result_OkHasNoError);
 
             return _error!;
@@ -121,7 +121,7 @@ public class Result<T> : IEquatable<Result<T>>
         if (value is null)
             throw new BadResultException(ExceptionMessages.Result_OkMustHaveValue);
 
-        _isOk = true;
+        IsOk = true;
         _value = value;
     }
 
@@ -139,7 +139,7 @@ public class Result<T> : IEquatable<Result<T>>
         if (error is null)
             throw new BadResultException(ExceptionMessages.Result_ErrorMustHaveError);
 
-        _isOk = false;
+        IsOk = false;
         _error = error;
     }
 
@@ -185,11 +185,11 @@ public class Result<T> : IEquatable<Result<T>>
             return false;
 
         // Both are Ok(T), compare T values
-        if (_isOk && other._isOk)
+        if (IsOk && other.IsOk)
             return _value!.Equals(other._value);
 
         // Only one is Ok(T), then they cannot be equal
-        if (_isOk || other._isOk)
+        if (IsOk || other.IsOk)
             return false;
 
         return _error!.Equals(other._error);
@@ -249,7 +249,7 @@ public class Result<T> : IEquatable<Result<T>>
     /// </returns>
     [Pure]
     public override int GetHashCode() =>
-        _isOk
+        IsOk
         ? _value!.GetHashCode()
         : _error!.GetHashCode();
 
@@ -264,7 +264,7 @@ public class Result<T> : IEquatable<Result<T>>
     [Pure]
     public override string ToString()
     {
-        if (!_isOk)
+        if (!IsOk)
             return _error!.ToString(includeCode: true);
 
         var valueString = _value!.ToString();
@@ -286,7 +286,7 @@ public class Result<T> : IEquatable<Result<T>>
     /// </remarks>
     [Pure]
     public Option<T> ToOption() =>
-        _isOk
+        IsOk
         ? new Option<T>(_value!)
         : Option<T>.None;
 
@@ -299,7 +299,7 @@ public class Result<T> : IEquatable<Result<T>>
     /// </remarks>
     [Pure]
     public Option<Error> ToErrorOption() =>
-        _isOk
+        IsOk
         ? Option<Error>.None
         : new Option<Error>(_error!);
 
@@ -331,7 +331,7 @@ public class Result<T> : IEquatable<Result<T>>
         if (value is null)
             return Option.Some(Error.Default);
 
-        if (value._isOk)
+        if (value.IsOk)
             return Option<Error>.None;
 
         return Option.Some(value.Error);
@@ -369,7 +369,7 @@ public class Result<T> : IEquatable<Result<T>>
         if (result is null)
             return null;
 
-        if (result._isOk)
+        if (result.IsOk)
             return Result.Cache.OkUnit;
 
         return new Result<Unit>(result.Error);
@@ -388,15 +388,15 @@ public class Result<T> : IEquatable<Result<T>>
         }
 
         public bool IsOk =>
-            _result._isOk;
+            _result.IsOk;
 
         public T? Value =>
-            _result._isOk
+            _result.IsOk
             ? _result._value
             : default;
 
         public Error? Error =>
-            _result._isOk
+            _result.IsOk
             ? null
             : _result._error;
     }

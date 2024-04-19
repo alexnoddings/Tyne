@@ -40,7 +40,6 @@ namespace Tyne;
 [StructLayout(LayoutKind.Auto)]
 public readonly struct Option<T> : IEquatable<Option<T>>, IEquatable<T>
 {
-    private readonly bool _hasValue;
     private readonly T? _value;
 
     /// <summary>
@@ -54,8 +53,8 @@ public readonly struct Option<T> : IEquatable<Option<T>>, IEquatable<T>
     // This is an explicit bool rather than:
     //      HasValue => Value is not null
     // As value is never null for value types
-    // It also uses an explicit backing field as it's cheaper for us to check privately
-    public bool HasValue => _hasValue;
+    // Inline the property's backing field getter as it's one of the most common usages of the class
+    public bool HasValue { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; }
 
     /// <summary>
     ///     The unwrapped <typeparamref name="T"/> which this option encapsulates, if it is <c>Some(<typeparamref name="T"/>)</c>.
@@ -79,7 +78,7 @@ public readonly struct Option<T> : IEquatable<Option<T>>, IEquatable<T>
     {
         get
         {
-            if (!_hasValue)
+            if (!HasValue)
                 throw new BadOptionException(ExceptionMessages.Option_NoneHasNoValue);
 
             return _value!;
@@ -112,7 +111,7 @@ public readonly struct Option<T> : IEquatable<Option<T>>, IEquatable<T>
             throw new BadOptionException(ExceptionMessages.Option_SomeMustHaveValue);
 
         _value = value;
-        _hasValue = true;
+        HasValue = true;
     }
 
     /// <summary>
@@ -143,7 +142,7 @@ public readonly struct Option<T> : IEquatable<Option<T>>, IEquatable<T>
         if (obj is T tValue)
             return Equals(tValue);
 
-        if (obj is null && !_hasValue)
+        if (obj is null && !HasValue)
             return true;
 
         return false;
@@ -169,10 +168,10 @@ public readonly struct Option<T> : IEquatable<Option<T>>, IEquatable<T>
     [Pure]
     public bool Equals(in Option<T> other)
     {
-        if (_hasValue && other._hasValue)
+        if (HasValue && other.HasValue)
             return _value!.Equals(other._value);
 
-        return !_hasValue && !other._hasValue;
+        return !HasValue && !other.HasValue;
     }
 
     /// <summary>
@@ -199,7 +198,7 @@ public readonly struct Option<T> : IEquatable<Option<T>>, IEquatable<T>
     [Pure]
     public bool Equals(T? other)
     {
-        if (_hasValue)
+        if (HasValue)
             return _value!.Equals(other);
 
         return other is null;
@@ -325,7 +324,7 @@ public readonly struct Option<T> : IEquatable<Option<T>>, IEquatable<T>
     /// </returns>
     [Pure]
     public override int GetHashCode() =>
-        _hasValue
+        HasValue
         ? _value!.GetHashCode()
         : 0;
 
@@ -365,7 +364,7 @@ public readonly struct Option<T> : IEquatable<Option<T>>, IEquatable<T>
     [Pure]
     public override string ToString()
     {
-        if (!_hasValue)
+        if (!HasValue)
             return "None";
 
         var valueString = _value!.ToString();
@@ -390,10 +389,10 @@ public readonly struct Option<T> : IEquatable<Option<T>>, IEquatable<T>
             _option = option;
         }
 
-        public bool HasValue => _option._hasValue;
+        public bool HasValue => _option.HasValue;
 
         public T? Value =>
-            _option._hasValue
+            _option.HasValue
             ? _option._value
             : default;
     }

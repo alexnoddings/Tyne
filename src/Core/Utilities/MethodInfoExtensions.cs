@@ -100,15 +100,11 @@ public static class MethodInfoExtensions
     {
         ArgumentNullException.ThrowIfNull(methodInfo);
 
-        TResult? result;
         try
         {
-            var returnedObj = methodInfo.Invoke(obj, parameters);
-            var returnedTask = (Task<TResult>?)returnedObj;
-            if (returnedTask is null)
-                result = default;
-            else
-                result = await returnedTask.ConfigureAwait(false);
+            return methodInfo.Invoke(obj, parameters) is Task<TResult> returnedTask
+                ? await returnedTask.ConfigureAwait(false)
+                : default;
         }
         catch (TargetInvocationException invocationException)
         {
@@ -116,8 +112,6 @@ public static class MethodInfoExtensions
             // unwrap the base exception to expose for the stack trace
             throw invocationException.GetBaseException();
         }
-
-        return result;
     }
 
     /// <inheritdoc cref="InvokeAsync{TResult}(MethodInfo, object, object[])"/>

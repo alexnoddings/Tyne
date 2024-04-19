@@ -34,14 +34,19 @@ Call [AddClientHttpMediator](xref:Microsoft.Extensions.DependencyInjection.HttpM
 // Program.cs
 builder.services
     .AddTyne()
-    .AddClientHttpMediator(
-        static builder => builder
-            // Catches any exceptions in the pipeline
-            .UseExceptionHandler()
-            // Add any other middleware here
-            // ...
-            // Sends the request to the server
-            .Send()
+    .AddClientHttpMediator(static builder =>
+        builder
+        // Optionally, configure the base URI (defaults to /api/)
+        .Configure(static options => options.ApiBase = "...")
+        .WithMiddleware(static middleware =>
+            middleware
+                // Catches any exceptions in the pipeline
+                .UseExceptionHandler()
+                // Add any other middleware here
+                // ...
+                // Sends the request to the server
+                .Send()
+        )
     );
 ```
 

@@ -13,6 +13,7 @@ title: Releasing a version
     - `TynePreReleaseTag` should be set to `rc.N` (e.g. `rc.1`) for RC versions, or not set for full release versions
 - Ensure you have a changes doc under [/docs/docs/changes/](gitfile://docs/docs/changes)
     - You should have a page per release version, e.g. `v3.2.0.md` includes changes from `v3.2.0-rc.1`, `v3.2.0-rc.2`, and `v3.2.0`)
+    - Remember to add new pages to the `toc.yml`
     - If the version is not a full release, include a warning at the top of the doc page:\
     \> [!WARNING]\
     \> This version is still in active development.

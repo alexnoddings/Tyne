@@ -16,8 +16,7 @@ internal static class AssertLoggerMessages
 
     /// <summary>
     ///     Checks if any methods in <paramref name="assembly"/> are marked with <see cref="LoggerMessageAttribute"/>,
-    ///     and if so ensures that <see cref="LoggerMessageAttribute.EventId"/> is in the interval <c>[<paramref name="min"/>, <paramref name="max"/>]</c>
-    ///     (i.e. the bounds are inclusive).
+    ///     and if so ensures that <see cref="LoggerMessageAttribute.EventId"/> is in the <paramref name="range" />.
     /// </summary>
     /// <param name="assembly">The <see cref="Assembly"/> to check.</param>
     /// <param name="range">The <see cref="Range"/> of allowed <see cref="LoggerMessageAttribute.EventId"/>s.</param>

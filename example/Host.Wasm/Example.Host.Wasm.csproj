@@ -26,6 +26,12 @@
       REASON:   There's nothing we can do about it.
     -->
     <NoWarn>$(NoWarn);WASM0001</NoWarn>
+    <!--
+      CS1591: Missing XML comment for publicly visible type or member.
+      REASON: Tests aren't shipped so we don't care about missing XML comments.
+              See Build.props for why this is surfaced.
+    -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
   </PropertyGroup>
 
 </Project>

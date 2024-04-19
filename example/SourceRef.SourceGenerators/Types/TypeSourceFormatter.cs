@@ -42,7 +42,7 @@ internal static class TypeSourceFormatter
         for (var i = 0; i < str.Length; i++)
         {
             // This only runs on individual lines, so we only check spaces and tabs
-            if (str[i] != ' ' && str[i] != '\t')
+            if (str[i] is not ' ' and not '\t')
                 return i;
         }
 

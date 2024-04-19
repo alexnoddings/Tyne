@@ -10,9 +10,11 @@ public abstract class TyneFormDefaultComponent<TModel> : ComponentBase
     protected override void OnParametersSet()
     {
         if (Form is null)
+        {
             throw new InvalidOperationException(
                 $"{GetType().Name} requires a cascading parameter of type {nameof(ITyneForm)}<{typeof(TModel).Name}>. "
                 + "Is it being rendered inside of a TyneFormXyzContent?"
             );
+        }
     }
 }
