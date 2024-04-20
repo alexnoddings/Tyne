@@ -1,8 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <!-- Multi-target .NET releases -->
-    <TargetFrameworks>net7.0;net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>$(TyneSupportedFrameworks)</TargetFrameworks>
   </PropertyGroup>
   
   <!-- Add common testing packages. -->
