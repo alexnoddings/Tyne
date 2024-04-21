@@ -17,11 +17,12 @@ Tyne's `EventId`s are formatted as `101_###_###`, where:
 If searching the source code for `EventId` `101abcdef`, the `LoggerMessage` will be defined as `101_abc_def`.
 
 ## Ranges
-| Package                  | EventId Minimum | EventId Maximum |
-| ------------------------ | --------------- | --------------- |
-| Tyne.Blazor              | 101_001_000     | 101_001_999     |
-| Tyne.HttpMediator.Client | 101_002_000     | 101_002_999     |
-| Tyne.HttpMediator.Server | 101_003_000     | 101_003_999     |
+| Package                                   | EventId Minimum | EventId Maximum |
+| ----------------------------------------- | --------------- | --------------- |
+| Tyne.Blazor                               | 101_001_000     | 101_001_999     |
+| Tyne.HttpMediator.Client                  | 101_002_000     | 101_002_999     |
+| Tyne.HttpMediator.Server                  | 101_003_000     | 101_003_999     |
+| Tyne.HttpMediator.Client.FluentValidation | 101_004_000     | 101_004_999     |
 
 Unlisted packages don't currently contain any logging.
 

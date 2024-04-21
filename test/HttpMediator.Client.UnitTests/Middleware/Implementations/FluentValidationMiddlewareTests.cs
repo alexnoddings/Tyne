@@ -21,7 +21,8 @@ public class FluentValidationMiddlewareTests
 
         // Assert
         Assert.NotNull(actualResult);
-        AssertHttpResult.IsError(HttpStatusCode.BadRequest, actualResult);
+        var actualError = AssertHttpResult.IsError(HttpStatusCode.BadRequest, actualResult);
+        Assert.Equal(FluentValidationMiddleware.ErrorCode, actualError.Code);
     }
 
     [Fact]

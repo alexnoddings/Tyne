@@ -52,7 +52,7 @@ public class EventIdsInRangeTests
 
     [Fact]
     public void Tyne_HttpMediator_Client_FluentValidation() =>
-        AssertLoggerMessages.AreInRange(typeof(HttpMediator.Client.FluentValidationMiddleware).Assembly, 0..0);
+        AssertLoggerMessages.AreInRange(typeof(HttpMediator.Client.FluentValidationMiddleware).Assembly, 101_004_000..101_004_999);
 
     [Fact]
     public void Tyne_HttpMediator_Core() =>
