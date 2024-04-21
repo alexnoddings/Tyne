@@ -86,7 +86,6 @@
     -->
     <WarningsNotAsErrors>$(WarningsNotAsErrors);S1133</WarningsNotAsErrors>
     <!--
-      CA1515:  Consider making public types internal
       IDE0005: Using directive is unnecessary
       IDE0022: Use expression body for methods
       IDE0045: 'if' statement can be simplified
@@ -100,7 +99,7 @@
                They are being suppressed temporarily (https://github.com/alexnoddings/Tyne/milestone/16)
                until they can be addressed individually (after the full v3.3.0 ships)
     -->
-    <NoWarn>$(NoWarn);CA1515;IDE0005;IDE0022;IDE0045;IDE0058;IDE0078;IDE0090;IDE0110;IDE0200;IDE0300</NoWarn>
+    <NoWarn>$(NoWarn);IDE0005;IDE0022;IDE0045;IDE0058;IDE0078;IDE0090;IDE0110;IDE0200;IDE0300</NoWarn>
     <!-- See https://github.com/alexnoddings/Tyne/issues/138 -->
     <NoWarn>$(NoWarn);IDE0055</NoWarn>
   </PropertyGroup>
