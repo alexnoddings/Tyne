@@ -1,5 +1,4 @@
 using Microsoft.CodeAnalysis;
-using Tyne.SourceRef.SourceGenerators;
 
 namespace Tyne.SourceRef.SourceGenerators.Components;
 

@@ -1,5 +1,3 @@
-using Tyne.MediatorEndpoints;
-
 namespace Tyne.MediatorEndpoints;
 
 public interface ITestScope : IDisposable

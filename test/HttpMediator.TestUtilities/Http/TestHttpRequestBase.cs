@@ -1,5 +1,3 @@
-using MediatR;
-
 namespace Tyne.HttpMediator;
 
 public abstract class TestHttpRequestBase

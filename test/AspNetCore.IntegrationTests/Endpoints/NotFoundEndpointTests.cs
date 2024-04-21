@@ -1,5 +1,3 @@
-using System.Diagnostics;
-using System;
 using System.Net;
 
 namespace Tyne.AspNetCore.Endpoints;

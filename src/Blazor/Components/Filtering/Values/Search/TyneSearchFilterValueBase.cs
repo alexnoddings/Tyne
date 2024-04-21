@@ -1,5 +1,3 @@
-using Tyne.Blazor.Filtering.Values;
-
 namespace Tyne.Blazor.Filtering.Values;
 
 /// <summary>
