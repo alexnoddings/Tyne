@@ -1,5 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-
 namespace Tyne.Aerospace.Client.Features.Dashboard;
 
 public sealed partial class ConstellationCard : IDisposable
@@ -37,7 +35,6 @@ public sealed partial class ConstellationCard : IDisposable
     public void Dispose() =>
         RefreshTimer.Dispose();
 
-    [SuppressMessage("Security", "CA5394: Do not use insecure randomness", Justification = "This isn't a secure operation.")]
     private double GetNextValue()
     {
         var deviation = (Random.Shared.NextDouble() - 0.5d) * 4d;
