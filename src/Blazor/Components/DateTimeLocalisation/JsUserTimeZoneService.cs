@@ -122,8 +122,6 @@ public sealed class JsUserTimeZoneService : IUserTimeZoneService, IDisposable
     /// <summary>
     ///     Disposes of this service's resources.
     /// </summary>
-    public void Dispose()
-    {
+    public void Dispose() =>
         _cacheSemaphore.Dispose();
-    }
 }

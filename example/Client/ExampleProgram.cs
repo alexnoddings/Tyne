@@ -21,10 +21,8 @@ public static class ExampleProgram
         }
     }
 
-    public static void ConfigureBuildTag(IServiceCollection services, string tag)
-    {
+    public static void ConfigureBuildTag(IServiceCollection services, string tag) =>
         services.Configure<BuildTag>(buildTag => buildTag.Tag = tag);
-    }
 
     public static void ConfigureServices(IServiceCollection services, string environmentName)
     {

@@ -10,10 +10,8 @@ public sealed partial class ConstellationCard : IDisposable
     private int MaxProgressTicks { get; } = 120;
     private int CurrentProgressTicks { get; set; } = 120;
 
-    protected override void OnInitialized()
-    {
+    protected override void OnInitialized() =>
         CurrentValue = GetNextValue();
-    }
 
     protected override void OnAfterRender(bool firstRender)
     {
@@ -36,10 +34,8 @@ public sealed partial class ConstellationCard : IDisposable
         });
     }
 
-    public void Dispose()
-    {
+    public void Dispose() =>
         RefreshTimer.Dispose();
-    }
 
     [SuppressMessage("Security", "CA5394: Do not use insecure randomness", Justification = "This isn't a secure operation.")]
     private double GetNextValue()

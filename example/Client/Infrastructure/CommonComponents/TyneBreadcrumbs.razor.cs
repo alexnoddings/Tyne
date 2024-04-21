@@ -20,8 +20,6 @@ public partial class TyneBreadcrumbs : ComponentBase
         };
     }
 
-    protected override void OnParametersSet()
-    {
+    protected override void OnParametersSet() =>
         Breadcrumbs[^1] = new(PageName, href: null);
-    }
 }

@@ -65,8 +65,6 @@ public sealed class SimpleFilterContext<TRequest> : ComponentBase, IDisposable w
     private Task OnFilterContextReloadedAsync() =>
         ReloadConfiguredRequestAsync();
 
-    public void Dispose()
-    {
+    public void Dispose() =>
         _filterContext?.Dispose();
-    }
 }

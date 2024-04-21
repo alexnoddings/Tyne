@@ -26,10 +26,8 @@ public class MethodHelperTests
     }
 
     [Fact]
-    public void Get_Instance_T0_Internal_NotFound()
-    {
+    public void Get_Instance_T0_Internal_NotFound() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass>(nameof(TestClass.InternalInstanceMethod)));
-    }
 
     [Fact]
     public void Get_Instance_T1_Public()
@@ -48,10 +46,8 @@ public class MethodHelperTests
     }
 
     [Fact]
-    public void Get_Instance_T1_Internal_NotFound()
-    {
+    public void Get_Instance_T1_Internal_NotFound() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass, int>(nameof(TestClass.InternalInstanceMethod)));
-    }
 
     [Fact]
     public void Get_Instance_T2_Public()
@@ -70,10 +66,8 @@ public class MethodHelperTests
     }
 
     [Fact]
-    public void Get_Instance_T2_Internal_NotFound()
-    {
+    public void Get_Instance_T2_Internal_NotFound() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass, int, int>(nameof(TestClass.InternalInstanceMethod)));
-    }
 
     [Fact]
     public void Get_Instance_T3_Public()
@@ -92,10 +86,8 @@ public class MethodHelperTests
     }
 
     [Fact]
-    public void Get_Instance_T3_Internal_NotFound()
-    {
+    public void Get_Instance_T3_Internal_NotFound() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass, int, int, int>(nameof(TestClass.InternalInstanceMethod)));
-    }
 
     [Fact]
     public void Get_Instance_T4_Public()
@@ -114,10 +106,8 @@ public class MethodHelperTests
     }
 
     [Fact]
-    public void Get_Instance_T4_Internal_NotFound()
-    {
+    public void Get_Instance_T4_Internal_NotFound() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass, int, int, int, int>(nameof(TestClass.InternalInstanceMethod)));
-    }
 
 
     [Fact]
@@ -137,10 +127,8 @@ public class MethodHelperTests
     }
 
     [Fact]
-    public void Get_Static_T0_Internal_NotFound()
-    {
+    public void Get_Static_T0_Internal_NotFound() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass>(nameof(TestClass.InternalStaticMethod)));
-    }
 
     [Fact]
     public void Get_Static_T1_Public()
@@ -159,10 +147,8 @@ public class MethodHelperTests
     }
 
     [Fact]
-    public void Get_Static_T1_Internal_NotFound()
-    {
+    public void Get_Static_T1_Internal_NotFound() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass, int>(nameof(TestClass.InternalStaticMethod)));
-    }
 
     [Fact]
     public void Get_Static_T2_Public()
@@ -181,10 +167,8 @@ public class MethodHelperTests
     }
 
     [Fact]
-    public void Get_Static_T2_Internal_NotFound()
-    {
+    public void Get_Static_T2_Internal_NotFound() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass, int, int>(nameof(TestClass.InternalStaticMethod)));
-    }
 
     [Fact]
     public void Get_Static_T3_Public()
@@ -203,10 +187,8 @@ public class MethodHelperTests
     }
 
     [Fact]
-    public void Get_Static_T3_Internal_NotFound()
-    {
+    public void Get_Static_T3_Internal_NotFound() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass, int, int, int>(nameof(TestClass.InternalStaticMethod)));
-    }
 
     [Fact]
     public void Get_Static_T4_Public()
@@ -225,22 +207,16 @@ public class MethodHelperTests
     }
 
     [Fact]
-    public void Get_Static_T4_Internal_NotFound()
-    {
+    public void Get_Static_T4_Internal_NotFound() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass, int, int, int, int>(nameof(TestClass.InternalStaticMethod)));
-    }
 
     [Fact]
-    public void Get_NonExistent_Throws()
-    {
+    public void Get_NonExistent_Throws() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass>("NonExistentMethod"));
-    }
 
     [Fact]
-    public void Get_Overload_Throws()
-    {
+    public void Get_Overload_Throws() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass>(nameof(TestClass.PublicInstanceOverloaded)));
-    }
 
     private static void Assert_ThrowsArgumentException(Func<MethodInfo> func)
     {

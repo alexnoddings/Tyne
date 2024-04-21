@@ -3,10 +3,8 @@ namespace Tyne;
 public class ErrorEqualityTests
 {
     [Fact]
-    public void Defaults_AreEqual()
-    {
+    public void Defaults_AreEqual() =>
         AssertError.AreEqual(Error.Default, Error.Default);
-    }
 
     [Fact]
     public void From_Message_AreEqual()
