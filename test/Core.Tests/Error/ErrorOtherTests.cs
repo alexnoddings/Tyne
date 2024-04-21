@@ -35,7 +35,7 @@ public class ErrorOtherTests
     {
         Error error = null!;
 
-        var exception = Assert.Throws<ArgumentNullException>(() => error.ToResult<int>());
+        var exception = Assert.Throws<ArgumentNullException>(error.ToResult<int>);
         Assert.False(string.IsNullOrWhiteSpace(exception.ParamName));
     }
 
@@ -75,7 +75,7 @@ public class ErrorOtherTests
     {
         Error error = null!;
 
-        var exception = await Assert.ThrowsAsync<ArgumentNullException>(async () => await error.ToTask());
+        var exception = await Assert.ThrowsAsync<ArgumentNullException>(error.ToTask);
         Assert.False(string.IsNullOrWhiteSpace(exception.ParamName));
     }
 
