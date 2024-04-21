@@ -259,16 +259,16 @@ internal static class UrlUtilities
         {
             var c = str[i];
             // Chars must be a-z
-            if ('a' <= c && c <= 'z')
+            if (c is >= 'a' and <= 'z')
                 continue;
             // Or A-Z
-            if ('A' <= c && c <= 'Z')
+            if (c is >= 'A' and <= 'Z')
                 continue;
             // Or 0-9
-            if ('0' <= c && c <= '9')
+            if (c is >= '0' and <= '9')
                 continue;
             // Or one of our replacement chars
-            if (c == ForwardSlashReplacementChar || c == PlusReplacementChar)
+            if (c is ForwardSlashReplacementChar or PlusReplacementChar)
                 continue;
 
             // If it isn't one of those, then it isn't valid
