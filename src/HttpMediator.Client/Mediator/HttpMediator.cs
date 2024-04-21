@@ -23,7 +23,9 @@ internal class HttpMediator : IHttpMediator
             return HttpResult.Codes.BadRequest<TResponse>("Request was null.");
         }
 
-        var genericMethodInfo = SendGenericAsyncMethodInfo.MakeGenericMethod(request.GetType(), typeof(TResponse));
+        using var loggerRequestScope = _logger.BeginRequestScope(request);
+
+        var genericMethodInfo = ExecuteAsyncMethodInfo.MakeGenericMethod(request.GetType(), typeof(TResponse));
         HttpResult<TResponse> result;
         try
         {
@@ -33,7 +35,7 @@ internal class HttpMediator : IHttpMediator
         catch (TargetInvocationException invocationException)
         {
             // Reflection wraps exceptions in a TargetInvocationException,
-            // unwrap the base exception to expose for the stack trace
+            // so unwrap the base exception since that's what we care about
             throw invocationException.GetBaseException();
         }
 
@@ -41,11 +43,11 @@ internal class HttpMediator : IHttpMediator
     }
 
     [SuppressMessage("Major Code Smell", "S3011: Reflection should not be used to increase accessibility of classes, methods, or fields.", Justification = "We are reflecting on a method private to this class.")]
-    private static readonly MethodInfo SendGenericAsyncMethodInfo =
+    private static readonly MethodInfo ExecuteAsyncMethodInfo =
         typeof(HttpMediator)
-        .GetMethod(nameof(SendGenericAsync), BindingFlags.Instance | BindingFlags.NonPublic)
-        ?? throw new InvalidOperationException($"No \"{nameof(SendGenericAsync)}\" method found on \"{nameof(HttpMediator)}\".");
+        .GetMethod(nameof(ExecuteAsync), BindingFlags.Instance | BindingFlags.NonPublic)
+        ?? throw new InvalidOperationException($"No \"{nameof(ExecuteAsync)}\" method found on \"{nameof(HttpMediator)}\".");
 
-    private Task<HttpResult<TResponse>> SendGenericAsync<TRequest, TResponse>(TRequest request) where TRequest : IHttpRequestBase<TResponse> =>
+    private Task<HttpResult<TResponse>> ExecuteAsync<TRequest, TResponse>(TRequest request) where TRequest : IHttpRequestBase<TResponse> =>
         _middlewarePipeline.ExecuteAsync<TRequest, TResponse>(request);
 }
