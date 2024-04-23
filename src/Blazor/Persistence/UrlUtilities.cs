@@ -296,10 +296,10 @@ internal static class UrlUtilities
         decodedBytes[23] = 61;
 
         // Converts the Base64 bytes to GUID bytes
-        Base64.DecodeFromUtf8(decodedBytes, guidBytes, out _, out _);
+        _ = Base64.DecodeFromUtf8(decodedBytes, guidBytes, out _, out _);
 
         // Marshal the bytes into the GUID struct
-        MemoryMarshal.TryRead(guidBytes, out guid);
+        _ = MemoryMarshal.TryRead(guidBytes, out guid);
 
         return true;
     }

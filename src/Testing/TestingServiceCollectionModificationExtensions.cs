@@ -17,7 +17,7 @@ public static class TestingServiceCollectionModificationExtensions
 
         var serviceDescriptor = services.FirstOrDefault(serviceDescriptor => serviceDescriptor.ServiceType == typeof(TService));
         if (serviceDescriptor is not null)
-            services.Remove(serviceDescriptor);
+            _ = services.Remove(serviceDescriptor);
 
         return services;
     }
@@ -34,7 +34,7 @@ public static class TestingServiceCollectionModificationExtensions
     {
         ArgumentNullException.ThrowIfNull(services);
 
-        services.RemoveService<TService>();
+        _ = services.RemoveService<TService>();
         services.Add(new ServiceDescriptor(typeof(TService), typeof(TNewImplementation), serviceLifetime));
         return services;
     }
@@ -51,7 +51,7 @@ public static class TestingServiceCollectionModificationExtensions
     {
         ArgumentNullException.ThrowIfNull(services);
 
-        services.RemoveService<TService>();
+        _ = services.RemoveService<TService>();
         services.Add(new ServiceDescriptor(typeof(TService), implementationFactory, serviceLifetime));
         return services;
     }
@@ -67,7 +67,7 @@ public static class TestingServiceCollectionModificationExtensions
     {
         ArgumentNullException.ThrowIfNull(services);
 
-        services.RemoveService<TService>();
+        _ = services.RemoveService<TService>();
         services.Add(new ServiceDescriptor(typeof(TService), implementationInstance));
         return services;
     }

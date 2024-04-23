@@ -9,9 +9,9 @@ public class TestWebAppFactory : WebApplicationFactory<TestWebAppHost>
     {
         base.ConfigureWebHost(builder);
 
-        builder.ConfigureTestServices(services =>
+        _ = builder.ConfigureTestServices(services =>
         {
-            services
+            _ = services
                 .AddTyne()
                 .AddClientHttpMediator(static builder =>
                     builder
@@ -20,7 +20,7 @@ public class TestWebAppFactory : WebApplicationFactory<TestWebAppHost>
                 )
                 .AddLegacyClientMediatorEndpointsCompatibility();
 
-            services.AddScoped(_ => CreateClient());
+            _ = services.AddScoped(_ => CreateClient());
         });
     }
 

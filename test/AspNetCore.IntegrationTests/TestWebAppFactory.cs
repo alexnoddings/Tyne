@@ -9,9 +9,9 @@ public class TestWebAppFactory : WebApplicationFactory<TestWebAppHost>
     {
         base.ConfigureWebHost(builder);
 
-        builder.ConfigureTestServices(services =>
+        _ = builder.ConfigureTestServices(services =>
         {
-            services.AddScoped(_ => CreateClient());
+            _ = services.AddScoped(_ => CreateClient());
         });
     }
 }

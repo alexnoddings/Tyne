@@ -40,19 +40,19 @@ public abstract class DbContextChangeEventEntityTypeConfiguration<TEvent, TPrope
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.HasKey(changeEvent => changeEvent.Id);
+        _ = builder.HasKey(changeEvent => changeEvent.Id);
 
-        builder.HasIndex(changeEvent => changeEvent.Action);
-        builder.HasIndex(changeEvent => changeEvent.EntityType);
+        _ = builder.HasIndex(changeEvent => changeEvent.Action);
+        _ = builder.HasIndex(changeEvent => changeEvent.EntityType);
 
-        builder
+        _ = builder
             .HasMany(changeEvent => changeEvent.Properties)
             .WithOne(changeEventProperty => changeEventProperty.ChangeEvent)
             .HasForeignKey(changeEventProperty => changeEventProperty.ChangeEventId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
 
-        builder
+        _ = builder
             .HasMany(changeEvent => changeEvent.Children)
             .WithMany(changeEvent => changeEvent.Parents)
             .UsingEntity<TRelation>(
@@ -68,7 +68,7 @@ public abstract class DbContextChangeEventEntityTypeConfiguration<TEvent, TPrope
                     .HasKey(relation => new { relation.ParentId, relation.ChildId })
             );
 
-        builder
+        _ = builder
             .IgnoreChangeAuditing()
             .ToTable("_DbChanges");
     }

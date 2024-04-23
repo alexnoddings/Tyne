@@ -25,8 +25,9 @@ public class UrlPersistenceService_GetValueTests : TestContext
 
     public UrlPersistenceService_GetValueTests()
     {
-        Services.AddSingleton<IUrlQueryStringFormatter, UrlQueryStringFormatter>();
-        Services.AddScoped<UrlPersistenceService>();
+        _ = Services
+            .AddSingleton<IUrlQueryStringFormatter, UrlQueryStringFormatter>()
+            .AddScoped<UrlPersistenceService>();
     }
 
     public static IEnumerable<object?[]> GetValue_Data => UrlUtilities_TestHelpers.StringToValue_Data;
@@ -51,7 +52,7 @@ public class UrlPersistenceService_GetValueTests : TestContext
         navigationManager.NavigateTo($"/test/page?{QueryParameterKey}={queryParameterEncodedValue}");
 
         var optionType = expectedOptionType.GenericTypeArguments[0];
-        GetValueT_MethodInfo
+        _ = GetValueT_MethodInfo
             .MakeGenericMethod(optionType)
             .Invoke(this, [expectedOption]);
     }

@@ -12,7 +12,7 @@ public class ResultSelectExtensionTests
         Func<int, int> selector = null!;
 
         // Act and assert
-        AssertExt.ThrowsArgumentNullException(() => result.Select(selector));
+        _ = AssertExt.ThrowsArgumentNullException(() => result.Select(selector));
     }
 
     [Fact]
@@ -26,7 +26,7 @@ public class ResultSelectExtensionTests
         var selected = result.Select(selector);
 
         // Assert
-        AssertResult.IsError(TestError.Instance, selected);
+        _ = AssertResult.IsError(TestError.Instance, selected);
         Assert.Equal(TestError.StatusCode, selected.StatusCode);
     }
 
@@ -36,14 +36,14 @@ public class ResultSelectExtensionTests
         // Arrange
         var result = HttpResult.Ok(42, HttpStatusCode.OK);
         var selector = Substitute.For<Func<int, int>>();
-        selector.Invoke(42).Returns(101);
+        _ = selector.Invoke(42).Returns(101);
 
         // Act
         var selected = result.Select(selector);
 
         // Assert
-        AssertResult.IsOk(101, selected);
-        selector.Received(1).Invoke(42);
+        _ = AssertResult.IsOk(101, selected);
+        _ = selector.Received(1).Invoke(42);
         Assert.Equal(HttpStatusCode.OK, selected.StatusCode);
     }
 }

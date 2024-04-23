@@ -85,7 +85,7 @@ public sealed class JsUserTimeZoneService : IUserTimeZoneService, IDisposable
         }
         finally
         {
-            _cacheSemaphore.Release();
+            _ = _cacheSemaphore.Release();
         }
     }
 

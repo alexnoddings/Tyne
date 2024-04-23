@@ -44,18 +44,18 @@ public sealed class HttpMediatorClientTestScope : IDisposable
 
         var services = new ServiceCollection();
 
-        services.AddSingleton<ILoggerFactory, NullLoggerFactory>();
-        services.Add(new ServiceDescriptor(typeof(ILogger), typeof(NullLogger), ServiceLifetime.Transient));
-        services.Add(new ServiceDescriptor(typeof(ILogger<>), typeof(NullLogger<>), ServiceLifetime.Transient));
+        _ = services.AddSingleton<ILoggerFactory, NullLoggerFactory>();
+        _ = services.Add(new ServiceDescriptor(typeof(ILogger), typeof(NullLogger), ServiceLifetime.Transient));
+        _ = services.Add(new ServiceDescriptor(typeof(ILogger<>), typeof(NullLogger<>), ServiceLifetime.Transient));
 
-        services.AddOptions<JsonSerializerOptions>().Configure(ConfigureJsonSerialiserOptions);
-        services.AddValidatorsFromAssemblyContaining<ValidatedRequestValidator>();
+        _ = services.AddOptions<JsonSerializerOptions>().Configure(ConfigureJsonSerialiserOptions);
+        _ = services.AddValidatorsFromAssemblyContaining<ValidatedRequestValidator>();
 
         var httpClient = mockHttpHandler.ToHttpClient();
         httpClient.BaseAddress = new Uri(BaseAddress);
-        services.AddSingleton(httpClient);
+        _ = services.AddSingleton(httpClient);
 
-        services
+        _ = services
             .AddTyne()
             .AddClientHttpMediator(builder =>
                 builder

@@ -106,7 +106,7 @@ public abstract partial class TyneMultiSelectFilterControllerBase<TRequest, TVal
             return Task.CompletedTask;
 
         var newValue = new HashSet<TValue>(currentValue);
-        newValue.Remove(item);
+        _ = newValue.Remove(item);
         return SetValueAsync(newValue);
     }
 }

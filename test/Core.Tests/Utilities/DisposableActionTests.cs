@@ -7,9 +7,9 @@ public class DisposableActionTests
     [Fact]
     public void NullAction_Throws()
     {
-        AssertExt.ThrowsArgumentNullException(() => new DisposableAction(null!));
-        AssertExt.ThrowsArgumentNullException(() => new DisposableAction(null!, true));
-        AssertExt.ThrowsArgumentNullException(() => new DisposableAction(null!, false));
+        _ = AssertExt.ThrowsArgumentNullException(() => new DisposableAction(null!));
+        _ = AssertExt.ThrowsArgumentNullException(() => new DisposableAction(null!, true));
+        _ = AssertExt.ThrowsArgumentNullException(() => new DisposableAction(null!, false));
     }
 
     [Fact]

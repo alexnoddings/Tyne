@@ -15,7 +15,7 @@ public class DateTimeConversionTests
     public void ConvertFromUtc_NullTimeZone_Throws()
     {
         var utcDateTime = DefaultUtcDateTime;
-        Assert.Throws<ArgumentNullException>(() => utcDateTime.ConvertFromUtc(null!));
+        _ = Assert.Throws<ArgumentNullException>(() => utcDateTime.ConvertFromUtc(null!));
     }
 
     [Fact]
@@ -52,7 +52,7 @@ public class DateTimeConversionTests
     public void ConvertFromUtcAsOffset_NullTimeZone_Throws()
     {
         var utcDateTime = DefaultUtcDateTime;
-        Assert.Throws<ArgumentNullException>(() => utcDateTime.ConvertFromUtcAsOffset(null!));
+        _ = Assert.Throws<ArgumentNullException>(() => utcDateTime.ConvertFromUtcAsOffset(null!));
     }
 
     [Fact]
@@ -95,7 +95,7 @@ public class DateTimeConversionTests
     public void ConvertToUtc_NullTimeZone_Throws()
     {
         var localDateTime = DefaultLocalDateTime;
-        Assert.Throws<ArgumentNullException>(() => localDateTime.ConvertToUtc(null!));
+        _ = Assert.Throws<ArgumentNullException>(() => localDateTime.ConvertToUtc(null!));
     }
 
     [Fact]
@@ -122,7 +122,7 @@ public class DateTimeConversionTests
     public void ConvertToUtcAsOffset_NullTimeZone_Throws()
     {
         var localDateTime = DefaultLocalDateTime;
-        Assert.Throws<ArgumentNullException>(() => localDateTime.ConvertToUtcAsOffset(null!));
+        _ = Assert.Throws<ArgumentNullException>(() => localDateTime.ConvertToUtcAsOffset(null!));
     }
 
     [Fact]

@@ -14,8 +14,8 @@ public class HttpResultApplyExtensionTests
         Action<int> ok = null!;
 
         // Act and assert
-        AssertExt.ThrowsArgumentNullException(() => okResult.Apply(ok));
-        AssertExt.ThrowsArgumentNullException(() => errorResult.Apply(ok));
+        _ = AssertExt.ThrowsArgumentNullException(() => okResult.Apply(ok));
+        _ = AssertExt.ThrowsArgumentNullException(() => errorResult.Apply(ok));
     }
 
     [Fact]
@@ -32,8 +32,8 @@ public class HttpResultApplyExtensionTests
         }
 
         // Act and assert
-        AssertExt.ThrowsArgumentNullException(() => okResult.Apply(ok, err));
-        AssertExt.ThrowsArgumentNullException(() => errorResult.Apply(ok, err));
+        _ = AssertExt.ThrowsArgumentNullException(() => okResult.Apply(ok, err));
+        _ = AssertExt.ThrowsArgumentNullException(() => errorResult.Apply(ok, err));
     }
 
     [Fact]
@@ -50,7 +50,7 @@ public class HttpResultApplyExtensionTests
         Action<Error> err = null!;
 
         // Act and assert
-        AssertExt.ThrowsArgumentNullException(() => okResult.Apply(ok, err));
-        AssertExt.ThrowsArgumentNullException(() => errorResult.Apply(ok, err));
+        _ = AssertExt.ThrowsArgumentNullException(() => okResult.Apply(ok, err));
+        _ = AssertExt.ThrowsArgumentNullException(() => errorResult.Apply(ok, err));
     }
 }

@@ -28,7 +28,7 @@ public sealed class HttpMediatorBuilder
     public HttpMediatorBuilder Configure(Action<HttpMediatorOptions> configure)
     {
         ArgumentNullException.ThrowIfNull(configure);
-        Services.Configure(configure);
+        _ = Services.Configure(configure);
         return this;
     }
 

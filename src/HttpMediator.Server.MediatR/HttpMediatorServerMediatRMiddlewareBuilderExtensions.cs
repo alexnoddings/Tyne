@@ -21,7 +21,7 @@ public static class HttpMediatorServerMediatRMiddlewareBuilderExtensions
         ArgumentNullException.ThrowIfNull(builder);
 
         builder.Services.TryAddScoped<MediatRSenderMiddleware>();
-        builder.Use<MediatRSenderMiddleware>();
+        _ = builder.Use<MediatRSenderMiddleware>();
 
         return builder;
     }

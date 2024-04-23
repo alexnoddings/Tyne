@@ -76,7 +76,7 @@ public class ResultUnwrapExtensionTests
             _ = result.Unwrap(messageFactory);
 
         // Assert
-        AssertExt.ThrowsArgumentNullException(act);
+        _ = AssertExt.ThrowsArgumentNullException(act);
     }
 
     [Fact]
@@ -120,7 +120,7 @@ public class ResultUnwrapExtensionTests
             _ = result.Unwrap(exceptionFactory);
 
         // Assert
-        AssertExt.ThrowsArgumentNullException(act);
+        _ = AssertExt.ThrowsArgumentNullException(act);
     }
 
     [Fact]
@@ -156,7 +156,7 @@ public class ResultUnwrapExtensionTests
         var error = TestError.Instance;
         var innerException = outerException.InnerException;
         Assert.NotNull(innerException);
-        Assert.IsType<InvalidOperationException>(innerException);
+        _ = Assert.IsType<InvalidOperationException>(innerException);
         Assert.Equal(error.Message, innerException.Message);
     }
 }

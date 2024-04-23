@@ -13,11 +13,9 @@ public class UrlQueryStringFormatter_GetValueTests
         const string methodName = nameof(GetValueT_Works);
         const BindingFlags methodFlags = BindingFlags.NonPublic | BindingFlags.Static;
 
-        var method =
-            typeof(UrlQueryStringFormatter_GetValueTests)
+        return typeof(UrlQueryStringFormatter_GetValueTests)
             .GetMethod(methodName, methodFlags)
             ?? throw new InvalidOperationException($"Could not load method info for generic test method '{methodName}'.");
-        return method;
     }
 
     public static IEnumerable<object?[]> GetValue_Data => UrlUtilities_TestHelpers.StringToValue_Data;
@@ -41,7 +39,7 @@ public class UrlQueryStringFormatter_GetValueTests
         var uri = $"https://localhost/test/page?{QueryParameterKey}={queryParameterEncodedValue}";
 
         var optionType = expectedOptionType.GenericTypeArguments[0];
-        GetValueT_MethodInfo
+        _ = GetValueT_MethodInfo
             .MakeGenericMethod(optionType)
             .Invoke(null, [uri, expectedOption]);
     }

@@ -327,7 +327,7 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
             if (_allowValueOverwriting)
             {
                 // If allowing the overwrite, then remove and detach the old handle
-                _valueHandles.Remove(key);
+                _ = _valueHandles.Remove(key);
                 existingHandle.Dispose();
             }
             else
@@ -360,7 +360,7 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
         Debug.Assert(existingValueHandle == valueHandle, $"Attached value for key '{key}' differs from the handle trying to detach it.");
 
         _logger.LogFilterContextDetachingFilterValue(key, typeof(TValue));
-        _valueHandles.Remove(key);
+        _ = _valueHandles.Remove(key);
     }
 
     /// <inheritdoc/>
@@ -401,7 +401,7 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
             controllerHandles = _controllerHandles[key] = [];
 
         var controllerHandle = new FilterControllerHandle<TRequest, TValue>(this, key, filterValue, controller);
-        controllerHandles.Add(controllerHandle);
+        _ = controllerHandles.Add(controllerHandle);
         return controllerHandle;
     }
 
@@ -439,7 +439,7 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
 
         // Clear out emptied handle sets
         if (controllerHandles.Count == 0)
-            _controllerHandles.Remove(key);
+            _ = _controllerHandles.Remove(key);
     }
 
     /// <summary>

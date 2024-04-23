@@ -15,22 +15,21 @@ public sealed class TestWebAppHost
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        builder.Services.AddControllersWithViews();
-        builder.Services.AddRazorPages();
+        _ = builder.Services.AddControllersWithViews();
+        _ = builder.Services.AddRazorPages();
 
         using var app = builder.Build();
 
-        app.UseRouting();
+        _ = app.UseRouting();
 
-        app.MapFallbackToNotFound("/test/notfound/default/{**_}");
-        app.MapFallbackToNotFound("/test/notfound/sync-handler/{**_}", httpContext => httpContext.Response.Headers.Append(NotFoundSyncHandlerHeaderKey, "true"));
-        app.MapFallbackToNotFound("/test/notfound/async-handler/{**_}", async httpContext => await httpContext.Response.WriteAsync(NotFoundAsyncHandlerBodyMessage));
-
-        app.MapFallback("{**_}", async httpContext =>
-        {
-            httpContext.Response.StatusCode = InvalidTestRequestStatusCode;
-            await httpContext.Response.WriteAsync(InvalidTestRequestBodyMessage);
-        });
+        _ = app.MapFallbackToNotFound("/test/notfound/default/{**_}");
+        _ = app.MapFallbackToNotFound("/test/notfound/sync-handler/{**_}", httpContext => httpContext.Response.Headers.Append(NotFoundSyncHandlerHeaderKey, "true"));
+        _ = app.MapFallbackToNotFound("/test/notfound/async-handler/{**_}", async httpContext => await httpContext.Response.WriteAsync(NotFoundAsyncHandlerBodyMessage));
+        _ = app.MapFallback("{**_}", async httpContext =>
+            {
+                httpContext.Response.StatusCode = InvalidTestRequestStatusCode;
+                await httpContext.Response.WriteAsync(InvalidTestRequestBodyMessage);
+            });
 
         app.Run();
     }

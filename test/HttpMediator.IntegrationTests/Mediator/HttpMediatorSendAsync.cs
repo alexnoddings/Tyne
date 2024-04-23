@@ -99,7 +99,7 @@ public class HttpMediatorSendAsync
         var httpResult = await httpMediator.SendAsync(request);
 
         // Assert
-        AssertHttpResult.IsOk(HttpStatusCode.OK, httpResult);
+        _ = AssertHttpResult.IsOk(HttpStatusCode.OK, httpResult);
         Assert.Equal(43, httpResult.Value.NewCount);
     }
 }

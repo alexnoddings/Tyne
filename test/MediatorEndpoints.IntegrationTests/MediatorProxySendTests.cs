@@ -40,7 +40,7 @@ public class MediatorProxySendTests
             mediatorProxy.Send(request);
 
         // Assert
-        await Assert.ThrowsAsync<UnwrapResultValueException>(act);
+        _ = await Assert.ThrowsAsync<UnwrapResultValueException>(act);
     }
 
     [Fact]
@@ -57,7 +57,7 @@ public class MediatorProxySendTests
             mediatorProxy.Send(request);
 
         // Assert
-        await Assert.ThrowsAsync<UnwrapResultValueException>(act);
+        _ = await Assert.ThrowsAsync<UnwrapResultValueException>(act);
     }
 
     [Fact]

@@ -8,7 +8,7 @@ public class ResultOrExtensionTests
         var result = Result.Ok<int?>(42);
         int? value = null;
 
-        AssertExt.ThrowsArgumentNullException(() => result.Or(value));
+        _ = AssertExt.ThrowsArgumentNullException(() => result.Or(value));
     }
 
     [Fact]
@@ -27,7 +27,7 @@ public class ResultOrExtensionTests
         var result = Result.Error<int?>(TestError.Instance);
         int? value = null;
 
-        AssertExt.ThrowsArgumentNullException(() => result.Or(value));
+        _ = AssertExt.ThrowsArgumentNullException(() => result.Or(value));
     }
 
     [Fact]
@@ -46,7 +46,7 @@ public class ResultOrExtensionTests
         var result = Result.Error<int>(TestError.Instance);
         Func<int> valueFactory = null!;
 
-        AssertExt.ThrowsArgumentNullException(() => result.Or(valueFactory));
+        _ = AssertExt.ThrowsArgumentNullException(() => result.Or(valueFactory));
     }
 
     [Fact]
@@ -55,12 +55,12 @@ public class ResultOrExtensionTests
         var result = Result.Error<int>(TestError.Instance);
 
         var valueFactory = Substitute.For<Func<int>>();
-        valueFactory.Invoke().Returns(101);
+        _ = valueFactory.Invoke().Returns(101);
 
         var or = result.Or(valueFactory);
 
         Assert.Equal(101, or);
-        valueFactory.Received(1).Invoke();
+        _ = valueFactory.Received(1).Invoke();
     }
 
     [Fact]
@@ -69,7 +69,7 @@ public class ResultOrExtensionTests
         var result = Result.Ok(42);
         Func<int> valueFactory = null!;
 
-        AssertExt.ThrowsArgumentNullException(() => result.Or(valueFactory));
+        _ = AssertExt.ThrowsArgumentNullException(() => result.Or(valueFactory));
     }
 
     [Fact]

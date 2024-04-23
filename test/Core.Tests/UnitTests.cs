@@ -8,7 +8,7 @@ public class UnitTests
         var task1 = Unit.AsTask;
         // Task should already be completed
         Assert.True(task1.IsCompleted);
-        await task1;
+        _ = await task1;
     }
 
     [Fact]
@@ -25,15 +25,15 @@ public class UnitTests
         var task1 = Unit.AsValueTask;
         // ValueTask should already be completed
         Assert.True(task1.IsCompleted);
-        await task1;
+        _ = await task1;
     }
 
     [Fact]
     public async Task AsValueTask_IsNotCached()
     {
         // Multiple calls should return multiple ValueTasks
-        await Unit.AsValueTask;
-        await Unit.AsValueTask;
+        _ = await Unit.AsValueTask;
+        _ = await Unit.AsValueTask;
         Assert.True(true);
     }
 

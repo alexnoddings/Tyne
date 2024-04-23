@@ -17,6 +17,6 @@ public class HttpMediatorTests
         var result = await httpMediator.SendAsync(request);
 
         // Assert
-        AssertHttpResult.IsError(HttpStatusCode.BadRequest, result);
+        _ = AssertHttpResult.IsError(HttpStatusCode.BadRequest, result);
     }
 }

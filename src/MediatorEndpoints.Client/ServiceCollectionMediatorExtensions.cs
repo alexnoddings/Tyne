@@ -9,7 +9,7 @@ public static class ServiceCollectionMediatorExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.Services.AddScoped<IMediatorProxy, MediatorProxy>();
+        _ = builder.Services.AddScoped<IMediatorProxy, MediatorProxy>();
 
         return builder;
     }

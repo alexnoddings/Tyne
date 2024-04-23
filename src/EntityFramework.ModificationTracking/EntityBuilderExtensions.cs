@@ -18,7 +18,7 @@ public static class EntityBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder
+        _ = builder
             .HasOne(entity => entity.CreatedBy)
             .WithMany()
             .HasForeignKey(entity => entity.CreatedById)
@@ -41,7 +41,7 @@ public static class EntityBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder
+        _ = builder
             .HasOne(entity => entity.LastUpdatedBy)
             .WithMany()
             .HasForeignKey(entity => entity.LastUpdatedById)

@@ -17,7 +17,7 @@ public class UserTimeZoneServiceExtensionsTests
     {
         var userTimeZoneService = Substitute.For<IUserTimeZoneService>();
 
-        userTimeZoneService
+        _ = userTimeZoneService
             .GetUserTimeZoneInfoAsync()
             .Returns(_ => ValueTask.FromResult(TimeZoneUtc1));
 
@@ -35,7 +35,7 @@ public class UserTimeZoneServiceExtensionsTests
             return TimeZoneUtc1;
         }
 
-        userTimeZoneService
+        _ = userTimeZoneService
             .GetUserTimeZoneInfoAsync()
             .Returns(_ => ReturnAsync());
 

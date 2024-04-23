@@ -13,7 +13,7 @@ public class ExpressionHelperTests
         var propertyInfo = ExpressionHelper.TryGetAccessedPropertyInfo(expression);
         Assert.Null(propertyInfo);
 
-        Assert.Throws<ArgumentException>(() => ExpressionHelper.GetAccessedPropertyInfo(expression));
+        _ = Assert.Throws<ArgumentException>(() => ExpressionHelper.GetAccessedPropertyInfo(expression));
     }
 
     [Fact]

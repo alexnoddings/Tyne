@@ -9,8 +9,9 @@ public class UrlPersistenceService_BulkSetValuesTests : TestContext
 {
     public UrlPersistenceService_BulkSetValuesTests()
     {
-        Services.AddSingleton<IUrlQueryStringFormatter, UrlQueryStringFormatter>();
-        Services.AddScoped<UrlPersistenceService>();
+        _ = Services
+            .AddSingleton<IUrlQueryStringFormatter, UrlQueryStringFormatter>()
+            .AddScoped<UrlPersistenceService>();
     }
 
     [Fact]

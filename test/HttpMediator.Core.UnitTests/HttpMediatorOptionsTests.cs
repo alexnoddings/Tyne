@@ -11,7 +11,7 @@ public class HttpMediatorOptionsTests
         var options = new HttpMediatorOptions();
 
         // Act & assert
-        Assert.Throws<ArgumentNullException>(() => options.ApiBase = null!);
+        _ = Assert.Throws<ArgumentNullException>(() => options.ApiBase = null!);
     }
 
     [Fact]

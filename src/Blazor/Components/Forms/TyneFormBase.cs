@@ -93,7 +93,7 @@ public abstract class TyneFormBase<TInput, TModel> : ComponentBase, ITyneForm<TM
         finally
         {
             // Always release our semaphore before returning
-            _initialiseSemaphore.Release();
+            _ = _initialiseSemaphore.Release();
         }
     }
     protected override async Task OnAfterRenderAsync(bool firstRender)

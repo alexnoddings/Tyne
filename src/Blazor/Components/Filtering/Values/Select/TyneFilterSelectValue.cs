@@ -56,7 +56,7 @@ public abstract class TyneFilterSelectValue<TRequest, TValue, TSelectValue> : Ty
             throw new InvalidOperationException("Value is already attached.");
 
         var handle = new ItemHandle(this, item);
-        _selectItemHandles.Add(handle);
+        _ = _selectItemHandles.Add(handle);
         return handle;
     }
 

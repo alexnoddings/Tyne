@@ -93,7 +93,7 @@ public class ThemeService
 
     private static TTypography NormaliseHeader<TTypography>(TTypography typography) where TTypography : BaseTypography
     {
-        Normalise(typography);
+        _ = Normalise(typography);
         typography.FontWeight = 600;
         return typography;
     }

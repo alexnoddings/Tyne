@@ -86,7 +86,7 @@ internal static class AssertLoggerMessages
             var eventId = duplicatedEventIdGroup.Key;
             var methodIdentifiers = duplicatedEventIdGroup.Select(methodMeta => $"{methodMeta.Type.Name}.{methodMeta.Method.Name}");
             var methodIdentifiersStr = string.Join(", ", methodIdentifiers);
-            failMessageBuilder.AppendLine(CultureInfo.InvariantCulture, $"   - {eventId}: {methodIdentifiersStr}");
+            _ = failMessageBuilder.AppendLine(CultureInfo.InvariantCulture, $"   - {eventId}: {methodIdentifiersStr}");
         }
 
         Assert.Fail(failMessageBuilder.ToString());

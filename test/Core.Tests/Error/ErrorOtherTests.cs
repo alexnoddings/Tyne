@@ -46,7 +46,7 @@ public class ErrorOtherTests
 
         var result = error.ToResult<int>();
 
-        AssertResult.IsError(error, result);
+        _ = AssertResult.IsError(error, result);
     }
 
     [Fact]

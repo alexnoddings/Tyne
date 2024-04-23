@@ -187,9 +187,9 @@ public class ResultOtherTests
         Result<Unit> result2unit = result2;
         Result<Unit> result3unit = result3;
 
-        AssertResult.IsOk(Unit.Value, result1unit);
-        AssertResult.IsOk(Unit.Value, result2unit);
-        AssertResult.IsOk(Unit.Value, result3unit);
+        _ = AssertResult.IsOk(Unit.Value, result1unit);
+        _ = AssertResult.IsOk(Unit.Value, result2unit);
+        _ = AssertResult.IsOk(Unit.Value, result3unit);
     }
 
     [Fact]
@@ -203,9 +203,9 @@ public class ResultOtherTests
         Result<Unit> result2unit = result2;
         Result<Unit> result3unit = result3;
 
-        AssertResult.IsError(TestError.Instance, result1unit);
-        AssertResult.IsError(TestError.Instance, result2unit);
-        AssertResult.IsError(TestError.Instance, result3unit);
+        _ = AssertResult.IsError(TestError.Instance, result1unit);
+        _ = AssertResult.IsError(TestError.Instance, result2unit);
+        _ = AssertResult.IsError(TestError.Instance, result3unit);
     }
 
     [Fact]

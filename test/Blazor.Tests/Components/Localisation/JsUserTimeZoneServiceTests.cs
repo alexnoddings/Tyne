@@ -29,13 +29,13 @@ public class JsUserTimeZoneServiceTests
     {
         var jsRuntime = Substitute.For<IJSRuntime>();
 
-        jsRuntime
+        _ = jsRuntime
             .InvokeAsync<string?>(TyneJsRuntimeExtensions.GetTimeZoneNameFunctionName, Arg.Is<object[]>(arr => arr.Length == 0))
             .Returns(_ => getTimeZoneName());
 
         if (getTimeZoneOffset is not null)
         {
-            jsRuntime
+            _ = jsRuntime
                 .InvokeAsync<int>(TyneJsRuntimeExtensions.GetTimeZoneOffsetFunctionName, Arg.Is<object[]>(arr => arr.Length == 0))
                 .Returns(_ => getTimeZoneOffset());
         }
@@ -155,7 +155,7 @@ public class JsUserTimeZoneServiceTests
         // Act
         // Calls get multiple times without awaiting
         // The service should only hit the JS runtime once
-        await Task.WhenAll(
+        _ = await Task.WhenAll(
             Enumerable
             .Range(0, 10)
             .Select(async _ => await service.GetUserTimeZoneInfoAsync())

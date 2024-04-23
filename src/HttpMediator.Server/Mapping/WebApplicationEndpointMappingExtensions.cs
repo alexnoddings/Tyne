@@ -31,7 +31,7 @@ public static class WebApplicationEndpointMappingExtensions
 
         var requestDescriptors = AssemblyHttpRequestDescriptorScanner.GetDescriptorsFromAssembly(assembly);
         foreach (var requestDescriptor in requestDescriptors)
-            app.MapRequestCoreGeneric(requestDescriptor, options, logger);
+            _ = app.MapRequestCoreGeneric(requestDescriptor, options, logger);
 
         logger?.LogRequestsMapped(assembly, requestDescriptors.Length);
 
@@ -60,7 +60,7 @@ public static class WebApplicationEndpointMappingExtensions
     {
         try
         {
-            MapRequestCoreGenericMethodInfo
+            _ = MapRequestCoreGenericMethodInfo
                 .MakeGenericMethod(requestDescriptor.RequestType, requestDescriptor.ResponseType)
                 .Invoke(null, [app, requestDescriptor.Metadata, options, logger]);
         }

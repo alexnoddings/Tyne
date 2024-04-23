@@ -13,10 +13,9 @@ public static class ServiceCollectionAuthorizeRouteExtensions
         var configuredOptions = new RouteAuthorisationOptions();
         configure(configuredOptions);
 
-        builder.Services.Configure<RouteAuthorisationOptions>(innerOptions =>
-        {
-            innerOptions.RouteAuthorisations.AddRange(configuredOptions.RouteAuthorisations);
-        });
+        _ = builder.Services.Configure<RouteAuthorisationOptions>(innerOptions =>
+            innerOptions.RouteAuthorisations.AddRange(configuredOptions.RouteAuthorisations)
+        );
 
         return builder;
     }
