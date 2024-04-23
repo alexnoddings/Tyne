@@ -86,13 +86,12 @@
     -->
     <WarningsNotAsErrors>$(WarningsNotAsErrors);S1133</WarningsNotAsErrors>
     <!--
-      IDE0045: 'if' statement can be simplified
       IDE0058: Remove unnecessary expression value
       REASON:  These were added in the .NET 9 SDK, creating many hundreds of warning (which were turned into errors).
                They are being suppressed temporarily (https://github.com/alexnoddings/Tyne/milestone/16)
                until they can be addressed individually (after the full v3.3.0 ships)
     -->
-    <NoWarn>$(NoWarn);IDE0045;IDE0058</NoWarn>
+    <NoWarn>$(NoWarn);IDE0058</NoWarn>
     <!-- See https://github.com/alexnoddings/Tyne/issues/138 -->
     <NoWarn>$(NoWarn);IDE0055</NoWarn>
   </PropertyGroup>

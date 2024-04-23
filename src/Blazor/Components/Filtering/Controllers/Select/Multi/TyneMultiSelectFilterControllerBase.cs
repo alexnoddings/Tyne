@@ -45,10 +45,9 @@ public abstract partial class TyneMultiSelectFilterControllerBase<TRequest, TVal
     {
         if (newValue is not HashSet<TValue> hashSet)
         {
-            if (newValue is null)
-                hashSet = [];
-            else
-                hashSet = new(newValue);
+            hashSet = newValue is not null
+                ? new(newValue)
+                : [];
         }
 
         return SetValueAsync(hashSet);
