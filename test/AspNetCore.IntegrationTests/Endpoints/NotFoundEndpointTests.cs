@@ -129,6 +129,5 @@ public class NotFoundEndpointTests
         Assert.Equal(TestWebAppHost.InvalidTestRequestBodyMessage, responseContent);
     }
 
-    private static HttpRequestMessage CreateRequest(HttpMethod method, Uri uri) =>
-        new HttpRequestMessage(method, uri);
+    private static HttpRequestMessage CreateRequest(HttpMethod method, Uri uri) => new(method, uri);
 }
