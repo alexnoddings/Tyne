@@ -61,12 +61,13 @@ public class ErrorOtherTests
     [Fact]
     public async Task ToValueTask_ReturnsValueTask()
     {
+        // Arrange
         var error = TestError.Instance;
 
+        // Act
         var errorTask = error.ToValueTask();
 
-        Assert.True(errorTask is ValueTask<Error> _);
-
+        // Assert
         AssertError.AreEqual(error, await errorTask);
     }
 
@@ -82,12 +83,13 @@ public class ErrorOtherTests
     [Fact]
     public async Task ToTask_ReturnsTask()
     {
+        // Arrange
         var error = TestError.Instance;
 
+        // Act
         var errorTask = error.ToTask();
 
-        Assert.True(errorTask is Task<Error> _);
-
+        // Assert
         AssertError.AreEqual(error, await errorTask);
     }
 

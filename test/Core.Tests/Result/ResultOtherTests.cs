@@ -236,15 +236,15 @@ public class ResultOtherTests
     [Fact]
     public async Task ToValueTask_ReturnsValueTask()
     {
+        // Arrange
         var ok = Result.Ok(42);
         var err = Result.Error<int>(TestError.Message);
 
+        // Act
         var okTask = ok.ToValueTask();
         var errTask = err.ToValueTask();
 
-        Assert.True(okTask is ValueTask<Result<int>> _);
-        Assert.True(errTask is ValueTask<Result<int>> _);
-
+        // Assert
         AssertResult.AreEqual(ok, await okTask);
         AssertResult.AreEqual(err, await errTask);
     }
@@ -261,15 +261,15 @@ public class ResultOtherTests
     [Fact]
     public async Task ToTask_ReturnsTask()
     {
+        // Arrange
         var ok = Result.Ok(42);
         var err = Result.Error<int>(TestError.Message);
 
+        // Act
         var okTask = ok.ToTask();
         var errTask = err.ToTask();
 
-        Assert.True(okTask is Task<Result<int>> _);
-        Assert.True(errTask is Task<Result<int>> _);
-
+        // Assert
         AssertResult.AreEqual(ok, await okTask);
         AssertResult.AreEqual(err, await errTask);
     }
