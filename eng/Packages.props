@@ -63,6 +63,7 @@
   -->
   <ItemGroup Label="Visibility for test projects">
     <InternalsVisibleTo Include="$(AssemblyName).Tests" />
+    <InternalsVisibleTo Include="$(AssemblyName).UnitTests" />
     <InternalsVisibleTo Include="Tyne.TestUtilities" />
     <InternalsVisibleTo Include="Tyne.EventIdTests" />
   </ItemGroup>

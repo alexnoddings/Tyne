@@ -97,7 +97,7 @@ public class DbContextChangeAuditor<TEvent, TProperty, TRelation> : IDbContextCh
                             return new TProperty
                             {
                                 ColumnName = property.Metadata.Name,
-                                ColumnType = property.Metadata.ClrType.Name,
+                                ColumnType = DbContextChangeAuditorTypeNameFormatter.FormatTypeName(property.Metadata.ClrType),
                                 OldValueJson = oldValue,
                                 NewValueJson = newValue
                             };
