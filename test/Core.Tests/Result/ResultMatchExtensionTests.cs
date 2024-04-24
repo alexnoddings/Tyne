@@ -10,7 +10,7 @@ public class ResultMatchExtensionTests
         Func<int, int> ok = null!;
         static int err(Error _) => 0;
 
-        AssertExt.ThrowsArgumentNullException(() => result.Match(ok, err));
+        _ = AssertExt.ThrowsArgumentNullException(() => result.Match(ok, err));
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class ResultMatchExtensionTests
         static int ok(int _) => 0;
         Func<Error, int> err = null!;
 
-        AssertExt.ThrowsArgumentNullException(() => result.Match(ok, err));
+        _ = AssertExt.ThrowsArgumentNullException(() => result.Match(ok, err));
     }
 
     [Fact]
@@ -30,15 +30,15 @@ public class ResultMatchExtensionTests
         var result = Result.Ok(42);
 
         var ok = Substitute.For<Func<int, int>>();
-        ok.Invoke(42).Returns(101);
+        _ = ok.Invoke(42).Returns(101);
 
         var err = Substitute.For<Func<Error, int>>();
 
         var match = result.Match(ok.Invoke, err.Invoke);
 
         Assert.Equal(101, match);
-        ok.Received(1).Invoke(42);
-        err.DidNotReceive().Invoke(Arg.Any<Error>());
+        _ = ok.Received(1).Invoke(42);
+        _ = err.DidNotReceive().Invoke(Arg.Any<Error>());
     }
 
     [Fact]
@@ -50,12 +50,12 @@ public class ResultMatchExtensionTests
         var ok = Substitute.For<Func<int, int>>();
 
         var err = Substitute.For<Func<Error, int>>();
-        err.Invoke(error).Returns(101);
+        _ = err.Invoke(error).Returns(101);
 
         var match = result.Match(ok.Invoke, err.Invoke);
 
         Assert.Equal(101, match);
-        ok.DidNotReceive().Invoke(Arg.Any<int>());
-        err.Received(1).Invoke(error);
+        _ = ok.DidNotReceive().Invoke(Arg.Any<int>());
+        _ = err.Received(1).Invoke(error);
     }
 }

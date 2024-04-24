@@ -27,9 +27,6 @@ public class HttpResultOtherTests
         var errTask = err.ToValueTask();
 
         // Assert
-        Assert.True(okTask is ValueTask<HttpResult<int>> _);
-        Assert.True(errTask is ValueTask<HttpResult<int>> _);
-
         AssertResult.AreEqual(ok, await okTask);
         AssertResult.AreEqual(err, await errTask);
     }
@@ -57,9 +54,6 @@ public class HttpResultOtherTests
         var errTask = err.ToTask();
 
         // Assert
-        Assert.True(okTask is Task<HttpResult<int>> _);
-        Assert.True(errTask is Task<HttpResult<int>> _);
-
         AssertResult.AreEqual(ok, await okTask);
         AssertResult.AreEqual(err, await errTask);
     }

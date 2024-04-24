@@ -187,9 +187,9 @@ public class ResultOtherTests
         Result<Unit> result2unit = result2;
         Result<Unit> result3unit = result3;
 
-        AssertResult.IsOk(Unit.Value, result1unit);
-        AssertResult.IsOk(Unit.Value, result2unit);
-        AssertResult.IsOk(Unit.Value, result3unit);
+        _ = AssertResult.IsOk(Unit.Value, result1unit);
+        _ = AssertResult.IsOk(Unit.Value, result2unit);
+        _ = AssertResult.IsOk(Unit.Value, result3unit);
     }
 
     [Fact]
@@ -203,9 +203,9 @@ public class ResultOtherTests
         Result<Unit> result2unit = result2;
         Result<Unit> result3unit = result3;
 
-        AssertResult.IsError(TestError.Instance, result1unit);
-        AssertResult.IsError(TestError.Instance, result2unit);
-        AssertResult.IsError(TestError.Instance, result3unit);
+        _ = AssertResult.IsError(TestError.Instance, result1unit);
+        _ = AssertResult.IsError(TestError.Instance, result2unit);
+        _ = AssertResult.IsError(TestError.Instance, result3unit);
     }
 
     [Fact]
@@ -236,15 +236,15 @@ public class ResultOtherTests
     [Fact]
     public async Task ToValueTask_ReturnsValueTask()
     {
+        // Arrange
         var ok = Result.Ok(42);
         var err = Result.Error<int>(TestError.Message);
 
+        // Act
         var okTask = ok.ToValueTask();
         var errTask = err.ToValueTask();
 
-        Assert.True(okTask is ValueTask<Result<int>> _);
-        Assert.True(errTask is ValueTask<Result<int>> _);
-
+        // Assert
         AssertResult.AreEqual(ok, await okTask);
         AssertResult.AreEqual(err, await errTask);
     }
@@ -261,15 +261,15 @@ public class ResultOtherTests
     [Fact]
     public async Task ToTask_ReturnsTask()
     {
+        // Arrange
         var ok = Result.Ok(42);
         var err = Result.Error<int>(TestError.Message);
 
+        // Act
         var okTask = ok.ToTask();
         var errTask = err.ToTask();
 
-        Assert.True(okTask is Task<Result<int>> _);
-        Assert.True(errTask is Task<Result<int>> _);
-
+        // Assert
         AssertResult.AreEqual(ok, await okTask);
         AssertResult.AreEqual(err, await errTask);
     }

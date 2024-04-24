@@ -61,7 +61,7 @@ public class HttpResponseResultReaderTest
 
         // Assert
         Assert.NotNull(actualResult);
-        AssertHttpResult.IsError(HttpStatusCode.InternalServerError, actualResult);
+        _ = AssertHttpResult.IsError(HttpStatusCode.InternalServerError, actualResult);
         Assert.NotNull(actualResult.Error.Message);
         Assert.NotEmpty(actualResult.Error.Message);
     }
@@ -81,7 +81,7 @@ public class HttpResponseResultReaderTest
 
         // Assert
         Assert.NotNull(actualResult);
-        AssertHttpResult.IsError(HttpStatusCode.BadRequest, actualResult);
+        _ = AssertHttpResult.IsError(HttpStatusCode.BadRequest, actualResult);
         Assert.NotNull(actualResult.Error.Message);
         Assert.NotEmpty(actualResult.Error.Message);
     }
@@ -102,7 +102,7 @@ public class HttpResponseResultReaderTest
 
         // Assert
         Assert.NotNull(actualResult);
-        AssertHttpResult.IsError(HttpStatusCode.BadRequest, actualResult);
+        _ = AssertHttpResult.IsError(HttpStatusCode.BadRequest, actualResult);
         Assert.NotNull(actualResult.Error.Message);
         Assert.NotEmpty(actualResult.Error.Message);
     }
@@ -123,7 +123,7 @@ public class HttpResponseResultReaderTest
 
         // Assert
         Assert.NotNull(actualResult);
-        AssertHttpResult.IsError(HttpStatusCode.BadRequest, actualResult);
+        _ = AssertHttpResult.IsError(HttpStatusCode.BadRequest, actualResult);
         Assert.NotNull(actualResult.Error.Message);
         Assert.NotEmpty(actualResult.Error.Message);
     }
@@ -184,7 +184,7 @@ public class HttpResponseResultReaderTest
 
         // Assert
         Assert.NotNull(actualResult);
-        AssertHttpResult.IsError(HttpStatusCode.InternalServerError, actualResult);
+        _ = AssertHttpResult.IsError(HttpStatusCode.InternalServerError, actualResult);
         Assert.NotNull(actualResult.Error.Message);
         Assert.NotEmpty(actualResult.Error.Message);
     }
@@ -204,7 +204,7 @@ public class HttpResponseResultReaderTest
 
         // Assert
         Assert.NotNull(actualResult);
-        AssertHttpResult.IsError(HttpStatusCode.BadRequest, actualResult);
+        _ = AssertHttpResult.IsError(HttpStatusCode.BadRequest, actualResult);
         Assert.NotNull(actualResult.Error.Message);
         Assert.NotEmpty(actualResult.Error.Message);
     }
@@ -225,7 +225,7 @@ public class HttpResponseResultReaderTest
 
         // Assert
         Assert.NotNull(actualResult);
-        AssertHttpResult.IsError(HttpStatusCode.BadRequest, actualResult);
+        _ = AssertHttpResult.IsError(HttpStatusCode.BadRequest, actualResult);
         Assert.NotNull(actualResult.Error.Message);
         Assert.NotEmpty(actualResult.Error.Message);
     }

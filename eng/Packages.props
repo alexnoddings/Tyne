@@ -1,8 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <!-- Multi-target .NET releases -->
-    <TargetFrameworks>net7.0;net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>$(TyneSupportedFrameworks)</TargetFrameworks>
     <!-- Mark the project as a package. -->
     <IsPackable>true</IsPackable>
     <!-- Ensure this is marked as a CI build if we're executing on a GitHub action. -->
@@ -64,6 +63,7 @@
   -->
   <ItemGroup Label="Visibility for test projects">
     <InternalsVisibleTo Include="$(AssemblyName).Tests" />
+    <InternalsVisibleTo Include="$(AssemblyName).UnitTests" />
     <InternalsVisibleTo Include="Tyne.TestUtilities" />
     <InternalsVisibleTo Include="Tyne.EventIdTests" />
   </ItemGroup>

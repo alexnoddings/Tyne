@@ -50,7 +50,7 @@ public class OptionUnwrapExtensionTests
         var option = Option.Some(42);
         Func<string> messageFactory = null!;
 
-        AssertExt.ThrowsArgumentNullException(() => option.Unwrap(messageFactory));
+        _ = AssertExt.ThrowsArgumentNullException(() => option.Unwrap(messageFactory));
     }
 
     [Fact]
@@ -78,7 +78,7 @@ public class OptionUnwrapExtensionTests
         var option = Option.Some(42);
         Func<Exception> exceptionFactory = null!;
 
-        AssertExt.ThrowsArgumentNullException(() => option.Unwrap(exceptionFactory));
+        _ = AssertExt.ThrowsArgumentNullException(() => option.Unwrap(exceptionFactory));
     }
 
     [Fact]

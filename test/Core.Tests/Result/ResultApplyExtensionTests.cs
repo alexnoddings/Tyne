@@ -10,8 +10,8 @@ public class ResultApplyExtensionTests
 
         Action<int> ok = null!;
 
-        AssertExt.ThrowsArgumentNullException(() => okResult.Apply(ok));
-        AssertExt.ThrowsArgumentNullException(() => errorResult.Apply(ok));
+        _ = AssertExt.ThrowsArgumentNullException(() => okResult.Apply(ok));
+        _ = AssertExt.ThrowsArgumentNullException(() => errorResult.Apply(ok));
     }
 
     [Fact]
@@ -26,8 +26,8 @@ public class ResultApplyExtensionTests
             // Just a filler method
         }
 
-        AssertExt.ThrowsArgumentNullException(() => okResult.Apply(ok, err));
-        AssertExt.ThrowsArgumentNullException(() => errorResult.Apply(ok, err));
+        _ = AssertExt.ThrowsArgumentNullException(() => okResult.Apply(ok, err));
+        _ = AssertExt.ThrowsArgumentNullException(() => errorResult.Apply(ok, err));
     }
 
     [Fact]
@@ -42,7 +42,7 @@ public class ResultApplyExtensionTests
         }
         Action<Error> err = null!;
 
-        AssertExt.ThrowsArgumentNullException(() => okResult.Apply(ok, err));
-        AssertExt.ThrowsArgumentNullException(() => errorResult.Apply(ok, err));
+        _ = AssertExt.ThrowsArgumentNullException(() => okResult.Apply(ok, err));
+        _ = AssertExt.ThrowsArgumentNullException(() => errorResult.Apply(ok, err));
     }
 }

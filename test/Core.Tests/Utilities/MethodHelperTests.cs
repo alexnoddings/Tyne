@@ -26,16 +26,14 @@ public class MethodHelperTests
     }
 
     [Fact]
-    public void Get_Instance_T0_Internal_NotFound()
-    {
+    public void Get_Instance_T0_Internal_NotFound() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass>(nameof(TestClass.InternalInstanceMethod)));
-    }
 
     [Fact]
     public void Get_Instance_T1_Public()
     {
         var methodInfo = MethodHelper.Get<TestClass, int>(nameof(TestClass.PublicInstanceMethod));
-        var result = methodInfo.Invoke(TestInstance, new object[] { 1 });
+        var result = methodInfo.Invoke(TestInstance, [1]);
         Assert.Equal(1, result);
     }
 
@@ -43,21 +41,19 @@ public class MethodHelperTests
     public void Get_Instance_T1_Internal_Found()
     {
         var methodInfo = MethodHelper.Get<TestClass, int>(nameof(TestClass.InternalInstanceMethod), InternalBindingFlags);
-        var result = methodInfo.Invoke(TestInstance, new object[] { 1 });
+        var result = methodInfo.Invoke(TestInstance, [1]);
         Assert.Equal(1, result);
     }
 
     [Fact]
-    public void Get_Instance_T1_Internal_NotFound()
-    {
+    public void Get_Instance_T1_Internal_NotFound() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass, int>(nameof(TestClass.InternalInstanceMethod)));
-    }
 
     [Fact]
     public void Get_Instance_T2_Public()
     {
         var methodInfo = MethodHelper.Get<TestClass, int, int>(nameof(TestClass.PublicInstanceMethod));
-        var result = methodInfo.Invoke(TestInstance, new object[] { 1, 2 });
+        var result = methodInfo.Invoke(TestInstance, [1, 2]);
         Assert.Equal(3, result);
     }
 
@@ -65,21 +61,19 @@ public class MethodHelperTests
     public void Get_Instance_T2_Internal_Found()
     {
         var methodInfo = MethodHelper.Get<TestClass, int, int>(nameof(TestClass.InternalInstanceMethod), InternalBindingFlags);
-        var result = methodInfo.Invoke(TestInstance, new object[] { 1, 2 });
+        var result = methodInfo.Invoke(TestInstance, [1, 2]);
         Assert.Equal(3, result);
     }
 
     [Fact]
-    public void Get_Instance_T2_Internal_NotFound()
-    {
+    public void Get_Instance_T2_Internal_NotFound() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass, int, int>(nameof(TestClass.InternalInstanceMethod)));
-    }
 
     [Fact]
     public void Get_Instance_T3_Public()
     {
         var methodInfo = MethodHelper.Get<TestClass, int, int, int>(nameof(TestClass.PublicInstanceMethod));
-        var result = methodInfo.Invoke(TestInstance, new object[] { 1, 2, 3 });
+        var result = methodInfo.Invoke(TestInstance, [1, 2, 3]);
         Assert.Equal(6, result);
     }
 
@@ -87,21 +81,19 @@ public class MethodHelperTests
     public void Get_Instance_T3_Internal_Found()
     {
         var methodInfo = MethodHelper.Get<TestClass, int, int, int>(nameof(TestClass.InternalInstanceMethod), InternalBindingFlags);
-        var result = methodInfo.Invoke(TestInstance, new object[] { 1, 2, 3 });
+        var result = methodInfo.Invoke(TestInstance, [1, 2, 3]);
         Assert.Equal(6, result);
     }
 
     [Fact]
-    public void Get_Instance_T3_Internal_NotFound()
-    {
+    public void Get_Instance_T3_Internal_NotFound() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass, int, int, int>(nameof(TestClass.InternalInstanceMethod)));
-    }
 
     [Fact]
     public void Get_Instance_T4_Public()
     {
         var methodInfo = MethodHelper.Get<TestClass, int, int, int, int>(nameof(TestClass.PublicInstanceMethod));
-        var result = methodInfo.Invoke(TestInstance, new object[] { 1, 2, 3, 4 });
+        var result = methodInfo.Invoke(TestInstance, [1, 2, 3, 4]);
         Assert.Equal(10, result);
     }
 
@@ -109,15 +101,13 @@ public class MethodHelperTests
     public void Get_Instance_T4_Internal_Found()
     {
         var methodInfo = MethodHelper.Get<TestClass, int, int, int, int>(nameof(TestClass.InternalInstanceMethod), InternalBindingFlags);
-        var result = methodInfo.Invoke(TestInstance, new object[] { 1, 2, 3, 4 });
+        var result = methodInfo.Invoke(TestInstance, [1, 2, 3, 4]);
         Assert.Equal(10, result);
     }
 
     [Fact]
-    public void Get_Instance_T4_Internal_NotFound()
-    {
+    public void Get_Instance_T4_Internal_NotFound() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass, int, int, int, int>(nameof(TestClass.InternalInstanceMethod)));
-    }
 
 
     [Fact]
@@ -137,16 +127,14 @@ public class MethodHelperTests
     }
 
     [Fact]
-    public void Get_Static_T0_Internal_NotFound()
-    {
+    public void Get_Static_T0_Internal_NotFound() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass>(nameof(TestClass.InternalStaticMethod)));
-    }
 
     [Fact]
     public void Get_Static_T1_Public()
     {
         var methodInfo = MethodHelper.Get<TestClass, int>(nameof(TestClass.PublicStaticMethod));
-        var result = methodInfo.Invoke(null, new object[] { 1 });
+        var result = methodInfo.Invoke(null, [1]);
         Assert.Equal(1, result);
     }
 
@@ -154,21 +142,19 @@ public class MethodHelperTests
     public void Get_Static_T1_Internal_Found()
     {
         var methodInfo = MethodHelper.Get<TestClass, int>(nameof(TestClass.InternalStaticMethod), InternalBindingFlags);
-        var result = methodInfo.Invoke(null, new object[] { 1 });
+        var result = methodInfo.Invoke(null, [1]);
         Assert.Equal(1, result);
     }
 
     [Fact]
-    public void Get_Static_T1_Internal_NotFound()
-    {
+    public void Get_Static_T1_Internal_NotFound() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass, int>(nameof(TestClass.InternalStaticMethod)));
-    }
 
     [Fact]
     public void Get_Static_T2_Public()
     {
         var methodInfo = MethodHelper.Get<TestClass, int, int>(nameof(TestClass.PublicStaticMethod));
-        var result = methodInfo.Invoke(null, new object[] { 1, 2 });
+        var result = methodInfo.Invoke(null, [1, 2]);
         Assert.Equal(3, result);
     }
 
@@ -176,21 +162,19 @@ public class MethodHelperTests
     public void Get_Static_T2_Internal_Found()
     {
         var methodInfo = MethodHelper.Get<TestClass, int, int>(nameof(TestClass.InternalStaticMethod), InternalBindingFlags);
-        var result = methodInfo.Invoke(null, new object[] { 1, 2 });
+        var result = methodInfo.Invoke(null, [1, 2]);
         Assert.Equal(3, result);
     }
 
     [Fact]
-    public void Get_Static_T2_Internal_NotFound()
-    {
+    public void Get_Static_T2_Internal_NotFound() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass, int, int>(nameof(TestClass.InternalStaticMethod)));
-    }
 
     [Fact]
     public void Get_Static_T3_Public()
     {
         var methodInfo = MethodHelper.Get<TestClass, int, int, int>(nameof(TestClass.PublicStaticMethod));
-        var result = methodInfo.Invoke(null, new object[] { 1, 2, 3 });
+        var result = methodInfo.Invoke(null, [1, 2, 3]);
         Assert.Equal(6, result);
     }
 
@@ -198,21 +182,19 @@ public class MethodHelperTests
     public void Get_Static_T3_Internal_Found()
     {
         var methodInfo = MethodHelper.Get<TestClass, int, int, int>(nameof(TestClass.InternalStaticMethod), InternalBindingFlags);
-        var result = methodInfo.Invoke(null, new object[] { 1, 2, 3 });
+        var result = methodInfo.Invoke(null, [1, 2, 3]);
         Assert.Equal(6, result);
     }
 
     [Fact]
-    public void Get_Static_T3_Internal_NotFound()
-    {
+    public void Get_Static_T3_Internal_NotFound() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass, int, int, int>(nameof(TestClass.InternalStaticMethod)));
-    }
 
     [Fact]
     public void Get_Static_T4_Public()
     {
         var methodInfo = MethodHelper.Get<TestClass, int, int, int, int>(nameof(TestClass.PublicStaticMethod));
-        var result = methodInfo.Invoke(null, new object[] { 1, 2, 3, 4 });
+        var result = methodInfo.Invoke(null, [1, 2, 3, 4]);
         Assert.Equal(10, result);
     }
 
@@ -220,27 +202,21 @@ public class MethodHelperTests
     public void Get_Static_T4_Internal_Found()
     {
         var methodInfo = MethodHelper.Get<TestClass, int, int, int, int>(nameof(TestClass.InternalStaticMethod), InternalBindingFlags);
-        var result = methodInfo.Invoke(null, new object[] { 1, 2, 3, 4 });
+        var result = methodInfo.Invoke(null, [1, 2, 3, 4]);
         Assert.Equal(10, result);
     }
 
     [Fact]
-    public void Get_Static_T4_Internal_NotFound()
-    {
+    public void Get_Static_T4_Internal_NotFound() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass, int, int, int, int>(nameof(TestClass.InternalStaticMethod)));
-    }
 
     [Fact]
-    public void Get_NonExistent_Throws()
-    {
+    public void Get_NonExistent_Throws() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass>("NonExistentMethod"));
-    }
 
     [Fact]
-    public void Get_Overload_Throws()
-    {
+    public void Get_Overload_Throws() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass>(nameof(TestClass.PublicInstanceOverloaded)));
-    }
 
     private static void Assert_ThrowsArgumentException(Func<MethodInfo> func)
     {

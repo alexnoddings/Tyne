@@ -93,7 +93,7 @@ public abstract class TyneFormBase<TInput, TModel> : ComponentBase, ITyneForm<TM
         finally
         {
             // Always release our semaphore before returning
-            _initialiseSemaphore.Release();
+            _ = _initialiseSemaphore.Release();
         }
     }
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -151,10 +151,9 @@ public abstract class TyneFormBase<TInput, TModel> : ComponentBase, ITyneForm<TM
         if (InitialiseResult?.IsOk != true)
         {
             // InitialiseResult *shouldn't* be null here...
-            if (InitialiseResult is not null)
-                OpenResult = Result.Error<TModel>(InitialiseResult.Error);
-            else
-                OpenResult = Result.Error<TModel>("Error while initialising.");
+            OpenResult = InitialiseResult is not null
+                ? Result.Error<TModel>(InitialiseResult.Error)
+                : Result.Error<TModel>("Error while initialising");
 
             await UpdateStateAsync(FormState.Open).ConfigureAwait(true);
             return;

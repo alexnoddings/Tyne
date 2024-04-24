@@ -14,7 +14,7 @@ public static class EntityTypeBuilderExtensions
     {
         ArgumentNullException.ThrowIfNull(entityTypeBuilder);
 
-        entityTypeBuilder.HasAnnotation(DbContextChangeAuditor.IgnoreChangeAuditingAnnotationName, ignoreChangeAuditing);
+        _ = entityTypeBuilder.HasAnnotation(DbContextChangeAuditor.IgnoreChangeAuditingAnnotationName, ignoreChangeAuditing);
 
         return entityTypeBuilder;
     }
@@ -29,7 +29,7 @@ public static class EntityTypeBuilderExtensions
         ArgumentNullException.ThrowIfNull(entityTypeBuilder);
         ArgumentNullException.ThrowIfNull(navigationExpression);
 
-        entityTypeBuilder
+        _ = entityTypeBuilder
             .Navigation(navigationExpression)
             .HasAnnotation(DbContextChangeAuditor.ParentNavigationForAuditingAnnotationName, true);
 
@@ -45,7 +45,7 @@ public static class EntityTypeBuilderExtensions
         ArgumentNullException.ThrowIfNull(entityTypeBuilder);
         ArgumentNullException.ThrowIfNull(navigationExpression);
 
-        entityTypeBuilder
+        _ = entityTypeBuilder
             .Navigation(navigationExpression)
             .HasAnnotation(DbContextChangeAuditor.ChildNavigationForAuditingAnnotationName, true);
 

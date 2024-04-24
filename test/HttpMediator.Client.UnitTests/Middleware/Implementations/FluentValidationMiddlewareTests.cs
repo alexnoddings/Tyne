@@ -21,7 +21,8 @@ public class FluentValidationMiddlewareTests
 
         // Assert
         Assert.NotNull(actualResult);
-        AssertHttpResult.IsError(HttpStatusCode.BadRequest, actualResult);
+        var actualError = AssertHttpResult.IsError(HttpStatusCode.BadRequest, actualResult);
+        Assert.Equal(FluentValidationMiddleware.ErrorCode, actualError.Code);
     }
 
     [Fact]
@@ -36,7 +37,7 @@ public class FluentValidationMiddlewareTests
         var nextCounter = 0;
         Task<HttpResult<ValidatedResponse>> Next(ValidatedRequest request)
         {
-            Interlocked.Increment(ref nextCounter);
+            _ = Interlocked.Increment(ref nextCounter);
             var response = new ValidatedResponse { Message = request.Message };
             return HttpResult.Codes.OK(response).ToTask();
         }
@@ -46,7 +47,7 @@ public class FluentValidationMiddlewareTests
 
         // Assert
         Assert.NotNull(actualResult);
-        AssertHttpResult.IsOk(HttpStatusCode.OK, actualResult);
+        _ = AssertHttpResult.IsOk(HttpStatusCode.OK, actualResult);
         Assert.Equal(request.Message, actualResult.Value.Message);
         Assert.Equal(1, nextCounter);
     }

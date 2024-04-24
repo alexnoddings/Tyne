@@ -23,7 +23,7 @@ public static class EndpointRouteBuilderAuthoriseRoutesExtensions
                 ? CreateRouteAuthorisationMiddlewareWithoutPolicies(routeAuthorisation.ShouldHandleUnauthorised)
                 : CreateRouteAuthorisationMiddlewareWithPolicies(routeAuthorisation.ShouldHandleUnauthorised, routeAuthorisation.Policies);
 
-            builder.UseWhen(routeAuthorisation.AuthoriseWhen, subBuilder => subBuilder.Use(middleware));
+            _ = builder.UseWhen(routeAuthorisation.AuthoriseWhen, subBuilder => subBuilder.Use(middleware));
         }
 
         return builder;

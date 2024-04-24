@@ -50,11 +50,12 @@ public class WebApplicationEndpointMappingExtensionsTests
     {
         // Arrange
         var webApplicationBuilder = WebApplication.CreateBuilder();
-        webApplicationBuilder.Services
+        _ = webApplicationBuilder.Services
             .AddTyne()
             .AddServerHttpMediator(static builder =>
                 builder.Configure(static options => options.ApiBase = ApiBase)
             );
+
         var webApplication = webApplicationBuilder.Build();
 
         // Act

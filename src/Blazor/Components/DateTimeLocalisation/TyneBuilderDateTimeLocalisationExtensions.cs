@@ -20,7 +20,7 @@ public static class TyneBuilderDateTimeLocalisationExtensions
     {
         ArgumentNullException.ThrowIfNull(tyneBuilder);
 
-        tyneBuilder.Services.AddScoped<IUserTimeZoneService, JsUserTimeZoneService>();
+        _ = tyneBuilder.Services.AddScoped<IUserTimeZoneService, JsUserTimeZoneService>();
         return tyneBuilder;
     }
 }

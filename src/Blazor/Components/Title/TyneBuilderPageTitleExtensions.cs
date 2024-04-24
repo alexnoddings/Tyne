@@ -21,7 +21,7 @@ public static class TyneBuilderPageTitleExtensions
         ArgumentNullException.ThrowIfNull(tyneBuilder);
         ArgumentNullException.ThrowIfNull(configSectionPath);
 
-        tyneBuilder
+        _ = tyneBuilder
             .Services
             .AddOptions<TynePageTitleOptions>()
             .Configure<IConfiguration>((options, configuration) => configuration.Bind(configSectionPath, options));
@@ -41,7 +41,7 @@ public static class TyneBuilderPageTitleExtensions
         ArgumentNullException.ThrowIfNull(tyneBuilder);
         ArgumentNullException.ThrowIfNull(configSection);
 
-        tyneBuilder
+        _ = tyneBuilder
             .Services
             .AddOptions<TynePageTitleOptions>()
             .Configure(configSection.Bind);
@@ -61,7 +61,7 @@ public static class TyneBuilderPageTitleExtensions
         ArgumentNullException.ThrowIfNull(tyneBuilder);
         ArgumentNullException.ThrowIfNull(configure);
 
-        tyneBuilder
+        _ = tyneBuilder
             .Services
             .AddOptions<TynePageTitleOptions>()
             .Configure(configure);

@@ -43,14 +43,21 @@ Tyne's common core types can be shortened using Tyne's [prelude system](../prelu
 </PropertyGroup>
 ```
 
-Once enabled, [`Result`](xref:Tyne.Result), [`Option`](xref:Tyne.Option), and [`Error`](xref:Tyne.Error) creation methods are imported statically:
+Once enabled:
+- [`Result`](xref:Tyne.Result), [`Option`](xref:Tyne.Option), and [`Error`](xref:Tyne.Error) creation methods are imported statically:
+    ```cs
+    var okResult = Ok(42);
+    var errorResult = Error<int>("No value");
 
-```cs
-var okResult = Ok(42);
-var errorResult = Error<int>("No value");
+    var some = Some(101);
+    var none = None<int>();
 
-var some = Some(101);
-var none = None<int>();
-
-var error = Error("Nothing");
-```
+    var error = Error("Nothing");
+    ```
+- [`Unit.Value`](xref:Tyne.Unit.Value) is imported statically as `unit`:
+    ```cs
+    // Without prelude
+    return Unit.Value;
+    // With prelude
+    return unit;
+    ```

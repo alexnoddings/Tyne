@@ -12,10 +12,10 @@ public sealed class TestWebAppHost
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        builder.Services.AddMediatR(static options => options.RegisterServicesFromAssemblyContaining<TestWebAppHost>());
-        builder.Services.AddValidatorsFromAssemblyContaining<SimpleRequest>();
+        _ = builder.Services.AddMediatR(static options => options.RegisterServicesFromAssemblyContaining<TestWebAppHost>());
+        _ = builder.Services.AddValidatorsFromAssemblyContaining<SimpleRequest>();
 
-        builder.Services
+        _ = builder.Services
             .AddTyne()
             .AddServerHttpMediator(static builder =>
                 builder
@@ -30,8 +30,8 @@ public sealed class TestWebAppHost
 
         using var app = builder.Build();
 
-        app.UseRouting();
-        app.MapHttpMediatorRequestsFromAssemblyContaining<SimpleRequest>();
+        _ = app.UseRouting();
+        _ = app.MapHttpMediatorRequestsFromAssemblyContaining<SimpleRequest>();
         app.Run();
     }
 }

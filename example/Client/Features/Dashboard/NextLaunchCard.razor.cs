@@ -28,8 +28,6 @@ public sealed partial class NextLaunchCard : IDisposable
         return LaunchTime + TimeSpan.FromDays(1) - now.TimeOfDay;
     }
 
-    public void Dispose()
-    {
+    public void Dispose() =>
         Timer.Dispose();
-    }
 }

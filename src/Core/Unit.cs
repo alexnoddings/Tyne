@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
 
 namespace Tyne;
 
@@ -17,7 +19,12 @@ public readonly struct Unit : IEquatable<Unit>, IComparable<Unit>, IComparable
     /// <summary>
     ///		The default and only value of <see cref="Unit"/>.
     /// </summary>
-    public static ref readonly Unit Value => ref _value;
+    [Pure]
+    public static ref readonly Unit Value
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => ref _value;
+    }
 
     /// <summary>
     ///		Creates a new <see cref="Unit"/>.

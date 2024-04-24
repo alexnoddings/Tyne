@@ -17,7 +17,7 @@ public static class TyneBuilderEnvironmentExtensions
     {
         ArgumentNullException.ThrowIfNull(tyneBuilder);
 
-        tyneBuilder.Services.AddScoped<IEnvironment, TEnvironmentService>();
+        _ = tyneBuilder.Services.AddScoped<IEnvironment, TEnvironmentService>();
 
         return tyneBuilder;
     }
@@ -27,11 +27,9 @@ public static class TyneBuilderEnvironmentExtensions
         ArgumentNullException.ThrowIfNull(tyneBuilder);
         ArgumentNullException.ThrowIfNull(getEnvironmentName);
 
-        tyneBuilder.Services.AddScoped<IEnvironment>(services =>
-        {
-            var environmentName = getEnvironmentName(services);
-            return new SimpleEnvironment { EnvironmentName = environmentName };
-        });
+        _ = tyneBuilder.Services.AddScoped<IEnvironment>(services =>
+            new SimpleEnvironment { EnvironmentName = getEnvironmentName(services) }
+        );
 
         return tyneBuilder;
     }
@@ -41,7 +39,7 @@ public static class TyneBuilderEnvironmentExtensions
         ArgumentNullException.ThrowIfNull(tyneBuilder);
         ArgumentException.ThrowIfNullOrEmpty(environmentName);
 
-        tyneBuilder.Services.AddSingleton<IEnvironment>(new SimpleEnvironment { EnvironmentName = environmentName });
+        _ = tyneBuilder.Services.AddSingleton<IEnvironment>(new SimpleEnvironment { EnvironmentName = environmentName });
 
         return tyneBuilder;
     }

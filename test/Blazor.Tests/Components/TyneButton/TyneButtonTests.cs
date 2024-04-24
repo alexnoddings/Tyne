@@ -196,7 +196,7 @@ public class TyneButtonTests : TestContext
         AssertButton.Disabled(buttonElement);
 
         // Should be showing the loading content
-        cut.Find(loadingContentClass);
+        _ = cut.Find(loadingContentClass);
 
         // Complete the task
         tcs.SetResult();

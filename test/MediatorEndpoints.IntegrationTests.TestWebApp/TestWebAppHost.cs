@@ -11,11 +11,11 @@ public sealed class TestWebAppHost
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        builder.Services.AddMediatR(static options =>
+        _ = builder.Services.AddMediatR(static options =>
             options.RegisterServicesFromAssemblyContaining<SimpleRequestHandler>()
         );
 
-        builder.Services
+        _ = builder.Services
             .AddTyne()
             .AddServerHttpMediator(static builder =>
                 builder
@@ -25,12 +25,12 @@ public sealed class TestWebAppHost
                 )
             );
 
-        builder.Services.AddHttpContextAccessor();
+        _ = builder.Services.AddHttpContextAccessor();
 
         using var app = builder.Build();
 
-        app.UseRouting();
-        app.MapHttpMediatorRequestsFromAssemblyContaining<SimpleRequest>();
+        _ = app.UseRouting();
+        _ = app.MapHttpMediatorRequestsFromAssemblyContaining<SimpleRequest>();
         app.Run();
     }
 }

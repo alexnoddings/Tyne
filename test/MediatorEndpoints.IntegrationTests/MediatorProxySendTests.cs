@@ -27,7 +27,7 @@ public class MediatorProxySendTests
     }
 
     [Fact]
-    public async Task Send_Null_Throws_InvalidOperationException()
+    public async Task Send_Null_Throws_UnwrapException()
     {
         using var testScope = TestWebApp.CreateTestScope();
         var (mediatorProxy, _) = testScope;
@@ -35,12 +35,16 @@ public class MediatorProxySendTests
         // Arrange
         SimpleRequest request = null!;
 
-        // Act and assert
-        await Assert.ThrowsAsync<InvalidOperationException>(() => mediatorProxy.Send(request));
+        // Act
+        Task act() =>
+            mediatorProxy.Send(request);
+
+        // Assert
+        _ = await Assert.ThrowsAsync<UnwrapResultValueException>(act);
     }
 
     [Fact]
-    public async Task Send_NoResponse_Throws_InvalidOperationException()
+    public async Task Send_NoResponse_Throws_UnwrapException()
     {
         using var testScope = TestWebApp.CreateTestScope();
         var (mediatorProxy, _) = testScope;
@@ -48,13 +52,16 @@ public class MediatorProxySendTests
         // Arrange
         var request = new SimpleRequest { Count = SimpleRequest.CountToReturnNoResponse };
 
-        // Act and assert
-        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => mediatorProxy.Send(request));
-        Assert.Equal("Could not read response. De-serialising returned null, not TResponse.", exception.Message);
+        // Act
+        Task act() =>
+            mediatorProxy.Send(request);
+
+        // Assert
+        _ = await Assert.ThrowsAsync<UnwrapResultValueException>(act);
     }
 
     [Fact]
-    public async Task Send_WrongResponse_Throws_InvalidOperationException()
+    public async Task Send_WrongResponse_ReturnsDefault()
     {
         using var testScope = TestWebApp.CreateTestScope();
         var (mediatorProxy, _) = testScope;

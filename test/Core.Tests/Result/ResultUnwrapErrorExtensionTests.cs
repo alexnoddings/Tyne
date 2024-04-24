@@ -50,7 +50,7 @@ public class ResultUnwrapErrorExtensionTests
         var result = Result.Error<int>(TestError.Instance);
         Func<string> messageFactory = null!;
 
-        AssertExt.ThrowsArgumentNullException(() => result.UnwrapError(messageFactory));
+        _ = AssertExt.ThrowsArgumentNullException(() => result.UnwrapError(messageFactory));
     }
 
     [Fact]
@@ -78,7 +78,7 @@ public class ResultUnwrapErrorExtensionTests
         var result = Result.Error<int>(TestError.Instance);
         Func<Exception> exceptionFactory = null!;
 
-        AssertExt.ThrowsArgumentNullException(() => result.UnwrapError(exceptionFactory));
+        _ = AssertExt.ThrowsArgumentNullException(() => result.UnwrapError(exceptionFactory));
     }
 
     [Fact]

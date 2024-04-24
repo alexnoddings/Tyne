@@ -42,6 +42,19 @@ public class TyneFormFluentValidator<TModel>
     [Parameter]
     public bool UseInjected { get; set; } = true;
 
+    /// <summary>
+    ///     When <see langword="true"/>, this will be validated when any ancestor <see cref="TyneFormRootFluentValidator{TModel}"/>s run validation.
+    ///     This is useful for forms with nested forms (e.g. an address within a customer).
+    ///     However, it may not be useful for descendent forms which don't logically belong to ancestor (e.g. creating a new customer during an order creation process).
+    /// </summary>
+    /// <remarks>
+    ///     This is only referenced during initialisation. Attempting to change it after that will throw an exception.
+    ///     Defaults to <see langword="true"/>.
+    /// </remarks>
+    [Parameter]
+    public bool UseNestedValidation { get; set; } = true;
+    private bool? _originalUseNestedValidation;
+
     [Inject]
     private IEnumerable<IValidator<TModel>>? InjectedValidators { get; init; }
 
@@ -69,12 +82,16 @@ public class TyneFormFluentValidator<TModel>
             ValidationEvents = ValidationEvents
         };
 
-        if (RootFluentValidator is not null)
+        _originalUseNestedValidation = UseNestedValidation;
+        if (UseNestedValidation && RootFluentValidator is not null)
             _rootValidatorRegistration = RootFluentValidator.RegisterNestedValidator(this);
     }
 
     protected override void OnParametersSet()
     {
+        if (UseNestedValidation != _originalUseNestedValidation)
+            throw new InvalidOperationException($"{nameof(TyneFormFluentValidator<TModel>)} does not support changing {nameof(UseNestedValidation)} dynamically.");
+
         if (EditContext != _originalEditContext)
             throw new InvalidOperationException($"{nameof(TyneFormFluentValidator<TModel>)} does not support changing the {nameof(EditContext)} dynamically.");
 

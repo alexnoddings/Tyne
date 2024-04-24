@@ -12,7 +12,7 @@ public class HttpSenderMiddlewareTests
         using var scope = HttpMediatorClientTestScope.Create();
 
         // Arrange
-        scope.Http.Handle<SimpleRequest, SimpleResponse>(request => new SimpleResponse { NewCount = request.Count + 1 });
+        _ = scope.Http.Handle<SimpleRequest, SimpleResponse>(request => new SimpleResponse { NewCount = request.Count + 1 });
 
         var middleware = scope.Services.GetRequiredService<HttpSenderMiddleware>();
         var next = CreateAssertFailNextDelegate<SimpleRequest, SimpleResponse>();
@@ -23,7 +23,7 @@ public class HttpSenderMiddlewareTests
 
         // Assert
         Assert.NotNull(actualResult);
-        AssertHttpResult.IsOk(HttpStatusCode.OK, actualResult);
+        _ = AssertHttpResult.IsOk(HttpStatusCode.OK, actualResult);
         Assert.Equal(102, actualResult.Value.NewCount);
     }
 
@@ -54,7 +54,7 @@ public class HttpSenderMiddlewareTests
         using var scope = HttpMediatorClientTestScope.Create();
 
         // Arrange
-        scope.Http.Handle<TRequest, TResponse>(request => new TResponse { NewCount = request.Count + 1 });
+        _ = scope.Http.Handle<TRequest, TResponse>(request => new TResponse { NewCount = request.Count + 1 });
 
         var middleware = scope.Services.GetRequiredService<HttpSenderMiddleware>();
         var next = CreateAssertFailNextDelegate<TRequest, TResponse>();
@@ -65,7 +65,7 @@ public class HttpSenderMiddlewareTests
 
         // Assert
         Assert.NotNull(actualResult);
-        AssertHttpResult.IsOk(HttpStatusCode.OK, actualResult);
+        _ = AssertHttpResult.IsOk(HttpStatusCode.OK, actualResult);
         Assert.Equal(102, actualResult.Value.NewCount);
     }
 

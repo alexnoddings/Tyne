@@ -25,9 +25,10 @@ public static class HttpMediatorServerTyneBuilderExtensions
         var httpMediatorBuilder = new HttpMediatorBuilder(builder.Services);
         configure(httpMediatorBuilder);
 
-        builder.Services.AddSingleton(httpMediatorBuilder.MiddlewareBuilder.Middleware);
-        builder.Services.AddScoped<IHttpResponseResultWriter, HttpResponseResultWriter>();
-        builder.Services.AddScoped<HttpMediatorMiddlewarePipeline>();
+        _ = builder.Services
+            .AddSingleton(httpMediatorBuilder.MiddlewareBuilder.Middleware)
+            .AddScoped<IHttpResponseResultWriter, HttpResponseResultWriter>()
+            .AddScoped<HttpMediatorMiddlewarePipeline>();
 
         return builder;
     }

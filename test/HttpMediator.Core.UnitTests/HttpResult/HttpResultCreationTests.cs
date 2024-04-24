@@ -37,11 +37,8 @@ public class HttpResultCreationTests
     [MemberData(nameof(ClientErrorStatusCodesData))]
     [MemberData(nameof(ServerErrorStatusCodesData))]
     [MemberData(nameof(AboveErrorStatusCodesData))]
-    public void Ok_RejectsOtherStatusCodes(HttpStatusCode statusCode)
-    {
-        // Act and assert
+    public void Ok_RejectsOtherStatusCodes(HttpStatusCode statusCode) =>
         Assert.Throws<BadResultException>(() => HttpResult.Ok(42, statusCode));
-    }
 
     [Theory]
     [MemberData(nameof(ClientErrorStatusCodesData))]
@@ -62,9 +59,6 @@ public class HttpResultCreationTests
     [MemberData(nameof(SuccessfulStatusCodesData))]
     [MemberData(nameof(RedirectionStatusCodesData))]
     [MemberData(nameof(AboveErrorStatusCodesData))]
-    public void Error_RejectsOtherStatusCodes(HttpStatusCode statusCode)
-    {
-        // Act and assert
+    public void Error_RejectsOtherStatusCodes(HttpStatusCode statusCode) =>
         Assert.Throws<BadResultException>(() => HttpResult.Error<int>(TestError.Message, statusCode));
-    }
 }

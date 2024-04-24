@@ -32,7 +32,7 @@ public class UrlUtilities_TryParse_Tests
             throw new ArgumentException("Value was not an Option<>.", nameof(expectedOption));
 
         var optionType = expectedOptionType.GenericTypeArguments[0];
-        TryParseT_MethodInfo
+        _ = TryParseT_MethodInfo
             .MakeGenericMethod(optionType)
             .Invoke(null, [input, expectedOption]);
     }

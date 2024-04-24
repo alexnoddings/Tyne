@@ -43,7 +43,7 @@ public class TyneFormRootFluentValidator<TModel>
             .ToList();
 
         foreach (var nestedEditContext in nestedEditContexts)
-            nestedEditContext.Validate();
+            _ = nestedEditContext.Validate();
     }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)

@@ -22,14 +22,14 @@ public class ResultCreationTests
     public void ValueCtor_ValueType_IsOk()
     {
         var result = new Result<int>(42);
-        AssertResult.IsOk(42, result);
+        _ = AssertResult.IsOk(42, result);
     }
 
     [Fact]
     public void ValueCtor_NullableValueType_IsOk()
     {
         var result = new Result<int?>(42);
-        AssertResult.IsOk(42, result);
+        _ = AssertResult.IsOk(42, result);
     }
 
     [Fact]
@@ -37,7 +37,7 @@ public class ResultCreationTests
     {
         var obj = new object();
         var result = new Result<object>(obj);
-        AssertResult.IsOk(obj, result);
+        _ = AssertResult.IsOk(obj, result);
     }
 
     [Fact]
@@ -58,21 +58,21 @@ public class ResultCreationTests
     public void ErrorCtor_ValueType_IsOk()
     {
         var result = new Result<int>(TestError.Instance);
-        AssertResult.IsError(TestError.Instance, result);
+        _ = AssertResult.IsError(TestError.Instance, result);
     }
 
     [Fact]
     public void ErrorCtor_NullableValueType_IsOk()
     {
         var result = new Result<int?>(TestError.Instance);
-        AssertResult.IsError(TestError.Instance, result);
+        _ = AssertResult.IsError(TestError.Instance, result);
     }
 
     [Fact]
     public void ErrorCtor_ReferenceType_IsOk()
     {
         var result = new Result<object>(TestError.Instance);
-        AssertResult.IsError(TestError.Instance, result);
+        _ = AssertResult.IsError(TestError.Instance, result);
     }
 
     [Fact]
@@ -81,8 +81,8 @@ public class ResultCreationTests
         var result1 = Result.Ok(42);
         var result2 = ResultPrelude.Ok(42);
 
-        AssertResult.IsOk(42, result1);
-        AssertResult.IsOk(42, result2);
+        _ = AssertResult.IsOk(42, result1);
+        _ = AssertResult.IsOk(42, result2);
     }
 
     [Fact]
@@ -91,8 +91,8 @@ public class ResultCreationTests
         var result1 = Result.Ok<int?>(42);
         var result2 = ResultPrelude.Ok<int?>(42);
 
-        AssertResult.IsOk(42, result1);
-        AssertResult.IsOk(42, result2);
+        _ = AssertResult.IsOk(42, result1);
+        _ = AssertResult.IsOk(42, result2);
     }
 
     [Fact]
@@ -103,8 +103,8 @@ public class ResultCreationTests
         var result1 = Result.Ok(obj);
         var result2 = ResultPrelude.Ok(obj);
 
-        AssertResult.IsOk(obj, result1);
-        AssertResult.IsOk(obj, result2);
+        _ = AssertResult.IsOk(obj, result1);
+        _ = AssertResult.IsOk(obj, result2);
     }
 
     [Fact]
@@ -115,8 +115,8 @@ public class ResultCreationTests
         var result1 = Result.Ok(value);
         var result2 = ResultPrelude.Ok(value);
 
-        AssertResult.IsOk(value, result1);
-        AssertResult.IsOk(value, result2);
+        _ = AssertResult.IsOk(value, result1);
+        _ = AssertResult.IsOk(value, result2);
     }
 
     [Fact]
@@ -145,8 +145,8 @@ public class ResultCreationTests
         var result1 = Result.Error<int>(TestError.Message);
         var result2 = ResultPrelude.Error<int>(TestError.Message);
 
-        AssertResult.IsError(TestError.Message, result1);
-        AssertResult.IsError(TestError.Message, result2);
+        _ = AssertResult.IsError(TestError.Message, result1);
+        _ = AssertResult.IsError(TestError.Message, result2);
     }
 
     [Fact]
@@ -155,8 +155,8 @@ public class ResultCreationTests
         var result1 = Result.Error<int?>(TestError.Message);
         var result2 = ResultPrelude.Error<int?>(TestError.Message);
 
-        AssertResult.IsError(TestError.Message, result1);
-        AssertResult.IsError(TestError.Message, result2);
+        _ = AssertResult.IsError(TestError.Message, result1);
+        _ = AssertResult.IsError(TestError.Message, result2);
     }
 
     [Fact]
@@ -165,8 +165,8 @@ public class ResultCreationTests
         var result1 = Result.Error<object>(TestError.Message);
         var result2 = ResultPrelude.Error<object>(TestError.Message);
 
-        AssertResult.IsError(TestError.Message, result1);
-        AssertResult.IsError(TestError.Message, result2);
+        _ = AssertResult.IsError(TestError.Message, result1);
+        _ = AssertResult.IsError(TestError.Message, result2);
     }
 
     [Fact]
@@ -175,8 +175,8 @@ public class ResultCreationTests
         var result1 = Result.Error<int>(TestError.Code, TestError.Message);
         var result2 = ResultPrelude.Error<int>(TestError.Code, TestError.Message);
 
-        AssertResult.IsError(TestError.Code, TestError.Message, result1);
-        AssertResult.IsError(TestError.Code, TestError.Message, result2);
+        _ = AssertResult.IsError(TestError.Code, TestError.Message, result1);
+        _ = AssertResult.IsError(TestError.Code, TestError.Message, result2);
     }
 
     [Fact]
@@ -185,8 +185,8 @@ public class ResultCreationTests
         var result1 = Result.Error<int?>(TestError.Code, TestError.Message);
         var result2 = ResultPrelude.Error<int?>(TestError.Code, TestError.Message);
 
-        AssertResult.IsError(TestError.Code, TestError.Message, result1);
-        AssertResult.IsError(TestError.Code, TestError.Message, result2);
+        _ = AssertResult.IsError(TestError.Code, TestError.Message, result1);
+        _ = AssertResult.IsError(TestError.Code, TestError.Message, result2);
     }
 
     [Fact]
@@ -195,8 +195,8 @@ public class ResultCreationTests
         var result1 = Result.Error<object>(TestError.Code, TestError.Message);
         var result2 = ResultPrelude.Error<object>(TestError.Code, TestError.Message);
 
-        AssertResult.IsError(TestError.Code, TestError.Message, result1);
-        AssertResult.IsError(TestError.Code, TestError.Message, result2);
+        _ = AssertResult.IsError(TestError.Code, TestError.Message, result1);
+        _ = AssertResult.IsError(TestError.Code, TestError.Message, result2);
     }
 
     [Fact]
@@ -207,8 +207,8 @@ public class ResultCreationTests
         var result1 = Result.Error<int>(TestError.Code, TestError.Message, exception);
         var result2 = ResultPrelude.Error<int>(TestError.Code, TestError.Message, exception);
 
-        AssertResult.IsError(TestError.Code, TestError.Message, exception, result1);
-        AssertResult.IsError(TestError.Code, TestError.Message, exception, result2);
+        _ = AssertResult.IsError(TestError.Code, TestError.Message, exception, result1);
+        _ = AssertResult.IsError(TestError.Code, TestError.Message, exception, result2);
     }
 
     [Fact]
@@ -219,8 +219,8 @@ public class ResultCreationTests
         var result1 = Result.Error<int?>(TestError.Code, TestError.Message, exception);
         var result2 = ResultPrelude.Error<int?>(TestError.Code, TestError.Message, exception);
 
-        AssertResult.IsError(TestError.Code, TestError.Message, exception, result1);
-        AssertResult.IsError(TestError.Code, TestError.Message, exception, result2);
+        _ = AssertResult.IsError(TestError.Code, TestError.Message, exception, result1);
+        _ = AssertResult.IsError(TestError.Code, TestError.Message, exception, result2);
     }
 
     [Fact]
@@ -231,8 +231,8 @@ public class ResultCreationTests
         var result1 = Result.Error<object>(TestError.Code, TestError.Message, exception);
         var result2 = ResultPrelude.Error<object>(TestError.Code, TestError.Message, exception);
 
-        AssertResult.IsError(TestError.Code, TestError.Message, exception, result1);
-        AssertResult.IsError(TestError.Code, TestError.Message, exception, result2);
+        _ = AssertResult.IsError(TestError.Code, TestError.Message, exception, result1);
+        _ = AssertResult.IsError(TestError.Code, TestError.Message, exception, result2);
     }
 
     [Fact]
@@ -243,8 +243,8 @@ public class ResultCreationTests
         var result1 = Result.Error<int>(error);
         var result2 = ResultPrelude.Error<int>(error);
 
-        AssertResult.IsError(error, result1);
-        AssertResult.IsError(error, result2);
+        _ = AssertResult.IsError(error, result1);
+        _ = AssertResult.IsError(error, result2);
     }
 
     [Fact]
@@ -255,8 +255,8 @@ public class ResultCreationTests
         var result1 = Result.Error<int?>(error);
         var result2 = ResultPrelude.Error<int?>(error);
 
-        AssertResult.IsError(error, result1);
-        AssertResult.IsError(error, result2);
+        _ = AssertResult.IsError(error, result1);
+        _ = AssertResult.IsError(error, result2);
     }
 
     [Fact]
@@ -267,7 +267,7 @@ public class ResultCreationTests
         var result1 = Result.Error<object>(error);
         var result2 = ResultPrelude.Error<object>(error);
 
-        AssertResult.IsError(error, result1);
-        AssertResult.IsError(error, result2);
+        _ = AssertResult.IsError(error, result1);
+        _ = AssertResult.IsError(error, result2);
     }
 }

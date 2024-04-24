@@ -12,7 +12,7 @@ public static class ExampleProgram
     public static void Configure(IConfigurationBuilder configuration)
     {
         var initialData = GetConfigData().Select(kv => new KeyValuePair<string, string?>(kv.Key, kv.Value));
-        configuration.AddInMemoryCollection(initialData);
+        _ = configuration.AddInMemoryCollection(initialData);
 
         static IEnumerable<(string Key, string? Value)> GetConfigData()
         {
@@ -21,20 +21,21 @@ public static class ExampleProgram
         }
     }
 
-    public static void ConfigureBuildTag(IServiceCollection services, string tag)
-    {
+    public static void ConfigureBuildTag(IServiceCollection services, string tag) =>
         services.Configure<BuildTag>(buildTag => buildTag.Tag = tag);
-    }
 
     public static void ConfigureServices(IServiceCollection services, string environmentName)
     {
-        services.AddMudServices();
-        services.AddScoped<ThemeService>();
+        _ = services
+            .AddMudServices()
+            .AddScoped<ThemeService>();
 
-        services.AddMediatR(options => options.RegisterServicesFromAssemblyContaining<ExampleApp>());
-        services.AddValidatorsFromAssemblyContaining<ExampleApp>();
+        _ = services
+            .AddMediatR(options => options.RegisterServicesFromAssemblyContaining<ExampleApp>())
+            .AddValidatorsFromAssemblyContaining<ExampleApp>();
 
-        services.AddTyne()
+        _ = services
+            .AddTyne()
             .ConfigurePageTitle("Tyne:Title")
             .AddEnvironmentService(environmentName)
             .AddUserTimeZoneFromJavascript()

@@ -25,7 +25,7 @@ public class DbContextChangeEventRelationEntityTypeConfiguration<TEvent, TProper
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder
+        _ = builder
             .IgnoreChangeAuditing()
             .ToTable("_DbChangeRelations");
     }

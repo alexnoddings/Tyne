@@ -85,11 +85,11 @@ public abstract class BaseSourceRefGenerator : ISourceGenerator
         if (absolutePath is null)
             throw new ArgumentNullException(nameof(absolutePath));
 
-        EnsureConfigInitialised(_solutionDirectory);
+        var solutionDirectory = EnsureConfigInitialised(_solutionDirectory);
 
-        if (!absolutePath.StartsWith(_solutionDirectory, StringComparison.Ordinal))
+        if (!absolutePath.StartsWith(solutionDirectory, StringComparison.Ordinal))
             throw new ArgumentException($"Path \"{absolutePath}\" is not in the solution.", nameof(absolutePath));
 
-        return absolutePath.Substring(_solutionDirectory!.Length);
+        return absolutePath.Substring(solutionDirectory.Length);
     }
 }

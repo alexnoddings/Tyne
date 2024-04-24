@@ -1,8 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <!-- Multi-target .NET releases -->
-    <TargetFrameworks>net7.0;net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>$(TyneSupportedFrameworks)</TargetFrameworks>
   </PropertyGroup>
   
   <!-- Add common testing packages. -->
@@ -42,6 +41,11 @@
               See Build.props for why this is surfaced.
     -->
     <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <!--
+      CA1515: Because an application's API isn't typically referenced from outside the assembly, types can be made internal.
+      REASON: Unit tests should be publically visible.
+    -->
+    <NoWarn>$(NoWarn);CA1515</NoWarn>
   </PropertyGroup>
 
 </Project>

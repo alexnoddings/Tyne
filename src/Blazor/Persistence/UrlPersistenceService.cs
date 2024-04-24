@@ -37,10 +37,8 @@ internal sealed class UrlPersistenceService : IUrlPersistenceService
     }
 
     /// <inheritdoc/>
-    public Option<T> GetValue<T>(string key)
-    {
-        return _urlQueryStringFormatter.GetValue<T>(_navigationManager.Uri, key);
-    }
+    public Option<T> GetValue<T>(string key) =>
+        _urlQueryStringFormatter.GetValue<T>(_navigationManager.Uri, key);
 
     /// <inheritdoc/>
     public void SetValue<T>(string key, T? value)

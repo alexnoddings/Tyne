@@ -17,7 +17,7 @@ public static class TyneBuilderPersistenceExtensions
     {
         ArgumentNullException.ThrowIfNull(tyneBuilder);
 
-        tyneBuilder.Services.AddScoped<IUrlPersistenceService, UrlPersistenceService>();
+        _ = tyneBuilder.Services.AddScoped<IUrlPersistenceService, UrlPersistenceService>();
 
         return tyneBuilder;
     }
@@ -32,7 +32,7 @@ public static class TyneBuilderPersistenceExtensions
     {
         ArgumentNullException.ThrowIfNull(tyneBuilder);
 
-        tyneBuilder.Services.AddScoped<IUrlQueryStringFormatter, UrlQueryStringFormatter>();
+        _ = tyneBuilder.Services.AddScoped<IUrlQueryStringFormatter, UrlQueryStringFormatter>();
 
         return tyneBuilder;
     }

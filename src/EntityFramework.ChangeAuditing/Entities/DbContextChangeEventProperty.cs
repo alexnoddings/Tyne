@@ -29,10 +29,10 @@ public abstract class DbContextChangeEventPropertyEntityTypeConfiguration<TEvent
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder
+        _ = builder
             .HasKey(changeEventProperty => changeEventProperty.Id);
 
-        builder
+        _ = builder
             .IgnoreChangeAuditing()
             .ToTable("_DbChangesProperties");
     }

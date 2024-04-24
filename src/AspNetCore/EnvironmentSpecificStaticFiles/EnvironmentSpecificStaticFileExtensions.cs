@@ -45,23 +45,20 @@ public static class EnvironmentSpecificStaticFileExtensions
         return app.Map(requestPattern, requestDelegate);
     }
 
-    private static RequestDelegate CreateRequestDelegate(IEndpointRouteBuilder endpoints, string newRequestPath)
-    {
-        var app = endpoints.CreateApplicationBuilder();
-        app.Use(next => context =>
-        {
-            // Change the request path
-            context.Request.Path = newRequestPath;
+    private static RequestDelegate CreateRequestDelegate(IEndpointRouteBuilder endpoints, string newRequestPath) =>
+        endpoints
+            .CreateApplicationBuilder()
+            .Use(next => context =>
+            {
+                // Change the request path
+                context.Request.Path = newRequestPath;
 
-            // Set endpoint to null so the static files middleware will handle the request.
-            context.SetEndpoint(null);
+                // Set endpoint to null so the static files middleware will handle the request.
+                context.SetEndpoint(null);
 
-            // Let the static files middleware handle it
-            return next(context);
-        });
-
-        app.UseStaticFiles();
-
-        return app.Build();
-    }
+                // Let the static files middleware handle it
+                return next(context);
+            })
+            .UseStaticFiles()
+            .Build();
 }

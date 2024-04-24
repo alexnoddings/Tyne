@@ -11,8 +11,9 @@ public class UrlPersistenceService_SetValueTests : TestContext
 
     public UrlPersistenceService_SetValueTests()
     {
-        Services.AddSingleton<IUrlQueryStringFormatter, UrlQueryStringFormatter>();
-        Services.AddScoped<UrlPersistenceService>();
+        _ = Services
+            .AddSingleton<IUrlQueryStringFormatter, UrlQueryStringFormatter>()
+            .AddScoped<UrlPersistenceService>();
     }
 
     public static IEnumerable<object?[]> SetValue_Data => UrlUtilities_TestHelpers.ValueToString_Data;

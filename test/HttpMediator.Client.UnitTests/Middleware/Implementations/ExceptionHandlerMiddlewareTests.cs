@@ -11,7 +11,7 @@ public class ExceptionHandlerMiddlewareTests
         using var scope = HttpMediatorClientTestScope.Create(middleware: b => b.UseExceptionHandler());
 
         // Arrange
-        scope.Http.Handle<SimpleRequest, SimpleResponse>(request => new SimpleResponse { NewCount = request.Count + 1 });
+        _ = scope.Http.Handle<SimpleRequest, SimpleResponse>(request => new SimpleResponse { NewCount = request.Count + 1 });
 
         var middleware = scope.Services.GetRequiredService<ExceptionHandlerMiddleware>();
         var exception = new InvalidOperationException("Some exception from an inner middleware.");

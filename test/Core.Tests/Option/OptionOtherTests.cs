@@ -44,15 +44,15 @@ public class OptionOtherTests
     [Fact]
     public async Task ToTask_ReturnsOptionTask()
     {
+        // Arrange
         var some = Option.Some(42);
         var none = Option.None<int>();
 
+        // Act
         var someTask = some.ToTask();
         var noneTask = none.ToTask();
 
-        Assert.True(someTask is Task<Option<int>> _);
-        Assert.True(noneTask is Task<Option<int>> _);
-
+        // Assert
         AssertOption.AreEqual(some, await someTask);
         AssertOption.AreEqual(none, await noneTask);
     }
@@ -60,15 +60,15 @@ public class OptionOtherTests
     [Fact]
     public async Task ToValueTask_ReturnsOptionValueTask()
     {
+        // Arrange
         var some = Option.Some(42);
         var none = Option.None<int>();
 
+        // Act
         var someTask = some.ToValueTask();
         var noneTask = none.ToValueTask();
 
-        Assert.True(someTask is ValueTask<Option<int>> _);
-        Assert.True(noneTask is ValueTask<Option<int>> _);
-
+        // Assert
         AssertOption.AreEqual(some, await someTask);
         AssertOption.AreEqual(none, await noneTask);
     }

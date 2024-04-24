@@ -409,7 +409,8 @@ public static class ResultExtensions
         if (result.IsOk)
             return result.Value;
 
-        throw new UnwrapResultValueException();
+        var innerException = new InvalidOperationException(result.Error.Message);
+        throw new UnwrapResultValueException(innerException);
     }
 
     /// <summary>
@@ -440,7 +441,8 @@ public static class ResultExtensions
         if (result.IsOk)
             return result.Value;
 
-        throw new UnwrapResultValueException(errorExceptionMessage);
+        var innerException = new InvalidOperationException(result.Error.Message);
+        throw new UnwrapResultValueException(errorExceptionMessage, innerException);
     }
 
     /// <summary>
@@ -478,7 +480,8 @@ public static class ResultExtensions
             return result.Value;
 
         var errorExceptionMessage = errorExceptionMessageFactory();
-        throw new UnwrapResultValueException(errorExceptionMessage);
+        var innerException = new InvalidOperationException(result.Error.Message);
+        throw new UnwrapResultValueException(errorExceptionMessage, innerException);
     }
 
     /// <summary>

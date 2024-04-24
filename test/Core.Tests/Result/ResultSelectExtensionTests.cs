@@ -8,7 +8,7 @@ public class ResultSelectExtensionTests
         var result = Result.Ok(42);
         Func<int, int> selector = null!;
 
-        AssertExt.ThrowsArgumentNullException(() => result.Select(selector));
+        _ = AssertExt.ThrowsArgumentNullException(() => result.Select(selector));
     }
 
     [Fact]
@@ -20,7 +20,7 @@ public class ResultSelectExtensionTests
 
         var selected = result.Select(selector);
 
-        AssertResult.IsError(TestError.Instance, selected);
+        _ = AssertResult.IsError(TestError.Instance, selected);
     }
 
     [Fact]
@@ -29,11 +29,11 @@ public class ResultSelectExtensionTests
         var result = Result.Ok(42);
 
         var selector = Substitute.For<Func<int, int>>();
-        selector.Invoke(42).Returns(101);
+        _ = selector.Invoke(42).Returns(101);
 
         var selected = result.Select(selector);
 
-        AssertResult.IsOk(101, selected);
-        selector.Received(1).Invoke(42);
+        _ = AssertResult.IsOk(101, selected);
+        _ = selector.Received(1).Invoke(42);
     }
 }

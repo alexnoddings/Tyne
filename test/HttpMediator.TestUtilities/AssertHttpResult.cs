@@ -1,6 +1,5 @@
-using System;
 using System.Net;
-using Xunit;
+
 namespace Tyne.HttpMediator;
 
 public static class AssertHttpResult

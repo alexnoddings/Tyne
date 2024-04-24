@@ -11,6 +11,11 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Conventions">
+    <!--
+      Defines the target frameworks which Tyne supports.
+      This is designated once here rather than individually across multi-targeting projects.
+    -->
+    <TyneSupportedFrameworks>net7.0;net8.0;net9.0</TyneSupportedFrameworks>
     <LangVersion>preview</LangVersion>
     <Features>$(Features);strict</Features>
     <Nullable>enable</Nullable>
@@ -80,22 +85,6 @@
       REASON: This is a reminder, it doesn't belong as an error.
     -->
     <WarningsNotAsErrors>$(WarningsNotAsErrors);S1133</WarningsNotAsErrors>
-    <!--
-      CA1515:  Consider making public types internal
-      IDE0005: Using directive is unnecessary
-      IDE0022: Use expression body for methods
-      IDE0045: 'if' statement can be simplified
-      IDE0058: Remove unnecessary expression value
-      IDE0078: Use pattern matching
-      IDE0090: 'new' expression can be simplified
-      IDE0110: Remove unnecessary discard
-      IDE0200: Lambda expression can be removed
-      IDE0300: Use collection expression for array
-      REASON:  These were added in the .NET 9 SDK, creating many hundreds of warning (which were turned into errors).
-               They are being suppressed temporarily (https://github.com/alexnoddings/Tyne/milestone/16)
-               until they can be addressed individually (after the full v3.3.0 ships)
-    -->
-    <NoWarn>$(NoWarn);CA1515;IDE0005;IDE0022;IDE0045;IDE0058;IDE0078;IDE0090;IDE0110;IDE0200;IDE0300</NoWarn>
     <!-- See https://github.com/alexnoddings/Tyne/issues/138 -->
     <NoWarn>$(NoWarn);IDE0055</NoWarn>
   </PropertyGroup>

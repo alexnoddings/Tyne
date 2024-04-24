@@ -10,8 +10,8 @@ public class OptionMatchExtensionTests
 
         Action<int> some = null!;
 
-        AssertExt.ThrowsArgumentNullException(() => noneOption.Apply(some));
-        AssertExt.ThrowsArgumentNullException(() => someOption.Apply(some));
+        _ = AssertExt.ThrowsArgumentNullException(() => noneOption.Apply(some));
+        _ = AssertExt.ThrowsArgumentNullException(() => someOption.Apply(some));
     }
 
     [Fact]
@@ -21,7 +21,7 @@ public class OptionMatchExtensionTests
 
         var some = Substitute.For<Action<int>>();
 
-        option.Apply(some.Invoke);
+        _ = option.Apply(some.Invoke);
 
         some.DidNotReceive().Invoke(Arg.Any<int>());
     }
@@ -33,7 +33,7 @@ public class OptionMatchExtensionTests
 
         var some = Substitute.For<Action<int>>();
 
-        option.Apply(some.Invoke);
+        _ = option.Apply(some.Invoke);
 
         some.Received(1).Invoke(42);
     }
@@ -50,8 +50,8 @@ public class OptionMatchExtensionTests
             // Just a filler method
         }
 
-        AssertExt.ThrowsArgumentNullException(() => noneOption.Apply(some, none));
-        AssertExt.ThrowsArgumentNullException(() => someOption.Apply(some, none));
+        _ = AssertExt.ThrowsArgumentNullException(() => noneOption.Apply(some, none));
+        _ = AssertExt.ThrowsArgumentNullException(() => someOption.Apply(some, none));
     }
 
     [Fact]
@@ -66,8 +66,8 @@ public class OptionMatchExtensionTests
         }
         Action none = null!;
 
-        AssertExt.ThrowsArgumentNullException(() => noneOption.Apply(some, none));
-        AssertExt.ThrowsArgumentNullException(() => someOption.Apply(some, none));
+        _ = AssertExt.ThrowsArgumentNullException(() => noneOption.Apply(some, none));
+        _ = AssertExt.ThrowsArgumentNullException(() => someOption.Apply(some, none));
     }
 
     [Fact]
@@ -78,7 +78,7 @@ public class OptionMatchExtensionTests
         var some = Substitute.For<Action<int>>();
         var none = Substitute.For<Action>();
 
-        option.Apply(some.Invoke, none.Invoke);
+        _ = option.Apply(some.Invoke, none.Invoke);
 
         some.DidNotReceive().Invoke(Arg.Any<int>());
         none.Received(1).Invoke();
@@ -92,7 +92,7 @@ public class OptionMatchExtensionTests
         var some = Substitute.For<Action<int>>();
         var none = Substitute.For<Action>();
 
-        option.Apply(some.Invoke, none.Invoke);
+        _ = option.Apply(some.Invoke, none.Invoke);
 
         some.Received(1).Invoke(42);
         none.DidNotReceive().Invoke();

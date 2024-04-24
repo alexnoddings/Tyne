@@ -72,16 +72,16 @@ internal static class UrlUtilities
     // but when inlined for a given T, the unnecessary branches can
     // be culled to result in a relatively small amount of asm.
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [SuppressMessage("Style", "IDE0045: Convert to conditional expression.", Justification = "Some conditional expressions are less read-able than a plain ol' if/else.")]
     internal static Option<T> TryParse<T>(string valueStr)
     {
         Option<T> value;
 
         if (typeof(T) == typeof(string))
         {
-            if (!string.IsNullOrWhiteSpace(valueStr))
-                value = Option.Some((T)(object)valueStr);
-            else
-                value = Option.None<T>();
+            value = string.IsNullOrWhiteSpace(valueStr)
+                ? Option.None<T>()
+                : Option.Some((T)(object)valueStr);
         }
         else if (typeof(T).IsValueType)
         {
@@ -92,10 +92,9 @@ internal static class UrlUtilities
             }
             else if (typeof(T) == typeof(int) || typeof(T) == typeof(int?))
             {
-                if (int.TryParse(valueStr, out var @int))
-                    value = Option.Some((T)(object)@int);
-                else
-                    value = Option.None<T>();
+                value = int.TryParse(valueStr, out var @int)
+                    ? Option.Some((T)(object)@int)
+                    : Option.None<T>();
             }
             else if (typeof(T) == typeof(Guid) || typeof(T) == typeof(Guid?))
             {
@@ -109,24 +108,21 @@ internal static class UrlUtilities
             }
             else if (typeof(T) == typeof(DateTime) || typeof(T) == typeof(DateTime?))
             {
-                if (DateTime.TryParseExact(valueStr, DateTimeToStringFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateTime))
-                    value = Option.Some((T)(object)dateTime);
-                else
-                    value = Option.None<T>();
+                value = DateTime.TryParseExact(valueStr, DateTimeToStringFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateTime)
+                    ? Option.Some((T)(object)dateTime)
+                    : Option.None<T>();
             }
             else if (IsTargetTypeAnEnum<T>(out var enumType))
             {
-                if (Enum.TryParse(enumType, valueStr, out var @enum))
-                    value = Option.Some((T)@enum);
-                else
-                    value = Option.None<T>();
+                value = Enum.TryParse(enumType, valueStr, out var @enum)
+                    ? Option.Some((T)@enum)
+                    : Option.None<T>();
             }
             else if (typeof(T) == typeof(char) || typeof(T) == typeof(char?))
             {
-                if (valueStr.Length == 1)
-                    value = Option.Some((T)(object)valueStr[0]);
-                else
-                    value = Option.None<T>();
+                value = valueStr.Length == 1
+                    ? Option.Some((T)(object)valueStr[0])
+                    : Option.None<T>();
             }
             else
             {
@@ -259,16 +255,16 @@ internal static class UrlUtilities
         {
             var c = str[i];
             // Chars must be a-z
-            if ('a' <= c && c <= 'z')
+            if (c is >= 'a' and <= 'z')
                 continue;
             // Or A-Z
-            if ('A' <= c && c <= 'Z')
+            if (c is >= 'A' and <= 'Z')
                 continue;
             // Or 0-9
-            if ('0' <= c && c <= '9')
+            if (c is >= '0' and <= '9')
                 continue;
             // Or one of our replacement chars
-            if (c == ForwardSlashReplacementChar || c == PlusReplacementChar)
+            if (c is ForwardSlashReplacementChar or PlusReplacementChar)
                 continue;
 
             // If it isn't one of those, then it isn't valid
@@ -300,10 +296,10 @@ internal static class UrlUtilities
         decodedBytes[23] = 61;
 
         // Converts the Base64 bytes to GUID bytes
-        Base64.DecodeFromUtf8(decodedBytes, guidBytes, out _, out _);
+        _ = Base64.DecodeFromUtf8(decodedBytes, guidBytes, out _, out _);
 
         // Marshal the bytes into the GUID struct
-        MemoryMarshal.TryRead(guidBytes, out guid);
+        _ = MemoryMarshal.TryRead(guidBytes, out guid);
 
         return true;
     }
