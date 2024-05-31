@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TyneMajorVersion>3</TyneMajorVersion>
-    <TyneMinorVersion>4</TyneMinorVersion>
+    <TyneMinorVersion>5</TyneMinorVersion>
     <TynePatchVersion>0</TynePatchVersion>
     <TynePreReleaseTag></TynePreReleaseTag>
   </PropertyGroup>
