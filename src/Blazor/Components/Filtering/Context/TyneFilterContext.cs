@@ -45,7 +45,7 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
     ///     </para>
     /// </remarks>
     [MemberNotNullWhen(true, nameof(_initTask))]
-    public bool IsFaulted => _initTask?.IsCompleted is true && !_initTask.IsCompletedSuccessfully;
+    public bool IsFaulted => _initTask is { IsCompleted: true, IsCompletedSuccessfully: false };
 
     // Used during hot reloading to allow filters to overwrite existing ones which haven't disposed yet
     private bool _allowValueOverwriting;
@@ -265,7 +265,12 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
     public async Task ConfigureRequestAsync(TRequest request)
     {
         if (IsFaulted)
-            throw new InvalidOperationException("Unable to configure request, context failed to initialise.");
+        {
+            throw new InvalidOperationException(
+                "Unable to configure request, context failed to initialise.",
+                _initTask.Exception
+            );
+        }
 
         if (!IsInitialised)
             throw new InvalidOperationException("Request can only be configured once context is initialised.");

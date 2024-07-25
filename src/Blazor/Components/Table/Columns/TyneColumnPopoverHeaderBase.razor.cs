@@ -57,7 +57,7 @@ public abstract partial class TyneColumnPopoverHeaderBase<TResponse> : Component
     public Func<Task>? ClearValue { get; set; }
 
     /// <summary>
-    ///     The <see cref="RenderFragment"/> to display in the column header.
+    ///     A <see cref="RenderFragment"/> to display in the column header.
     /// </summary>
     /// <remarks>
     ///     This content is always shown.

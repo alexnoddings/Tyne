@@ -5,10 +5,10 @@
     <div class="d-flex">
         @if (OrderByKey.IsEmpty)
         {
-            if (ChildContent is not null)
+            if (ChildContent is { } childContent)
             {
                 <div class="d-flex align-center">
-                    @ChildContent
+                    @childContent
                 </div>
             }
         }
