@@ -40,8 +40,24 @@ public abstract partial class TyneTableBase<TRequest, TResponse>
     /// <summary>
     ///     The <see cref="IFilterValue{TValue}"/>s for filtering results.
     /// </summary>
+    /// <remarks>
+    ///     <b>Obsolete</b> - use <see cref="FilterValues"/> instead.
+    /// </remarks>
     [Parameter]
+    [Obsolete($"Use {nameof(FilterValues)} instead.", error: false, DiagnosticId = "TYNEOLD")]
     public RenderFragment? ValueFilters { get; set; }
+
+#pragma warning disable TYNEOLD
+    // Accessing ValueFilters directly in the razor file causes a compiler error since it's obsolete
+    // Instead, we expose this privately which suppresses the diagnostic and gives us backwards-compatability for a version.
+    private RenderFragment? _ValueFilters => ValueFilters;
+#pragma warning restore TYNEOLD
+
+    /// <summary>
+    ///     The <see cref="IFilterValue{TValue}"/>s for filtering results.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? FilterValues { get; set; }
 
     [Inject]
     private ILoggerFactory LoggerFactory { get; init; } = null!;
