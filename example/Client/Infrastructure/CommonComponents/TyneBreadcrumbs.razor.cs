@@ -14,10 +14,11 @@ public partial class TyneBreadcrumbs : ComponentBase
 
     protected override void OnInitialized()
     {
-        Breadcrumbs = new(GetParents())
-        {
+        Breadcrumbs =
+        [
+            .. GetParents(),
             new(PageName, href: null)
-        };
+        ];
     }
 
     protected override void OnParametersSet() =>

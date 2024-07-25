@@ -1,0 +1,19 @@
+﻿@page "/systems/filtering/values/select/single/update"
+@layout FilteringExampleLayout
+@attribute [PageTitle("Select update values")]
+
+<DocsTextBlock MultiLine="true">
+    <p>
+        Select values can dynamically update their available values for controllers.
+    </p>
+    <p>
+        The example shows a custom select value whose available values are based on the 'Orbital body' selection.
+        When the <code>@nameof(OrbitalBody)</code> parameter changes, the filter resets it's value to <code>null</code>,
+        and triggers an available value update. The filter base handles notifying attached controllers of this update.
+    </p>
+</DocsTextBlock>
+
+<SourceCode T="OrbitalTypeSelectValue<SelectUpdateValuesExampleRequest>" SourceType="SourceCodeType.Type" Name="Orbital type select value">
+    <SelectUpdateValuesExampleContent />
+</SourceCode>
+<SourceCode T="SelectUpdateValuesExampleContent" SourceType="SourceCodeType.Component" Name="Orbital type form" ShowSourceByDefault="false" />

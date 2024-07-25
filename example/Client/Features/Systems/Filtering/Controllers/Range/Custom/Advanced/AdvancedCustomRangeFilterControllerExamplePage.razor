@@ -1,0 +1,18 @@
+﻿@page "/systems/filtering/controllers/range-custom-advanced"
+@using MudBlazor.Utilities
+@layout FilteringExampleLayout
+@attribute [PageTitle("Custom range controller (advanced)")]
+
+<DocsTextBlock MultiLine="true">
+    <p>
+        Some system requirements require bespoke controllers which don't belong in a general-purpose library like Tyne.
+        In these cases, you can use custom controllers.
+    </p>
+</DocsTextBlock>
+
+<SourceCode T="AltitudeRangePickerController<AdvancedCustomRangeControllerExampleRequest>" SourceType="SourceCodeType.Component" Name="Controller component">
+    <AdvancedCustomRangeFilterControllerExampleContent />
+</SourceCode>
+
+<SourceCode T="AdvancedCustomRangeFilterControllerExampleContent" SourceType="SourceCodeType.Component" Name="Filter context" ShowSourceByDefault="false" />
+<SourceCode T="AdvancedCustomRangeControllerExampleRequest" SourceType="SourceCodeType.Type" Name="Request type" ShowSourceByDefault="false" />

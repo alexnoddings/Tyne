@@ -1,0 +1,31 @@
+﻿@page "/systems/filtering/values/select/multi/custom"
+@layout FilteringExampleLayout
+@attribute [PageTitle("Multi select custom values")]
+
+<DocsTextBlock MultiLine="true">
+    <p>
+        Select values can be used when you have a limited number of available values that a user can select.
+    </p>
+    <p>
+        They can have any source for their available values.
+        The following example implements a custom multi-select value source.
+        Values can also be
+        <MudLink Underline="Underline.Always" Href="./systems/filtering/values/select/single/custom">single select</MudLink>
+        and/or
+        <MudLink Underline="Underline.Always" Href="./systems/filtering/values/select/multi/inline">defined inline</MudLink>.
+    </p>
+    <p>
+        Multi values can be displayed with select boxes and checkbox selections.
+        You can also provide your own controller implementation by inheriting from
+        <NameOf T="@typeof(TyneMultiSelectFilterControllerBase<,>)"/>.
+    </p>
+</DocsTextBlock>
+
+<SourceCode T="ProbeDestinationsValue<MultiSelectValuesExampleRequest>" SourceType="SourceCodeType.Type" Name="Filter value">
+    <div class="d-flex flex-column align-center gap-4">
+        <MultiSelectCustomValuesExampleContent/>
+    </div>
+</SourceCode>
+<SourceCode T="MultiSelectCustomValuesExampleContent" SourceType="SourceCodeType.Component" Name="Filter context" />
+<SourceCode T="MultiSelectValuesExampleRequest" SourceType="SourceCodeType.Type" Name="Request type" ShowSourceByDefault="false" />
+<SourceCode T="MultiSelectValuesDisplay" SourceType="SourceCodeType.Component" Name="Display content" ShowSourceByDefault="false" />

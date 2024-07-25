@@ -1,0 +1,42 @@
+﻿<SimpleFilterContext TRequest="DateTimeControllerExampleRequest">
+    <FilterValues>
+        <TyneFilterValue For="m => m.LaunchWindowMin" Default="DateTime.Today.AddDays(5)" />
+        <TyneFilterValue For="m => m.LaunchWindowMax" Default="DateTime.Today.AddDays(13)" />
+    </FilterValues>
+    <ChildContent Context="ConfiguredRequest">
+        @* Controller usage *@
+        <TyneDateRangeFilterController ForMin="m => m.LaunchWindowMin"
+                                       ForMax="m => m.LaunchWindowMax"
+                                       Label="Rocket launch window" />
+
+        @if (ConfiguredRequest.LaunchWindowMin is { } min && ConfiguredRequest.LaunchWindowMax is { } max)
+        {
+            <MudTimeline Class="my-2">
+                <MudTimelineItem Color="Color.Primary">
+                    <ItemOpposite>
+                        <MudText Typo="Typo.h6">@min.ToShortDateString()</MudText>
+                    </ItemOpposite>
+                    <ItemContent>
+                        <MudText Typo="Typo.h6">Launch window opens</MudText>
+                    </ItemContent>
+                </MudTimelineItem>
+                <MudTimelineItem Color="Color.Secondary" TimelineAlign="TimelineAlign.End">
+                    <ItemOpposite>
+                        <MudText Color="Color.Secondary" Typo="Typo.h6">TBD</MudText>
+                    </ItemOpposite>
+                    <ItemContent>
+                        <MudText Typo="Typo.h6">Rocket launches</MudText>
+                    </ItemContent>
+                </MudTimelineItem>
+                <MudTimelineItem Color="Color.Primary">
+                    <ItemOpposite>
+                        <MudText Typo="Typo.h6">@max.ToShortDateString()</MudText>
+                    </ItemOpposite>
+                    <ItemContent>
+                        <MudText Typo="Typo.h6">Launch window closes</MudText>
+                    </ItemContent>
+                </MudTimelineItem>
+            </MudTimeline>
+        }
+    </ChildContent>
+</SimpleFilterContext>

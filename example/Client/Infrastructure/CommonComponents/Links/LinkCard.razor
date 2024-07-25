@@ -1,0 +1,48 @@
+﻿@namespace Tyne.Aerospace.Client.Infrastructure
+
+<MudItem xs="12" sm="6" md="5" lg="4">
+    <MudPaper Class="@($"mud-theme-{ColourName} d-flex flex-row")" Style="height: 100%">
+        <MudPaper Class="flex-grow-1" Elevation="0" Style="overflow-wrap: anywhere">
+            <MudLink Class="@($"d-flex flex-row align-center gap-3 px-4 pt-1 mud-alert-text-{ColourName}")" Href="@Href">
+                @if (Icon is not null)
+                {
+                    <MudIcon Icon="@Icon" Size="Size.Large" />
+                }
+                <MudText Typo="Typo.h4">
+                    @Title
+                </MudText>
+            </MudLink>
+            <MudText Class="px-4 py-2">
+                @ChildContent
+            </MudText>
+        </MudPaper>
+        <MudLink Href="@Href"
+                    Typo="Typo.h4"
+                    Class="d-flex align-center"
+                    Color="Color.Inherit">
+            <MudIcon Icon="@Icons.Material.Filled.NavigateNext"
+                        Color="Color.Inherit"
+                        Size="Size.Large"/>
+        </MudLink>
+    </MudPaper>
+</MudItem>
+
+@code
+{
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Href { get; set; } = string.Empty;
+
+    [Parameter]
+    public Color Colour { get; set; } = Color.Primary;
+
+    protected string ColourName => Colour.ToString().ToLowerInvariant();
+
+    [Parameter]
+    public string? Icon { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = null!;
+}

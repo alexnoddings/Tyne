@@ -32,6 +32,24 @@ internal static class SourceLookup
         .Replace(".", "_", StringComparison.Ordinal)
         .Replace("`", "_", StringComparison.Ordinal);
 
+    private static string StripNormalisedGenericTypeIdentifier(Type type)
+    {
+        // Generic components aren't stored with a generic identifier as
+        // we can't easily tell if components are generic from the file name/path.
+        // We COULD try parsing the file, but Blazor doesn't like multiple components with the same
+        // name and namespace but different arity anyway, so that shouldn't crop up
+        var identifier =
+            (type.FullName ?? type.Name)
+            .Replace("_", "__", StringComparison.Ordinal)
+            .Replace(".", "_", StringComparison.Ordinal);
+
+        var identifierGenericStart = identifier.IndexOf('`', StringComparison.Ordinal);
+        if (identifierGenericStart >= 0)
+            return identifier[..identifierGenericStart];
+
+        return identifier;
+    }
+
     private static Type GetLookupType(SourceCodeType sourceCodeType, LookupVariant variant) =>
         (sourceCodeType, variant) switch
         {
@@ -51,8 +69,22 @@ internal static class SourceLookup
             targetType = targetType.GetGenericTypeDefinition();
 
         var typeIdentifier = NormaliseTypeIdentifier(targetType);
-        var lookupField = lookupType.GetField(typeIdentifier, LookupBindingFlags)
-            ?? throw new ArgumentException($"Target type \"{targetType.Name}\" does not have a lookup on lookup type \"{lookupType.Name}\".");
+        var lookupField = lookupType.GetField(typeIdentifier, LookupBindingFlags);
+
+        if (lookupField is null)
+        {
+            var strippedTypeIdentifier = StripNormalisedGenericTypeIdentifier(targetType);
+            lookupField = lookupType.GetField(strippedTypeIdentifier, LookupBindingFlags);
+        }
+
+        if (lookupField is null)
+        {
+            throw new ArgumentException(
+                $"Target type \"{targetType.Name}\" does not have a lookup on lookup type \"{lookupType.Name}\". "
+                + $"Are you using the wrong {nameof(SourceCodeType)}?"
+            );
+        }
+
         var value = lookupField.GetValue(null);
         if (value is not string valueStr)
             throw new InvalidOperationException("Lookup field value is not a valid string.");

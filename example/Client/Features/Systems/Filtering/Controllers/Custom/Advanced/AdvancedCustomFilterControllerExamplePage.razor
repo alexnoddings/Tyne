@@ -1,0 +1,29 @@
+﻿@page "/systems/filtering/controllers/custom-advanced"
+@using MudBlazor.Utilities
+@layout FilteringExampleLayout
+@attribute [PageTitle("Custom controller (advanced)")]
+
+<DocsTextBlock MultiLine="true">
+    <p>
+        Some system requirements require bespoke controllers which don't belong in a general-purpose library like Tyne.
+        In these cases, you can use custom controllers.
+    </p>
+    <p>
+        This example shows an advanced custom controller (the colour pickers) which inherits from
+        <c>@nameof(TyneFilterControllerBase<AdvancedCustomControllerExampleRequest, MudColor>)</c>.
+        Advanced custom controllers are good for abstracting complex logic and creating re-usable controllers.
+        For simpler, one-off controllers, you can also use
+        <MudLink Underline="Underline.Always" Href="./systems/filtering/controllers/custom-simple">simple custom controllers</MudLink>.
+    </p>
+</DocsTextBlock>
+
+<SourceCode T="PartColourPickerController<AdvancedCustomControllerExampleRequest>" SourceType="SourceCodeType.Component" Name="Controller component">
+    <div class="d-flex flex-column align-center">
+        <div class="px-6 py-4 rounded" style="background: var(--mud-palette-background);">
+            <AdvancedCustomFilterControllerExampleContent />
+        </div>
+    </div>
+</SourceCode>
+
+<SourceCode T="AdvancedCustomFilterControllerExampleContent" SourceType="SourceCodeType.Component" Name="Filter context" ShowSourceByDefault="false" />
+<SourceCode T="AdvancedCustomControllerExampleRequest" SourceType="SourceCodeType.Type" Name="Request type" ShowSourceByDefault="false" />

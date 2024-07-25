@@ -19,6 +19,9 @@ public partial class SourceCode<T>
     public string Name { get; set; } = null!;
 
     [Parameter]
+    public string? ContentClass { get; set; }
+
+    [Parameter]
     public bool ShowSourceByDefault { get; set; } = true;
 
     private bool ShowSource { get; set; }
@@ -34,6 +37,9 @@ public partial class SourceCode<T>
         .AddClass("lang-razor language-cshtml-razor", SourceType is SourceCodeType.Component)
         .AddClass("lang-csharp language-csharp", SourceType is SourceCodeType.Type)
         .Build();
+
+    private string ContentClassName =>
+        ContentClass ?? "pa-4";
 
     protected override void OnInitialized()
     {

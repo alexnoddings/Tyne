@@ -1,0 +1,55 @@
+﻿@typeparam TRequest
+@inherits TyneSingleSelectFilterControllerBase<TRequest, Guid>
+
+<div class="d-flex flex-column gap-2" style="max-width: 600px;">
+    @if (SelectItems is null)
+    {
+        for (var i = 0; i < 4; i++)
+        {
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle"
+                         Animation="Animation.Wave"
+                         Width="100%"
+                         Height="77px"  />
+        }
+    }
+    else
+    {
+        foreach (var selectItem in SelectItems.OfType<IFilterSelectItem<Guid, LaunchVehicle>>())
+        {
+            var isSelected = selectItem.Value == Value;
+            // Metadata provides extra, extensible info past Value/AsString
+            var metadata = selectItem.Metadata!;
+            <MudCard Outlined="true"
+                     Class="@($"d-flex flex-row gap-2 align-center pa-2 {(isSelected ? "mud-theme-primary" : "mud-theme-dark")}")">
+                <MudIconButton Icon="@(isSelected
+                                        ? Icons.Material.Outlined.RadioButtonChecked
+                                        : Icons.Material.Outlined.RadioButtonUnchecked)"
+                               Color="isSelected ? Color.Dark : Color.Primary"
+                               Size="Size.Large"
+                               OnClick="() => SetValueAsync(selectItem.Value)"/>
+                <div class="d-flex flex-column">
+                    <MudText Typo="Typo.h5">
+                        @selectItem.AsString
+                    </MudText>
+                    <div class="d-flex flex-row gap-4 align-center">
+                        <MudText Typo="Typo.caption">
+                            @(metadata.height)m tall
+                        </MudText>
+                        <MudText>
+                            //
+                        </MudText>
+                        <MudText Typo="Typo.caption">
+                            $@($"{metadata.launchCostMil:n0}")m launch cost
+                        </MudText>
+                        <MudText>
+                            //
+                        </MudText>
+                        <MudText Typo="Typo.caption">
+                            @($"{metadata.leoCargoCapacity:n0}")kg payload to LEO
+                        </MudText>
+                    </div>
+                </div>
+            </MudCard>;
+        }
+    }
+</div>

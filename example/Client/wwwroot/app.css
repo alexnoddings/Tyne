@@ -59,6 +59,10 @@ body {
     font-size: 1.1rem;
 }
 
+.mud-icon-size-extra-large {
+    font-size: 3.2rem;
+}
+
 .ta-list-simple li::before {
     content: '-';
     margin-right: 6px;
@@ -75,3 +79,16 @@ body {
     .ta-source .hljs {
         background-color: unset;
     }
+
+ .ta-anim-rotate-slow {
+     animation: ta-anim-rotate-slow 36s infinite linear;
+ }
+
+@keyframes ta-anim-rotate-slow {
+     0% {
+         transform: rotate(0deg);
+     }
+     100% {
+         transform: rotate(360deg);
+     }
+ }

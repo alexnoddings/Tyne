@@ -1,12 +1,18 @@
 ﻿@page "/systems"
+@layout DocLayout
+@attribute [PageMaxWidth(MaxWidth.Large)]
 
 <TynePageTitle Value="Tyne systems" />
 
 <MudText Typo="Typo.h2" Align="Align.Center" Class="mt-6">
     Tyne systems
 </MudText>
-<MudContainer MaxWidth="MaxWidth.ExtraSmall" Class="pt-6 d-flex flex-column">
-    <FancyLinkCard Href="./systems/filtering" Title="Filtering" Icon="@Icons.Material.Filled.FilterList">
-        Filtering!
-    </FancyLinkCard>
-</MudContainer>
+
+<LinkSection>
+    <LinkCard Href="./systems/filtering" Title="Filtering" Icon="@Icons.Material.Filled.FilterList">
+        The basics of Tyne filtering
+    </LinkCard>
+    <LinkCard Href="./systems/tables" Title="Tables" Icon="@Icons.Material.Filled.TableRows">
+        Filtering in the context of tables
+    </LinkCard>
+</LinkSection>

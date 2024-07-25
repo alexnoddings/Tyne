@@ -1,0 +1,53 @@
+﻿@page "/systems/filtering/values/search"
+@layout FilteringExampleLayout
+@attribute [PageTitle("Search values")]
+
+<DocsTextBlock MultiLine="true">
+    <p>
+        Search values are great if you have a limited but large number of options for a value.
+        The example below uses some galaxies.
+        It offers a limited selection of possible values, but too many to display in one list.
+    </p>
+    <p>
+        If you have a small number of available values, consider using a
+        <MudLink Underline="Underline.Always" Href="./systems/filtering/select/single">select</MudLink> instead.
+    </p>
+</DocsTextBlock>
+
+<SourceSection>
+    <div class="px-4 py-6">
+        <SearchValueExampleContent />
+    </div>
+</SourceSection>
+
+<SourceCode T="GalaxySearchFilterValue<SearchValueExampleRequest>"
+            SourceType="SourceCodeType.Type"
+            Name="Filter value"
+            ContentClass="d-flex flex-column gap-2 px-4 py-2">
+    <p>
+        Unlike simpler filter values which simply use <NameOf T="typeof(TyneFilterValue<,>)" />,
+        search values need a custom <NameOf T="typeof(TyneSearchFilterValue<object, object, object>)" />.
+    </p>
+    <p>
+        The custom filter value implementation provides a mechanism for performing a search of the available values.
+        Frequently, this will be a call to an API.
+        In the example, the API delay is simulated via <NameOf>Task.Delay</NameOf>,
+        and the data is pulled from a local list.
+    </p>
+</SourceCode>
+
+<SourceCode T="GalaxySearchFilterController<SearchValueExampleRequest>"
+            SourceType="SourceCodeType.Component"
+            Name="Filter controller"
+            ContentClass="d-flex flex-column gap-2 px-4 py-2">
+    <p>
+        As well as needing a custom filter value, searching also requires a custom
+        <NameOf T="typeof(TyneSearchFilterControllerBase<,,>)" />.
+    </p>
+    <p>
+        The custom filter controller implementation specifies how the search value
+        (in this case a <NameOf T="typeof(GalaxyInfo)" />) should be rendered.
+    </p>
+</SourceCode>
+
+<SourceCode T="SearchValueExampleRequest" SourceType="SourceCodeType.Type" Name="Request type" />

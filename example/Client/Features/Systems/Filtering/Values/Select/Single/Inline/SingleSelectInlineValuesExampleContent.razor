@@ -1,0 +1,19 @@
+﻿<SimpleFilterContext TRequest="SingleSelectValuesExampleRequest">
+    <FilterValues>
+        <TyneFilterSelectSingleValue For="m => m.ProbeDestination">
+            <Values>
+                <TyneFilterSelectItem Value="ProbeDestination.Mercury" AsString="Mercury" />
+                <TyneFilterSelectItem Value="ProbeDestination.Venus" AsString="Venus" />
+                <TyneFilterSelectItem Value="ProbeDestination.Earth" AsString="Earth" />
+                <TyneFilterSelectItem Value="ProbeDestination.Mars" AsString="Mars" />
+                <TyneFilterSelectItem Value="ProbeDestination.Jupiter" AsString="Jupiter" />
+                <TyneFilterSelectItem Value="ProbeDestination.Saturn" AsString="Saturn" />
+                <TyneFilterSelectItem Value="ProbeDestination.Uranus" AsString="Uranus" />
+                <TyneFilterSelectItem Value="ProbeDestination.Neptune" AsString="Neptune" />
+            </Values>
+        </TyneFilterSelectSingleValue>
+    </FilterValues>
+    <ChildContent Context="ConfiguredRequest">
+        <SingleSelectValuesDisplay Request="ConfiguredRequest" />
+    </ChildContent>
+</SimpleFilterContext>

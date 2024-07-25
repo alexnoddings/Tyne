@@ -1,0 +1,44 @@
+﻿@using MudBlazor.Utilities
+@using System.Linq.Expressions
+@typeparam TRequest
+@inherits TyneFilterControllerBase<TRequest, MudColor>
+
+<MudCard Class="rounded">
+    <MudColorPicker Value="Value"
+                    ValueChanged="SetFilterValueAsync"
+                    Class="mx-4"
+                    Label="@Label"
+                    ColorPickerView="ColorPickerView.Spectrum"
+                    ShowToolbar="false"
+                    ShowAlpha="false"
+                    ShowModeSwitch="false"
+                    ShowPreview="false" />
+    <div style="height: 68px; overflow: hidden;">
+        <MudColorPicker Value="Value"
+                        ValueChanged="SetFilterValueAsync"
+                        PickerVariant="PickerVariant.Static"
+                        ColorPickerView="ColorPickerView.Palette"
+                        Palette="CustomPalette"/>
+    </div>
+</MudCard>
+
+@code
+{
+    @* Tyne filter controllers need to implement these *@
+    [Parameter, EditorRequired]
+    public Expression<Func<TRequest, MudColor>> For { get; set; } = null!;
+    private readonly TynePropertyKeyCache<TRequest, MudColor> ForCache = new();
+    protected override TyneKey ForKey => ForCache.Update(For);
+    @* ----------------------------------------------- *@
+
+    [Parameter]
+    public string Label { get; set; } = string.Empty;
+
+    private static readonly MudColor[] CustomPalette = [
+        new MudColor("#207fba"),
+        new MudColor("#b82828"),
+        new MudColor("#c45121"),
+        new MudColor("#cf2379"),
+        new MudColor("#424242"),
+    ];
+}

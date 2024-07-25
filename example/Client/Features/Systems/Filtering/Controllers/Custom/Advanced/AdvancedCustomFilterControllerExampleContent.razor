@@ -1,0 +1,16 @@
+﻿@using MudBlazor.Utilities
+
+<SimpleFilterContext TRequest="AdvancedCustomControllerExampleRequest">
+    <FilterValues>
+        <TyneFilterValue For="m => m.MainColour" Default='new MudColor("#207fba")' />
+        <TyneFilterValue For="m => m.AccentColour" Default='new MudColor("#b82828")' />
+    </FilterValues>
+    <ChildContent Context="ConfiguredRequest">
+        <TyneAerospaceIcon MainColour="ConfiguredRequest.MainColour"
+                           AccentColour="ConfiguredRequest.AccentColour" />
+        <div class="d-flex flex-col gap-4 mt-6">
+            <PartColourPickerController For="m => m.MainColour" Label="Main" />
+            <PartColourPickerController For="m => m.AccentColour" Label="Accent" />
+        </div>
+    </ChildContent>
+</SimpleFilterContext>

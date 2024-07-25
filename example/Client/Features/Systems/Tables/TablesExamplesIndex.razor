@@ -1,0 +1,20 @@
+﻿@page "/systems/tables/"
+@layout SystemLayout
+@attribute [PageTitle("Table examples")]
+@attribute [PageMaxWidth(MaxWidth.Large)]
+
+<MudPaper Class="mb-3">
+    <MudAlert Variant="Variant.Text" Severity="Severity.Info">
+        The following examples leverage Tyne's filtering within tables.
+        You should be familiar with <MudLink Underline="Underline.Always" Href="./systems/filtering/">filtering</MudLink> first.
+    </MudAlert>
+</MudPaper>
+
+<LinkSection>
+    <LinkSectionHeader>
+        <MudText Typo="Typo.h3">Intro</MudText>
+    </LinkSectionHeader>
+    <LinkCard Title="Simple table" Href="./systems/tables/intro/simple" Icon="@Icons.Material.Filled.Search">
+        A simple filtered table with a searchable string column
+    </LinkCard>
+</LinkSection>

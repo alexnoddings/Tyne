@@ -16,9 +16,13 @@
     [Parameter]
     public bool MultiLine { get; set; }
 
+    [Parameter]
+    public string? Class { get; set; }
+
     private string ClassName =>
         new CssBuilder("px-4 py-2")
-        .AddClass("d-flex flex-column gap-2", MultiLine)
-        .AddClass("mt-6", TopMargin)
-        .ToString();
+            .AddClass(Class)
+            .AddClass("d-flex flex-column gap-2", MultiLine)
+            .AddClass("mt-6", TopMargin)
+            .ToString();
 }

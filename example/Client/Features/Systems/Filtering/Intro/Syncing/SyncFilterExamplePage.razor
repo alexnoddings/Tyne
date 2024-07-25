@@ -1,0 +1,22 @@
+﻿@page "/systems/filtering/intro/syncing"
+@layout FilteringExampleLayout
+@attribute [PageTitle("Filter synchronisation")]
+
+<DocsTextBlock MultiLine="true">
+    <p>
+        All filter controllers are synchronised with other controllers attached to the same filter value.
+        Whenever one controller updates the value, the rest will re-render with the new value.
+    </p>
+    <p>
+        Tyne filters update the context when their values are updated.
+        Therefore, controllers don't use immediate binding to avoid reloading the filter context
+        (often implemented as sending a web request) every keystroke.
+        Most single-value, multi-controller implementations don't simply provide the same text field multiple times over.
+    </p>
+</DocsTextBlock>
+
+<SourceCode T="SyncFilterExampleContent" SourceType="SourceCodeType.Component" Name="Filter context">
+    <MudContainer MaxWidth="MaxWidth.ExtraSmall">
+        <SyncFilterExampleContent/>
+    </MudContainer>
+</SourceCode>

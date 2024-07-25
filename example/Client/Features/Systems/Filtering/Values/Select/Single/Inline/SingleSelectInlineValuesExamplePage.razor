@@ -1,0 +1,30 @@
+﻿@page "/systems/filtering/values/select/single/inline"
+@layout FilteringExampleLayout
+@attribute [PageTitle("Single select inline values")]
+
+<DocsTextBlock MultiLine="true">
+    <p>
+        Select values can be used when you have a limited number of available values that a user can select.
+    </p>
+    <p>
+        They can have any source for their available values.
+        The following example implements an inline single-select value source.
+        Values can also be
+        <MudLink Underline="Underline.Always" Href="./systems/filtering/values/select/multi/inline">multi select</MudLink>
+        and/or
+        <MudLink Underline="Underline.Always" Href="./systems/filtering/values/select/single/custom">fetched from programatically</MudLink>.
+    </p>
+    <p>
+        Single values can be displayed with select boxes and radio selections.
+        You can also provide your own controller implementation by inheriting from
+        <NameOf T="@typeof(TyneSingleSelectFilterControllerBase<,>)"/>.
+    </p>
+</DocsTextBlock>
+
+<SourceCode T="SingleSelectInlineValuesExampleContent" SourceType="SourceCodeType.Component" Name="Filter context">
+    <div class="d-flex flex-column align-center gap-4">
+        <SingleSelectInlineValuesExampleContent/>
+    </div>
+</SourceCode>
+<SourceCode T="SingleSelectValuesExampleRequest" SourceType="SourceCodeType.Type" Name="Request type" ShowSourceByDefault="false" />
+<SourceCode T="SingleSelectValuesDisplay" SourceType="SourceCodeType.Component" Name="Display content" ShowSourceByDefault="false" />

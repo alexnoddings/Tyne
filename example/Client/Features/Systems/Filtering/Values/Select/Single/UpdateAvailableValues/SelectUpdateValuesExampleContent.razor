@@ -1,0 +1,37 @@
+﻿<SimpleFilterContext TRequest="SelectUpdateValuesExampleRequest">
+    <FilterValues>
+        <OrbitalTypeSelectValue For="m => m.OrbitalType"
+                                OrbitalBody="OrbitalBody" />
+    </FilterValues>
+    <ChildContent Context="ConfiguredRequest">
+        <div class="d-flex flex-row gap-2">
+            <MudField Label="Orbital body" Variant="Variant.Outlined" Class="flex-grow-0">
+                <MudRadioGroup @bind-Value="OrbitalBody">
+                    <div class="d-flex flex-column gap-2 ps-2 me-n2">
+                        <MudRadio Value="OrbitalBody.Earth" Dense="true">Earth</MudRadio>
+                        <MudRadio Value="OrbitalBody.Moon" Dense="true">Moon</MudRadio>
+                        <MudRadio Value="OrbitalBody.Mars" Dense="true">Mars</MudRadio>
+                    </div>
+                </MudRadioGroup>
+            </MudField>
+            <div class="flex-1">
+                <OrbitalTypeSelectController For="m => m.OrbitalType"
+                                             PlanetColour="@OrbitalBodyColour" />
+            </div>
+        </div>
+    </ChildContent>
+</SimpleFilterContext>
+
+@code
+{
+    private OrbitalBody OrbitalBody { get; set; }
+
+    private string OrbitalBodyColour =>
+        OrbitalBody switch
+        {
+            OrbitalBody.Earth => "#009cdb",
+            OrbitalBody.Moon => "#fff6d0",
+            OrbitalBody.Mars => "#da9e6c",
+            _ => "#207fba"
+        };
+}

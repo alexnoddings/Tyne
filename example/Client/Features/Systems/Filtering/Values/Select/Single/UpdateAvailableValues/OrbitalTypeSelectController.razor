@@ -1,0 +1,82 @@
+﻿@typeparam TRequest
+@inherits TyneSingleSelectFilterControllerBase<TRequest, string>
+
+@{
+    var items = SelectItems;
+}
+<div class="rounded-xl ta-orbit-selector">
+    <div class="rounded-tl-xl rounded-br mud-theme-primary px-4" style="position: absolute;">
+        <MudText Typo="Typo.h5">
+            @if (items is null)
+            {
+                <code>
+                    Satellite target orbits loading
+                </code>
+            }
+            else
+            {
+                <code>
+                    Satellite target: @(Value ?? "unselected")
+                </code>
+            }
+        </MudText>
+    </div>
+    @{
+        const int loadingItemCount = 5;
+        var step = Width / (items?.Count ?? loadingItemCount);
+        var bodyX = -BodyRadius - step;
+        var viewX = bodyX - BodyRadius - 8;
+        var viewY = -(Height / 2 + TopbarSize);
+        var viewW = Width - viewX;
+        var viewH = Height + TopbarSize;
+        <svg viewBox="@viewX @viewY @viewW @viewH"
+             class="rounded-xl ta-orbit-selector-inner">
+            <circle cx="@bodyX" cy="0" r="@(BodyRadius)" fill="@PlanetColour" />
+            @if (items is null)
+            {
+                for (var i = 0; i < loadingItemCount; i++)
+                {
+                    var r = -bodyX + (step * i);
+                    <circle cx="@bodyX" cy="0" r="@r"
+                            class="ta-orbit-track" />
+                }
+            }
+            else
+            {
+                var i = -1;
+                foreach (var item in items)
+                {
+                    i++;
+                    var x = step * i;
+                    var r = -bodyX + (step * i);
+                    var isSelected = Value == item.Value;
+                    <text>
+                        <circle cx="@bodyX" cy="0" r="@r"
+                                class="ta-orbit-track" />
+                        <circle cx="@x" cy="0" r="@PosRadius"
+                                class="ta-orbit-pos"
+                                selected="@isSelected"
+                                @onclick="() => SetValueAsync(item.Value)"/>
+                        <text x="@x" y="20"
+                              class="ta-orbit-label"
+                              selected="@isSelected">
+                            @RenderItem(item)
+                        </text>
+                    </text>
+                }
+            }
+        </svg>
+    }
+</div>
+
+@code {
+    private const int Width = 256;
+    private const int Height = 64;
+
+    private const int BodyRadius = 20;
+    private const int PosRadius = 6;
+    private const int TopbarSize = 18;
+
+    [Parameter]
+    public string PlanetColour { get; set; } = string.Empty;
+}

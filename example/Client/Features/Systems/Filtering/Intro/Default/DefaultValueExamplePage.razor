@@ -1,0 +1,23 @@
+﻿@page "/systems/filtering/intro/default"
+@layout FilteringExampleLayout
+@attribute [PageTitle("Default values")]
+
+<DocsTextBlock MultiLine="true">
+    <p>
+        Filter values can be given a <code>@nameof(TyneFilterValue<object,object>.Default)</code> parameter,
+        which the filter will set as the value during initialisation.
+        This is only used during initialisation - subsequent changes will be ignored.
+    </p>
+    <p>
+        The initial value should NOT be set on the request type.
+        This request type is only instantiated and configured when a request is being sent,
+        it is not used to store any filter state.
+    </p>
+</DocsTextBlock>
+
+<SourceCode T="DefaultValueExampleContent" SourceType="SourceCodeType.Component" Name="Filter context">
+    <MudContainer MaxWidth="MaxWidth.ExtraSmall">
+        <DefaultValueExampleContent/>
+    </MudContainer>
+</SourceCode>
+<SourceCode T="DefaultValueExampleRequest" SourceType="SourceCodeType.Type" Name="Request type" />

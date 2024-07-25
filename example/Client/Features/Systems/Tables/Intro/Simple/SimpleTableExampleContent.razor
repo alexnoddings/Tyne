@@ -1,0 +1,23 @@
+﻿<TyneAerospaceTable TRequest="SimpleTableRequest"
+                    TResponse="SimpleTableResponse"
+                    GetData="SimpleTableData.GetDataAsync">
+    <FilterValues>
+        <TyneFilterValue For="m => m.PlanetName" />
+    </FilterValues>
+    <HeaderContent>
+        <TyneStringColumnHeader For="m => m.PlanetName"
+                                OrderBy="@nameof(SimpleTableResponse.Name)"
+                                Label="Planet name" />
+        <TyneColumnHeader OrderBy="@nameof(SimpleTableResponse.DiameterKm)">
+            Diameter (km)
+        </TyneColumnHeader>
+        <TyneColumnHeader OrderBy="@nameof(SimpleTableResponse.DistanceFromSunKm)">
+            Distance from sun (km)
+        </TyneColumnHeader>
+    </HeaderContent>
+    <RowTemplate Context="Planet">
+        <MudTh>@Planet.Name</MudTh>
+        <MudTh>@Planet.DiameterKm.ToString("N0")</MudTh>
+        <MudTh>@Planet.DistanceFromSunKm.ToString("N0")</MudTh>
+    </RowTemplate>
+</TyneAerospaceTable>

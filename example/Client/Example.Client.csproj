@@ -48,6 +48,11 @@
     -->
     <NoWarn>$(NoWarn);CA1034</NoWarn>
     <!--
+      CA!716: Identifiers should not match keywords.
+      REASON: It really gets in the way of sensible naming for example namespaces/pages.
+    -->
+    <NoWarn>$(NoWarn);CA1716</NoWarn>
+    <!--
       CA1034: Parameter names should match base declaration.
       REASON: More specific names can be useful in app code.
     -->

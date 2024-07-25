@@ -1,9 +1,7 @@
 ﻿@namespace Tyne.Aerospace.Client.Infrastructure
-@using MudBlazor.Utilities
-@using Tyne.Aerospace.Client.Infrastructure.SourceRef
 @typeparam T
 
-<div class="ta-source-section">
+<SourceSection>
     <div class="d-flex flex-row align-center gap-2 mud-alert-text-primary px-3 py-2 rounded-t">
         <MudIcon Icon="@Icons.Material.Filled.Code" Size="Size.Large" />
         <div class="d-flex">
@@ -26,7 +24,7 @@
     </div>
     @if (ChildContent is not null)
     {
-        <div class="pa-4">
+        <div class="@ContentClassName">
             @ChildContent
         </div>
     }
@@ -38,4 +36,4 @@
             </code>
         </pre>
     </div>
-</div>
+</SourceSection>
