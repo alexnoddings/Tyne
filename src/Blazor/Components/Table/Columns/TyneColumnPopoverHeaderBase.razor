@@ -16,23 +16,23 @@
                            Color="FilterIconColour"
                            OnClick="() => IsOpenChanged.InvokeAsync(!IsOpen)" />
         </MudTooltip>
-        @if (OrderBy.IsEmpty)
-        {
-            if (Header is not null)
+        @{
+            var headerContent = GetHeaderOrLabel();
+            if (OrderBy.IsEmpty)
             {
-                <div class="d-flex align-center">
-                    @Header
-                </div>
-            }
-        }
-        else
-        {
-            <MudTableSortLabel T="TResponse" SortLabel="@OrderBy.Key">
-                @if (Header is not null)
+                if (headerContent is not null)
                 {
-                    @Header
+                    <div class="d-flex align-center">
+                        @headerContent
+                    </div>
                 }
-            </MudTableSortLabel>
+            }
+            else
+            {
+                <MudTableSortLabel T="TResponse" SortLabel="@OrderBy.Key">
+                    @headerContent
+                </MudTableSortLabel>
+            }
         }
         <MudPopover Open="IsOpen"
                     Fixed="true"
