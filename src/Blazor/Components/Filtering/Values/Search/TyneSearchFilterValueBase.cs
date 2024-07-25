@@ -6,7 +6,8 @@ namespace Tyne.Blazor.Filtering.Values;
 /// <typeparam name="TRequest">The type of request which loads data in the context.</typeparam>
 /// <typeparam name="TSearchValue"></typeparam>
 /// <typeparam name="TFilterValue">The type which the value manages.</typeparam>
-public abstract class TyneSearchFilterValueBase<TRequest, TSearchValue, TFilterValue> : TyneFilterValueCore<TRequest, TSearchValue>, IFilterSearchValue<TSearchValue>
+public abstract class TyneSearchFilterValueBase<TRequest, TSearchValue, TFilterValue>
+    : TyneFilterValueCore<TRequest, TSearchValue>, IFilterSearchValue<TSearchValue>
 {
     private FilterValueSetter<TRequest, TFilterValue>? _forSetter;
 
@@ -39,5 +40,5 @@ public abstract class TyneSearchFilterValueBase<TRequest, TSearchValue, TFilterV
     protected abstract TFilterValue? GetFilterValueFrom(TSearchValue searchValue);
 
     /// <inheritdoc/>
-    public abstract Task<List<TSearchValue>> SearchAsync(string? search);
+    public abstract Task<List<TSearchValue>> SearchAsync(string? search, CancellationToken cancellationToken = default);
 }

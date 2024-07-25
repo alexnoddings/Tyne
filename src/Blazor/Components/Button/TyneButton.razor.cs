@@ -69,8 +69,8 @@ public partial class TyneButton : MudButton
         {
             // Needs to continue on the captured context for the last StateHasChanged call
             await OnClick.InvokeAsync(ev).ConfigureAwait(true);
-            // Activateable comes from the base implementation
-            Activateable?.Activate(this, ev);
+            // Activatable comes from the base implementation
+            Activatable?.Activate(this, ev);
         }
         finally
         {

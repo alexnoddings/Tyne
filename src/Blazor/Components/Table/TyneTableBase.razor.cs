@@ -21,8 +21,6 @@ namespace Tyne.Blazor.Tables;
 [CascadingTypeParameter(nameof(TRequest))]
 [CascadingTypeParameter(nameof(TResponse))]
 public abstract partial class TyneTableBase<TRequest, TResponse>
-    : MudTable<TResponse>, ITyneTable, IDisposable
-    where TRequest : ISearchQuery, new()
 {
     private const string ServerDataErrorMessage = $"ServerData should not be used on {nameof(TyneTableBase<TRequest, TResponse>)}s as this is how Tyne overrides Mud's data loading.";
     /// <summary>
@@ -181,7 +179,7 @@ public abstract partial class TyneTableBase<TRequest, TResponse>
     }
 
     [SuppressMessage("Design", "CA1031: Do not catch general exception types", Justification = "Any uncaught exceptions are swallowed, this ensures they get logged.")]
-    private async Task<TableData<TResponse>> LoadTableDataAsync(TableState state)
+    private async Task<TableData<TResponse>> LoadTableDataAsync(TableState state, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(state);
 
@@ -205,7 +203,7 @@ public abstract partial class TyneTableBase<TRequest, TResponse>
         SearchResults<TResponse> searchResults;
         try
         {
-            searchResults = await LoadDataAsync(request).ConfigureAwait(true);
+            searchResults = await LoadDataAsync(request, cancellationToken).ConfigureAwait(true);
         }
         catch (Exception exception)
         {
@@ -226,14 +224,11 @@ public abstract partial class TyneTableBase<TRequest, TResponse>
         };
     }
 
-    protected abstract Task<SearchResults<TResponse>> LoadDataAsync(TRequest request);
+    protected abstract Task<SearchResults<TResponse>> LoadDataAsync(TRequest request, CancellationToken cancellationToken);
 
-    protected virtual void Dispose(bool disposing) =>
-        _filterContext.Dispose();
-
-    public void Dispose()
+    protected override void Dispose(bool disposing)
     {
-        Dispose(true);
-        GC.SuppressFinalize(this);
+        _filterContext.Dispose();
+        base.Dispose(disposing);
     }
 }

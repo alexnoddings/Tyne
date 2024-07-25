@@ -14,8 +14,8 @@ internal static class TyneHotReloadWatcher
 
     // Methods are invoked by the runtime when a hot reload (metadata update) occurs
     public static void ClearCache(Type[]? _) =>
-        OnClearCache?.Invoke().AndForget(true);
+        OnClearCache?.Invoke().CatchAndLog(true);
 
     public static void UpdateApplication(Type[]? _) =>
-        OnUpdateApplication?.Invoke().AndForget(true);
+        OnUpdateApplication?.Invoke().CatchAndLog(true);
 }

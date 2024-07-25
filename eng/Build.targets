@@ -14,7 +14,7 @@
     <PackageReference Update="FluentValidation" Version="11.9.0" />
     <PackageReference Update="MediatR" Version="12.2.0" />
     <PackageReference Update="MediatR.Contracts" Version="2.0.1" />
-    <PackageReference Update="MudBlazor" Version="6.19.1" />
+    <PackageReference Update="MudBlazor" Version="7.4.0" />
   </ItemGroup>
 
   <!-- Same as above, but for test packages. -->
@@ -30,7 +30,7 @@
 
   <!-- .NET 8 -->
   <ItemGroup Label="Package versions (.NET 8)" Condition=" '$(TargetFramework)' == 'net8.0' ">
-    <PackageReference Update="Microsoft.AspNetCore.Components" Version="8.0.3" />
+    <PackageReference Update="Microsoft.AspNetCore.Components" Version="8.0.7" />
     <PackageReference Update="Microsoft.EntityFrameworkCore" Version="8.0.3" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.Relational" Version="8.0.3" />
     <PackageReference Update="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
@@ -94,5 +94,5 @@
       $(WarningsNotAsErrors);CS1591
     </WarningsNotAsErrors>
   </PropertyGroup>
-  
+
 </Project>
