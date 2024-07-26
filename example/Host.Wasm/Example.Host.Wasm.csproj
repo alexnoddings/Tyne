@@ -10,7 +10,7 @@
     <IsPackable>false</IsPackable>
     <WarnOnPackingNonPackableProject>false</WarnOnPackingNonPackableProject>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\Client\Example.Client.csproj" />
   </ItemGroup>
