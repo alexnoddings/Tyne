@@ -81,6 +81,11 @@
     -->
     <NoWarn>$(NoWarn);IDE0290</NoWarn>
     <!--
+      IDE0130: Namespace does not match folder structure.
+      REASON: A lot of namespaces are flattened to avoid needing 1001 imports to use Tyne.
+    -->
+    <NoWarn>$(NoWarn);IDE0130</NoWarn>
+    <!--
       S1133:  Do not forget to remove this deprecated code someday.
       REASON: This is a reminder, it doesn't belong as an error.
     -->
