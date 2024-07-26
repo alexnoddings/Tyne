@@ -320,7 +320,7 @@ public static class OptionExtensions
     /// <remarks>
     ///     This is created synchronously.
     /// </remarks>
-    public static ValueTask<Option<T>> ToValueTask<T>(this ref Option<T> option) =>
+    public static ValueTask<Option<T>> ToValueTask<T>(this in Option<T> option) =>
         ValueTask.FromResult(option);
 
     /// <summary>
@@ -334,7 +334,7 @@ public static class OptionExtensions
     /// <remarks>
     ///     This is created synchronously.
     /// </remarks>
-    public static Task<Option<T>> ToTask<T>(this ref Option<T> option) =>
+    public static Task<Option<T>> ToTask<T>(this in Option<T> option) =>
         Task.FromResult(option);
 
     /// <summary>

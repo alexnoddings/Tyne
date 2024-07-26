@@ -356,3 +356,6 @@ MigrationBackup/
 /docs/_site
 /docs/api/*.yml
 /docs/api/*.manifest
+
+# Rider
+.idea/

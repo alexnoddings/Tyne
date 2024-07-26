@@ -1,0 +1,14 @@
+﻿@page "/systems/filtering/intro/simple"
+@layout FilteringExampleLayout
+@attribute [PageTitle("Simple filter")]
+
+<DocsTextBlock>
+    This example contains a simple, inline filtering context with one string property.
+</DocsTextBlock>
+
+<SourceCode T="SimpleFilterExampleContent" SourceType="SourceCodeType.Component" Name="Filter context">
+    <MudContainer MaxWidth="MaxWidth.ExtraSmall">
+        <SimpleFilterExampleContent />
+    </MudContainer>
+</SourceCode>
+<SourceCode T="SimpleExampleRequest" SourceType="SourceCodeType.Type" Name="Request type" />

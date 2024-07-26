@@ -1,6 +1,6 @@
 ﻿@page "/systems/filtering/"
 @layout SystemLayout
-@attribute [SystemTitle("Filtering examples")]
+@attribute [PageTitle("Filtering examples")]
 @attribute [PageMaxWidth(MaxWidth.Large)]
 
 <MudPaper Class="mb-3">
@@ -11,27 +11,74 @@
     </MudAlert>
 </MudPaper>
 
-<MudGrid Justify="Justify.Center">
-    <MudItem xs="12" md="10" lg="12" Class="py-0 mt-6">
+<LinkSection>
+    @**** Intro ****@
+    <LinkSectionHeader>
         <MudText Typo="Typo.h3">Intro</MudText>
-    </MudItem>
-    <FilteringExampleLinkCard Title="Simple filter" Href="./systems/filtering/simple" Icon="@Icons.Material.Filled.Search">
-        A simple filtering context with one string property.
-    </FilteringExampleLinkCard>
-    <FilteringExampleLinkCard Title="Default value" Href="./systems/filtering/default-value" Icon="@Icons.Material.Outlined.IndeterminateCheckBox">
-        Filter values can have with default initial values.
-    </FilteringExampleLinkCard>
-    <FilteringExampleLinkCard Title="Synchronisation" Href="./systems/filtering/synchronisation" Icon="@Icons.Material.Filled.SyncAlt">
-        Filter controllers stay in sync with each other.
-    </FilteringExampleLinkCard>
-    <FilteringExampleLinkCard Title="Custom controller" Href="./systems/filtering/custom-controller" Icon="@Icons.Material.Outlined.SettingsApplications">
-        Custom controllers can be created for unique system requirements.
-    </FilteringExampleLinkCard>
+    </LinkSectionHeader>
+    <LinkCard Title="Simple filter" Href="./systems/filtering/intro/simple" Icon="@Icons.Material.Filled.Search">
+        A simple filtering context with one string property
+    </LinkCard>
+    <LinkCard Title="Default value" Href="./systems/filtering/intro/default" Icon="@Icons.Material.Outlined.IndeterminateCheckBox">
+        Filter values can have with default initial values
+    </LinkCard>
+    <LinkCard Title="Synchronisation" Href="./systems/filtering/intro/syncing" Icon="@Icons.Material.Filled.SyncAlt">
+        Filter controllers stay in sync with each other
+    </LinkCard>
 
-    <MudItem xs="12" md="10" lg="12" Class="py-0 mt-6">
-        <MudText Typo="Typo.h3">Select values</MudText>
-    </MudItem>
-    <FilteringExampleLinkCard Title="Update values" Href="./systems/filtering/select-update-values" Icon="@Icons.Material.Filled.Autorenew">
-        A select's available values can be dynamically updated.
-    </FilteringExampleLinkCard>
-</MudGrid>
+    @**** Controllers ****@
+    <LinkSectionHeader>
+        <MudText Typo="Typo.h3">Controllers</MudText>
+    </LinkSectionHeader>
+    <LinkSubSectionHeader>
+        <MudText Typo="Typo.h4">General</MudText>
+    </LinkSubSectionHeader>
+    <LinkCard Title="String" Href="./systems/filtering/controllers/string" Icon="@Icons.Material.Filled.Input">
+        Simple string filter
+    </LinkCard>
+    <LinkCard Title="Custom (simple)" Href="./systems/filtering/controllers/custom-simple" Icon="@Icons.Material.Outlined.SettingsApplications">
+        Simple, one-off custom controller
+    </LinkCard>
+    <LinkCard Title="Custom (advanced)" Href="./systems/filtering/controllers/custom-advanced" Icon="@Icons.Material.Outlined.Tune">
+        Advanced, reusable custom controller
+    </LinkCard>
+
+    <LinkSubSectionHeader>
+        <MudText Typo="Typo.h4">Ranges</MudText>
+    </LinkSubSectionHeader>
+    <LinkCard Title="DateTime range" Href="./systems/filtering/controllers/date-time" Icon="@Icons.Material.Filled.Autorenew">
+        DateTime range filter
+    </LinkCard>
+    <LinkCard Title="Custom range (simple)" Href="./systems/filtering/controllers/range-custom-simple" Icon="@Icons.Material.Outlined.SettingsApplications">
+        Simpler, one-off custom range controller
+    </LinkCard>
+    <LinkCard Title="Custom range (advanced)" Href="./systems/filtering/controllers/range-custom-advanced" Icon="@Icons.Material.Filled.Tune">
+        Advanced, reusable custom range controller
+    </LinkCard>
+
+    @**** Values ****@
+    <LinkSubSectionHeader>
+        <MudText Typo="Typo.h3">Values</MudText>
+    </LinkSubSectionHeader>
+    <LinkCard Title="Single select inline" Href="./systems/filtering/values/select/single/inline" Icon="@Icons.Material.Outlined.RadioButtonUnchecked">
+        Simple, inline single-select values
+    </LinkCard>
+    <LinkCard Title="Multi select inline" Href="./systems/filtering/values/select/multi/inline" Icon="@Icons.Material.Outlined.CheckBoxOutlineBlank">
+        Simple, inline multi-select values
+    </LinkCard>
+    <LinkCard Title="Search values" Href="./systems/filtering/values/search" Icon="@Icons.Material.Outlined.Pageview">
+        Searching for available values
+    </LinkCard>
+    <LinkCard Title="Single select custom" Href="./systems/filtering/values/select/single/custom" Icon="@Icons.Material.Outlined.RadioButtonChecked">
+        Custom source single-select values
+    </LinkCard>
+    <LinkCard Title="Multi select custom" Href="./systems/filtering/values/select/multi/custom" Icon="@Icons.Material.Outlined.CheckBox">
+        Custom source multi-select values
+    </LinkCard>
+    <LinkCard Title="Update select values" Href="./systems/filtering/values/select/single/update" Icon="@Icons.Material.Filled.SystemUpdateAlt">
+        Programatically updating a select available values
+    </LinkCard>
+    <LinkCard Title="Select value metadata" Href="./systems/filtering/values/select/single/metadata" Icon="@Icons.Material.Filled.NoteAdd">
+        Adding metadata to select values
+    </LinkCard>
+</LinkSection>

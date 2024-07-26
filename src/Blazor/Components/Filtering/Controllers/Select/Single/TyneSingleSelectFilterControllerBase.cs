@@ -28,6 +28,6 @@ public abstract partial class TyneSingleSelectFilterControllerBase<TRequest, TVa
     /// <remarks>
     ///     This is a convenient shorthand to access the handle.
     /// </remarks>
-    protected Task SetValueAsync(TValue? newValue) =>
+    protected Task SetValueAsync(TValue newValue) =>
         Handle.Filter.SetValueAsync(newValue);
 }

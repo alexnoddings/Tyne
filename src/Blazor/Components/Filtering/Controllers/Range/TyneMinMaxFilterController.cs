@@ -1,14 +1,12 @@
 using System.Linq.Expressions;
 using System.Reflection.Metadata;
 using Microsoft.AspNetCore.Components;
-using MudBlazor;
 
 namespace Tyne.Blazor.Filtering.Controllers;
 
 /// <summary>
 ///     A controller which attaches to a min and a max <typeparamref name="TValue"/> on <typeparamref name="TRequest"/>.
 ///     The values to attach to are provided by <see cref="ForMin"/> and <see cref="ForMax"/>.
-///     This controller uses a <see cref="MudDateRangePicker"/> to interact with the values.
 /// </summary>
 /// <typeparam name="TRequest">The type of request which loads data in the context.</typeparam>
 /// <typeparam name="TValue">The type the filter values manage.</typeparam>

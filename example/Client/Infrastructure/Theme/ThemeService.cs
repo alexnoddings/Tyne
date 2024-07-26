@@ -12,7 +12,7 @@ public class ThemeService
     {
         Theme = new MudTheme
         {
-            Palette = new AppPaletteLight(),
+            PaletteLight = new AppPaletteLight(),
             LayoutProperties = new LayoutProperties()
             {
                 DefaultBorderRadius = "8px",

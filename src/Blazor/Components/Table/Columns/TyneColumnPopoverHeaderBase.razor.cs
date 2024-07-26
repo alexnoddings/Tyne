@@ -57,13 +57,37 @@ public abstract partial class TyneColumnPopoverHeaderBase<TResponse> : Component
     public Func<Task>? ClearValue { get; set; }
 
     /// <summary>
-    ///     The <see cref="RenderFragment"/> to display in the column header.
+    ///     A <see cref="RenderFragment"/> to display in the column header.
     /// </summary>
     /// <remarks>
     ///     This content is always shown.
+    ///     If <see langword="null"/>, <see cref="Label"/> will be used instead.
+    ///     If neither property are set, the column header will be empty.
     /// </remarks>
     [Parameter]
     public RenderFragment? Header { get; set; }
+
+    /// <summary>
+    ///     Optionally, a label to display in the column header if <see cref="Header"/> is <see langword="null"/>.
+    /// </summary>
+    /// <remarks>
+    ///     This content is only shown if <see cref="Header"/> is <see langword="null"/>.
+    ///     Otherwise, it is ignored.
+    ///     If neither property are set, the column header will be empty.
+    /// </remarks>
+    [Parameter]
+    public string? Label { get; set; }
+
+    private RenderFragment? GetHeaderOrLabel()
+    {
+        if (Header is { } header)
+            return header;
+
+        if (!string.IsNullOrEmpty(Label))
+            return builder => builder.AddContent(0, Label);
+
+        return null;
+    }
 
     /// <summary>
     ///     The <see cref="RenderFragment"/> to display inside the popover.

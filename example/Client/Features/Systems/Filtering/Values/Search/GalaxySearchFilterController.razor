@@ -1,0 +1,24 @@
+﻿@typeparam TRequest
+@inherits TyneSearchFilterControllerBase<TRequest, GalaxyInfo, string>
+
+<MudAutocomplete T="GalaxyInfo"
+                 Value="Value"
+                 ValueChanged="SetFilterValueAsync"
+                 Placeholder="..."
+                 SearchFunc="SearchItemsAsync"
+                 ToStringFunc="galaxy => galaxy.Name"
+                 ShowProgressIndicator="true"
+                 Clearable="true"
+                 MaxItems="10"
+                 Label="Galaxy"
+                 ResetValueOnEmptyText="true">
+    <ItemTemplate Context="galaxy">
+        <MudText Color="Color.Primary" Inline="true">
+            @galaxy.Name
+        </MudText>
+        (@galaxy.Type) in @galaxy.ConstellationName
+    </ItemTemplate>
+    <MoreItemsTemplate>
+        More galaxies available
+    </MoreItemsTemplate>
+</MudAutocomplete>

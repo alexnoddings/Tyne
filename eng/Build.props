@@ -15,7 +15,7 @@
       Defines the target frameworks which Tyne supports.
       This is designated once here rather than individually across multi-targeting projects.
     -->
-    <TyneSupportedFrameworks>net7.0;net8.0;net9.0</TyneSupportedFrameworks>
+    <TyneSupportedFrameworks>net8.0;net9.0</TyneSupportedFrameworks>
     <LangVersion>preview</LangVersion>
     <Features>$(Features);strict</Features>
     <Nullable>enable</Nullable>
@@ -80,6 +80,11 @@
                (this is only an info severity)
     -->
     <NoWarn>$(NoWarn);IDE0290</NoWarn>
+    <!--
+      IDE0130: Namespace does not match folder structure.
+      REASON: A lot of namespaces are flattened to avoid needing 1001 imports to use Tyne.
+    -->
+    <NoWarn>$(NoWarn);IDE0130</NoWarn>
     <!--
       S1133:  Do not forget to remove this deprecated code someday.
       REASON: This is a reminder, it doesn't belong as an error.

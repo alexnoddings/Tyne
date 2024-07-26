@@ -1,0 +1,26 @@
+﻿@page "/systems/filtering/values/select/single/metadata"
+@layout FilteringExampleLayout
+@attribute [PageTitle("Select value metadata")]
+
+<DocsTextBlock MultiLine="true">
+    <p>
+        Select values are implemented as a <code>T Value</code> and a <code>string AsString</code>.
+        The <code>Value</code> is used internally, and the <code>AsString</code> is displayed to the user.
+    </p>
+    <p>
+        Sometimes, you may need to surface more than a simple string representation of data.
+        In this example, we also display the height, cost, and payload capacity of rockets.
+        This is done by providing metadata when creating the filter select item in the filter value,
+        then the filter controller type-checks for this metadata.
+    </p>
+</DocsTextBlock>
+
+<SourceCode T="LaunchVehicleSelectValue<SelectMetadataExampleRequest>" SourceType="SourceCodeType.Type" Name="Filter value">
+    <MudContainer MaxWidth="MaxWidth.Small">
+        <SelectMetadataExampleContent/>
+    </MudContainer>
+</SourceCode>
+
+<SourceCode T="LaunchVehicleSelectController<SelectMetadataExampleRequest>" SourceType="SourceCodeType.Component" Name="Filter controller" />
+<SourceCode T="SelectMetadataExampleContent" SourceType="SourceCodeType.Component" Name="Filter context" ShowSourceByDefault="false" />
+<SourceCode T="SelectMetadataExampleRequest" SourceType="SourceCodeType.Type" Name="Request type" ShowSourceByDefault="false" />

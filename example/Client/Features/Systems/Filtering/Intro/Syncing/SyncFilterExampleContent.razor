@@ -1,0 +1,14 @@
+﻿<SimpleFilterContext TRequest="SyncExampleRequest">
+    <FilterValues>
+        <TyneFilterValue For="m => m.LaunchSite" Default='"Launch Complex 1, Māhia Peninsula"' />
+    </FilterValues>
+    <ChildContent Context="ConfiguredRequest">
+        <MudText Typo="Typo.h3" Color="Color.Primary" Align="Align.Center">
+            Launch site
+        </MudText>
+        @* All controllers will stay in sync with each other *@
+        <TyneStringFilterController For="m => m.LaunchSite" Label="Controller 1"/>
+        <TyneStringFilterController For="m => m.LaunchSite" Label="Controller 2"/>
+        <TyneStringFilterController For="m => m.LaunchSite" Label="Controller 3"/>
+    </ChildContent>
+</SimpleFilterContext>

@@ -1,0 +1,12 @@
+﻿<SimpleFilterContext TRequest="SelectMetadataExampleRequest">
+    <FilterValues>
+        <LaunchVehicleSelectValue For="m => m.LaunchVehicleId" />
+    </FilterValues>
+    <ChildContent Context="ConfiguredRequest">
+        <MudText Typo="Typo.h3" Color="Color.Primary">
+            Launch vehicle selection
+        </MudText>
+        <LaunchVehicleSelectController TRequest="SelectMetadataExampleRequest"
+                                       For="m => m.LaunchVehicleId"/>
+    </ChildContent>
+</SimpleFilterContext>

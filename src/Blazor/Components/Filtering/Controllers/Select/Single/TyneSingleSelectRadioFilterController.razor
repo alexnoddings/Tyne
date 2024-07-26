@@ -13,13 +13,13 @@
                 @Label
             </MudText>
         }
-        <MudRadioGroup T="TValue" SelectedOption="Value" SelectedOptionChanged="SetValueAsync" Disabled="selectItems is null">
+        <MudRadioGroup T="TValue" Value="Value" ValueChanged="SetValueAsync" Disabled="selectItems is null">
             @if (selectItems is not null)
             {
                 <div class="@RadioOptionContainerClassName">
                     @foreach (var selectItem in selectItems)
                     {
-                        <MudRadio Option="selectItem.Value" Dense="true">
+                        <MudRadio Value="selectItem.Value" Dense="true">
                             @RenderItem(selectItem)
                         </MudRadio>
                     }

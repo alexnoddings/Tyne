@@ -19,7 +19,7 @@ public partial class TyneColumnHeader<TResponse> : ComponentBase
     private TyneKey OrderByKey => TyneKey.From(OrderBy);
 
     /// <summary>
-    ///     The <see cref="RenderFragment"/> to display in the column header.
+    ///     A <see cref="RenderFragment"/> to display in the column header.
     /// </summary>
     /// <remarks>
     ///     This content is always shown.

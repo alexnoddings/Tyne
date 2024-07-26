@@ -37,7 +37,7 @@ public class AppPaletteLight : PaletteLight
         TextDisabled = "#777070";
 
         Background = "#D1CDD1";
-        BackgroundGrey = white;
+        BackgroundGray = white;
         Surface = white;
         AppbarBackground = Dark;
         AppbarText = DarkContrastText;

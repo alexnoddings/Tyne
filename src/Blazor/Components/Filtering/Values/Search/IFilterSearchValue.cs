@@ -1,7 +1,7 @@
 namespace Tyne.Blazor.Filtering.Values;
 
 /// <summary>
-///     A filter which supports searching for <typeparamref name="TSearchValue"/>s via <see cref="SearchAsync(string)"/>.
+///     A filter which supports searching for <typeparamref name="TSearchValue"/>s via <see cref="SearchAsync(string, CancellationToken)"/>.
 /// </summary>
 /// <typeparam name="TSearchValue">The type being searched.</typeparam>
 public interface IFilterSearchValue<TSearchValue>
@@ -10,6 +10,7 @@ public interface IFilterSearchValue<TSearchValue>
     ///     Searches a data source for <typeparamref name="TSearchValue"/>s which match <paramref name="search"/>.
     /// </summary>
     /// <param name="search">Optionally, a parameter used to search <typeparamref name="TSearchValue"/>s.</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
     /// <returns>
     ///     A <see cref="Task{TResult}"/> whose result is a list of <typeparamref name="TSearchValue"/>s found.
     /// </returns>
@@ -21,5 +22,5 @@ public interface IFilterSearchValue<TSearchValue>
     ///         This may be data stored in memory but too large to show in one list, or it may be loaded from a remote API.
     ///     </para>
     /// </remarks>
-    public Task<List<TSearchValue>> SearchAsync(string search);
+    public Task<List<TSearchValue>> SearchAsync(string search, CancellationToken cancellationToken = default);
 }

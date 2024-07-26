@@ -1,0 +1,17 @@
+﻿@page "/systems/filtering/controllers/range-custom-simple"
+@layout FilteringExampleLayout
+@attribute [PageTitle("Range custom controller (simple)")]
+
+<DocsTextBlock MultiLine="true">
+    <p>
+        Some system requirements require bespoke controllers which don't belong in a general-purpose library like Tyne.
+        In these cases, you can use custom controllers.
+    </p>
+</DocsTextBlock>
+
+<SourceCode T="SimpleCustomRangeFilterControllerExampleContent" SourceType="SourceCodeType.Component" Name="Filter context">
+    <div class="d-flex flex-column align-center">
+        <SimpleCustomRangeFilterControllerExampleContent />
+    </div>
+</SourceCode>
+<SourceCode T="SimpleCustomRangeControllerExampleRequest" SourceType="SourceCodeType.Type" Name="Request type" ShowSourceByDefault="false" />

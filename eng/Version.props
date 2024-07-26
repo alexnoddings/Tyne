@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TyneMajorVersion>3</TyneMajorVersion>
-    <TyneMinorVersion>4</TyneMinorVersion>
+    <TyneMinorVersion>5</TyneMinorVersion>
     <TynePatchVersion>0</TynePatchVersion>
-    <TynePreReleaseTag></TynePreReleaseTag>
+    <TynePreReleaseTag>rc.1</TynePreReleaseTag>
   </PropertyGroup>
 
 </Project>

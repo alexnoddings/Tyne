@@ -1,0 +1,36 @@
+﻿<SimpleFilterContext TRequest="SimpleCustomRangeControllerExampleRequest">
+    <FilterValues>
+        <TyneFilterValue For="m => m.LaunchWindowMin" Default="TimeSpan.FromHours(13)" />
+        <TyneFilterValue For="m => m.LaunchWindowMax" Default="TimeSpan.FromHours(16).Add(TimeSpan.FromMinutes(42))" />
+    </FilterValues>
+    <ChildContent Context="ConfiguredRequest">
+        <MudText Typo="Typo.h5">
+            Launch window
+        </MudText>
+        @if (ConfiguredRequest.LaunchWindowMin is { } min && ConfiguredRequest.LaunchWindowMax is { } max && min <= max)
+        {
+            <MudText Typo="Typo.h6" Color="Color.Primary">
+                @((max - min).ToString("hh':'mm"))
+            </MudText>
+        }
+        <TyneCustomMinMaxFilterController TRequest="SimpleCustomRangeControllerExampleRequest"
+                                          TValue="TimeSpan?"
+                                          ForMin="m => m.LaunchWindowMin"
+                                          ForMax="m => m.LaunchWindowMax"
+                                          Context="LaunchWindowContext">
+            <div class="d-flex flex-row align-end gap-2">
+                <div style="width: 96px;">
+                    <MudTimePicker Label="Minimum"
+                                   Time="LaunchWindowContext.Min"
+                                   TimeChanged="newMin => LaunchWindowContext.SetValuesAsync(newMin, LaunchWindowContext.Max)" />
+                </div>
+                <MudIcon Icon="@Icons.Material.Filled.ArrowRight" Class="mb-2"/>
+                <div style="width: 96px;">
+                    <MudTimePicker Label="Maximum"
+                                   Time="LaunchWindowContext.Max"
+                                   TimeChanged="newMax => LaunchWindowContext.SetValuesAsync(LaunchWindowContext.Min, newMax)" />
+                </div>
+            </div>
+        </TyneCustomMinMaxFilterController>
+    </ChildContent>
+</SimpleFilterContext>

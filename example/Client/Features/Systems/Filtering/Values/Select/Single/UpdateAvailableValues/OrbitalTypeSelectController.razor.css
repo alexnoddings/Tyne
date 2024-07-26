@@ -1,0 +1,34 @@
+.ta-orbit-selector {
+    background: var(--mud-palette-background);
+    position: relative;
+}
+
+.ta-orbit-selector,
+.ta-orbit-selector .ta-orbit-selector-inner {
+    height: 162px;
+}
+
+.ta-orbit-selector .ta-orbit-track {
+    fill: none;
+    stroke: #a4a2a4;
+    stroke-width: 1;
+}
+
+.ta-orbit-selector .ta-orbit-pos {
+    fill: #424242;
+    cursor: pointer;
+}
+
+.ta-orbit-selector .ta-orbit-pos[selected=""] {
+    fill: #b82828;
+}
+
+.ta-orbit-selector .ta-orbit-label {
+    fill: #424242;
+    text-anchor: middle;
+    font-size: 0.8rem;
+}
+
+.ta-orbit-selector .ta-orbit-label[selected=""] {
+    fill: #b82828;
+}

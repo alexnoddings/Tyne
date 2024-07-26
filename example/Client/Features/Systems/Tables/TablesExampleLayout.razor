@@ -1,0 +1,9 @@
+﻿@inherits SystemLayout
+
+@((RenderFragment)base.BuildRenderTree)
+
+@code
+{
+    protected override RenderFragment RenderBreadcrumbs() =>
+        @<TablesBreadcrumbs PageName="@PageTitle" />;
+}

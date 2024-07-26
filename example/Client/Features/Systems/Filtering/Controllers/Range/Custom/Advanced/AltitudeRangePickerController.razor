@@ -1,0 +1,38 @@
+﻿@using MudBlazor.Utilities
+@using System.Linq.Expressions
+@using System.Globalization
+@typeparam TRequest
+@inherits TyneMinMaxFilterController<TRequest, int>
+
+<div class="d-flex flex-row gap-2">
+    <MudNumericField T="int"
+                     Min="100_000"
+                     Max="50_000_000"
+                     Value="Min"
+                     ValueChanged="newMin => SetFilterValuesAsync(newMin, Max)"
+                     Label="Perigee (minimum altitude) in meters"
+                     Step="10_000"
+                     Adornment="Adornment.Start"
+                     AdornmentIcon="@Icons.Material.Filled.VerticalAlignBottom" />
+    <MudNumericField T="int"
+                     Min="100_000"
+                     Max="50_000_000"
+                     Value="Max"
+                     ValueChanged="newMax => SetFilterValuesAsync(Min, newMax)"
+                     Label="Apogee (maximum altitude) in meters"
+                     Step="10_000"
+                     Adornment="Adornment.Start"
+                     AdornmentIcon="@Icons.Material.Filled.VerticalAlignTop" />
+    @if (Min > Max)
+    {
+        <MudAlert Severity="Severity.Warning" Class="flex-grow-1">
+            Perigee cannot be above apogee.
+        </MudAlert>
+    }
+    else
+    {
+        <MudAlert Severity="Severity.Info" Class="flex-grow-1">
+            Orbital period of @AdvancedCustomRangeControllerHelper.GetOrbitalPeriod(Min, Max)
+        </MudAlert>
+    }
+</div>

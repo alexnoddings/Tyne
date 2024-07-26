@@ -1,0 +1,11 @@
+﻿@namespace Tyne.Aerospace.Client.Infrastructure
+
+<MudItem xs="12" md="10" lg="12" Class="py-0">
+    <MudText Typo="Typo.h3">@ChildContent</MudText>
+</MudItem>
+
+@code
+{
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = null!;
+}

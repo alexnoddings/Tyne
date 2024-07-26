@@ -14,7 +14,7 @@
     <PackageReference Update="FluentValidation" Version="11.9.0" />
     <PackageReference Update="MediatR" Version="12.2.0" />
     <PackageReference Update="MediatR.Contracts" Version="2.0.1" />
-    <PackageReference Update="MudBlazor" Version="6.19.1" />
+    <PackageReference Update="MudBlazor" Version="7.4.0" />
   </ItemGroup>
 
   <!-- Same as above, but for test packages. -->
@@ -28,22 +28,9 @@
     <PackageReference Update="xunit.runner.visualstudio" Version="2.5.7" />
   </ItemGroup>
 
-  <!-- .NET 7 -->
-  <ItemGroup Label="Package versions (.NET 7)" Condition=" '$(TargetFramework)' == 'net7.0' ">
-    <PackageReference Update="Microsoft.AspNetCore.Components" Version="7.0.17" />
-    <PackageReference Update="Microsoft.EntityFrameworkCore" Version="7.0.17" />
-    <PackageReference Update="Microsoft.EntityFrameworkCore.Relational" Version="7.0.17" />
-    <PackageReference Update="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
-    <PackageReference Update="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
-    <PackageReference Update="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
-    <PackageReference Update="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
-    <PackageReference Update="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
-    <PackageReference Update="Microsoft.Extensions.Options" Version="7.0.1" />
-  </ItemGroup>
-
   <!-- .NET 8 -->
   <ItemGroup Label="Package versions (.NET 8)" Condition=" '$(TargetFramework)' == 'net8.0' ">
-    <PackageReference Update="Microsoft.AspNetCore.Components" Version="8.0.3" />
+    <PackageReference Update="Microsoft.AspNetCore.Components" Version="8.0.7" />
     <PackageReference Update="Microsoft.EntityFrameworkCore" Version="8.0.3" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.Relational" Version="8.0.3" />
     <PackageReference Update="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
@@ -52,19 +39,21 @@
     <PackageReference Update="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
     <PackageReference Update="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
     <PackageReference Update="Microsoft.Extensions.Options" Version="8.0.2" />
+    <PackageReference Update="System.Text.Json" Version="8.0.4" />
   </ItemGroup>
 
   <!-- .NET 9 -->
   <ItemGroup Label="Package versions (.NET 9)" Condition=" '$(TargetFramework)' == 'net9.0' ">
-    <PackageReference Update="Microsoft.AspNetCore.Components" Version="9.0.0-preview.2.24128.4" />
-    <PackageReference Update="Microsoft.EntityFrameworkCore" Version="9.0.0-preview.2.24128.4" />
-    <PackageReference Update="Microsoft.EntityFrameworkCore.Relational" Version="9.0.0-preview.2.24128.4" />
-    <PackageReference Update="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.0-preview.2.24128.5" />
-    <PackageReference Update="Microsoft.Extensions.Configuration.Binder" Version="9.0.0-preview.2.24128.5" />
-    <PackageReference Update="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0-preview.2.24128.5" />
-    <PackageReference Update="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0-preview.2.24128.5" />
-    <PackageReference Update="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0-preview.2.24128.5" />
-    <PackageReference Update="Microsoft.Extensions.Options" Version="9.0.0-preview.2.24128.5" />
+    <PackageReference Update="Microsoft.AspNetCore.Components" Version="9.0.0-preview.6.24328.4 " />
+    <PackageReference Update="Microsoft.EntityFrameworkCore" Version="9.0.0-preview.6.24327.4 " />
+    <PackageReference Update="Microsoft.EntityFrameworkCore.Relational" Version="9.0.0-preview.6.24327.4 " />
+    <PackageReference Update="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.0-preview.6.24327.7" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.Binder" Version="9.0.0-preview.6.24327.7" />
+    <PackageReference Update="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0-preview.6.24327.7" />
+    <PackageReference Update="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0-preview.6.24327.7" />
+    <PackageReference Update="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0-preview.6.24327.7" />
+    <PackageReference Update="Microsoft.Extensions.Options" Version="9.0.0-preview.6.24327.7" />
+    <PackageReference Update="System.Text.Json" Version="9.0.0-preview.6.24327.7 " />
   </ItemGroup>
 
   <PropertyGroup>
@@ -107,5 +96,5 @@
       $(WarningsNotAsErrors);CS1591
     </WarningsNotAsErrors>
   </PropertyGroup>
-  
+
 </Project>

@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
-  
+
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <AssemblyName>TyneAerospaceClient</AssemblyName>
     <RootNamespace>Tyne.Aerospace.Client</RootNamespace>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
@@ -30,23 +30,29 @@
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
     <PackageReference Include="Humanizer.Core" Version="2.14.1" />
     <PackageReference Include="MediatR" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.6" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageReference Include="MudBlazor" />
+    <PackageReference Include="System.Text.Json" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <!-- Imports the SourceRef source generators. -->
     <ProjectReference Include="..\SourceRef.SourceGenerators\SourceRef.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
-  
+
   <PropertyGroup Label="Warnings and Errors">
     <!--
       CA1034: Do not nest type. Alternatively, change its accessibility so that it is not externally visible.
       REASON: Public type nesting is useful with MediatR.
     -->
     <NoWarn>$(NoWarn);CA1034</NoWarn>
+    <!--
+      CA!716: Identifiers should not match keywords.
+      REASON: It really gets in the way of sensible naming for example namespaces/pages.
+    -->
+    <NoWarn>$(NoWarn);CA1716</NoWarn>
     <!--
       CA1034: Parameter names should match base declaration.
       REASON: More specific names can be useful in app code.
@@ -64,5 +70,5 @@
     -->
     <NoWarn>$(NoWarn);CS1591</NoWarn>
   </PropertyGroup>
-  
+
 </Project>

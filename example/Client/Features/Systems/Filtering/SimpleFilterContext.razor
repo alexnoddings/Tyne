@@ -1,0 +1,23 @@
+﻿@typeparam TRequest
+
+<CascadingValue TValue="IFilterContext<TRequest>"
+                Value="_filterContext"
+                IsFixed="true">
+    @FilterValues
+    @if (_filterContextConfiguredRequest is { } configuredRequest)
+    {
+        @ChildContent(_filterContextConfiguredRequest!)
+    }
+    else
+    {
+        <div class="d-flex flex-column align-center gap-2 my-4">
+            <MudProgressLinear Indeterminate="true"
+                               Color="Color.Primary"
+                               Size="Size.Large" />
+            <MudText Typo="Typo.h5">
+                Loading filter context
+            </MudText>
+        </div>
+    }
+</CascadingValue>
+

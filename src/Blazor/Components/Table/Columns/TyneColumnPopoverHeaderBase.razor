@@ -3,7 +3,10 @@
 
 <MudTh>
     <div class="d-flex">
-        <MudOverlay Visible="IsOpen" VisibleChanged="IsOpenChanged" DarkBackground="true" AutoClose="true" />
+        <MudOverlay Visible="IsOpen"
+                    VisibleChanged="IsOpenChanged"
+                    DarkBackground="true"
+                    AutoClose="true"/>
         <MudTooltip Text="@(IsOpen ? "Hide filter" : "Show filter")"
                     Delay="400"
                     Duration="200"
@@ -13,23 +16,23 @@
                            Color="FilterIconColour"
                            OnClick="() => IsOpenChanged.InvokeAsync(!IsOpen)" />
         </MudTooltip>
-        @if (OrderBy.IsEmpty)
-        {
-            if (Header is not null)
+        @{
+            var headerContent = GetHeaderOrLabel();
+            if (OrderBy.IsEmpty)
             {
-                <div class="d-flex align-center">
-                    @Header
-                </div>
-            }
-        }
-        else
-        {
-            <MudTableSortLabel T="TResponse" SortLabel="@OrderBy.Key">
-                @if (Header is not null)
+                if (headerContent is not null)
                 {
-                    @Header
+                    <div class="d-flex align-center">
+                        @headerContent
+                    </div>
                 }
-            </MudTableSortLabel>
+            }
+            else
+            {
+                <MudTableSortLabel T="TResponse" SortLabel="@OrderBy.Key">
+                    @headerContent
+                </MudTableSortLabel>
+            }
         }
         <MudPopover Open="IsOpen"
                     Fixed="true"
@@ -43,7 +46,7 @@
                     <MudIconButton Class="pa-1"
                                    Icon="@Icons.Material.Outlined.ExpandLess"
                                    Color="Color.Primary"
-                                   OnClick="() => IsOpenChanged.InvokeAsync(false)" />
+                                   OnClick="() => IsOpenChanged.InvokeAsync(false)"/>
                 </MudTooltip>
                 @if (Content is not null)
                 {
@@ -56,9 +59,9 @@
                                 Duration="200"
                                 Arrow="true">
                         <MudIconButton Class="pa-1"
-                                        Icon="@Icons.Material.Outlined.Backspace"
-                                        Color="Color.Primary"
-                                        OnClick="ClearValue" />
+                                       Icon="@Icons.Material.Outlined.Backspace"
+                                       Color="Color.Primary"
+                                       OnClick="ClearValue"/>
                     </MudTooltip>
                 }
             </div>

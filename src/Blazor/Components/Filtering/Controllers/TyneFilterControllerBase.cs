@@ -115,28 +115,36 @@ public abstract class TyneFilterControllerBase<TRequest, TValue> : ComponentBase
     ///     is attached to is updated with a <paramref name="newValue"/>.
     /// </summary>
     /// <param name="newValue">The new <typeparamref name="TValue"/>.</param>
-    /// <returns>
-    ///     The default implementation of this is to just invoke <see cref="ComponentBase.StateHasChanged"/>.
-    /// </returns>
-    public virtual Task OnValueUpdatedAsync(TValue? newValue)
-    {
-        StateHasChanged();
-        return Task.CompletedTask;
-    }
+    /// <remarks>
+    ///     <para>
+    ///         The default implementation of this is to invoke <see cref="ComponentBase.StateHasChanged"/>.
+    ///     </para>
+    ///     <para>
+    ///         This method is not always called on the associated renderer's synchronisation context.
+    ///         Any calls to the Blazor state (e.g. <see cref="ComponentBase.StateHasChanged"/>) should be
+    ///         executed using <see cref="ComponentBase.InvokeAsync(System.Action)"/>.
+    ///     </para>
+    /// </remarks>
+    public virtual Task OnValueUpdatedAsync(TValue? newValue) =>
+        InvokeAsync(StateHasChanged);
 
     /// <summary>
     ///     Invoked by <see cref="IFilterContext{TRequest}"/>
     ///     when the <see cref="IFilterValue{TValue}"/> this instance
     ///     is attached to has a state change.
     /// </summary>
-    /// <returns>
-    ///     The default implementation of this is to just invoke <see cref="ComponentBase.StateHasChanged"/>.
-    /// </returns>
-    public Task OnStateChangedAsync()
-    {
-        StateHasChanged();
-        return Task.CompletedTask;
-    }
+    /// <remarks>
+    ///     <para>
+    ///         The default implementation of this is to invoke <see cref="ComponentBase.StateHasChanged"/>.
+    ///     </para>
+    ///     <para>
+    ///         This method is not always called on the associated renderer's synchronisation context.
+    ///         Any calls to the Blazor state (e.g. <see cref="ComponentBase.StateHasChanged"/>) should be
+    ///         executed using <see cref="ComponentBase.InvokeAsync(System.Action)"/>.
+    ///     </para>
+    /// </remarks>
+    public Task OnStateChangedAsync() =>
+        InvokeAsync(StateHasChanged);
 
     /// <summary>
     ///     Disposes of the filter controller's resources

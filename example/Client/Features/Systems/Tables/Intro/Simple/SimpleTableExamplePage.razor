@@ -1,0 +1,24 @@
+﻿@page "/systems/tables/intro/simple"
+@layout TablesExampleLayout
+@attribute [PageTitle("Simple table")]
+
+<DocsTextBlock MultiLine="true">
+    <p>
+        This example contains a simple, filtered table with a searchable string column.
+        Click <MudIcon Icon="@Icons.Material.Filled.Search" Class="mb-n2" />
+        in the column header to search by the planet name.
+    </p>
+    <p>
+        By default, the results are in ascending order of distance from the sun.
+        You can re-order the results by clicking on the column headers.
+    </p>
+</DocsTextBlock>
+
+<SourceCode T="SimpleTableExampleContent" SourceType="SourceCodeType.Component" Name="Table">
+    <MudText Typo="Typo.h4">Planets</MudText>
+    <SimpleTableExampleContent/>
+</SourceCode>
+<SourceCode T="SimpleTableRequest" SourceType="SourceCodeType.Type" Name="Request type" />
+<SourceCode T="SimpleTableResponse" SourceType="SourceCodeType.Type" Name="Response type" />
+
+<SourceCode T="SimpleTableData" SourceType="SourceCodeType.Type" Name="Data" ShowSourceByDefault="false" />

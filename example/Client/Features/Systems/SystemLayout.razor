@@ -1,17 +1,9 @@
-﻿@using System.Reflection
-@inherits DocLayoutBase
+﻿@inherits DocLayout
 
 @((RenderFragment)base.BuildRenderTree)
 
 @code
 {
-    protected override string PageTitle =>
-        RouteData
-        .PageType
-        .GetCustomAttribute<SystemTitleAttribute>()
-        ?.Title
-        ?? string.Empty;
-
     protected override RenderFragment RenderBreadcrumbs() =>
         @<SystemsBreadcrumbs PageName="@PageTitle" />;
 }

@@ -1,5 +1,4 @@
 ﻿@namespace Tyne.Blazor
-@using FluentValidation;
 @using Microsoft.AspNetCore.Components.Forms;
 @typeparam TModel where TModel : class
 
@@ -9,7 +8,7 @@
                OpenChanged="TryChangeOpenAsync"
                Anchor="Anchor"
                Elevation="Elevation"
-               DisableOverlay="DisableOverlay"
+               Overlay="Overlay"
                Width="@Width"
                Variant="Variant">
         @{

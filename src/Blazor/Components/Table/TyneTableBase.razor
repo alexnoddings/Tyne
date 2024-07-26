@@ -6,12 +6,11 @@
 @typeparam TResponse
 @inherits MudTable<TResponse>
 @implements ITyneTable
-@implements IDisposable
 
 @if (_filterContext.IsFaulted)
 {
     <div class="@Classname" style="@Style">
-        <div class="mud-table-container" style="@TableStyle">
+        <div class="mud-table-container" style="@ContainerStyle">
             <table class="mud-table-root">
                 <tbody class="mud-table-body">
                     <tr>
@@ -29,7 +28,7 @@
 else
 {
     <CascadingValue TValue="IFilterContext<TRequest>" Value="_filterContext" IsFixed="true">
-        @ValueFilters
+        @(FilterValues ?? _ValueFilters)
         @((RenderFragment)base.BuildRenderTree)
     </CascadingValue>
 }

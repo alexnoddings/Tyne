@@ -1,0 +1,57 @@
+﻿@namespace Tyne.Aerospace.Client.Features.Systems.Filtering.Values.Select.Single
+
+<div class="px-4 py-2 rounded mud-theme-dark"
+     style="background-color: var(--mud-palette-dark-lighten);">
+    <MudText>
+        Probe destination
+    </MudText>
+    <div class="d-flex flex-row align-center gap-4" style="height: 54px;">
+        @RenderPlanet(ProbeDestination.Mercury, "#7B7777")
+        @RenderPlanet(ProbeDestination.Venus, "#ECEBE3")
+        @RenderPlanet(ProbeDestination.Earth, "#257FA3")
+        @RenderPlanet(ProbeDestination.Mars, "#DA9E6C")
+        @RenderPlanet(ProbeDestination.Jupiter, "#B3A798")
+        @RenderPlanet(ProbeDestination.Saturn, "#C5AB77")
+        @RenderPlanet(ProbeDestination.Uranus, "#C6DEEA")
+        @RenderPlanet(ProbeDestination.Neptune, "#97B9C6")
+    </div>
+</div>
+<div class="px-4 py-2 mud-paper-outlined rounded" style="width: 256px;">
+    <MudText>
+        Select box
+    </MudText>
+    <TyneSingleSelectBoxFilterController TRequest="SingleSelectValuesExampleRequest"
+                                         TValue="ProbeDestination"
+                                         For="m => m.ProbeDestination"
+                                         Clearable="true"
+                                         Label="Probe destination" />
+</div>
+<div class="px-4 py-2 mud-paper-outlined rounded">
+    <MudText>
+        Radio select
+    </MudText>
+    <TyneSingleSelectRadioFilterController TRequest="SingleSelectValuesExampleRequest"
+                                           TValue="ProbeDestination"
+                                           For="m => m.ProbeDestination"
+                                           Layout="FlexDirection.Row"/>
+</div>
+
+@code
+{
+    [Parameter]
+    public SingleSelectValuesExampleRequest Request { get; set; } = null!;
+
+    private RenderFragment RenderPlanet(ProbeDestination destination, string colour)
+    {
+        var style = $"fill: {colour};";
+
+        if (Request?.ProbeDestination == destination)
+            return @<MudIcon Icon="@Icons.Material.Filled.Circle"
+                             Style="@style"
+                             Class="mud-icon-size-extra-large" />;
+
+        return @<MudIcon Icon="@Icons.Material.Outlined.Circle"
+                         Style="@style"
+                         Size="Size.Large" />;
+    }
+}

@@ -1,5 +1,4 @@
 ﻿@namespace Tyne.Aerospace.Client
-@using Microsoft.Extensions.Options
 @using Tyne.Aerospace.Client.Infrastructure.Layouts
 @inherits LayoutComponentBase
 @inject ThemeService ThemeService
@@ -12,9 +11,10 @@
 <MudThemeProvider Theme="ThemeService.Theme" />
 <MudDialogProvider />
 <MudSnackbarProvider />
+<MudPopoverProvider/>
 
 <MudLayout>
-    <MudAppBar Elevation="1" Dense="true" DisableGutters="true">
+    <MudAppBar Elevation="1" Dense="true" Gutters="false">
         <MudContainer Class="d-flex flex-row align-center gap-5" MaxWidth="MaxWidth.Large">
             <MudLink Href="./"
                      Typo="Typo.h4"

@@ -49,12 +49,13 @@ public abstract partial class TyneSearchFilterControllerBase<TRequest, TSearchVa
     ///     Searches a data source for <typeparamref name="TSearchValue"/>s which match <paramref name="search"/>.
     /// </summary>
     /// <param name="search">Optionally, a parameter used to search <typeparamref name="TSearchValue"/>s.</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken"/>.</param>
     /// <returns>
     ///     A <see cref="Task{TResult}"/> whose result is a list of <typeparamref name="TSearchValue"/>s found.
     /// </returns>
     /// <remarks>
     ///     <para>
-    ///         This is a convenient shorthand to access <see cref="IFilterSearchValue{TSearchValue}.SearchAsync(string)"/> on the handle.
+    ///         This is a convenient shorthand to access <see cref="IFilterSearchValue{TSearchValue}.SearchAsync(string, CancellationToken)"/> on the handle.
     ///         See that method for more information on how it works.
     ///     </para>
     ///     <para>
@@ -65,8 +66,8 @@ public abstract partial class TyneSearchFilterControllerBase<TRequest, TSearchVa
     ///     </para>
     /// </remarks>
     /// <exception cref="InvalidOperationException">When the attached filter does not support <see cref="IFilterSearchValue{TSearchValue}"/>.</exception>
-    protected async Task<IEnumerable<TSearchValue>> SearchItemsAsync(string search) =>
+    protected async Task<IEnumerable<TSearchValue>> SearchItemsAsync(string search, CancellationToken cancellationToken = default) =>
         await EnsureFilterSupportsSearching()
-                .SearchAsync(search)
+                .SearchAsync(search, cancellationToken)
                 .ConfigureAwait(true);
 }

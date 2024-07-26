@@ -10,7 +10,7 @@ namespace Tyne.Blazor.Filtering.Controllers;
 ///     This multi-selection column requires the value to be a <see cref="HashSet{T}"/> of <typeparamref name="TValue"/>s.
 /// </remarks>
 /// <inheritdoc/>
-public abstract partial class TyneMultiSelectFilterControllerBase<TRequest, TValue> : TyneSelectFilterControllerBase<TRequest, HashSet<TValue>, TValue>
+public abstract class TyneMultiSelectFilterControllerBase<TRequest, TValue> : TyneSelectFilterControllerBase<TRequest, HashSet<TValue>, TValue>
 {
     /// <summary>
     ///     An <see cref="Expression"/> for the <typeparamref name="TValue"/> property to attach to.
