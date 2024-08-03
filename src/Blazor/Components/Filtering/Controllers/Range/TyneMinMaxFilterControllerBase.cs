@@ -52,7 +52,7 @@ public abstract partial class TyneMinMaxFilterControllerBase<TRequest, TValue> :
     ///     This is a convenient shorthand to access <see cref="MinHandle"/>.
     /// </remarks>
     protected TValue? Min =>
-        MinHandle.Filter.Value;
+        MinHandle.FilterValue.Value;
 
     /// <summary>
     ///     The <see cref="TyneKey"/> of the maximum property to attach to on the <see cref="IFilterContext{TRequest}"/>.
@@ -73,7 +73,7 @@ public abstract partial class TyneMinMaxFilterControllerBase<TRequest, TValue> :
     ///     This is a convenient shorthand to access <see cref="MaxHandle"/>.
     /// </remarks>
     protected TValue? Max =>
-        MaxHandle.Filter.Value;
+        MaxHandle.FilterValue.Value;
 
     /// <summary>
     ///     Attaches this instance to the <see cref="IFilterContext{TRequest}"/>.
@@ -102,8 +102,8 @@ public abstract partial class TyneMinMaxFilterControllerBase<TRequest, TValue> :
     {
         return Context.BatchUpdateValuesAsync(async () =>
         {
-            await MinHandle.Filter.SetValueAsync(min).ConfigureAwait(true);
-            await MaxHandle.Filter.SetValueAsync(max).ConfigureAwait(true);
+            await MinHandle.FilterValue.SetValueAsync(min).ConfigureAwait(true);
+            await MaxHandle.FilterValue.SetValueAsync(max).ConfigureAwait(true);
         });
     }
 

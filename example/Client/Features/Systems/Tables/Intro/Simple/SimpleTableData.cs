@@ -49,6 +49,6 @@ public sealed class SimpleTableData
         var paginated = ordered.AsQueryable().Paginate(request);
 
         var searchResults = new SearchResults<SimpleTableResponse>(paginated, count);
-        return Task.FromResult(searchResults);
+        return Task.Delay(2000).ContinueWith(_ => searchResults, TaskScheduler.Current);
     }
 }

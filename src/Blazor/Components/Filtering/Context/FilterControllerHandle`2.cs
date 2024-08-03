@@ -28,7 +28,7 @@ internal sealed class FilterControllerHandle<TRequest, TValue> : FilterControlle
     private readonly TyneKey _key;
     public ref readonly TyneKey Key => ref _key;
 
-    public IFilterValue<TValue> Filter
+    public IFilterValue<TValue> FilterValue
     {
         get
         {

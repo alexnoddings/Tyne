@@ -34,7 +34,7 @@ public abstract partial class TyneSelectFilterControllerBase<TRequest, TValue, T
         if (_filterSelectValue is not null)
             return _filterSelectValue;
 
-        if (Handle.Filter is not IFilterSelectValue<TSelectItem> filterSelectValue)
+        if (Handle.FilterValue is not IFilterSelectValue<TSelectItem> filterSelectValue)
             throw new InvalidOperationException($"{nameof(TyneSelectFilterControllerBase<TRequest, TValue, TSelectItem>)} is not compatible with filter value for '{ForKey}'; filter value does not support {nameof(IFilterSelectValue<TSelectItem>)}<{typeof(TSelectItem).Name}>.");
 
         _filterSelectValue = filterSelectValue;

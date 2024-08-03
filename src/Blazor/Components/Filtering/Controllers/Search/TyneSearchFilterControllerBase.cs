@@ -27,7 +27,7 @@ public abstract partial class TyneSearchFilterControllerBase<TRequest, TSearchVa
         if (_filterSearchValue is not null)
             return _filterSearchValue;
 
-        if (Handle.Filter is not IFilterSearchValue<TSearchValue> filterSearchValue)
+        if (Handle.FilterValue is not IFilterSearchValue<TSearchValue> filterSearchValue)
             throw new InvalidOperationException($"{nameof(TyneSearchFilterControllerBase<TRequest, TSearchValue, TFilterValue>)} is not compatible with filter value for '{ForKey}'; filter value does not support {nameof(IFilterSearchValue<TSearchValue>)}<{typeof(TSearchValue).Name}>.");
 
         _filterSearchValue = filterSearchValue;

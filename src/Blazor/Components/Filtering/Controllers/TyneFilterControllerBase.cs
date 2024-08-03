@@ -54,7 +54,7 @@ public abstract class TyneFilterControllerBase<TRequest, TValue> : ComponentBase
     ///     This is a convenient shorthand to access <see cref="Handle"/>.
     /// </remarks>
     protected TValue? Value =>
-        Handle.Filter.Value;
+        Handle.FilterValue.Value;
 
     /// <summary>
     ///     Attaches this instance to the <see cref="IFilterContext{TRequest}"/>.
@@ -81,7 +81,7 @@ public abstract class TyneFilterControllerBase<TRequest, TValue> : ComponentBase
     ///     </para>
     /// </remarks>
     protected Task SetFilterValueAsync(TValue? newValue) =>
-        Handle.Filter.SetValueAsync(newValue);
+        Handle.FilterValue.SetValueAsync(newValue);
 
     /// <summary>
     ///     Clears the value of the attached filter's <typeparamref name="TValue"/>.
@@ -93,7 +93,7 @@ public abstract class TyneFilterControllerBase<TRequest, TValue> : ComponentBase
     ///     </para>
     /// </remarks>
     protected Task ClearFilterValueAsync() =>
-        Handle.Filter.ClearValueAsync();
+        Handle.FilterValue.ClearValueAsync();
 
     /// <summary>
     ///     Invoked by <see cref="IFilterContext{TRequest}"/>

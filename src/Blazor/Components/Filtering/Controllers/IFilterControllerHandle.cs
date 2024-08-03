@@ -16,5 +16,5 @@ public interface IFilterControllerHandle<TValue> : IDisposable
     /// <summary>
     ///     The <see cref="IFilterValue{TValue}"/> which the controller has attached to.
     /// </summary>
-    public IFilterValue<TValue> Filter { get; }
+    public IFilterValue<TValue> FilterValue { get; }
 }
