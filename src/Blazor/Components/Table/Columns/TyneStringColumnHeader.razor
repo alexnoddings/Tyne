@@ -9,5 +9,5 @@
                          OrderBy="OrderByKey"
                          ClearValue="ClearFilterValueAsync"
                          Header="ChildContent"
-                         Label="@Label"
+                         Label="@(Label ?? ForKey.Key)"
                          Content="base.BuildRenderTree" />
