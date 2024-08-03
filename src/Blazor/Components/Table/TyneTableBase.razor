@@ -28,7 +28,7 @@
 else
 {
     <CascadingValue TValue="IFilterContext<TRequest>" Value="_filterContext" IsFixed="true">
-        @(FilterValues ?? _ValueFilters)
+        @FilterValues
         @((RenderFragment)base.BuildRenderTree)
     </CascadingValue>
 }
