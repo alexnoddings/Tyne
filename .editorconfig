@@ -93,4 +93,4 @@ indent_size = 2
 indent_size = 4
 
 [*.{razor,cshtml}]
-charset = utf-8-bom
+charset = utf-8
