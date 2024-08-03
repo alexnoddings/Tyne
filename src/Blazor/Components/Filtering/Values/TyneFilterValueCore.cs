@@ -110,23 +110,12 @@ public abstract class TyneFilterValueCore<TRequest, TValue> : ComponentBase, IFi
     [CascadingParameter]
     protected IFilterContext<TRequest> Context { get; init; } = null!;
 
-    private IFilterValueHandle<TValue>? _handle;
     /// <summary>
     ///     The handle from attaching to the <see cref="Context"/>.
     /// </summary>
-    protected IFilterValueHandle<TValue> Handle
-    {
-        get
-        {
-            // We only account for the handle being null after being disposed.
-            // The handle is attached during OnInitialized, which is the first
-            // method executed, so we don't expect any callers to access it before then.
-            if (_handle is null)
-                throw new ObjectDisposedException(nameof(TyneFilterValueBase<TRequest, TValue>), "Cannot access handle after value has been disposed.");
-
-            return _handle;
-        }
-    }
+    // The handle is attached during OnInitialized, which is the first
+    // method executed, so we don't expect any callers to access it before then.
+    protected IFilterValueHandle<TValue> Handle { get; private set; } = null!;
 
     [Inject]
     private ILoggerFactory LoggerFactory { get; init; } = null!;
@@ -155,7 +144,7 @@ public abstract class TyneFilterValueCore<TRequest, TValue> : ComponentBase, IFi
         // Always attach a handle, regardless of if we could generate a setter.
         // We won't be able to configure the request later, but it will stop as many
         // errors where controllers try to attach to invalid values.
-        _handle = Context.AttachValue(forKey, this);
+        Handle = Context.AttachValue(forKey, this);
     }
 
     // Used to check if init has started, and to await it completing
@@ -341,11 +330,8 @@ public abstract class TyneFilterValueCore<TRequest, TValue> : ComponentBase, IFi
     /// <summary>
     ///     Disposes of the value, detaching it from the <see cref="Context"/>.
     /// </summary>
-    protected virtual void Dispose(bool disposing)
-    {
-        _handle?.Dispose();
-        _handle = null;
-    }
+    protected virtual void Dispose(bool disposing) =>
+        Handle?.Dispose();
 
     /// <summary>
     ///     Disposes of the value, detaching it from the <see cref="IFilterContext{TRequest}"/>.
