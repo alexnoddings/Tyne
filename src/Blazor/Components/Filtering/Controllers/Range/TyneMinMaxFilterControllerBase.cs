@@ -40,26 +40,10 @@ public abstract partial class TyneMinMaxFilterControllerBase<TRequest, TValue> :
     /// </summary>
     protected abstract TyneKey ForMinKey { get; }
 
-    private IFilterControllerHandle<TValue?>? _minHandle;
     /// <summary>
     ///     The handle returned when we attached to the min property on the <see cref="IFilterContext{TRequest}"/>.
     /// </summary>
-    /// <remarks>
-    ///     Accessing this after the instance has been disposed will throw an <see cref="ObjectDisposedException"/>.
-    /// </remarks>
-    protected IFilterControllerHandle<TValue?> MinHandle
-    {
-        get
-        {
-            // We only account for the handle being null after being disposed.
-            // The handle is attached during OnInitialized, which is the first
-            // method executed, so we don't expect any callers to access it before then.
-            if (_minHandle is null)
-                throw new ObjectDisposedException(GetType().Name, "Cannot access handle after being disposed.");
-
-            return _minHandle;
-        }
-    }
+    protected IFilterControllerHandle<TValue?> MinHandle { get; private set; } = null!;
 
     /// <summary>
     ///     The <typeparamref name="TValue"/> of the attached minimum filter value.
@@ -68,33 +52,19 @@ public abstract partial class TyneMinMaxFilterControllerBase<TRequest, TValue> :
     ///     This is a convenient shorthand to access <see cref="MinHandle"/>.
     /// </remarks>
     protected TValue? Min =>
-        MinHandle.Filter.Value;
+        MinHandle.FilterValue.Value;
 
     /// <summary>
     ///     The <see cref="TyneKey"/> of the maximum property to attach to on the <see cref="IFilterContext{TRequest}"/>.
     /// </summary>
     protected abstract TyneKey ForMaxKey { get; }
 
-    private IFilterControllerHandle<TValue?>? _maxHandle;
     /// <summary>
     ///     The handle returned when we attached to the max property on the <see cref="IFilterContext{TRequest}"/>.
     /// </summary>
-    /// <remarks>
-    ///     Accessing this after the instance has been disposed will throw an <see cref="ObjectDisposedException"/>.
-    /// </remarks>
-    protected IFilterControllerHandle<TValue?> MaxHandle
-    {
-        get
-        {
-            // We only account for the handle being null after being disposed.
-            // The handle is attached during OnInitialized, which is the first
-            // method executed, so we don't expect any callers to access it before then.
-            if (_maxHandle is null)
-                throw new ObjectDisposedException(GetType().Name, "Cannot access handle after being disposed.");
-
-            return _maxHandle;
-        }
-    }
+    // The handle is attached during OnInitialized, which is the first
+    // method executed, so we don't expect any callers to access it before then.
+    protected IFilterControllerHandle<TValue?> MaxHandle { get; private set; } = null!;
 
     /// <summary>
     ///     The <typeparamref name="TValue"/> of the attached minimum filter value.
@@ -103,7 +73,7 @@ public abstract partial class TyneMinMaxFilterControllerBase<TRequest, TValue> :
     ///     This is a convenient shorthand to access <see cref="MaxHandle"/>.
     /// </remarks>
     protected TValue? Max =>
-        MaxHandle.Filter.Value;
+        MaxHandle.FilterValue.Value;
 
     /// <summary>
     ///     Attaches this instance to the <see cref="IFilterContext{TRequest}"/>.
@@ -113,8 +83,8 @@ public abstract partial class TyneMinMaxFilterControllerBase<TRequest, TValue> :
     /// </remarks>
     protected override void OnInitialized()
     {
-        _minHandle = Context.AttachController(ForMinKey, this);
-        _maxHandle = Context.AttachController(ForMaxKey, this);
+        MinHandle = Context.AttachController(ForMinKey, this);
+        MaxHandle = Context.AttachController(ForMaxKey, this);
     }
 
     /// <summary>
@@ -132,8 +102,8 @@ public abstract partial class TyneMinMaxFilterControllerBase<TRequest, TValue> :
     {
         return Context.BatchUpdateValuesAsync(async () =>
         {
-            await MinHandle.Filter.SetValueAsync(min).ConfigureAwait(true);
-            await MaxHandle.Filter.SetValueAsync(max).ConfigureAwait(true);
+            await MinHandle.FilterValue.SetValueAsync(min).ConfigureAwait(true);
+            await MaxHandle.FilterValue.SetValueAsync(max).ConfigureAwait(true);
         });
     }
 
@@ -180,10 +150,8 @@ public abstract partial class TyneMinMaxFilterControllerBase<TRequest, TValue> :
     /// </summary>
     protected virtual void Dispose(bool disposing)
     {
-        _minHandle?.Dispose();
-        _minHandle = null;
-        _maxHandle?.Dispose();
-        _maxHandle = null;
+        MinHandle?.Dispose();
+        MaxHandle?.Dispose();
     }
 
     /// <summary>

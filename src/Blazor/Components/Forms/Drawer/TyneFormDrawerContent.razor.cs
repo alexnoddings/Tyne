@@ -34,11 +34,6 @@ public sealed partial class TyneFormDrawerContent<TModel> : ComponentBase, ITyne
     public DrawerVariant Variant { get; set; } = DrawerVariant.Temporary;
 
     [Parameter]
-    [Obsolete($"Use {nameof(Overlay)} instead.", error: true, DiagnosticId = "TYNEMUDOLD")]
-    // Property is ignored, but left in this version to make upgrading easier with the diagnostic
-    public bool DisableOverlay { get; set; }
-
-    [Parameter]
     public bool Overlay { get; set; }
 
     [Parameter]

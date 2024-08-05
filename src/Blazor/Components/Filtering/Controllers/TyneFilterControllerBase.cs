@@ -40,26 +40,12 @@ public abstract class TyneFilterControllerBase<TRequest, TValue> : ComponentBase
     /// </remarks>
     protected abstract TyneKey ForKey { get; }
 
-    private IFilterControllerHandle<TValue>? _handle;
     /// <summary>
     ///     The handle returned when we attached to the <see cref="IFilterContext{TRequest}"/>.
     /// </summary>
-    /// <remarks>
-    ///     Accessing this after the instance has been disposed will throw an <see cref="ObjectDisposedException"/>.
-    /// </remarks>
-    protected IFilterControllerHandle<TValue> Handle
-    {
-        get
-        {
-            // We only account for the handle being null after being disposed.
-            // The handle is attached during OnInitialized, which is the first
-            // method executed, so we don't expect any callers to access it before then.
-            if (_handle is null)
-                throw new ObjectDisposedException(nameof(TyneFilterControllerBase<TRequest, TValue>), "Cannot access handle after value has been disposed.");
-
-            return _handle;
-        }
-    }
+    // The handle is attached during OnInitialized, which is the first
+    // method executed, so we don't expect any callers to access it before then.
+    protected IFilterControllerHandle<TValue> Handle { get; private set; } = null!;
 
     /// <summary>
     ///     The <typeparamref name="TValue"/> of the attached filter value.
@@ -68,7 +54,7 @@ public abstract class TyneFilterControllerBase<TRequest, TValue> : ComponentBase
     ///     This is a convenient shorthand to access <see cref="Handle"/>.
     /// </remarks>
     protected TValue? Value =>
-        Handle.Filter.Value;
+        Handle.FilterValue.Value;
 
     /// <summary>
     ///     Attaches this instance to the <see cref="IFilterContext{TRequest}"/>.
@@ -81,7 +67,7 @@ public abstract class TyneFilterControllerBase<TRequest, TValue> : ComponentBase
         if (ForKey.IsEmpty)
             throw new KeyEmptyException($"Controller can't attach to empty {nameof(ForKey)}. Are you missing a For property?");
 
-        _handle = Context.AttachController(ForKey, this);
+        Handle = Context.AttachController(ForKey, this);
     }
 
     /// <summary>
@@ -95,7 +81,7 @@ public abstract class TyneFilterControllerBase<TRequest, TValue> : ComponentBase
     ///     </para>
     /// </remarks>
     protected Task SetFilterValueAsync(TValue? newValue) =>
-        Handle.Filter.SetValueAsync(newValue);
+        Handle.FilterValue.SetValueAsync(newValue);
 
     /// <summary>
     ///     Clears the value of the attached filter's <typeparamref name="TValue"/>.
@@ -107,7 +93,7 @@ public abstract class TyneFilterControllerBase<TRequest, TValue> : ComponentBase
     ///     </para>
     /// </remarks>
     protected Task ClearFilterValueAsync() =>
-        Handle.Filter.ClearValueAsync();
+        Handle.FilterValue.ClearValueAsync();
 
     /// <summary>
     ///     Invoked by <see cref="IFilterContext{TRequest}"/>
@@ -150,11 +136,8 @@ public abstract class TyneFilterControllerBase<TRequest, TValue> : ComponentBase
     ///     Disposes of the filter controller's resources
     ///     and detaches the <see cref="Handle"/>.
     /// </summary>
-    protected virtual void Dispose(bool disposing)
-    {
-        _handle?.Dispose();
-        _handle = null;
-    }
+    protected virtual void Dispose(bool disposing) =>
+        Handle?.Dispose();
 
     /// <summary>
     ///     Disposes of the filter controller.

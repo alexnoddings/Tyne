@@ -15,15 +15,36 @@ namespace Tyne.Blazor.Filtering.Context;
 /// </remarks>
 internal sealed class FilterControllerHandle<TRequest, TValue> : FilterControllerHandle, IFilterControllerHandle<TValue>
 {
-    private TyneFilterContext<TRequest>? _context;
+    private sealed record HandleState(
+        TyneFilterContext<TRequest> Context,
+        IFilterValue<TValue> FilterValue,
+        IFilterController<TValue> FilterController
+    );
+    private HandleState? _state;
+
+    [MemberNotNullWhen(false, nameof(_state))]
+    private bool IsDisposed => _state is null;
+
     private readonly TyneKey _key;
     public ref readonly TyneKey Key => ref _key;
 
-    private IFilterValue<TValue>? _filter;
-    public IFilterValue<TValue> Filter => EnsureNotDisposed(_filter);
+    public IFilterValue<TValue> FilterValue
+    {
+        get
+        {
+            EnsureNotDisposed();
+            return _state.FilterValue;
+        }
+    }
 
-    private IFilterController<TValue>? _filterController;
-    internal IFilterController<TValue> FilterController => EnsureNotDisposed(_filterController);
+    internal IFilterController<TValue> FilterController
+    {
+        get
+        {
+            EnsureNotDisposed();
+            return _state.FilterController;
+        }
+    }
 
     internal override IFilterController FilterControllerBase => FilterController;
 
@@ -35,35 +56,33 @@ internal sealed class FilterControllerHandle<TRequest, TValue> : FilterControlle
     /// <param name="filterValue">The filter value the <paramref name="filterController"/> is attached to.</param>
     /// <param name="filterController">The filter controller.</param>
     public FilterControllerHandle(
-        TyneFilterContext<TRequest>? context,
+        TyneFilterContext<TRequest> context,
         TyneKey key,
         IFilterValue<TRequest, TValue> filterValue,
         IFilterController<TValue> filterController
     )
     {
-        _context = context;
+        _state = new(context, filterValue, filterController);
         _key = key;
-        _filter = filterValue;
-        _filterController = filterController;
     }
 
-    [return: NotNull]
-    private T EnsureNotDisposed<T>(T? prop) =>
-        prop ?? throw new ObjectDisposedException(nameof(FilterValueHandle<TRequest>), "Handle is disposed.");
+    [MemberNotNull(nameof(_state))]
+    private void EnsureNotDisposed()
+    {
+        if (IsDisposed)
+            throw new ObjectDisposedException(nameof(FilterValueHandle<TRequest, TValue>), "Handle is disposed.");
+    }
 
     /// <summary>
     ///     Detaches the filter controller.
     /// </summary>
     public override void Dispose()
     {
-        // Assume we're already disposed if context is null
-        if (_context is null)
+        // Assume we're already disposed if state is null
+        if (_state is null)
             return;
 
-        // Detach this handle then null out every field to indicate we're disposed
-        _context.DetachFilterController(this);
-        _context = null;
-        _filter = null;
-        _filterController = null;
+        _state.Context.DetachFilterController(this);
+        _state = null;
     }
 }

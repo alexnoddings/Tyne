@@ -49,9 +49,6 @@ public sealed class TyneFilterSelectItem<TValue> : ComponentBase, IFilterSelectI
     /// <summary>
     ///     Disposes of this item, detaching it from the value context.
     /// </summary>
-    public void Dispose()
-    {
+    public void Dispose() =>
         _handle?.Dispose();
-        _handle = null;
-    }
 }

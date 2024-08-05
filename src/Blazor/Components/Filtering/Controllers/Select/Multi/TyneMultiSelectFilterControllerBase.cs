@@ -70,7 +70,7 @@ public abstract class TyneMultiSelectFilterControllerBase<TRequest, TValue> : Ty
     ///     </para>
     /// </remarks>
     protected Task SetValueAsync(HashSet<TValue>? newValue) =>
-        Handle.Filter.SetValueAsync(newValue ?? []);
+        Handle.FilterValue.SetValueAsync(newValue ?? []);
 
     /// <summary>
     ///     Adds <paramref name="item"/> to the selected filter value <see cref="HashSet{T}"/>.
@@ -79,7 +79,7 @@ public abstract class TyneMultiSelectFilterControllerBase<TRequest, TValue> : Ty
     /// <returns>A <see cref="Task"/> representing the value being added.</returns>
     protected Task AddValueAsync(TValue item)
     {
-        var currentValue = Handle.Filter.Value ?? [];
+        var currentValue = Handle.FilterValue.Value ?? [];
         if (item is not null && currentValue.Contains(item))
             return Task.CompletedTask;
 
@@ -100,7 +100,7 @@ public abstract class TyneMultiSelectFilterControllerBase<TRequest, TValue> : Ty
     /// </returns>
     protected Task RemoveValueAsync(TValue item)
     {
-        var currentValue = Handle.Filter.Value;
+        var currentValue = Handle.FilterValue.Value;
         if (currentValue is null || currentValue.Count == 0)
             // Can't remove a value from a null or empty set
             return Task.CompletedTask;

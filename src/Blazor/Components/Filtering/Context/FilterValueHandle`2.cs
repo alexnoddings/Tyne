@@ -11,17 +11,20 @@ namespace Tyne.Blazor.Filtering.Context;
 /// <typeparam name="TValue">The type which the value manages.</typeparam>
 internal sealed class FilterValueHandle<TRequest, TValue> : FilterValueHandle<TRequest>, IFilterValueHandle<TValue>
 {
-    private TyneFilterContext<TRequest>? _context;
+    private sealed record HandleState(TyneFilterContext<TRequest> Context, IFilter<TRequest> FilterInstance);
+    private HandleState? _state;
+
+    [MemberNotNullWhen(false, nameof(_state))]
+    private bool IsDisposed => _state is null;
+
     private readonly TyneKey _key;
     public ref readonly TyneKey Key => ref _key;
-
-    private IFilter<TRequest>? _filterInstance;
     internal override IFilter<TRequest> FilterInstance
     {
         get
         {
             EnsureNotDisposed();
-            return _filterInstance!;
+            return _state.FilterInstance;
         }
     }
 
@@ -31,11 +34,10 @@ internal sealed class FilterValueHandle<TRequest, TValue> : FilterValueHandle<TR
     /// <param name="context">The filter context.</param>
     /// <param name="key">The <see cref="TyneKey"/> which <paramref name="filterInstance"/> attached to <paramref name="context"/> with.</param>
     /// <param name="filterInstance">The filter.</param>
-    public FilterValueHandle(TyneFilterContext<TRequest>? context, TyneKey key, IFilter<TRequest> filterInstance)
+    public FilterValueHandle(TyneFilterContext<TRequest> context, TyneKey key, IFilter<TRequest> filterInstance)
     {
-        _context = context;
+        _state = new(context, filterInstance);
         _key = key;
-        _filterInstance = filterInstance;
     }
 
     /// <summary>
@@ -46,8 +48,10 @@ internal sealed class FilterValueHandle<TRequest, TValue> : FilterValueHandle<TR
     /// </returns>
     public Task ReloadDataAsync()
     {
-        EnsureNotDisposed();
-        return _context.ReloadDataAsync();
+        if (IsDisposed)
+            return Task.CompletedTask;
+
+        return _state.Context.ReloadDataAsync();
     }
 
     /// <summary>
@@ -57,8 +61,10 @@ internal sealed class FilterValueHandle<TRequest, TValue> : FilterValueHandle<TR
     /// <returns>A <see cref="Task"/> representing the value notification.</returns>
     public Task NotifyValueUpdatedAsync(TValue? newValue)
     {
-        EnsureNotDisposed();
-        return _context.NotifyValueUpdatedAsync(_key, newValue);
+        if (IsDisposed)
+            return Task.CompletedTask;
+
+        return _state.Context.NotifyValueUpdatedAsync(_key, newValue);
     }
 
     /// <summary>
@@ -67,14 +73,16 @@ internal sealed class FilterValueHandle<TRequest, TValue> : FilterValueHandle<TR
     /// <returns>A <see cref="Task"/> representing the state change notification.</returns>
     public Task NotifyStateChangedAsync()
     {
-        EnsureNotDisposed();
-        return _context.NotifyStateChangedAsync(_key);
+        if (IsDisposed)
+            return Task.CompletedTask;
+
+        return _state.Context.NotifyStateChangedAsync(_key);
     }
 
-    [MemberNotNull(nameof(_context))]
+    [MemberNotNull(nameof(_state))]
     private void EnsureNotDisposed()
     {
-        if (_context is null)
+        if (IsDisposed)
             throw new ObjectDisposedException(nameof(FilterValueHandle<TRequest, TValue>), "Handle is disposed.");
     }
 
@@ -83,11 +91,11 @@ internal sealed class FilterValueHandle<TRequest, TValue> : FilterValueHandle<TR
     /// </summary>
     public override void Dispose()
     {
-        if (_context is null)
+        // Assume we're already disposed if state is null
+        if (_state is null)
             return;
 
-        _context.DetachFilterValue(this);
-        _context = null;
-        _filterInstance = null;
+        _state.Context.DetachFilterValue(this);
+        _state = null;
     }
 }

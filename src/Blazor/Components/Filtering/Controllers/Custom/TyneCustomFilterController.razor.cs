@@ -52,8 +52,8 @@ public sealed partial class TyneCustomFilterController<TRequest, TValue> : TyneF
     IFilterControllerHandle<TValue> ITyneCustomFilterContext<TValue>.Handle => Handle;
 
     Task ITyneCustomFilterContext<TValue>.SetFilterValueAsync(TValue? newValue) =>
-    Handle.Filter.SetValueAsync(newValue);
+        Handle.FilterValue.SetValueAsync(newValue);
 
     Task ITyneCustomFilterContext<TValue>.ClearFilterValueAsync() =>
-        Handle.Filter.ClearValueAsync();
+        Handle.FilterValue.ClearValueAsync();
 }

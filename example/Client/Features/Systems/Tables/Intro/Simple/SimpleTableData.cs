@@ -7,9 +7,12 @@ public sealed class SimpleTableData
 {
     private SimpleTableData() { }
 
-    public static Task<SearchResults<SimpleTableResponse>> GetDataAsync(SimpleTableRequest request)
+    public static async Task<SearchResults<SimpleTableResponse>> GetDataAsync(SimpleTableRequest request)
     {
         ArgumentNullException.ThrowIfNull(request);
+
+        // Simulates an API call
+        await Task.Delay(1000);
 
         var data = new List<SimpleTableResponse>
         {
@@ -49,6 +52,6 @@ public sealed class SimpleTableData
         var paginated = ordered.AsQueryable().Paginate(request);
 
         var searchResults = new SearchResults<SimpleTableResponse>(paginated, count);
-        return Task.FromResult(searchResults);
+        return searchResults;
     }
 }
