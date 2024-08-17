@@ -1,0 +1,22 @@
+name: PR check formatting
+
+on: pull_request
+
+jobs:
+  dotnet-format:
+    name: Format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Add problem matcher
+        uses: xt0rted/dotnet-format-problem-matcher@v1
+
+      - name: dotnet tools restore
+        uses: xt0rted/dotnet-tool-restore@v1
+
+      - name: dotnet format
+        uses: xt0rted/dotnet-format@v1
+        with:
+          only-changed-files: "true"
