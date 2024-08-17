@@ -1,9 +1,8 @@
-﻿@using Tyne.Blazor.Filtering.Controllers;
-@namespace Tyne.Blazor.Tables.Columns
+﻿@namespace Tyne.Blazor.Tables.Columns
 @typeparam TRequest
 @typeparam TResponse
 @typeparam TValue
-@inherits TyneMultiSelectBoxFilterController<TRequest, TValue>
+@inherits Tyne.Blazor.Filtering.Controllers.TyneMultiSelectBoxFilterController<TRequest, TValue>
 
 <TyneColumnPopoverHeader TResponse="TResponse"
                          IsActive="Value?.Count > 0"

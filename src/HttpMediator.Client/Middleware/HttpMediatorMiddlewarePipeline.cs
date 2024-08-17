@@ -1,7 +1,5 @@
 using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
-using Tyne;
-using Tyne.HttpMediator;
 
 namespace Tyne.HttpMediator.Client;
 

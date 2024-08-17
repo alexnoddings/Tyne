@@ -49,7 +49,8 @@ public static class Option
                 // Unit only has one possible value.
                 return (Option<T>)(object)Cache.SomeUnit;
             }
-            else if (typeof(T) == typeof(bool))
+
+            if (typeof(T) == typeof(bool))
             {
                 // Cache both true and false bools.
                 // Can't Unsafe.As a generic T into a bool as only ref types are supported.
@@ -57,7 +58,8 @@ public static class Option
                 var option = val ? Cache.SomeTrue : Cache.SomeFalse;
                 return (Option<T>)(object)option;
             }
-            else if (typeof(T) == typeof(int))
+
+            if (typeof(T) == typeof(int))
             {
                 // Only cache the int 0
                 var val = (int)(object)value;

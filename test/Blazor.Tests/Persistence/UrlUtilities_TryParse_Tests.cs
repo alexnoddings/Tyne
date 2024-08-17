@@ -46,7 +46,7 @@ public class UrlUtilities_TryParse_Tests
     [Fact]
     public void TryParse_IntArray_ProducesCorrectValue()
     {
-        var expected = new int[] { 0, 101 };
+        var expected = new[] { 0, 101 };
         var actualOption = UrlUtilities.TryParse<int[]>("[0, 101]");
 
         AssertOption.IsSome(actualOption);

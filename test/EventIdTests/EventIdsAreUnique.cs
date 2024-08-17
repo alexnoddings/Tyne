@@ -5,6 +5,8 @@ using Tyne.EntityFramework;
 using Tyne.HttpMediator;
 using Tyne.HttpMediator.Client;
 using Tyne.HttpMediator.Server;
+using ClientFluentValidationMiddleware = Tyne.HttpMediator.Client.FluentValidationMiddleware;
+using ServerFluentValidationMiddleware = Tyne.HttpMediator.Server.FluentValidationMiddleware;
 
 namespace Tyne;
 
@@ -50,7 +52,7 @@ public class EventIdsAreUnique
 
     [Fact]
     public void Tyne_HttpMediator_Client_FluentValidation() =>
-        AssertLoggerMessages.AreUnique(typeof(HttpMediator.Client.FluentValidationMiddleware).Assembly);
+        AssertLoggerMessages.AreUnique(typeof(ClientFluentValidationMiddleware).Assembly);
 
     [Fact]
     public void Tyne_HttpMediator_Core() =>
@@ -63,7 +65,7 @@ public class EventIdsAreUnique
 
     [Fact]
     public void Tyne_HttpMediator_Server_FluentValidation() =>
-        AssertLoggerMessages.AreUnique(typeof(HttpMediator.Server.FluentValidationMiddleware).Assembly);
+        AssertLoggerMessages.AreUnique(typeof(ServerFluentValidationMiddleware).Assembly);
 
     [Fact]
     public void Tyne_HttpMediator_Server_MediatR() =>

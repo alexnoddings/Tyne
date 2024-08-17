@@ -16,7 +16,7 @@ public class ExceptionHandlerMiddlewareTests
         var middleware = scope.Services.GetRequiredService<ExceptionHandlerMiddleware>();
         var exception = new InvalidOperationException("Some exception from an inner middleware.");
         Task<HttpResult<SimpleResponse>> next(SimpleRequest _) => throw exception;
-        var request = new SimpleRequest() { Count = 101 };
+        var request = new SimpleRequest { Count = 101 };
 
         // Act
         var actualResult = await middleware.InvokeAsync(request, next);

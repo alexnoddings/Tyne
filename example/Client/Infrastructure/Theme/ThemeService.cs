@@ -9,7 +9,7 @@ public class ThemeService
     public MudTheme Theme { get; } = new()
     {
         PaletteLight = new AppPaletteLight(),
-        LayoutProperties = new LayoutProperties()
+        LayoutProperties = new LayoutProperties
         {
             DefaultBorderRadius = "8px",
             AppbarHeight = "74px"

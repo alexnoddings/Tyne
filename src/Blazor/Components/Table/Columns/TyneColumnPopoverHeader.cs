@@ -4,7 +4,7 @@ using MudBlazor;
 namespace Tyne.Blazor.Tables.Columns;
 
 /// <inheritdoc/>
-public partial class TyneColumnPopoverHeader<TResponse> : TyneColumnPopoverHeaderBase<TResponse>
+public class TyneColumnPopoverHeader<TResponse> : TyneColumnPopoverHeaderBase<TResponse>
 {
     /// <summary>
     ///     The icon to use for the popover <see cref="TyneColumnPopoverHeaderBase{TResponse}.Content"/> control.
@@ -23,7 +23,7 @@ public partial class TyneColumnPopoverHeader<TResponse> : TyneColumnPopoverHeade
     /// </summary>
     /// <remarks>
     ///     Uses the <see cref="Icon"/> if set,
-    ///     otherwise uses defaults based on 
+    ///     otherwise uses defaults based on
     ///     <see cref="TyneColumnPopoverHeaderBase{TResponse}.IsActive"/>
     ///     and <see cref="TyneColumnPopoverHeaderBase{TResponse}.IsOpen"/>.
     /// </remarks>
@@ -61,7 +61,7 @@ public partial class TyneColumnPopoverHeader<TResponse> : TyneColumnPopoverHeade
     /// </summary>
     /// <remarks>
     ///     Uses the <see cref="IconColour"/> if set,
-    ///     otherwise uses defaults based on 
+    ///     otherwise uses defaults based on
     ///     <see cref="TyneColumnPopoverHeaderBase{TResponse}.IsActive"/>
     ///     and <see cref="TyneColumnPopoverHeaderBase{TResponse}.IsOpen"/>.
     /// </remarks>

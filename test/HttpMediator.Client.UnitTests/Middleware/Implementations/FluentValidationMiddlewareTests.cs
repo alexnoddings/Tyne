@@ -14,7 +14,7 @@ public class FluentValidationMiddlewareTests
 
         var middleware = scope.Services.GetRequiredService<FluentValidationMiddleware>();
         var next = CreateAssertFailNextDelegate();
-        var request = new ValidatedRequest() { Message = ValidatedRequest.NotValidMessage };
+        var request = new ValidatedRequest { Message = ValidatedRequest.NotValidMessage };
 
         // Act
         var actualResult = await middleware.InvokeAsync(request, next);
@@ -32,7 +32,7 @@ public class FluentValidationMiddlewareTests
         using var scope = HttpMediatorClientTestScope.Create(middleware: b => b.UseFluentValidation());
 
         var middleware = scope.Services.GetRequiredService<FluentValidationMiddleware>();
-        var request = new ValidatedRequest() { Message = ValidatedRequest.ValidMessage };
+        var request = new ValidatedRequest { Message = ValidatedRequest.ValidMessage };
 
         var nextCounter = 0;
         Task<HttpResult<ValidatedResponse>> Next(ValidatedRequest request)

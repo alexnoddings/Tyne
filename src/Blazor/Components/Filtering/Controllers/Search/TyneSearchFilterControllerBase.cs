@@ -8,7 +8,7 @@ namespace Tyne.Blazor.Filtering.Controllers;
 ///     A base implementation of a search controller.
 /// </summary>
 /// <inheritdoc/>
-public abstract partial class TyneSearchFilterControllerBase<TRequest, TSearchValue, TFilterValue> : TyneFilterControllerBase<TRequest, TSearchValue>
+public abstract class TyneSearchFilterControllerBase<TRequest, TSearchValue, TFilterValue> : TyneFilterControllerBase<TRequest, TSearchValue>
 {
     /// <summary>
     ///     An <see cref="Expression"/> for the <typeparamref name="TSearchValue"/> property to attach to.

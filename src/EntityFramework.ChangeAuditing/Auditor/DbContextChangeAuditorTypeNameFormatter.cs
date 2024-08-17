@@ -1,8 +1,8 @@
+using System.Runtime.CompilerServices;
+using System.Text;
 #if NET9_0_OR_GREATER
 using System.Buffers;
 #endif
-using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace Tyne.EntityFramework;
 
