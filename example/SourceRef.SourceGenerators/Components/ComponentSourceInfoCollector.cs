@@ -23,9 +23,6 @@ internal static class ComponentSourceInfoCollector
                 TryGetNamespaceFromDirective(file)
                 ?? GetNamespaceFromConvention(file, rootNamespace, projectPath);
 
-            if (componentNamespace is null)
-                yield break;
-
             // Build the type's full identifier
             var identifier = componentNamespace + "." + componentName;
 
@@ -70,7 +67,7 @@ internal static class ComponentSourceInfoCollector
     // - any amount of whitespace
     // - line end
     private static readonly Regex _razorNamespaceDeclarationRegex =
-        new(pattern: "^@namespace\\s+(?<NamespaceIdentifier>[a-z0-9._]+)\\s*$",
+        new(pattern: @"^@namespace\\s+(?<NamespaceIdentifier>[a-z0-9._]+)\\s*$",
             options: RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
     /// <summary>
@@ -87,7 +84,8 @@ internal static class ComponentSourceInfoCollector
 
         foreach (var line in fileLines)
         {
-            var match = namespaceDeclarationRegex.Match(line.Text?.ToString());
+            var lineText = line.Text?.ToString() ?? string.Empty;
+            var match = namespaceDeclarationRegex.Match(lineText);
             if (!match.Success)
                 continue;
 
@@ -96,6 +94,8 @@ internal static class ComponentSourceInfoCollector
 
         return null;
     }
+
+    private static readonly char[] _namespaceTrimChars = ['.'];
 
     /// <summary>
     ///     Gets a component's namespace from it's file structure convention.
@@ -110,7 +110,7 @@ internal static class ComponentSourceInfoCollector
     ///     GetNamespaceFromConvention(file, "Tyne.Example", "D:/Tyne/example");
     ///     </code>
     /// </remarks>
-    private static string? GetNamespaceFromConvention(AdditionalText file, string? rootNamespace, string projectPath)
+    private static string GetNamespaceFromConvention(AdditionalText file, string? rootNamespace, string projectPath)
     {
         // Get the path relative to the root of the project
         var componentRelativePath = GetPathRelativeToProject(file.Path, projectPath);
@@ -128,7 +128,7 @@ internal static class ComponentSourceInfoCollector
         var componentRelativeNamespace = componentRelativeDirectory.Replace(Path.DirectorySeparatorChar, '.');
 
         // Combine the project's root namespace with our relative namespace (and trim in case the root or relative namespaces are empty)
-        return (rootNamespace + "." + componentRelativeNamespace).Trim('.');
+        return $"{rootNamespace}.{componentRelativeNamespace}".Trim(_namespaceTrimChars);
     }
 
     /// <summary>

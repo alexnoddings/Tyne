@@ -42,11 +42,7 @@ internal static class UrlUtilities
             // Some types are ugly when json serialised, such as chars being "quoted"
             // We handle these cases specifically for nicer looking strings
             char chr => chr.ToString(),
-#if NET8_0_OR_GREATER
             Guid guid => CompactGuid(in guid),
-#else
-            Guid guid => CompactGuid(ref guid),
-#endif
             DateTime dateTime => dateTime.ToString(DateTimeToStringFormat, provider: null),
             // Enum types are represented as strings, but IEnumerable<Enum>s are (currently) just their numeric value
             Enum enm => enm.ToString(),
