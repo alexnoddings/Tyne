@@ -7,7 +7,7 @@ namespace Tyne;
 /// <summary>
 ///     The <see cref="Unit"/> type is a type that indicates the absence of a specific value;
 ///     the <see cref="Unit"/> type has only a single value, which acts as a placeholder when no other value exists or is needed.
-///     Represents <see cref="void"/> since that is not a valid <see cref="Type"/> in C#.
+///     Represents <see langword="void"/> since that is not a valid <see cref="Type"/> in C#.
 /// </summary>
 // Implementation heavily inspired by MediatR's Unit implementation.
 // https://github.com/jbogard/MediatR/blob/master/src/MediatR.Contracts/Unit.cs
