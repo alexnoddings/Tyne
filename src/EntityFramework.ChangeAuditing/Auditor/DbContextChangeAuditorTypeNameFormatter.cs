@@ -30,7 +30,7 @@ internal static class DbContextChangeAuditorTypeNameFormatter
             if (typeNamespace is not null && ShouldIgnoreNamespace(typeNamespace))
             {
                 var namespaceEndPos = typeNamespace.Length + 1;
-                typeFullName = typeFullName[namespaceEndPos ..];
+                typeFullName = typeFullName[namespaceEndPos..];
             }
 
             if (!type.IsGenericType)
