@@ -69,7 +69,7 @@ internal static class ComponentSourceInfoCollector
     // - an identifier comprised of (a-z, 0-9, ., or _)
     // - any amount of whitespace
     // - line end
-    private static readonly Regex RazorNamespaceDeclarationRegex =
+    private static readonly Regex _razorNamespaceDeclarationRegex =
         new(pattern: "^@namespace\\s+(?<NamespaceIdentifier>[a-z0-9._]+)\\s*$",
             options: RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
@@ -83,7 +83,7 @@ internal static class ComponentSourceInfoCollector
         if (fileLines is null)
             return null;
 
-        var namespaceDeclarationRegex = RazorNamespaceDeclarationRegex;
+        var namespaceDeclarationRegex = _razorNamespaceDeclarationRegex;
 
         foreach (var line in fileLines)
         {
@@ -107,7 +107,7 @@ internal static class ComponentSourceInfoCollector
     ///     // Has absolute path "D:/Tyne/example/Some/File.razor"
     ///     var file = ...
     ///     // Returns "Tyne.Example.Some"
-    ///     GetNamespaceFromConvention(file, "Tyne.Example", "D:/Tyne/example"); 
+    ///     GetNamespaceFromConvention(file, "Tyne.Example", "D:/Tyne/example");
     ///     </code>
     /// </remarks>
     private static string? GetNamespaceFromConvention(AdditionalText file, string? rootNamespace, string projectPath)

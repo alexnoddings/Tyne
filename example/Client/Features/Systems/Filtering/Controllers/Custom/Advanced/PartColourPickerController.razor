@@ -27,8 +27,8 @@
     @* Tyne filter controllers need to implement these *@
     [Parameter, EditorRequired]
     public Expression<Func<TRequest, MudColor>> For { get; set; } = null!;
-    private readonly TynePropertyKeyCache<TRequest, MudColor> ForCache = new();
-    protected override TyneKey ForKey => ForCache.Update(For);
+    private readonly TynePropertyKeyCache<TRequest, MudColor> _forCache = new();
+    protected override TyneKey ForKey => _forCache.Update(For);
     @* ----------------------------------------------- *@
 
     [Parameter]

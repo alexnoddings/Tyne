@@ -29,7 +29,7 @@ public sealed class EmbeddedResourceManager
 {
     public ResourceManager InnerResourceManager { get; }
 
-    private static readonly CultureInfo DefaultCulture = CultureInfo.CurrentUICulture;
+    private static readonly CultureInfo _defaultCulture = CultureInfo.CurrentUICulture;
 
     private EmbeddedResourceManager(ResourceManager resourceManager)
     {
@@ -42,7 +42,7 @@ public sealed class EmbeddedResourceManager
     {
         ArgumentException.ThrowIfNullOrEmpty(name);
 
-        culture ??= DefaultCulture;
+        culture ??= _defaultCulture;
 
         var resourceString = InnerResourceManager.GetString(name, culture);
         if (resourceString is null)
@@ -62,7 +62,7 @@ public sealed class EmbeddedResourceManager
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public string GetString(CultureInfo? culture, string name, object? arg0) =>
         string.Format(
-            culture ?? DefaultCulture,
+            culture ?? _defaultCulture,
             GetStringCore(culture, name),
             arg0
         );
@@ -74,7 +74,7 @@ public sealed class EmbeddedResourceManager
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public string GetString(CultureInfo? culture, string name, object? arg0, object? arg1) =>
         string.Format(
-            culture ?? DefaultCulture,
+            culture ?? _defaultCulture,
             GetStringCore(culture, name),
             arg0, arg1
         );
@@ -86,7 +86,7 @@ public sealed class EmbeddedResourceManager
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public string GetString(CultureInfo? culture, string name, object? arg0, object? arg1, object? arg2) =>
         string.Format(
-            culture ?? DefaultCulture,
+            culture ?? _defaultCulture,
             GetStringCore(culture, name),
             arg0, arg1, arg2
         );
@@ -98,7 +98,7 @@ public sealed class EmbeddedResourceManager
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public string GetString(CultureInfo? culture, string name, object? arg0, object? arg1, object? arg2, object? arg3) =>
         string.Format(
-            culture ?? DefaultCulture,
+            culture ?? _defaultCulture,
             GetStringCore(culture, name),
             arg0, arg1, arg2, arg3
         );

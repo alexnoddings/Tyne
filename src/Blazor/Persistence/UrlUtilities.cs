@@ -20,7 +20,7 @@ internal static class UrlUtilities
 
     // JSON options to use for fall-back de/serialisation
     // for types which aren't directly handled by us (e.g. user types)
-    private static readonly JsonSerializerOptions FallBackJsonOptions = new(JsonSerializerDefaults.Web)
+    private static readonly JsonSerializerOptions _fallBackJsonOptions = new(JsonSerializerDefaults.Web)
     {
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
     };
@@ -52,7 +52,7 @@ internal static class UrlUtilities
             Enum enm => enm.ToString(),
             // Serialise empty collections as a null value to keep the URL tidy
             ICollection collection when collection is { Count: 0 } => null,
-            _ => JsonSerializer.Serialize(obj, FallBackJsonOptions)
+            _ => JsonSerializer.Serialize(obj, _fallBackJsonOptions)
         };
 
         // Handle empty strings as null, this de-clutters URLs
@@ -140,7 +140,7 @@ internal static class UrlUtilities
         {
             try
             {
-                var val = JsonSerializer.Deserialize<T?>(valueStr, FallBackJsonOptions);
+                var val = JsonSerializer.Deserialize<T?>(valueStr, _fallBackJsonOptions);
                 return Option.From(val);
             }
             catch (JsonException)

@@ -30,13 +30,13 @@ internal sealed class LegacyMediatRSenderMiddleware : IHttpMediatorMiddleware
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        return SendGenericAsyncMethodInfo
+        return _sendGenericAsyncMethodInfo
             .MakeGenericMethod(request.GetType(), typeof(TResponse))
             .InvokeAsync<HttpResult<TResponse>>(this, request)!;
     }
 
     [SuppressMessage("Major Code Smell", "S3011: Reflection should not be used to increase accessibility of classes, methods, or fields.", Justification = "We are reflecting on a method private to this class.")]
-    private static readonly MethodInfo SendGenericAsyncMethodInfo =
+    private static readonly MethodInfo _sendGenericAsyncMethodInfo =
         typeof(LegacyMediatRSenderMiddleware)
         .GetMethod(nameof(SendGenericAsync), BindingFlags.Instance | BindingFlags.NonPublic)
         ?? throw new InvalidOperationException($"No \"{nameof(SendGenericAsync)}\" method found on \"{nameof(LegacyMediatRSenderMiddleware)}\".");
