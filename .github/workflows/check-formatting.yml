@@ -17,8 +17,13 @@ jobs:
             8.x
             9.x
 
-      - name: .dotnet --list-sdks
+      - name: dotnet --list-sdks
         run: dotnet --list-sdks
+
+      # Need to build before formatting as
+      # the example references generated code
+      - name: dotnet build
+        run: dotnet build --configuration Release --no-restore /p:GITHUB_ACTIONS=true
 
       - name: dotnet tool restore
         run: dotnet tool restore
