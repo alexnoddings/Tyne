@@ -23,8 +23,8 @@ jobs:
       - name: .NET SDKs
         run: dotnet --list-sdks
 
-      - name: dotnet tools restore
-        run: dotnet tools restore
+      - name: dotnet tool restore
+        run: dotnet tool restore
 
       - name: dotnet format
         uses: xt0rted/dotnet-format@v1
