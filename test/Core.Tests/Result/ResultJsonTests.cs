@@ -2,7 +2,7 @@ using System.Text.Json;
 
 namespace Tyne;
 
-public class ResultJsonConverterTests
+public class ResultJsonTests
 {
     [Fact]
     public void Ok_int_Serialises()
