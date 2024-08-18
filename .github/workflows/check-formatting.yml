@@ -13,8 +13,18 @@ jobs:
       - name: Add problem matcher
         uses: xt0rted/dotnet-format-problem-matcher@v1
 
+      - name: Setup .NET ${{ matrix.dotnet }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.x
+            9.x
+
+      - name: .NET SDKs
+        run: dotnet --list-sdks
+
       - name: dotnet tools restore
-        uses: xt0rted/dotnet-tool-restore@v1
+        run: dotnet tools restore
 
       - name: dotnet format
         uses: xt0rted/dotnet-format@v1
