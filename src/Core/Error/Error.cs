@@ -16,7 +16,7 @@ namespace Tyne;
 ///         letting exceptions bubble up the app to be handled later.
 ///     </para>
 ///     <para>
-///         Normally, an error is comprised of a <see cref="Code"/> and a <see cref="Message"/>.
+///         Normally, an error comprises a <see cref="Code"/> and a <see cref="Message"/>.
 ///         The code indicates the type of error (e.g. a validation error), while the message
 ///         gives more detailed information. Messages should be user-friendly.
 ///     </para>
