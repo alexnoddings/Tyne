@@ -10,9 +10,6 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
 
-      - name: Add problem matcher
-        uses: xt0rted/dotnet-format-problem-matcher@v1
-
       - name: Setup .NET ${{ matrix.dotnet }}
         uses: actions/setup-dotnet@v4
         with:
@@ -20,13 +17,11 @@ jobs:
             8.x
             9.x
 
-      - name: .NET SDKs
+      - name: .dotnet --list-sdks
         run: dotnet --list-sdks
 
       - name: dotnet tool restore
         run: dotnet tool restore
 
       - name: dotnet format
-        uses: xt0rted/dotnet-format@v1
-        with:
-          only-changed-files: "true"
+        run: dotnet format --verify-no-changes --verbosity diagnostic
