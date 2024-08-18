@@ -326,9 +326,9 @@ dotnet_style_allow_multiple_blank_lines_experimental = false
 dotnet_diagnostic.IDE2000.severity = warning
 
 # IDE0046: Use conditional expression for return
-# This can be unreadable sometimes, so only mark as suggestion
+# This is set as none, and should be determined on a case-by-case basis of which is more readable
 dotnet_style_prefer_conditional_expression_over_return = true
-dotnet_diagnostic.IDE0046.severity = info
+dotnet_diagnostic.IDE0046.severity = none
 
 [test/**.cs]
 # A lot of naming goes out the window for testing
