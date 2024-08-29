@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Net;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -28,10 +29,16 @@ internal sealed class HttpResponseResultWriter : IHttpResponseResultWriter
 
     private static async Task WriteCoreAsync<T>(HttpContext httpContext, HttpResult<T> result, JsonSerializerOptions options, CancellationToken cancellationToken)
     {
-        httpContext.Response.StatusCode = (int)result.StatusCode;
+        var response = httpContext.Response;
+        response.StatusCode = (int)result.StatusCode;
+
+        // Don't serialise content for 204 (no content) responses
+        if (result.StatusCode is HttpStatusCode.NoContent)
+            return;
+
         if (result.IsOk)
         {
-            await httpContext.Response.WriteAsJsonAsync(result.Value, options, cancellationToken).ConfigureAwait(false);
+            await response.WriteAsJsonAsync(result.Value, options, cancellationToken).ConfigureAwait(false);
         }
         else
         {
@@ -43,7 +50,7 @@ internal sealed class HttpResponseResultWriter : IHttpResponseResultWriter
                 Instance = httpContext.Request.Path
             };
             problemDetails.Extensions[nameof(Error.Code)] = error.Code;
-            await httpContext.Response.WriteAsJsonAsync(problemDetails, options, cancellationToken).ConfigureAwait(false);
+            await response.WriteAsJsonAsync(problemDetails, options, cancellationToken).ConfigureAwait(false);
         }
     }
 }
