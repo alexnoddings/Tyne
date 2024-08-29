@@ -22,4 +22,12 @@
 
   <Import Project="../../eng/Tests.props" />
 
+  <PropertyGroup>
+    <!--
+      S2094:  Classes should not be empty.
+      REASON: Some test request/response types don't need data.
+    -->
+    <NoWarn>$(NoWarn);S2094</NoWarn>
+  </PropertyGroup>
+
 </Project>

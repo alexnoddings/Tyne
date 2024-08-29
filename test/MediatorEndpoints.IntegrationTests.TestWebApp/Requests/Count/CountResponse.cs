@@ -1,6 +1,6 @@
 namespace Tyne.MediatorEndpoints;
 
-public class SimpleResponse
+public class CountResponse
 {
     public const int DefaultNewCount = -1;
 

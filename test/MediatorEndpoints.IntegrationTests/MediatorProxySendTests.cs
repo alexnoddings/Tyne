@@ -11,13 +11,13 @@ public class MediatorProxySendTests
     }
 
     [Fact]
-    public async Task Send_Simple_ValidRequest_Works()
+    public async Task Send_ValidRequest_Works()
     {
         using var testScope = TestWebApp.CreateTestScope();
         var (mediatorProxy, _) = testScope;
 
         // Arrange
-        var request = new SimpleRequest { Count = 101 };
+        var request = new CountRequest { Count = 101 };
 
         // Act
         var response = await mediatorProxy.Send(request);
@@ -27,13 +27,13 @@ public class MediatorProxySendTests
     }
 
     [Fact]
-    public async Task Send_Null_Throws_UnwrapException()
+    public async Task Send_NullRequest_Throws_UnwrapException()
     {
         using var testScope = TestWebApp.CreateTestScope();
         var (mediatorProxy, _) = testScope;
 
         // Arrange
-        SimpleRequest request = null!;
+        CountRequest request = null!;
 
         // Act
         Task act() =>
@@ -44,13 +44,13 @@ public class MediatorProxySendTests
     }
 
     [Fact]
-    public async Task Send_NoResponse_Throws_UnwrapException()
+    public async Task Send_NoContentResponse_Throws_UnwrapException()
     {
         using var testScope = TestWebApp.CreateTestScope();
         var (mediatorProxy, _) = testScope;
 
         // Arrange
-        var request = new SimpleRequest { Count = SimpleRequest.CountToReturnNoResponse };
+        var request = new NoContentRequest();
 
         // Act
         Task act() =>
@@ -61,19 +61,18 @@ public class MediatorProxySendTests
     }
 
     [Fact]
-    public async Task Send_WrongResponse_ReturnsDefault()
+    public async Task Send_InvalidResultResponse_ReturnsDefault()
     {
         using var testScope = TestWebApp.CreateTestScope();
         var (mediatorProxy, _) = testScope;
 
         // Arrange
-        var request = new SimpleRequest { Count = SimpleRequest.CountToReturnWrongResponse };
+        var request = new InvalidResultRequest();
 
         // Act
         var result = await mediatorProxy.Send(request);
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(SimpleResponse.DefaultNewCount, result.NewCount);
     }
 }
