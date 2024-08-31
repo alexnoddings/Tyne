@@ -28,7 +28,7 @@ public sealed partial class TyneFormDrawerContent<TModel> : ComponentBase, ITyne
     public Anchor Anchor { get; set; } = Anchor.End;
 
     [Parameter]
-    public int Elevation { get; set; }
+    public int Elevation { get; set; } = 1;
 
     [Parameter]
     public DrawerVariant Variant { get; set; } = DrawerVariant.Temporary;

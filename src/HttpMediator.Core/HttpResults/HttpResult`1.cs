@@ -79,7 +79,7 @@ public class HttpResult<T> : Result<T>, IEquatable<HttpResult<T>>
         if (HttpResult.IsValidOkStatusCode(statusCode))
             return;
 
-        var argOutOfRangeException = new ArgumentOutOfRangeException(nameof(statusCode), statusCode, "Ok status codes must be in the range 200 <= c < 299.");
+        var argOutOfRangeException = new ArgumentOutOfRangeException(nameof(statusCode), statusCode, "Ok status codes must be in the range 200 <= c < 399.");
         throw new BadResultException(CoreExceptionMessages.HttpResult_OkStatusCodeOutOfRange, argOutOfRangeException);
     }
 
