@@ -20,6 +20,7 @@ public class HttpResultCreationTests
 
     [Theory]
     [MemberData(nameof(SuccessfulStatusCodesData))]
+    [MemberData(nameof(RedirectionStatusCodesData))]
     public void Ok_AcceptsSuccessfulStatusCodes(HttpStatusCode statusCode)
     {
         // Act
@@ -33,7 +34,6 @@ public class HttpResultCreationTests
     [Theory]
     [MemberData(nameof(BelowStatusCodesData))]
     [MemberData(nameof(InformationStatusCodesData))]
-    [MemberData(nameof(RedirectionStatusCodesData))]
     [MemberData(nameof(ClientErrorStatusCodesData))]
     [MemberData(nameof(ServerErrorStatusCodesData))]
     [MemberData(nameof(AboveErrorStatusCodesData))]

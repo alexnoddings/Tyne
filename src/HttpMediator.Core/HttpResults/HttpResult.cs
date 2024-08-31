@@ -117,11 +117,11 @@ public static class HttpResult
     internal const HttpStatusCode DefaultOkStatusCode = HttpStatusCode.OK;
     internal const HttpStatusCode DefaultErrorStatusCode = HttpStatusCode.BadRequest;
 
-    // OK status codes must be 2XX (successful)
+    // OK status codes must be 2XX (successful) or 3XX (redirection)
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static bool IsValidOkStatusCode(HttpStatusCode statusCode) =>
-        statusCode is >= ((HttpStatusCode)200) and <= ((HttpStatusCode)299);
+        statusCode is >= ((HttpStatusCode)200) and <= ((HttpStatusCode)399);
 
     // Error status codes must be 4XX (client error) or 5XX (server error)
     [Pure]
