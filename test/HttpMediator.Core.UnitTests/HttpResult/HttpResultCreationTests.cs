@@ -63,4 +63,76 @@ public class HttpResultCreationTests
     [MemberData(nameof(AboveErrorStatusCodesData))]
     public void Error_RejectsOtherStatusCodes(HttpStatusCode statusCode) =>
         Assert.Throws<BadResultException>(() => HttpResult.Error<int>(TestError.Message, statusCode));
+
+    [Theory]
+    [MemberData(nameof(SuccessfulStatusCodesData))]
+    [MemberData(nameof(RedirectionStatusCodesData))]
+    public void ToHttpResult_OkResult_AcceptsSuccessfulStatusCodes(HttpStatusCode statusCode)
+    {
+        // Arrange
+        var result = Result.Ok(42);
+
+        // Act
+        var httpResult = result.ToHttpResult(statusCode);
+
+        // Assert
+        Assert.NotNull(httpResult);
+        var httpResultValue = AssertHttpResult.IsOk(statusCode, httpResult);
+        Assert.Equal(42, httpResultValue);
+    }
+
+    [Theory]
+    [MemberData(nameof(BelowStatusCodesData))]
+    [MemberData(nameof(InformationStatusCodesData))]
+    [MemberData(nameof(ClientErrorStatusCodesData))]
+    [MemberData(nameof(ServerErrorStatusCodesData))]
+    [MemberData(nameof(AboveErrorStatusCodesData))]
+    public void ToHttpResult_OkResult_RejectsOtherStatusCodes(HttpStatusCode statusCode)
+    {
+        // Assert
+        var result = Result.Ok(42);
+
+        // Act
+        HttpResult<int> act() =>
+            result.ToHttpResult(statusCode);
+
+        // Assert
+        _ = Assert.Throws<BadResultException>(act);
+    }
+
+    [Theory]
+    [MemberData(nameof(ClientErrorStatusCodesData))]
+    [MemberData(nameof(ServerErrorStatusCodesData))]
+    public void ToHttpResult_ErrorResult_AcceptsErrorStatusCodes(HttpStatusCode statusCode)
+    {
+        // Arrange
+        var result = Result.Error<int>(TestError.Instance);
+
+        // Act
+        var httpResult = result.ToHttpResult(statusCode);
+
+        // Assert
+        Assert.NotNull(httpResult);
+        var httpResultError = AssertHttpResult.IsError(statusCode, httpResult);
+        Assert.Equal(TestError.Instance, httpResultError);
+    }
+
+    [Theory]
+    [MemberData(nameof(BelowStatusCodesData))]
+    [MemberData(nameof(InformationStatusCodesData))]
+    [MemberData(nameof(SuccessfulStatusCodesData))]
+    [MemberData(nameof(RedirectionStatusCodesData))]
+    [MemberData(nameof(AboveErrorStatusCodesData))]
+    public void ToHttpResult_ErrorResult_RejectsOtherStatusCodes(HttpStatusCode statusCode)
+    {
+        // Assert
+        var result = Result.Error<int>(TestError.Instance);
+
+        // Act
+        HttpResult<int> act() =>
+            result.ToHttpResult(statusCode);
+
+        // Assert
+        _ = Assert.Throws<BadResultException>(act);
+    }
 }
