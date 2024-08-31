@@ -7,7 +7,7 @@ namespace Tyne.Blazor.Filtering.Controllers;
 ///     A base implementation of a single-selection controller.
 /// </summary>
 /// <inheritdoc/>
-public abstract partial class TyneSingleSelectFilterControllerBase<TRequest, TValue> : TyneSelectFilterControllerBase<TRequest, TValue, TValue>
+public abstract class TyneSingleSelectFilterControllerBase<TRequest, TValue> : TyneSelectFilterControllerBase<TRequest, TValue, TValue>
 {
     /// <summary>
     ///     An <see cref="Expression"/> for the <typeparamref name="TValue"/> property to attach to.

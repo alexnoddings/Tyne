@@ -13,7 +13,7 @@ internal static class NavigationManagerHelper
     // -------------------------------
     // GetUriWithUpdatedQueryParameter
     // -------------------------------
-    private static readonly Func<string, string, string, string> GetUriWithUpdatedQueryParameterDelegate =
+    private static readonly Func<string, string, string, string> _getUriWithUpdatedQueryParameterDelegate =
         MethodHelper
         .Get(
             typeof(NavigationManagerExtensions),
@@ -25,12 +25,12 @@ internal static class NavigationManagerHelper
 
     [RequiresUnreferencedCode($"This API is not trim safe. It relies on reflection to access private {nameof(NavigationManager)} methods.")]
     public static string GetUriWithUpdatedQueryParameter(string uri, string name, string value) =>
-        GetUriWithUpdatedQueryParameterDelegate(uri, name, value);
+        _getUriWithUpdatedQueryParameterDelegate(uri, name, value);
 
     // -------------------------------
     // GetUriWithRemovedQueryParameter
     // -------------------------------
-    private static readonly Func<string, string, string> GetUriWithRemovedQueryParameterDelegate =
+    private static readonly Func<string, string, string> _getUriWithRemovedQueryParameterDelegate =
         MethodHelper
         .Get(
             typeof(NavigationManagerExtensions),
@@ -42,7 +42,7 @@ internal static class NavigationManagerHelper
 
     [RequiresUnreferencedCode($"This API is not trim safe. It relies on reflection to access private {nameof(NavigationManager)} methods.")]
     public static string GetUriWithRemovedQueryParameter(string uri, string name) =>
-        GetUriWithRemovedQueryParameterDelegate(uri, name);
+        _getUriWithRemovedQueryParameterDelegate(uri, name);
 
     // -------------------------
     // GetUriWithQueryParameters

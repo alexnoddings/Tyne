@@ -237,9 +237,9 @@ public class HttpResult<T> : Result<T>, IEquatable<HttpResult<T>>
     {
         private readonly HttpResult<T> _result;
 
-        public DebuggerTypeProxy(HttpResult<T> HttpResult)
+        public DebuggerTypeProxy(HttpResult<T> httpResult)
         {
-            _result = HttpResult;
+            _result = httpResult;
         }
 
         public bool IsOk =>

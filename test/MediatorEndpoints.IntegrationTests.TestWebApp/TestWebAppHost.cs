@@ -12,7 +12,7 @@ public sealed class TestWebAppHost
         var builder = WebApplication.CreateBuilder(args);
 
         _ = builder.Services.AddMediatR(static options =>
-            options.RegisterServicesFromAssemblyContaining<SimpleRequestHandler>()
+            options.RegisterServicesFromAssemblyContaining<CountRequestHandler>()
         );
 
         _ = builder.Services
@@ -29,8 +29,38 @@ public sealed class TestWebAppHost
 
         using var app = builder.Build();
 
+        _ = app.Use(TryBufferResponseAsync);
+
         _ = app.UseRouting();
-        _ = app.MapHttpMediatorRequestsFromAssemblyContaining<SimpleRequest>();
+        _ = app.MapHttpMediatorRequestsFromAssemblyContaining<CountRequest>();
         app.Run();
+    }
+
+    // Changes in .NET 9 to System.Text.Json async stream flushing
+    //  caused an issue with TestHost's ResponseBodyWriterStream
+    // Buffering the response first, then flushing the buffer
+    //  once the response has been written fixes the issue
+    // See #164
+    private static Task TryBufferResponseAsync(HttpContext httpContext, RequestDelegate next)
+    {
+        if (httpContext.Request.Path.Value?.Contains(CountRequest.Uri, StringComparison.OrdinalIgnoreCase) == true)
+            return BufferResponseAsync(httpContext, next);
+
+        return next(httpContext);
+    }
+
+    private static async Task BufferResponseAsync(HttpContext httpContext, RequestDelegate next)
+    {
+        var response = httpContext.Response;
+
+        var originalBody = response.Body;
+        await using var bufferedBody = new MemoryStream();
+        response.Body = bufferedBody;
+
+        await next(httpContext);
+
+        _ = bufferedBody.Seek(0, SeekOrigin.Begin);
+        response.Body = originalBody;
+        await bufferedBody.CopyToAsync(originalBody);
     }
 }

@@ -10,7 +10,7 @@ namespace Tyne.Blazor.Filtering.Controllers;
 /// <typeparam name="TValue">The type the filter value manages.</typeparam>
 /// <typeparam name="TSelectItem">The type which the filter value is expected to provide with <see cref="IFilterSelectValue{TValue}"/>.</typeparam>
 /// <inheritdoc/>
-public abstract partial class TyneSelectFilterControllerBase<TRequest, TValue, TSelectItem> : TyneFilterControllerBase<TRequest, TValue>
+public abstract class TyneSelectFilterControllerBase<TRequest, TValue, TSelectItem> : TyneFilterControllerBase<TRequest, TValue>
 {
     /// <summary>
     ///     A label for the UI to indicate what this controller is for.

@@ -5,7 +5,7 @@ namespace Tyne.Blazor.Tables.Columns;
 
 /// <summary>
 ///     A table column header which renders a
-///     <see cref="TyneMultiSelectCheckboxFilterController{TRequest, TValue}"/>.
+///     <see cref="TyneMultiSelectCheckboxFilterController{TRequest,TValue}"/>.
 /// </summary>
 /// <inheritdoc/>
 public partial class TyneMultiSelectCheckboxColumnHeader<TRequest, TResponse, TValue>

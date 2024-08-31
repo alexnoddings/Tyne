@@ -107,7 +107,6 @@ public class OptionOtherTests
         Assert.Equal(1, obj.GetHashCodeInvocationCount);
     }
 
-
     [Fact]
     public void ToString_None()
     {

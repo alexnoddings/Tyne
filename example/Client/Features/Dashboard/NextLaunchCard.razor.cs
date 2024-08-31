@@ -4,7 +4,7 @@ namespace Tyne.Aerospace.Client.Features.Dashboard;
 
 public sealed partial class NextLaunchCard : IDisposable
 {
-    private static readonly TimeSpan LaunchTime = TimeSpan.Parse("19:42:00", CultureInfo.InvariantCulture);
+    private static readonly TimeSpan _launchTime = TimeSpan.Parse("19:42:00", CultureInfo.InvariantCulture);
 
     private PeriodicTimer Timer { get; } = new(TimeSpan.FromMilliseconds(250));
 
@@ -23,9 +23,9 @@ public sealed partial class NextLaunchCard : IDisposable
     private static TimeSpan GetNextLaunchCountdown()
     {
         var now = DateTime.UtcNow;
-        if (now.TimeOfDay < LaunchTime)
-            return LaunchTime - now.TimeOfDay;
-        return LaunchTime + TimeSpan.FromDays(1) - now.TimeOfDay;
+        if (now.TimeOfDay < _launchTime)
+            return _launchTime - now.TimeOfDay;
+        return _launchTime + TimeSpan.FromDays(1) - now.TimeOfDay;
     }
 
     public void Dispose() =>

@@ -11,7 +11,7 @@ namespace Tyne;
 /// </remarks>
 public class UnwrapResultValueException : BadResultException
 {
-    internal new static string DefaultMessage
+    internal static new string DefaultMessage
     {
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

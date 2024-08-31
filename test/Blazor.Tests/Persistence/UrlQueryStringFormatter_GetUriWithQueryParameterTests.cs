@@ -42,6 +42,6 @@ public class UrlQueryStringFormatter_GetUriWithQueryParameterTests
         var urlQueryStringFormatter = new UrlQueryStringFormatter();
         var newUri = urlQueryStringFormatter.GetUriWithQueryParameter(uri, QueryParameterKey, null);
 
-        Assert.Equal($"https://localhost/test/page", newUri);
+        Assert.Equal("https://localhost/test/page", newUri);
     }
 }

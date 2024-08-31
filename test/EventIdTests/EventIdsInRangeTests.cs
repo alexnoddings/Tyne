@@ -5,6 +5,8 @@ using Tyne.EntityFramework;
 using Tyne.HttpMediator;
 using Tyne.HttpMediator.Client;
 using Tyne.HttpMediator.Server;
+using ClientFluentValidationMiddleware = Tyne.HttpMediator.Client.FluentValidationMiddleware;
+using ServerFluentValidationMiddleware = Tyne.HttpMediator.Server.FluentValidationMiddleware;
 
 namespace Tyne;
 
@@ -16,7 +18,7 @@ public class EventIdsInRangeTests
 {
     [Fact]
     public void Tyne_AspNetCore() =>
-        AssertLoggerMessages.AreInRange(typeof(NotFoundEndpointExtensions).Assembly, 0..0);
+        AssertLoggerMessages.AreInRange(typeof(NotFoundEndpointExtensions).Assembly, ..0);
 
     [Fact]
     public void Tyne_Blazor() =>
@@ -24,27 +26,27 @@ public class EventIdsInRangeTests
 
     [Fact]
     public void Tyne_Core() =>
-        AssertLoggerMessages.AreInRange(typeof(Result<>).Assembly, 0..0);
+        AssertLoggerMessages.AreInRange(typeof(Result<>).Assembly, ..0);
 
     [Fact]
     public void Tyne_EntityFramework() =>
-        AssertLoggerMessages.AreInRange(typeof(BaseSearchHandler<,,>).Assembly, 0..0);
+        AssertLoggerMessages.AreInRange(typeof(BaseSearchHandler<,,>).Assembly, ..0);
 
     [Fact]
     public void Tyne_EntityFramework_ChangeAuditing() =>
-        AssertLoggerMessages.AreInRange(typeof(IDbContextChangeAuditor).Assembly, 0..0);
+        AssertLoggerMessages.AreInRange(typeof(IDbContextChangeAuditor).Assembly, ..0);
 
     [Fact]
     public void Tyne_EntityFramework_ModificationTracking() =>
-        AssertLoggerMessages.AreInRange(typeof(IDbContextModificationTracker).Assembly, 0..0);
+        AssertLoggerMessages.AreInRange(typeof(IDbContextModificationTracker).Assembly, ..0);
 
     [Fact]
     public void Tyne_EntityFramework_UserService_Core() =>
-        AssertLoggerMessages.AreInRange(typeof(ServiceCollectionUserServiceExtensions).Assembly, 0..0);
+        AssertLoggerMessages.AreInRange(typeof(ServiceCollectionUserServiceExtensions).Assembly, ..0);
 
     [Fact]
     public void Tyne_EntityFramework_UserService() =>
-        AssertLoggerMessages.AreInRange(typeof(ITyneUserService).Assembly, 0..0);
+        AssertLoggerMessages.AreInRange(typeof(ITyneUserService).Assembly, ..0);
 
     [Fact]
     public void Tyne_HttpMediator_Client() =>
@@ -52,11 +54,11 @@ public class EventIdsInRangeTests
 
     [Fact]
     public void Tyne_HttpMediator_Client_FluentValidation() =>
-        AssertLoggerMessages.AreInRange(typeof(HttpMediator.Client.FluentValidationMiddleware).Assembly, 101_004_000..101_004_999);
+        AssertLoggerMessages.AreInRange(typeof(ClientFluentValidationMiddleware).Assembly, 101_004_000..101_004_999);
 
     [Fact]
     public void Tyne_HttpMediator_Core() =>
-        AssertLoggerMessages.AreInRange(typeof(HttpResult<>).Assembly, 0..0);
+        AssertLoggerMessages.AreInRange(typeof(HttpResult<>).Assembly, ..0);
 
     [Fact]
     public void Tyne_HttpMediator_Server() =>
@@ -64,13 +66,13 @@ public class EventIdsInRangeTests
 
     [Fact]
     public void Tyne_HttpMediator_Server_FluentValidation() =>
-        AssertLoggerMessages.AreInRange(typeof(HttpMediator.Server.FluentValidationMiddleware).Assembly, 0..0);
+        AssertLoggerMessages.AreInRange(typeof(ServerFluentValidationMiddleware).Assembly, ..0);
 
     [Fact]
     public void Tyne_HttpMediator_Server_MediatR() =>
-        AssertLoggerMessages.AreInRange(typeof(MediatRSenderMiddleware).Assembly, 0..0);
+        AssertLoggerMessages.AreInRange(typeof(MediatRSenderMiddleware).Assembly, ..0);
 
     [Fact]
     public void Tyne_Testing() =>
-        AssertLoggerMessages.AreInRange(typeof(TestingServiceCollectionModificationExtensions).Assembly, 0..0);
+        AssertLoggerMessages.AreInRange(typeof(TestingServiceCollectionModificationExtensions).Assembly, ..0);
 }

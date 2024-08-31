@@ -90,7 +90,7 @@ public class HttpMediatorSendAsync
         var (httpMediator, _) = testScope;
 
         // Arrange
-        var request = new TRequest()
+        var request = new TRequest
         {
             Count = 42
         };

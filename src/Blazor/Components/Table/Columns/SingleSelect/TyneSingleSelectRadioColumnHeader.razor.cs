@@ -5,7 +5,7 @@ namespace Tyne.Blazor.Tables.Columns;
 
 /// <summary>
 ///     A table column header which renders a
-///     <see cref="TyneSingleSelectRadioFilterController{TRequest, TValue}"/>.
+///     <see cref="TyneSingleSelectRadioFilterController{TRequest,TValue}"/>.
 /// </summary>
 /// <inheritdoc/>
 public partial class TyneSingleSelectRadioColumnHeader<TRequest, TResponse, TValue>

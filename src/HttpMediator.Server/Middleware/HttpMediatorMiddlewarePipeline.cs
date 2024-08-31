@@ -2,8 +2,6 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Tyne;
-using Tyne.HttpMediator;
 
 namespace Tyne.HttpMediator.Server;
 

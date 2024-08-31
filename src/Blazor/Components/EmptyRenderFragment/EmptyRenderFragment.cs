@@ -27,6 +27,6 @@ public static class EmptyRenderFragment
         /// <summary>
         ///     An empty <see cref="RenderFragment{T}"/> which ignores the <typeparamref name="T"/> and does not write to the <see cref="RenderTreeBuilder"/>.
         /// </summary>
-        internal static readonly RenderFragment<T> InstanceT = _ => EmptyRenderFragment.Instance;
+        internal static readonly RenderFragment<T> InstanceT = _ => Instance;
     }
 }

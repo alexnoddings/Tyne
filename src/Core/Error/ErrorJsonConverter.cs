@@ -52,7 +52,10 @@ public sealed class ErrorJsonConverter : JsonConverter<Error>
 
         writer.WriteStartObject();
 
-        writer.WriteString(nameof(ErrorJsonProxyType.Code), value.Code);
+        // Only write Code if it isn't default
+        if (value.Code != Internal.Error.DefaultCode)
+            writer.WriteString(nameof(ErrorJsonProxyType.Code), value.Code);
+
         writer.WriteString(nameof(ErrorJsonProxyType.Message), value.Message);
         // CausedBy is intentionally never written
 

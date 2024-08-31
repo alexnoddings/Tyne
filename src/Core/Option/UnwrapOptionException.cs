@@ -11,7 +11,7 @@ namespace Tyne;
 /// </remarks>
 public class UnwrapOptionException : BadOptionException
 {
-    internal new static string DefaultMessage
+    internal static new string DefaultMessage
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => ExceptionMessages.Option_CannotUnwrapNone;

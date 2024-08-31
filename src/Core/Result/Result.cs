@@ -39,7 +39,8 @@ public static class Result
                 // Unsafe.As avoids dynamic type checks from casting since we know T is Unit.
                 return Unsafe.As<Result<T>>(Cache.OkUnit);
             }
-            else if (typeof(T) == typeof(bool))
+
+            if (typeof(T) == typeof(bool))
             {
                 // Cache both true and false bools.
                 // Can't Unsafe.As a generic T into a bool as only ref types are supported.
@@ -47,7 +48,8 @@ public static class Result
                 var result = val ? Cache.OkTrue : Cache.OkFalse;
                 return Unsafe.As<Result<T>>(result);
             }
-            else if (typeof(T) == typeof(int))
+
+            if (typeof(T) == typeof(int))
             {
                 // Only cache the int 0
                 var val = (int)(object)value;

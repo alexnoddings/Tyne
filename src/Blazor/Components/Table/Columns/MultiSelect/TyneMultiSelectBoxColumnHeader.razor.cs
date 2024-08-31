@@ -5,7 +5,7 @@ namespace Tyne.Blazor.Tables.Columns;
 
 /// <summary>
 ///     A table column header which renders a
-///     <see cref="TyneMultiSelectBoxFilterController{TRequest, TValue}"/>.
+///     <see cref="TyneMultiSelectBoxFilterController{TRequest,TValue}"/>.
 /// </summary>
 /// <inheritdoc/>
 public partial class TyneMultiSelectBoxColumnHeader<TRequest, TResponse, TValue>

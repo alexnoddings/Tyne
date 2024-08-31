@@ -16,7 +16,7 @@ public class HttpSenderMiddlewareTests
 
         var middleware = scope.Services.GetRequiredService<HttpSenderMiddleware>();
         var next = CreateAssertFailNextDelegate<SimpleRequest, SimpleResponse>();
-        var request = new SimpleRequest() { Count = 101 };
+        var request = new SimpleRequest { Count = 101 };
 
         // Act
         var actualResult = await middleware.InvokeAsync(request, next);
@@ -58,7 +58,7 @@ public class HttpSenderMiddlewareTests
 
         var middleware = scope.Services.GetRequiredService<HttpSenderMiddleware>();
         var next = CreateAssertFailNextDelegate<TRequest, TResponse>();
-        var request = new TRequest() { Count = 101 };
+        var request = new TRequest { Count = 101 };
 
         // Act
         var actualResult = await middleware.InvokeAsync(request, next);

@@ -30,7 +30,7 @@ public partial class SourceCode<T>
     private string SourceCodePath { get; set; } = string.Empty;
 
     [Inject]
-    private IJSRuntime JS { get; init; } = null!;
+    private IJSRuntime Js { get; init; } = null!;
 
     private string CodeClassName =>
         new CssBuilder("hljs rounded-b")
@@ -54,7 +54,7 @@ public partial class SourceCode<T>
         if (!firstRender)
             return;
 
-        await JS.InvokeVoidAsync("highlightCodeBlock", _id);
+        await Js.InvokeVoidAsync("highlightCodeBlock", _id);
     }
 
     private string DefaultName =>

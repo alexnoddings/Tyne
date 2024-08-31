@@ -7,7 +7,7 @@ namespace Tyne.HttpMediator.Server;
 /// </summary>
 internal static class AssemblyHttpRequestDescriptorScanner
 {
-    private static readonly Type OpenGenericHttpRequestType = typeof(IHttpRequestBase<>);
+    private static readonly Type _openGenericHttpRequestType = typeof(IHttpRequestBase<>);
 
     /// <summary>
     ///     Gets <see cref="HttpRequestDescriptor"/>s for HTTP requests defined in <paramref name="assembly"/>.
@@ -28,7 +28,7 @@ internal static class AssemblyHttpRequestDescriptorScanner
                 .GetInterfaces()
                 .Where(interfaceType =>
                     interfaceType.IsGenericType
-                    && interfaceType.GetGenericTypeDefinition() == OpenGenericHttpRequestType
+                    && interfaceType.GetGenericTypeDefinition() == _openGenericHttpRequestType
                     && interfaceType.GenericTypeArguments.Length == 1
                 )
                 .Select(interfaceType => interfaceType.GenericTypeArguments[0])

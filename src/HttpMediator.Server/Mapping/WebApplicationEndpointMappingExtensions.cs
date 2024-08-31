@@ -48,7 +48,7 @@ public static class WebApplicationEndpointMappingExtensions
         MapHttpMediatorRequestsFromAssembly(app, typeof(T).Assembly);
 
     [SuppressMessage("Major Code Smell", "S3011: Reflection should not be used to increase accessibility of classes, methods, or fields.", Justification = "We are reflecting on a method private to this class.")]
-    private static readonly MethodInfo MapRequestCoreGenericMethodInfo =
+    private static readonly MethodInfo _mapRequestCoreGenericMethodInfo =
         MethodHelper.Get(
               typeof(WebApplicationEndpointMappingExtensions),
               nameof(MapHttpMediatorRequestCore),
@@ -60,7 +60,7 @@ public static class WebApplicationEndpointMappingExtensions
     {
         try
         {
-            _ = MapRequestCoreGenericMethodInfo
+            _ = _mapRequestCoreGenericMethodInfo
                 .MakeGenericMethod(requestDescriptor.RequestType, requestDescriptor.ResponseType)
                 .Invoke(null, [app, requestDescriptor.Metadata, options, logger]);
         }

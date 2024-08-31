@@ -1,5 +1,4 @@
 using System.Linq.Expressions;
-using System.Reflection.Metadata;
 using Microsoft.AspNetCore.Components;
 
 namespace Tyne.Blazor.Filtering.Controllers;
@@ -10,7 +9,7 @@ namespace Tyne.Blazor.Filtering.Controllers;
 /// </summary>
 /// <typeparam name="TRequest">The type of request which loads data in the context.</typeparam>
 /// <typeparam name="TValue">The type the filter values manage.</typeparam>
-public abstract partial class TyneMinMaxFilterController<TRequest, TValue> : TyneMinMaxFilterControllerBase<TRequest, TValue>
+public abstract class TyneMinMaxFilterController<TRequest, TValue> : TyneMinMaxFilterControllerBase<TRequest, TValue>
 {
     /// <summary>
     ///     An <see cref="Expression"/> for the <typeparamref name="TValue"/> minimum property to attach to.

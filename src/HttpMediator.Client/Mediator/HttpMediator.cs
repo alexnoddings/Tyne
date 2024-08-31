@@ -25,7 +25,7 @@ internal class HttpMediator : IHttpMediator
 
         using var loggerRequestScope = _logger.BeginRequestScope(request);
 
-        var genericMethodInfo = ExecuteAsyncMethodInfo.MakeGenericMethod(request.GetType(), typeof(TResponse));
+        var genericMethodInfo = _executeAsyncMethodInfo.MakeGenericMethod(request.GetType(), typeof(TResponse));
         HttpResult<TResponse> result;
         try
         {
@@ -43,7 +43,7 @@ internal class HttpMediator : IHttpMediator
     }
 
     [SuppressMessage("Major Code Smell", "S3011: Reflection should not be used to increase accessibility of classes, methods, or fields.", Justification = "We are reflecting on a method private to this class.")]
-    private static readonly MethodInfo ExecuteAsyncMethodInfo =
+    private static readonly MethodInfo _executeAsyncMethodInfo =
         typeof(HttpMediator)
         .GetMethod(nameof(ExecuteAsync), BindingFlags.Instance | BindingFlags.NonPublic)
         ?? throw new InvalidOperationException($"No \"{nameof(ExecuteAsync)}\" method found on \"{nameof(HttpMediator)}\".");

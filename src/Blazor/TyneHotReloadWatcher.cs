@@ -1,8 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection.Metadata;
 using MudBlazor;
+using Tyne.Blazor;
 
-[assembly: MetadataUpdateHandler(typeof(Tyne.Blazor.TyneHotReloadWatcher))]
+[assembly: MetadataUpdateHandler(typeof(TyneHotReloadWatcher))]
 
 namespace Tyne.Blazor;
 

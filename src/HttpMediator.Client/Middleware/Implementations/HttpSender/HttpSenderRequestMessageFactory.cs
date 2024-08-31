@@ -64,10 +64,10 @@ internal sealed class HttpSenderRequestMessageFactory
         return new HttpRequestMessage(requestData.Method, requestUri);
     }
 
-    private static readonly MediaTypeHeaderValue JsonMediaTypeHeader = MediaTypeHeaderValue.Parse(MediaTypeNames.Application.Json);
+    private static readonly MediaTypeHeaderValue _jsonMediaTypeHeader = MediaTypeHeaderValue.Parse(MediaTypeNames.Application.Json);
     private HttpRequestMessage CreateContentSerialisedRequest<TResponse>(IHttpRequestBase<TResponse> request, RequestData requestData)
     {
-        var content = JsonContent.Create(request, requestData.RequestType, mediaType: JsonMediaTypeHeader, options: _jsonSerialiserOptions.Value);
+        var content = JsonContent.Create(request, requestData.RequestType, mediaType: _jsonMediaTypeHeader, options: _jsonSerialiserOptions.Value);
         return new HttpRequestMessage(requestData.Method, requestData.Uri)
         {
             Content = content
@@ -90,7 +90,7 @@ internal sealed class HttpSenderRequestMessageFactory
     // and we use reflection to work backwards to the missing TRequest argument
     private RequestData GetRequestData(IHttpRequestMetadata request)
     {
-        var genericMethodInfo = GetRequestDataCoreMethodInfo.MakeGenericMethod(request.GetType());
+        var genericMethodInfo = _getRequestDataCoreMethodInfo.MakeGenericMethod(request.GetType());
 
         object? requestDataObj;
         try
@@ -108,7 +108,7 @@ internal sealed class HttpSenderRequestMessageFactory
     }
 
     [SuppressMessage("Major Code Smell", "S3011: Reflection should not be used to increase accessibility of classes, methods, or fields.", Justification = "We are reflecting on a method private to this class.")]
-    private static readonly MethodInfo GetRequestDataCoreMethodInfo =
+    private static readonly MethodInfo _getRequestDataCoreMethodInfo =
         typeof(HttpSenderRequestMessageFactory)
         .GetMethod(nameof(GetRequestDataCore), BindingFlags.Instance | BindingFlags.NonPublic)
         ?? throw new InvalidOperationException($"No \"{nameof(GetRequestDataCore)}\" method found on \"{nameof(HttpSenderRequestMessageFactory)}\".");

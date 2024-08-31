@@ -168,7 +168,7 @@ public abstract class TyneFilterValueCore<TRequest, TValue> : ComponentBase, IFi
     ///     See <see cref="InitialiseAsync"/> for what initialisation takes place.
     /// </remarks>
     [SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "The exception is rethrown when the returned Task is awaited.")]
-    protected override sealed Task OnInitializedAsync()
+    protected sealed override Task OnInitializedAsync()
     {
         // A lot of logic relies on checking _initTask,
         // but if InitialiseAsync throws synchronously

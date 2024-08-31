@@ -11,10 +11,10 @@
         </MudText>
         <div>
             @* Controller usage *@
-            <TyneCustomFilterController For="m => m.LaunchCode" Context="ValueContext">
+            <TyneCustomFilterController For="m => m.LaunchCode" Context="valueContext">
                 <MudButton Variant="Variant.Filled"
                            Color="Color.Primary"
-                           OnClick="() => ValueContext.SetFilterValueAsync(Random.Shared.Next(0, 10_000))">
+                           OnClick="() => valueContext.SetFilterValueAsync(Random.Shared.Next(0, 10_000))">
                     Randomise
                 </MudButton>
             </TyneCustomFilterController>

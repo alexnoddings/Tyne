@@ -27,7 +27,7 @@ namespace Tyne.Blazor.Filtering.Controllers;
 // We can't simply inherit from TyneFilterControllerBase as it needs a handle for more than one value (one for min, one for max).
 // This could be simplified by using one type (e.g. MudBlazor's DateRange), but that would require the shared and server projects
 // to also know about the DateRange type, which introduces a dependency on MudBlazor to the server.
-public abstract partial class TyneMinMaxFilterControllerBase<TRequest, TValue> : ComponentBase, IFilterController<TValue?>, IDisposable
+public abstract class TyneMinMaxFilterControllerBase<TRequest, TValue> : ComponentBase, IFilterController<TValue?>, IDisposable
 {
     /// <summary>
     ///     The cascading filtering context this controller is running in.

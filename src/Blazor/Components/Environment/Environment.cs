@@ -6,7 +6,7 @@ namespace Tyne.Blazor;
 /// <summary>
 ///     Conditionally renders <see cref="ChildContent"/> based on the current <see cref="IEnvironment.EnvironmentName"/>.
 /// </summary>
-public partial class Environment : ComponentBase
+public class Environment : ComponentBase
 {
     [Inject]
     private IEnvironment AppEnvironment { get; set; } = default!;

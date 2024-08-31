@@ -37,7 +37,7 @@ public sealed class SimpleTableData
         if (request.OrderBy is { } orderBy)
         {
             ordered = [
-                ..ordered
+                .. ordered
                 .AsQueryable()
                 .OrderByPropertyOrDefault(
                     propertyName: orderBy,

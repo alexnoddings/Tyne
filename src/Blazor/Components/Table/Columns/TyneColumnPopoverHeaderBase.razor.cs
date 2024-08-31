@@ -41,7 +41,6 @@ public abstract partial class TyneColumnPopoverHeaderBase<TResponse> : Component
     /// </summary>
     protected abstract string FilterIcon { get; }
 
-
     /// <summary>
     ///     The colour of the <see cref="FilterIcon"/>.
     /// </summary>

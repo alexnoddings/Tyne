@@ -43,8 +43,8 @@ public sealed partial class TyneCustomFilterController<TRequest, TValue> : TyneF
     /// </summary>
     [Parameter, EditorRequired]
     public Expression<Func<TRequest, TValue>> For { get; set; } = null!;
-    private readonly TynePropertyKeyCache<TRequest, TValue> ForCache = new();
-    protected override TyneKey ForKey => ForCache.Update(For);
+    private readonly TynePropertyKeyCache<TRequest, TValue> _forCache = new();
+    protected override TyneKey ForKey => _forCache.Update(For);
 
     // These are explicit interface implementations as they need to be public,
     // which clashes with existing members of the same name.

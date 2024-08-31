@@ -439,8 +439,8 @@ public sealed class TyneFilterContext<TRequest> : IFilterContext<TRequest>, IDis
         }
 
         _logger.LogFilterContextDetachingFilterController(key, controllerHandle.FilterController.GetType());
-        var didRemoveHandle = controllerHandles.Remove(controllerHandle);
-        Debug.Assert(didRemoveHandle, "Tried to detach unattached controller Handle.");
+        var handleWasDetached = controllerHandles.Remove(controllerHandle);
+        Debug.Assert(handleWasDetached);
 
         // Clear out emptied handle sets
         if (controllerHandles.Count == 0)

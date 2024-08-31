@@ -17,18 +17,18 @@
                                           TValue="TimeSpan?"
                                           ForMin="m => m.LaunchWindowMin"
                                           ForMax="m => m.LaunchWindowMax"
-                                          Context="LaunchWindowContext">
+                                          Context="launchWindowContext">
             <div class="d-flex flex-row align-end gap-2">
                 <div style="width: 96px;">
                     <MudTimePicker Label="Minimum"
-                                   Time="LaunchWindowContext.Min"
-                                   TimeChanged="newMin => LaunchWindowContext.SetValuesAsync(newMin, LaunchWindowContext.Max)" />
+                                   Time="launchWindowContext.Min"
+                                   TimeChanged="newMin => launchWindowContext.SetValuesAsync(newMin, launchWindowContext.Max)" />
                 </div>
                 <MudIcon Icon="@Icons.Material.Filled.ArrowRight" Class="mb-2"/>
                 <div style="width: 96px;">
                     <MudTimePicker Label="Maximum"
-                                   Time="LaunchWindowContext.Max"
-                                   TimeChanged="newMax => LaunchWindowContext.SetValuesAsync(LaunchWindowContext.Min, newMax)" />
+                                   Time="launchWindowContext.Max"
+                                   TimeChanged="newMax => launchWindowContext.SetValuesAsync(launchWindowContext.Min, newMax)" />
                 </div>
             </div>
         </TyneCustomMinMaxFilterController>

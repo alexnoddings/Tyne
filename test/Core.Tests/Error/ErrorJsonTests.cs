@@ -5,6 +5,19 @@ namespace Tyne;
 public class ErrorJsonTests
 {
     [Fact]
+    public void Serialise_DefaultCode_IsNotSerialised()
+    {
+        // Arrange
+        var expectedError = Error.From(TestError.Message);
+
+        // Act
+        var json = JsonSerializer.Serialize(expectedError);
+
+        // Assert
+        Assert.Equal(@$"{{""Message"":""{TestError.Message}""}}", json);
+    }
+
+    [Fact]
     public void Serialise_CodeAndMessageAreSerialised()
     {
         // Arrange
@@ -28,6 +41,21 @@ public class ErrorJsonTests
 
         // Assert
         Assert.Equal(TestError.Json, json);
+    }
+
+    [Fact]
+    public void Deserialise_NoCode_UsesDefault()
+    {
+        // Arrange
+        var expectedError = Error.From(TestError.Message);
+        var json = @$"{{""Message"":""{TestError.Message}""}}";
+
+        // Act
+        var actualError = JsonSerializer.Deserialize<Error>(json);
+
+        // Assert
+        Assert.NotNull(actualError);
+        AssertError.AreEqual(expectedError, actualError);
     }
 
     [Fact]

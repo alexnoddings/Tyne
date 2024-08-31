@@ -109,7 +109,6 @@ public class MethodHelperTests
     public void Get_Instance_T4_Internal_NotFound() =>
         Assert_ThrowsArgumentException(() => MethodHelper.Get<TestClass, int, int, int, int>(nameof(TestClass.InternalInstanceMethod)));
 
-
     [Fact]
     public void Get_Static_T0_Public()
     {

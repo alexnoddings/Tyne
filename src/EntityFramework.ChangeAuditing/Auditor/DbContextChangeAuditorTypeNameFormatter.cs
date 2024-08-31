@@ -1,17 +1,17 @@
+using System.Runtime.CompilerServices;
+using System.Text;
 #if NET9_0_OR_GREATER
 using System.Buffers;
 #endif
-using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace Tyne.EntityFramework;
 
 internal static class DbContextChangeAuditorTypeNameFormatter
 {
 #if NET9_0_OR_GREATER
-    private static readonly SearchValues<string> IgnoredNamespace = SearchValues.Create(["System", "System.Collections.Generic"], StringComparison.OrdinalIgnoreCase);
+    private static readonly SearchValues<string> _ignoredNamespace = SearchValues.Create(["System", "System.Collections.Generic"], StringComparison.OrdinalIgnoreCase);
 #else
-    private static readonly string[] IgnoredNamespaces = ["System", "System.Collections.Generic"];
+    private static readonly string[] _ignoredNamespaces = ["System", "System.Collections.Generic"];
 #endif
 
     internal static string FormatTypeName(Type type)
@@ -30,7 +30,7 @@ internal static class DbContextChangeAuditorTypeNameFormatter
             if (typeNamespace is not null && ShouldIgnoreNamespace(typeNamespace))
             {
                 var namespaceEndPos = typeNamespace.Length + 1;
-                typeFullName = typeFullName[namespaceEndPos ..];
+                typeFullName = typeFullName[namespaceEndPos..];
             }
 
             if (!type.IsGenericType)
@@ -90,10 +90,10 @@ internal static class DbContextChangeAuditorTypeNameFormatter
             return false;
 
 #if NET9_0_OR_GREATER
-        if (IgnoredNamespace.Contains(typeNamespace))
+        if (_ignoredNamespace.Contains(typeNamespace))
             return true;
 #else
-        if (Array.Exists(IgnoredNamespaces, ignoredNamespace => typeNamespace.Equals(ignoredNamespace, StringComparison.Ordinal)))
+        if (Array.Exists(_ignoredNamespaces, ignoredNamespace => typeNamespace.Equals(ignoredNamespace, StringComparison.Ordinal)))
             return true;
 #endif
 

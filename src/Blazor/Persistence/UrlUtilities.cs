@@ -20,7 +20,7 @@ internal static class UrlUtilities
 
     // JSON options to use for fall-back de/serialisation
     // for types which aren't directly handled by us (e.g. user types)
-    private static readonly JsonSerializerOptions FallBackJsonOptions = new(JsonSerializerDefaults.Web)
+    private static readonly JsonSerializerOptions _fallBackJsonOptions = new(JsonSerializerDefaults.Web)
     {
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
     };
@@ -42,17 +42,13 @@ internal static class UrlUtilities
             // Some types are ugly when json serialised, such as chars being "quoted"
             // We handle these cases specifically for nicer looking strings
             char chr => chr.ToString(),
-#if NET8_0_OR_GREATER
             Guid guid => CompactGuid(in guid),
-#else
-            Guid guid => CompactGuid(ref guid),
-#endif
             DateTime dateTime => dateTime.ToString(DateTimeToStringFormat, provider: null),
             // Enum types are represented as strings, but IEnumerable<Enum>s are (currently) just their numeric value
             Enum enm => enm.ToString(),
             // Serialise empty collections as a null value to keep the URL tidy
             ICollection collection when collection is { Count: 0 } => null,
-            _ => JsonSerializer.Serialize(obj, FallBackJsonOptions)
+            _ => JsonSerializer.Serialize(obj, _fallBackJsonOptions)
         };
 
         // Handle empty strings as null, this de-clutters URLs
@@ -140,7 +136,7 @@ internal static class UrlUtilities
         {
             try
             {
-                var val = JsonSerializer.Deserialize<T?>(valueStr, FallBackJsonOptions);
+                var val = JsonSerializer.Deserialize<T?>(valueStr, _fallBackJsonOptions);
                 return Option.From(val);
             }
             catch (JsonException)
