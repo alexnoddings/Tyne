@@ -4,19 +4,21 @@ namespace Tyne.HttpMediator;
 
 public class HttpResultCreationTests
 {
-    public static IEnumerable<object?[]> MakeStatusCodeRangeData(int start, int range = 100) =>
-        Enumerable.Range(start, range)
-        .Select(i => (HttpStatusCode)i)
-        .Select(c => new object?[] { c })
-        .ToList();
+    private static TheoryData<HttpStatusCode> MakeStatusCodeRangeData(int start, int range = 100)
+    {
+        var theoryData = new TheoryData<HttpStatusCode>();
+        foreach (var i in Enumerable.Range(start, range))
+            theoryData.Add((HttpStatusCode)i);
+        return theoryData;
+    }
 
-    public static IEnumerable<object?[]> BelowStatusCodesData => MakeStatusCodeRangeData(99, 1);
-    public static IEnumerable<object?[]> InformationStatusCodesData => MakeStatusCodeRangeData(100);
-    public static IEnumerable<object?[]> SuccessfulStatusCodesData => MakeStatusCodeRangeData(200);
-    public static IEnumerable<object?[]> RedirectionStatusCodesData => MakeStatusCodeRangeData(300);
-    public static IEnumerable<object?[]> ClientErrorStatusCodesData => MakeStatusCodeRangeData(400);
-    public static IEnumerable<object?[]> ServerErrorStatusCodesData => MakeStatusCodeRangeData(500);
-    public static IEnumerable<object?[]> AboveErrorStatusCodesData => MakeStatusCodeRangeData(600, 1);
+    public static TheoryData<HttpStatusCode> BelowStatusCodesData => MakeStatusCodeRangeData(99, 1);
+    public static TheoryData<HttpStatusCode> InformationStatusCodesData => MakeStatusCodeRangeData(100);
+    public static TheoryData<HttpStatusCode> SuccessfulStatusCodesData => MakeStatusCodeRangeData(200);
+    public static TheoryData<HttpStatusCode> RedirectionStatusCodesData => MakeStatusCodeRangeData(300);
+    public static TheoryData<HttpStatusCode> ClientErrorStatusCodesData => MakeStatusCodeRangeData(400);
+    public static TheoryData<HttpStatusCode> ServerErrorStatusCodesData => MakeStatusCodeRangeData(500);
+    public static TheoryData<HttpStatusCode> AboveErrorStatusCodesData => MakeStatusCodeRangeData(600, 1);
 
     [Theory]
     [MemberData(nameof(SuccessfulStatusCodesData))]
