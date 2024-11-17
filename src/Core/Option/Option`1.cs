@@ -85,9 +85,13 @@ public readonly struct Option<T> : IEquatable<Option<T>>, IEquatable<T>
         }
     }
 
+    // IDE0032: Use auto property
+    // REASON:  Auto-properties can't return by reference.
+#pragma warning disable IDE0032
     // External callers should use Option.None() to construct a None option
     private static readonly Option<T> _none;
     internal static ref readonly Option<T> None => ref _none;
+#pragma warning restore IDE0032
 
     /// <summary>
     ///     Creates an empty <see cref="Option{T}"/>.

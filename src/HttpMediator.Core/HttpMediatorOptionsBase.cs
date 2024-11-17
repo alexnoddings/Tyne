@@ -7,8 +7,6 @@ namespace Tyne.HttpMediator;
 /// </summary>
 public abstract class HttpMediatorOptionsBase
 {
-    private string _apiBase = "/api/";
-
     /// <summary>
     ///     The base API path.
     /// </summary>
@@ -24,13 +22,13 @@ public abstract class HttpMediatorOptionsBase
     /// </remarks>
     public string ApiBase
     {
-        get => _apiBase;
+        get;
         set
         {
             ArgumentNullException.ThrowIfNull(value);
-            _apiBase = NormaliseApiBase(value);
+            field = NormaliseApiBase(value);
         }
-    }
+    } = "/api/";
 
     /// <summary>
     ///     Forms a relative <see cref="Uri"/> based on <see cref="ApiBase"/> and <paramref name="partialUri"/>.

@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -34,7 +35,6 @@ public readonly struct TyneKey : IEquatable<TyneKey>
     // When Key is used as an auto-implemented getter, it can end up as
     // null when default(TyneTableKey) is used as no initialisation code is executed.
     // This backing field allows the Key property to never return null, even if un-initialised.
-    private readonly string? _key;
 
     /// <summary>
     ///     The value of the key.
@@ -42,23 +42,28 @@ public readonly struct TyneKey : IEquatable<TyneKey>
     /// <remarks>
     ///     See <see cref="TyneKey"/> for more details on what a valid key may be.
     /// </remarks>
-    public string Key => _key ?? string.Empty;
+    [field: MaybeNull]
+    public string Key => field ?? string.Empty;
 
     /// <summary>
     ///     <see langword="true"/> when <see cref="Key"/> is <see cref="string.Empty"/>, otherwise <see langword="false"/>.
     /// </summary>
     public bool IsEmpty => Key.Length is 0;
 
+    // IDE0032: Use auto property
+    // REASON:  Auto-properties can't return by reference.
+#pragma warning disable IDE0032
     private static readonly TyneKey _empty = new(string.Empty);
 
     /// <summary>
     ///     A static instance of <see cref="TyneKey"/> whose <see cref="Key"/> is <see cref="string.Empty"/>.
     /// </summary>
     public static ref readonly TyneKey Empty => ref _empty;
+#pragma warning restore IDE0032
 
     private TyneKey(string key)
     {
-        _key = key;
+        Key = key;
     }
 
     /// <summary>
