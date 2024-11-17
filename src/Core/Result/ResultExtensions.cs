@@ -271,10 +271,6 @@ public static class ResultExtensions
     /// </returns>
     /// <remarks>
     ///     <para>
-    ///         If <paramref name="selector"/> returns <see langword="null"/>, then a default <see cref="Error"/> is used.
-    ///         Instead, consider using <see cref="Select{T, TResult}(Result{T}, Func{T, TResult}, Func{Error})"/> to specify the error to use.
-    ///     </para>
-    ///     <para>
     ///         This may be used to safely transform <typeparamref name="T"/> into <typeparamref name="TResult"/> if <paramref name="result"/> is <c>Ok(<typeparamref name="T"/>)</c>.
     ///         Otherwise, <paramref name="selector"/> is ignored and <c>Error</c> is returned.
     ///     </para>
@@ -295,52 +291,6 @@ public static class ResultExtensions
         var value = selector(result.Value);
         if (value is null)
             return Result.Error<TResult>(Error.Default);
-
-        return Result.Ok(value);
-    }
-
-    /// <summary>
-    ///     If <paramref name="result"/> is <c>Ok(<typeparamref name="T"/>)</c>, then applies <paramref name="selector"/> to it's value.
-    ///     Otherwise, returns <c>Error</c>.
-    /// </summary>
-    /// <typeparam name="T">The type of <c>Ok(<typeparamref name="T"/>)</c> value the <paramref name="result"/> encapsulates.</typeparam>
-    /// <typeparam name="TResult">The type to return.</typeparam>
-    /// <param name="result">The <see cref="Result{T}"/>.</param>
-    /// <param name="selector">
-    ///     A function which transforms <paramref name="result"/>'s <typeparamref name="T"/> value into a <typeparamref name="TResult"/>.
-    ///     If this returns <see langword="null"/>, the returned <see cref="Error"/> will be <c>Error</c>. This will use a default <see cref="Error"/>.
-    /// </param>
-    /// <param name="nullSelector">
-    ///     A function which returns an <see cref="Error"/>.
-    ///     This is executed if <paramref name="result"/> is <c>Ok(<typeparamref name="T"/>)</c> but <paramref name="selector"/> returns a <see langword="null"/> value.
-    /// </param>
-    /// <returns>
-    ///     If <paramref name="selector"/> returns a non-<see langword="null"/> value, then this returns <c>Some(<typeparamref name="TResult"/>)</c>.
-    ///     Otherwise, returns <c>Error</c>. If <paramref name="result"/> is <c>Error</c>, then the error is preserved. Otherwise, <paramref name="nullSelector"/> is invoked to return an error.
-    /// </returns>
-    /// <remarks>
-    ///     <para>
-    ///         This may be used to safely transform <typeparamref name="T"/> into <typeparamref name="TResult"/> if <paramref name="result"/> is <c>Ok(<typeparamref name="T"/>)</c>.
-    ///         Otherwise, <paramref name="selector"/> is ignored and <c>Error</c> is returned.
-    ///     </para>
-    ///     <para>
-    ///         This may be chained with other <see cref="Select{T, TResult}(Result{T}, Func{T, TResult})"/>s
-    ///         and terminated with an <see cref="Or{T}(Result{T}, T)"/> to safely transform a result.
-    ///     </para>
-    /// </remarks>
-    /// <exception cref="ArgumentNullException">When <paramref name="selector"/> or <paramref name="nullSelector"/> are <see langword="null"/>.</exception>
-    public static Result<TResult> Select<T, TResult>(this Result<T> result, Func<T, TResult?> selector, Func<Error> nullSelector)
-    {
-        ArgumentNullException.ThrowIfNull(result);
-        ArgumentNullException.ThrowIfNull(selector);
-        ArgumentNullException.ThrowIfNull(nullSelector);
-
-        if (!result.IsOk)
-            return Result.Error<TResult>(result.Error);
-
-        var value = selector(result.Value);
-        if (value is null)
-            return Result.Error<TResult>(nullSelector());
 
         return Result.Ok(value);
     }
