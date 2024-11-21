@@ -279,7 +279,7 @@ public static class ResultExtensions
     ///         and terminated with an <see cref="Or{T}(Result{T}, T)"/> to safely transform a result.
     ///     </para>
     /// </remarks>
-    /// <exception cref="ArgumentNullException">When <paramref name="selector"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException">When <paramref name="result"/> or <paramref name="selector"/> are <see langword="null"/>.</exception>
     public static Result<TResult> Select<T, TResult>(this Result<T> result, Func<T, TResult?> selector)
     {
         ArgumentNullException.ThrowIfNull(result);
@@ -292,6 +292,223 @@ public static class ResultExtensions
         if (value is null)
             return Result.Error<TResult>(Error.Default);
 
+        return Result.Ok(value);
+    }
+
+    /// <summary>
+    ///     If <paramref name="result"/> is <c>Ok(<typeparamref name="T"/>)</c>, then
+    ///     asynchronously applies <paramref name="selector"/> to it's value.
+    ///     Otherwise, returns <c>Error</c>.
+    /// </summary>
+    /// <typeparam name="T">The type of <c>Ok(<typeparamref name="T"/>)</c> value the <paramref name="result"/> encapsulates.</typeparam>
+    /// <typeparam name="TResult">The type to return.</typeparam>
+    /// <param name="result">The <see cref="Result{T}"/>.</param>
+    /// <param name="selector">
+    ///     A function which transforms <paramref name="result"/>'s <typeparamref name="T"/> value into a <see cref="Task{TResult}"/> of <typeparamref name="TResult"/>.
+    ///     If this returns <see langword="null"/>, the returned <see cref="Error"/> will be <c>Error</c>. This will use a default <see cref="Error"/>.
+    /// </param>
+    /// <returns>
+    ///     If <paramref name="selector"/> returns a non-<see langword="null"/> value, then this returns <c>Some(<typeparamref name="TResult"/>)</c>.
+    ///     Otherwise, returns <c>Error</c>. This will use a default <see cref="Error"/>.
+    /// </returns>
+    /// <remarks>
+    ///     <para>
+    ///         This may be used to safely transform <typeparamref name="T"/> into <typeparamref name="TResult"/> if <paramref name="result"/> is <c>Ok(<typeparamref name="T"/>)</c>.
+    ///         Otherwise, <paramref name="selector"/> is ignored and <c>Error</c> is returned.
+    ///     </para>
+    ///     <para>
+    ///         This may be chained with other <see cref="Select{T, TResult}(Result{T}, Func{T, TResult})"/>s
+    ///         and terminated with an <see cref="Or{T}(Result{T}, T)"/> to safely transform a result.
+    ///     </para>
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">When <paramref name="result"/> or <paramref name="selector"/> are <see langword="null"/>.</exception>
+    public static async Task<Result<TResult>> Select<T, TResult>(this Result<T> result, Func<T, Task<TResult?>> selector)
+    {
+        ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(selector);
+
+        if (!result.IsOk)
+            return Result.Error<TResult>(result.Error);
+
+        var task = selector(result.Value);
+        if (task is null)
+            return Result.Error<TResult>(Error.Default);
+
+        var value = await task.ConfigureAwait(false);
+        if (value is null)
+            return Result.Error<TResult>(Error.Default);
+
+        return Result.Ok(value);
+    }
+
+    /// <summary>
+    ///     Awaits <paramref name="resultTask"/>, and if the <see cref="Result{T}"/> is <c>Ok(<typeparamref name="T"/>)</c>,
+    ///     then applies <paramref name="selector"/> to it's value. Otherwise, returns <c>Error</c>.
+    /// </summary>
+    /// <typeparam name="T">The type of <c>Ok(<typeparamref name="T"/>)</c> value the <paramref name="resultTask"/> encapsulates.</typeparam>
+    /// <typeparam name="TResult">The type to return.</typeparam>
+    /// <param name="resultTask">The <see cref="Task{TResult}"/> which resolves to a <see cref="Result{T}"/>.</param>
+    /// <param name="selector">
+    ///     A function which transforms <paramref name="resultTask"/>'s result <typeparamref name="T"/> value into a <typeparamref name="TResult"/>.
+    ///     If this returns <see langword="null"/>, the returned <see cref="Error"/> will be <c>Error</c>. This will use a default <see cref="Error"/>.
+    /// </param>
+    /// <returns>
+    ///     If <paramref name="selector"/> returns a non-<see langword="null"/> value, then this returns <c>Some(<typeparamref name="TResult"/>)</c>.
+    ///     Otherwise, returns <c>Error</c>. This will use a default <see cref="Error"/>.
+    /// </returns>
+    /// <remarks>
+    ///     <para>
+    ///         This may be used to safely transform <typeparamref name="T"/> into <typeparamref name="TResult"/>
+    ///         if <paramref name="resultTask"/> is <c>Ok(<typeparamref name="T"/>)</c>.
+    ///         Otherwise, <paramref name="selector"/> is ignored and <c>Error</c> is returned.
+    ///     </para>
+    ///     <para>
+    ///         This may be chained with other <see cref="Select{T, TResult}(Result{T}, Func{T, TResult})"/>s
+    ///         and terminated with an <see cref="Or{T}(Result{T}, T)"/> to safely transform a result.
+    ///     </para>
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">When <paramref name="resultTask"/> or <paramref name="selector"/> are <see langword="null"/>.</exception>
+    public static async Task<Result<TResult>> Select<T, TResult>(this Task<Result<T>> resultTask, Func<T, TResult?> selector)
+    {
+        ArgumentNullException.ThrowIfNull(resultTask);
+        ArgumentNullException.ThrowIfNull(selector);
+
+        var result = await resultTask.ConfigureAwait(false);
+        if (!result.IsOk)
+            return Result.Error<TResult>(result.Error);
+
+        var value = selector(result.Value);
+        if (value is null)
+            return Result.Error<TResult>(Error.Default);
+
+        return Result.Ok(value);
+    }
+
+    /// <summary>
+    ///     Awaits <paramref name="resultTask"/>, and if the <see cref="Result{T}"/> is <c>Ok(<typeparamref name="T"/>)</c>,
+    ///     then asynchronously applies <paramref name="selector"/> to it's value. Otherwise, returns <c>Error</c>.
+    /// </summary>
+    /// <typeparam name="T">The type of <c>Ok(<typeparamref name="T"/>)</c> value the <paramref name="resultTask"/> encapsulates.</typeparam>
+    /// <typeparam name="TResult">The type to return.</typeparam>
+    /// <param name="resultTask">The <see cref="Task{TResult}"/> which resolves to a <see cref="Result{T}"/>.</param>
+    /// <param name="selector">
+    ///     A function which transforms <paramref name="resultTask"/>'s result <typeparamref name="T"/> value into a <typeparamref name="TResult"/>.
+    ///     If this returns <see langword="null"/>, the returned <see cref="Error"/> will be <c>Error</c>. This will use a default <see cref="Error"/>.
+    /// </param>
+    /// <returns>
+    ///     If <paramref name="selector"/> returns a non-<see langword="null"/> value, then this returns <c>Some(<typeparamref name="TResult"/>)</c>.
+    ///     Otherwise, returns <c>Error</c>. This will use a default <see cref="Error"/>.
+    /// </returns>
+    /// <remarks>
+    ///     <para>
+    ///         This may be used to safely transform <typeparamref name="T"/> into <typeparamref name="TResult"/>
+    ///         if <paramref name="resultTask"/> is <c>Ok(<typeparamref name="T"/>)</c>.
+    ///         Otherwise, <paramref name="selector"/> is ignored and <c>Error</c> is returned.
+    ///     </para>
+    ///     <para>
+    ///         This may be chained with other <see cref="Select{T, TResult}(Result{T}, Func{T, TResult})"/>s
+    ///         and terminated with an <see cref="Or{T}(Result{T}, T)"/> to safely transform a result.
+    ///     </para>
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">When <paramref name="resultTask"/> or <paramref name="selector"/> are <see langword="null"/>.</exception>
+    public static async Task<Result<TResult>> Select<T, TResult>(this Task<Result<T>> resultTask, Func<T, Task<TResult?>> selector)
+    {
+        ArgumentNullException.ThrowIfNull(resultTask);
+        ArgumentNullException.ThrowIfNull(selector);
+
+        var result = await resultTask.ConfigureAwait(false);
+        if (!result.IsOk)
+            return Result.Error<TResult>(result.Error);
+
+        var task = selector(result.Value);
+        if (task is null)
+            return Result.Error<TResult>(Error.Default);
+
+        var value = await task.ConfigureAwait(false);
+        if (value is null)
+            return Result.Error<TResult>(Error.Default);
+
+        return Result.Ok(value);
+    }
+
+    /// <summary>
+    ///     This is designed for generated usage with <see href="https://learn.microsoft.com/en-us/dotnet/csharp/linq/get-started/introduction-to-linq-queries">LINQ</see>,
+    ///     not for manual consumption.
+    /// </summary>
+    /// <typeparam name="T">The type of <c>Ok(<typeparamref name="T"/>)</c> value the <paramref name="result"/> encapsulates.</typeparam>
+    /// <typeparam name="TIntermediate">The intermediate type used by <paramref name="intermediateSelector"/>.</typeparam>
+    /// <typeparam name="TResult">The type to return.</typeparam>
+    /// <param name="result">The <see cref="Result{T}"/>.</param>
+    /// <param name="intermediateSelector">A transform function to create an intermediate <see cref="Result{T}"/> based on <paramref name="result"/>.</param>
+    /// <param name="resultSelector">A transform function to apply to the intermediate <see cref="Result{T}"/> of <typeparamref name="TIntermediate"/>.</param>
+    /// <returns>
+    ///     If <paramref name="result"/> is <c>Ok(<typeparamref name="T"/>)</c>
+    ///     and <paramref name="intermediateSelector"/> returns an <c>Ok(<typeparamref name="TIntermediate"/>)</c>,
+    ///     then returns <c>Ok(<typeparamref name="TResult"/>)</c> based on the transformation from <paramref name="resultSelector"/>.
+    ///     Otherwise, returns the <c>Error()</c> component of <paramref name="result"/> or <paramref name="intermediateSelector"/>.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">When <paramref name="result"/>, <paramref name="intermediateSelector"/>, or <paramref name="resultSelector"/> are <see langword="null"/>.</exception>
+    public static Result<TResult> SelectMany<T, TIntermediate, TResult>(
+        this Result<T> result,
+        Func<T, Result<TIntermediate>> intermediateSelector,
+        Func<T, TIntermediate, TResult> resultSelector
+    )
+    {
+        ArgumentNullException.ThrowIfNull(result);
+        ArgumentNullException.ThrowIfNull(intermediateSelector);
+        ArgumentNullException.ThrowIfNull(resultSelector);
+
+        if (!result.IsOk)
+            return Result.Error<TResult>(result.Error);
+
+        var resultValue = result.Value;
+        var source = intermediateSelector(resultValue);
+        if (!source.IsOk)
+            return Result.Error<TResult>(source.Error);
+
+        var value = resultSelector(resultValue, source.Value);
+        return Result.Ok(value);
+    }
+
+    /// <summary>
+    ///     This is designed for async generated usage with <see href="https://learn.microsoft.com/en-us/dotnet/csharp/linq/get-started/introduction-to-linq-queries">LINQ</see>,
+    ///     not for manual consumption.
+    /// </summary>
+    /// <typeparam name="T">The type of <c>Ok(<typeparamref name="T"/>)</c> value the <paramref name="resultTask"/> encapsulates.</typeparam>
+    /// <typeparam name="TIntermediate">The intermediate type used by <paramref name="intermediateSelector"/>.</typeparam>
+    /// <typeparam name="TResult">The type to return.</typeparam>
+    /// <param name="resultTask">The <see cref="Task{TResult}"/> returning a <see cref="Result{T}"/>.</param>
+    /// <param name="intermediateSelector">A transform function to create an intermediate <see cref="Result{T}"/> based on <paramref name="resultTask"/>.</param>
+    /// <param name="resultSelector">A transform function to apply to the intermediate <see cref="Result{T}"/> of <typeparamref name="TIntermediate"/>.</param>
+    /// <returns>
+    ///     If <paramref name="resultTask"/> is <c>Ok(<typeparamref name="T"/>)</c>
+    ///     and <paramref name="intermediateSelector"/> returns an <c>Ok(<typeparamref name="TIntermediate"/>)</c>,
+    ///     then returns <c>Ok(<typeparamref name="TResult"/>)</c> based on the transformation from <paramref name="resultSelector"/>.
+    ///     Otherwise, returns the <c>Error()</c> component of <paramref name="resultTask"/> or <paramref name="intermediateSelector"/>.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">When <paramref name="resultTask"/>, <paramref name="intermediateSelector"/>, or <paramref name="resultSelector"/> are <see langword="null"/>.</exception>
+
+    public static async Task<Result<TResult>> SelectMany<T, TIntermediate, TResult>(
+        this Task<Result<T>> resultTask,
+        Func<T, Task<Result<TIntermediate>>> intermediateSelector,
+        Func<T, TIntermediate, TResult> resultSelector
+    )
+    {
+        ArgumentNullException.ThrowIfNull(resultTask);
+        ArgumentNullException.ThrowIfNull(intermediateSelector);
+        ArgumentNullException.ThrowIfNull(resultSelector);
+
+        var result = await resultTask.ConfigureAwait(false);
+        if (!result.IsOk)
+            return Result.Error<TResult>(result.Error);
+
+        var resultValue = result.Value;
+        var sourceTask = intermediateSelector(resultValue);
+        var source = await sourceTask.ConfigureAwait(false);
+        if (!source.IsOk)
+            return Result.Error<TResult>(source.Error);
+
+        var value = resultSelector(resultValue, source.Value);
         return Result.Ok(value);
     }
 
