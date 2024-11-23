@@ -1,12 +1,17 @@
 {
   "metadata": [
     {
+      "properties": {
+        // Fixes an error causing the docfx build to fail for valid source code
+        // See: https://github.com/alexnoddings/Tyne/issues/169
+        "NoWarn": "CS0657"
+      },
       "src": [
         {
           "files": [
             "src/AspNetCore/AspNetCore.csproj",
-            "src/Core/Core.csproj",
             "src/Blazor/Blazor.csproj",
+            "src/Core/Core.csproj",
             "src/EntityFramework/EntityFramework.csproj",
             "src/EntityFramework.ChangeAuditing/EntityFramework.ChangeAuditing.csproj",
             "src/EntityFramework.ModificationTracking/EntityFramework.ModificationTracking.csproj",

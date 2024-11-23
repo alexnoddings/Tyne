@@ -7,7 +7,8 @@ namespace Tyne.Blazor.Filtering.Controllers;
 ///     A base implementation of a single-selection controller.
 /// </summary>
 /// <inheritdoc/>
-public abstract class TyneSingleSelectFilterControllerBase<TRequest, TValue> : TyneSelectFilterControllerBase<TRequest, TValue, TValue>
+public abstract class TyneSingleSelectFilterControllerBase<TRequest, TValue>
+    : TyneSelectFilterControllerBase<TRequest, TValue, TValue>
 {
     /// <summary>
     ///     An <see cref="Expression"/> for the <typeparamref name="TValue"/> property to attach to.
@@ -28,6 +29,6 @@ public abstract class TyneSingleSelectFilterControllerBase<TRequest, TValue> : T
     /// <remarks>
     ///     This is a convenient shorthand to access the handle.
     /// </remarks>
-    protected Task SetValueAsync(TValue newValue) =>
+    protected Task SetValueAsync(TValue? newValue) =>
         Handle.FilterValue.SetValueAsync(newValue);
 }

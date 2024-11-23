@@ -7,6 +7,8 @@ namespace Tyne.HttpMediator;
 /// </summary>
 public abstract class HttpMediatorOptionsBase
 {
+    // See https://github.com/alexnoddings/Tyne/issues/169
+#pragma warning disable IDE0032
     private string _apiBase = "/api/";
 
     /// <summary>
@@ -31,6 +33,7 @@ public abstract class HttpMediatorOptionsBase
             _apiBase = NormaliseApiBase(value);
         }
     }
+#pragma warning restore IDE0032
 
     /// <summary>
     ///     Forms a relative <see cref="Uri"/> based on <see cref="ApiBase"/> and <paramref name="partialUri"/>.

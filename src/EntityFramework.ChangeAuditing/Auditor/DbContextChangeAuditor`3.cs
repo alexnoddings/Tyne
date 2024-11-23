@@ -140,6 +140,7 @@ public class DbContextChangeAuditor<TEvent, TProperty, TRelation> : IDbContextCh
 
         var changeEventEntries = changeEventInfos
             .Select(changeEventInfo => new ChangeEventEntry(changeEventInfo.ChangeEvent, changeEventInfo.EntityEntry))
+            .Where(pair => pair.Event.Action is not nameof(EntityState.Detached) and not nameof(EntityState.Unchanged))
             .ToList();
 
         return new ChangeEventEntries(changeEventEntries);
@@ -150,10 +151,15 @@ public class DbContextChangeAuditor<TEvent, TProperty, TRelation> : IDbContextCh
         if (navigationEntry.Metadata is not INavigation navigation)
             return null;
 
-        if (navigation.ForeignKey.PrincipalKey.Properties.OfType<IPropertyBase>().FirstOrDefault() is not { } primaryKeyPropertyBase)
-            return null;
+        var primaryKeyPropertyBase =
+            navigation
+                .ForeignKey
+                .PrincipalKey
+                .Properties
+                .OfType<IPropertyBase>()
+                .FirstOrDefault();
 
-        if (primaryKeyPropertyBase.PropertyInfo is not PropertyInfo primaryKeyPropertyInfo)
+        if (primaryKeyPropertyBase?.PropertyInfo is not { } primaryKeyPropertyInfo)
             return null;
 
         if (primaryKeyPropertyInfo.PropertyType != typeof(Guid))

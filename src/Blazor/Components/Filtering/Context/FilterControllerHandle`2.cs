@@ -25,8 +25,12 @@ internal sealed class FilterControllerHandle<TRequest, TValue> : FilterControlle
     [MemberNotNullWhen(false, nameof(_state))]
     private bool IsDisposed => _state is null;
 
+    // IDE0032: Use auto property
+    // REASON:  Auto-properties can't return by reference.
+#pragma warning disable IDE0032
     private readonly TyneKey _key;
     public ref readonly TyneKey Key => ref _key;
+#pragma warning restore IDE0032
 
     public IFilterValue<TValue> FilterValue
     {

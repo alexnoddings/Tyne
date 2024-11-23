@@ -10,7 +10,8 @@ namespace Tyne.Blazor.Filtering.Controllers;
 ///     This multi-selection column requires the value to be a <see cref="HashSet{T}"/> of <typeparamref name="TValue"/>s.
 /// </remarks>
 /// <inheritdoc/>
-public abstract class TyneMultiSelectFilterControllerBase<TRequest, TValue> : TyneSelectFilterControllerBase<TRequest, HashSet<TValue>, TValue>
+public abstract class TyneMultiSelectFilterControllerBase<TRequest, TValue>
+    : TyneSelectFilterControllerBase<TRequest, HashSet<TValue?>, TValue>
 {
     /// <summary>
     ///     An <see cref="Expression"/> for the <typeparamref name="TValue"/> property to attach to.
@@ -41,12 +42,12 @@ public abstract class TyneMultiSelectFilterControllerBase<TRequest, TValue> : Ty
     ///         individual values from the selection.
     ///     </para>
     /// </remarks>
-    protected Task SetValueAsync(IEnumerable<TValue>? newValue)
+    protected Task SetValueAsync(IEnumerable<TValue?>? newValue)
     {
-        if (newValue is not HashSet<TValue> hashSet)
+        if (newValue is not HashSet<TValue?> hashSet)
         {
             hashSet = newValue is not null
-                ? new(newValue)
+                ? [.. newValue]
                 : [];
         }
 
@@ -69,7 +70,7 @@ public abstract class TyneMultiSelectFilterControllerBase<TRequest, TValue> : Ty
     ///         individual values from the selection.
     ///     </para>
     /// </remarks>
-    protected Task SetValueAsync(HashSet<TValue>? newValue) =>
+    protected Task SetValueAsync(HashSet<TValue?>? newValue) =>
         Handle.FilterValue.SetValueAsync(newValue ?? []);
 
     /// <summary>
@@ -77,13 +78,13 @@ public abstract class TyneMultiSelectFilterControllerBase<TRequest, TValue> : Ty
     /// </summary>
     /// <param name="item">The <typeparamref name="TValue"/> to add.</param>
     /// <returns>A <see cref="Task"/> representing the value being added.</returns>
-    protected Task AddValueAsync(TValue item)
+    protected Task AddValueAsync(TValue? item)
     {
         var currentValue = Handle.FilterValue.Value ?? [];
         if (item is not null && currentValue.Contains(item))
             return Task.CompletedTask;
 
-        var newValue = new HashSet<TValue>(currentValue)
+        var newValue = new HashSet<TValue?>(currentValue)
         {
             item
         };
@@ -98,14 +99,14 @@ public abstract class TyneMultiSelectFilterControllerBase<TRequest, TValue> : Ty
     ///     A <see cref="Task"/> representing the value being removed.
     ///     This may be <see cref="Task.CompletedTask"/> if the value was not selected.
     /// </returns>
-    protected Task RemoveValueAsync(TValue item)
+    protected Task RemoveValueAsync(TValue? item)
     {
         var currentValue = Handle.FilterValue.Value;
         if (currentValue is null || currentValue.Count == 0)
             // Can't remove a value from a null or empty set
             return Task.CompletedTask;
 
-        var newValue = new HashSet<TValue>(currentValue);
+        var newValue = new HashSet<TValue?>(currentValue);
         _ = newValue.Remove(item);
         return SetValueAsync(newValue);
     }

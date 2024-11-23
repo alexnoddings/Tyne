@@ -119,12 +119,12 @@ public abstract class TyneFilterValueCore<TRequest, TValue> : ComponentBase, IFi
 
     [Inject]
     private ILoggerFactory LoggerFactory { get; init; } = null!;
-    private ILogger? _logger;
 
     /// <summary>
     ///     An <see cref="ILogger"/> instance named after the current type.
     /// </summary>
-    protected ILogger Logger => _logger ??= LoggerFactory.CreateLogger(GetType());
+    [field: MaybeNull]
+    protected ILogger Logger => field ??= LoggerFactory.CreateLogger(GetType());
 
     /// <summary>
     ///     Attaches this value to the <see cref="Context"/>.

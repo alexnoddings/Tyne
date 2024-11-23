@@ -20,6 +20,14 @@ public static class AssertExt
         return exception;
     }
 
+    public static async Task<ArgumentNullException> ThrowsArgumentNullExceptionAsync(Func<Task> testCode)
+    {
+        var exception = await Assert.ThrowsAsync<ArgumentNullException>(testCode);
+        Assert.False(string.IsNullOrEmpty(exception.Message));
+        Assert.False(string.IsNullOrEmpty(exception.ParamName));
+        return exception;
+    }
+
     public static ArgumentException ThrowsArgumentException(Func<object?> testCode)
     {
         var exception = Assert.Throws<ArgumentException>(testCode);
