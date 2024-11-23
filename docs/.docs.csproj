@@ -1,48 +1,45 @@
 <Project Sdk="Microsoft.Build.NoTargets">
 
-  <PropertyGroup>
-    <!-- Docs targets the latest SDK. -->
-    <TargetFramework>net9.0</TargetFramework>
-    <!-- This project doesn't contain any .NET code. -->
-    <EnableNETAnalyzers>false</EnableNETAnalyzers>
-  </PropertyGroup>
-  
-  <ItemGroup>
-    <!-- Remove global analysers. -->
-    <PackageReference Remove="AsyncFixer" />
-    <PackageReference Remove="SonarAnalyzer.CSharp" />
-  </ItemGroup>
-  
-  <!--
-      Allows `dotnet watch` to automatically recompile the docs.
-      To use, in the `./docs` directory execute:
-      - `dotnet watch docfx ./docfx.json` in one terminal
-      - `dotnet docfx serve ./_site` in another terminal
-      This ensures that the site is still navigable while dotnet watch rebuilds the site.
-    -->
-  <ItemGroup Label="Docs files">
-    <!-- Include all files in the docs project -->
-    <Watch Include="**/*.*" />
-    <!-- Except for auto-generated API files -->
-    <Watch Remove="api/*.yml" />
-    <Watch Remove="api/.manifest" />
-    <!-- And the built site -->
-    <Watch Remove="_site/**/*.*" />
-  </ItemGroup>
-  
-  <ItemGroup Label="Project source files">
-    <Watch Include="../src/**/*.cs" />
-    <!-- Don't include generated CS files -->
-    <Watch Remove="../src/**/bin/**/*.*" />
-    <Watch Remove="../src/**/obj/**/*.*" />
-  </ItemGroup>
+    <PropertyGroup>
+        <!-- Docs targets the latest SDK. -->
+        <TargetFramework>net9.0</TargetFramework>
+        <!-- This project doesn't contain any .NET code. -->
+        <EnableNETAnalyzers>false</EnableNETAnalyzers>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <!-- Hide the built site in VS -->
-    <None Remove="_site/**/*.*" />
-    <!-- And any built API files -->
-    <None Remove="api/.manifest" />
-    <None Remove="api/*.yml" />
-  </ItemGroup>
+    <ItemGroup>
+        <!-- Remove global analysers. -->
+        <PackageReference Remove="AsyncFixer"/>
+        <PackageReference Remove="SonarAnalyzer.CSharp"/>
+    </ItemGroup>
+
+    <!--
+        Allows `dotnet watch` to automatically recompile the docs.
+        To use, in the `./docs` directory execute:
+        - `dotnet watch docfx ./docfx.json` in one terminal
+        - `dotnet docfx serve ./_site` in another terminal
+        This ensures that the site is still navigable while dotnet watch rebuilds the site.
+      -->
+    <ItemGroup Label="Docs files">
+        <!-- Include all files in the docs project -->
+        <Watch Include="**/*.*"/>
+        <!-- Except for auto-generated API files -->
+        <Watch Remove="api/*.yml"/>
+        <Watch Remove="api/.manifest"/>
+        <!-- And the built site -->
+        <Watch Remove="_site/**/*.*"/>
+    </ItemGroup>
+
+    <ItemGroup Label="Project source files">
+        <Watch Include="../src/**/*.cs"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Hide the built site in VS -->
+        <None Remove="_site/**/*.*"/>
+        <!-- And any built API files -->
+        <None Remove="api/.manifest"/>
+        <None Remove="api/*.yml"/>
+    </ItemGroup>
 
 </Project>
