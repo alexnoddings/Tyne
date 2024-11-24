@@ -3,7 +3,7 @@
   <PropertyGroup Label="Project Info">
     <Product>Tyne</Product>
     <Authors>Alex Noddings</Authors>
-    <Copyright>Copyright 2023 Alex Noddings</Copyright>
+    <Copyright>Copyright 2024 Alex Noddings</Copyright>
     <PackageTags>tyne</PackageTags>
     <StrongNameKeyId>AlexNTyne</StrongNameKeyId>
     <NeutralLanguage>en</NeutralLanguage>
@@ -21,7 +21,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
-    <ArtifactsPath>$(MSBuildThisFileDirectory)../artifacts</ArtifactsPath>
+    <ArtifactsPath>$(RepoRoot)\artifacts</ArtifactsPath>
     <!--
       Generate documentation files even for non-shipped projects so the compiler will properly report some diagnostics.
       See https://github.com/dotnet/roslyn/issues/41640
@@ -42,7 +42,7 @@
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
-  <Import Project="Version.props" Label="Version definition" />
+  <Import Project="Version.props" Label="Version definition"/>
 
   <PropertyGroup Label="Versioning">
     <Version>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</Version>
@@ -94,7 +94,10 @@
     <NoWarn>$(NoWarn);IDE0055</NoWarn>
   </PropertyGroup>
 
-  <!-- Automatically embed .restext files in projects as resources. -->
+  <!--
+    Automatically embed .restext files in projects as resources.
+    Commonly used for exception messages.
+  -->
   <ItemGroup Label="Embedded resources">
     <EmbeddedResource Include="**/*.restext">
       <LogicalName>$(AssemblyName).%(FileName).resources</LogicalName>

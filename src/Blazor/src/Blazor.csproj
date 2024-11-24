@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <AssemblyName>Tyne.Blazor</AssemblyName>
+    <RootNamespace>Tyne.Blazor</RootNamespace>
+  </PropertyGroup>
+  
+  <PropertyGroup Label="Project Info">
+    <Description>Blazor component library for Tyne.</Description>
+    <PackageTags>$(PackageTags), blazor, aspnet</PackageTags>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="$(SrcRoot)\Core\src\Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
+    <PackageReference Include="MudBlazor" />
+  </ItemGroup>
+
+  <PropertyGroup Label="Warnings and errors">
+    <!--
+      CS1591: Missing XML comment for publicly visible type or member.
+      REASON: This library is not yet fully documented.
+    -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <Import Project="$(EngRoot)\Packages.props" />
+
+</Project>

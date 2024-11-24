@@ -1,5 +1,11 @@
 <Project>
 
-  <Import Project="eng/Build.props" />
+  <PropertyGroup>
+    <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
+    <EngRoot>$(MSBuildThisFileDirectory)\eng</EngRoot>
+    <SrcRoot>$(MSBuildThisFileDirectory)\src</SrcRoot>
+  </PropertyGroup>
+
+  <Import Project="$(EngRoot)\Build.props" />
 
 </Project>

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Tyne.EntityFramework.ChangeAuditing.UnitTests</AssemblyName>
+        <RootNamespace>Tyne.EntityFramework</RootNamespace>
+        <IsTestProject>true</IsTestProject>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="$(SrcRoot)\EntityFramework.ChangeAuditing\src\EntityFramework.ChangeAuditing.csproj"/>
+    </ItemGroup>
+
+    <Import Project="$(EngRoot)\Tests.props"/>
+
+</Project>
+

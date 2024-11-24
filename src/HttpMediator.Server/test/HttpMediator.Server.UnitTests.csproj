@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Tyne.HttpMediator.Server.UnitTests</AssemblyName>
+        <RootNamespace>Tyne.HttpMediator.Server</RootNamespace>
+        <IsTestProject>true</IsTestProject>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="$(SrcRoot)\HttpMediator.Server.FluentValidation\src\HttpMediator.Server.FluentValidation.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\HttpMediator.Server\src\HttpMediator.Server.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\HttpMediator.TestUtilities\HttpMediator.TestUtilities.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\TestUtilities\TestUtilities.csproj"/>
+    </ItemGroup>
+
+    <Import Project="$(EngRoot)\Tests.props"/>
+
+</Project>

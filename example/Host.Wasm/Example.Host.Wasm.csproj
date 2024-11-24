@@ -1,37 +1,37 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <AssemblyName>TyneAerospaceClient.WasmHost</AssemblyName>
-    <RootNamespace>Tyne.Aerospace.Host.Wasm</RootNamespace>
-    <!-- Allows the Roslyn compiler to code gen with pointers for JS interop. -->
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <!-- Prevents dotnet pack from trying to pack this, and then warning when it can't -->
-    <IsPackable>false</IsPackable>
-    <WarnOnPackingNonPackableProject>false</WarnOnPackingNonPackableProject>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <AssemblyName>TyneAerospaceClient.WasmHost</AssemblyName>
+        <RootNamespace>Tyne.Aerospace.Host.Wasm</RootNamespace>
+        <!-- Allows the Roslyn compiler to code gen with pointers for JS interop. -->
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <!-- Prevents dotnet pack from trying to pack this, and then warning when it can't -->
+        <IsPackable>false</IsPackable>
+        <WarnOnPackingNonPackableProject>false</WarnOnPackingNonPackableProject>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Client\Example.Client.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Client\Example.Client.csproj"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.6" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.6" PrivateAssets="all" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.6"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.6" PrivateAssets="all"/>
+    </ItemGroup>
 
-  <PropertyGroup Label="Warnings and Errors">
-    <!--
-      WASM0001: Found a native function (sqlite3_config) with varargs in e_sqlite3. Calling such functions is not supported, and will fail at runtime.
-      REASON:   There's nothing we can do about it.
-    -->
-    <NoWarn>$(NoWarn);WASM0001</NoWarn>
-    <!--
-      CS1591: Missing XML comment for publicly visible type or member.
-      REASON: Tests aren't shipped so we don't care about missing XML comments.
-              See Build.props for why this is surfaced.
-    -->
-    <NoWarn>$(NoWarn);CS1591</NoWarn>
-  </PropertyGroup>
+    <PropertyGroup Label="Warnings and Errors">
+        <!--
+          WASM0001: Found a native function (sqlite3_config) with varargs in e_sqlite3. Calling such functions is not supported, and will fail at runtime.
+          REASON:   There's nothing we can do about it.
+        -->
+        <NoWarn>$(NoWarn);WASM0001</NoWarn>
+        <!--
+          CS1591: Missing XML comment for publicly visible type or member.
+          REASON: Tests aren't shipped so we don't care about missing XML comments.
+                  See Build.props for why this is surfaced.
+        -->
+        <NoWarn>$(NoWarn);CS1591</NoWarn>
+    </PropertyGroup>
 
 </Project>

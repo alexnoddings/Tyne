@@ -1,5 +1,5 @@
 <Project>
 
-  <Import Project="eng/Build.targets" />
+  <Import Project="$(EngRoot)/Build.targets" />
 
 </Project>
