@@ -1,0 +1,18 @@
+name: "Publish docs"
+description: "Publishes the docs/example site"
+runs:
+  using: "composite"
+  steps:
+    - name: Setup pages
+      uses: actions/configure-pages@v3
+
+    - name: Upload docs artifact
+      uses: actions/upload-pages-artifact@v2
+      with:
+        path: ./artifacts/docs/
+
+    - name: Deploy to Pages
+      id: deploy-pages
+      uses: actions/deploy-pages@v2
+      with:
+        timeout: 30000

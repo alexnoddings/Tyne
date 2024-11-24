@@ -1,0 +1,8 @@
+name: "Build packages"
+description: "Builds solution packages"
+runs:
+  using: "composite"
+  steps:
+    - name: Build packages
+      shell: bash
+      run: dotnet pack --configuration Release --no-build --output ./artifacts/nupkgs

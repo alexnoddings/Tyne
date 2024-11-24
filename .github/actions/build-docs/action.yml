@@ -1,0 +1,52 @@
+name: "Build docs"
+description: "Builds the docs"
+inputs:
+  package-version:
+    required: false
+    description: "The version of the package"
+    default: "invalid"
+runs:
+  using: "composite"
+  steps:
+    - name: Setup file references
+      shell: bash
+      run: |
+        BLOB_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/blob/v${{ inputs.package-version }}/"
+        FILE_REF_FIND="gitfile://"
+        FILE_REF_REPLACE="${BLOB_URL}"
+        find ./docs -type f -name "*.md" -exec sed -i "s@${FILE_REF_FIND}@${FILE_REF_REPLACE}@g" {} +
+
+    - name: Setup build tag
+      shell: bash
+      run: |
+        COMMIT_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${GITHUB_SHA}"
+        COMMIT_CONTENT="<a href=\\\\\"${COMMIT_URL}\\\\\">${GITHUB_SHA:0:7}</a>"
+        RELEASE_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/tag/v${{ inputs.package-version }}"
+        RELEASE_CONTENT="<a href=\\\\\"${RELEASE_URL}\\\\\">v${{ inputs.package-version }}</a>"
+        WORKFLOW_ACTION_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/attempts/${GITHUB_RUN_ATTEMPT}"
+        WORKFLOW_ACTION_NAME="${GITHUB_RUN_ID}"
+        WORKFLOW_CONTENT="<a href=\\\\\"${WORKFLOW_ACTION_URL}\\\\\">${GITHUB_RUN_ID}.${GITHUB_RUN_ATTEMPT}</a>"
+        BUILD_INFO_FIND="\"_appFooter\": \"Built locally\""
+        BUILD_INFO_REPLACE="\"_appFooter\": \"<span class=\\\\\"build-info\\\\\">Built from ${RELEASE_CONTENT} (${COMMIT_CONTENT}) via ${WORKFLOW_CONTENT}</span>\""
+        sed -i "s@${BUILD_INFO_FIND}@${BUILD_INFO_REPLACE}@g" ./docs/docfx.json
+
+    - name: Setup package version
+      shell: bash
+      run: |
+        PACKAGE_VERSION_FIND="${{ inputs.package-version }}"
+        PACKAGE_VERSION_REPLACE="${{ inputs.package-version }}"
+        find ./docs/ -type f -exec sed -i "s@${PACKAGE_VERSION_FIND}@${PACKAGE_VERSION_REPLACE}@g" {} +
+
+    - name: Build
+      shell: bash
+      run: dotnet docfx docs/docfx.json --output ./artifacts/docs
+
+    - name: Publish demo site
+      shell: bash
+      run: |
+        dotnet publish ./example/Host.Wasm/ --configuration Release --output ./artifacts/demo/
+        mkdir ./artifacts/docs/demo
+        mv ./artifacts/demo/wwwroot/* ./artifacts/docs/demo/
+        sed -i 's@<base href="/" />@<base href="/Tyne/demo/" />@g' ./artifacts/docs/demo/index.html
+        cp ./artifacts/docs/demo/index.html ./artifacts/docs/404.html
+        sed -i 's@var deployed = false;@var deployed = true;@g' ./artifacts/docs/404.html

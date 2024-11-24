@@ -1,15 +1,14 @@
-name: Label PRs
+name: Label PR
 on:
   pull_request_target:
 
 jobs:
-  label:
+  pr-label:
     name: Label
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: write
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4

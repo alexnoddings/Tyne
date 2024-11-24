@@ -1,0 +1,8 @@
+name: "Test"
+description: "Tests the solution"
+runs:
+  using: "composite"
+  steps:
+    - name: Test
+      shell: bash
+      run: dotnet test --configuration Release --no-build --verbosity normal

@@ -1,0 +1,16 @@
+name: "Format"
+description: "Verify format"
+runs:
+  using: "composite"
+  steps:
+    # dotnet format builds the solution and uses the debug configuration
+    # But it doesn't properly build the source generated code in the example project
+    # So we need to do it manually first
+    - name: 
+      shell: bash
+      run: dotnet build --configuration Debug
+      working-directory: ./example/Client
+
+    - name: Format
+      shell: bash
+      run: dotnet format --verify-no-changes --no-restore --verbosity diagnostic

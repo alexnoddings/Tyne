@@ -1,0 +1,32 @@
+name: Build and test PR
+
+on:
+  pull_request:
+
+jobs:
+  pr:
+    name: Build and test PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          ref: '${{ env.GITHUB_REF }}'
+
+      - name: Setup solution
+        uses: ./.github/actions/setup
+
+      - name: Build solution
+        uses: ./.github/actions/build-solution
+
+      - name: Format files
+        uses: ./.github/actions/format
+
+      - name: Test solution
+        uses: ./.github/actions/test
+
+      - name: Build docs
+        uses: ./.github/actions/build-docs
+
+      - name: Build packages
+        uses: ./.github/actions/build-packages
