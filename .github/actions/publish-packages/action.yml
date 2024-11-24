@@ -1,0 +1,11 @@
+name: "Publish packages"
+description: "Publishes solution packages"
+runs:
+  using: "composite"
+  steps:
+    - name: Publish packages
+      shell: bash
+      run: |
+        dotnet nuget push *.nupkg -k ${{ secrets.NUGET_KEY }} -s ${{ secrets.NUGET_API }} --skip-duplicate
+        dotnet nuget push *.snupkg -k ${{ secrets.NUGET_KEY }} -s ${{ secrets.NUGET_API }} --skip-duplicate
+      working-directory: ./artifacts/nupkgs

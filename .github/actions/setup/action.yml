@@ -1,0 +1,30 @@
+name: "Setup"
+description: "Sets up .NET and the solution"
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Setup .NET ${{ matrix.dotnet }}
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          8.x
+          9.x
+
+    - name: List .NET SDKs
+      shell: bash
+      run: dotnet --list-sdks
+
+    - name: Setup workloads
+      shell: bash
+      run: dotnet workload install wasm-tools
+
+    - name: Restore packages
+      shell: bash
+      run: dotnet restore
+
+    - name: Restore tools
+      shell: bash
+      run: dotnet tool restore

@@ -1,19 +1,13 @@
-name: Publish docs
+name: Publish release
 
-# Allows docs/demo can be redeployed independently of the release tag for smaller fixes.
-# It still requires the release tag, and will verify it during the build.
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Tag ref (vX.Y.Z)'
-        required: true
-        default: ''
-        type: string
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+*"
 
 jobs:
-  publish-docs:
-    name: Publish docs
+  publish-release:
+    name: Publish release
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -23,14 +17,12 @@ jobs:
       id-token: write
     steps:
       - name: Setup version
-        run: |
-          INPUT_VERSION="${{ github.event.inputs.version }}"
-          echo "PACKAGE_VERSION=${INPUT_VERSION#v}" >> $GITHUB_ENV
+        run: echo "PACKAGE_VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_ENV
 
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          ref: '${{ env.GITHUB_REF }}'
+          ref: 'refs/tags/v${{ env.PACKAGE_VERSION }}'
 
       - name: Setup solution
         uses: ./.github/actions/setup
@@ -49,5 +41,8 @@ jobs:
         with:
           package-version: '${{ env.PACKAGE_VERSION }}'
 
-      - name: Publish docs
-        uses: ./.github/actions/publish-docs
+     - name: Publish packages
+       uses: ./.github/actions/publish-packages
+
+     - name: Publish docs
+       uses: ./.github/actions/publish-docs

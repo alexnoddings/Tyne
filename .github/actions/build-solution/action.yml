@@ -1,0 +1,8 @@
+name: "Build solution"
+description: "Builds the solution"
+runs:
+  using: "composite"
+  steps:
+    - name: Build solution
+      shell: bash
+      run: dotnet build --configuration Release --no-restore /p:GITHUB_ACTIONS=true
