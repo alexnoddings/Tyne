@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Tyne.HttpMediator.Client.UnitTests</AssemblyName>
+        <RootNamespace>Tyne.HttpMediator.Client</RootNamespace>
+        <IsTestProject>true</IsTestProject>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="$(SrcRoot)\HttpMediator.Client.FluentValidation\src\HttpMediator.Client.FluentValidation.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\HttpMediator.Client\src\HttpMediator.Client.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\HttpMediator.TestUtilities\HttpMediator.TestUtilities.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\TestUtilities\TestUtilities.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1"/>
+        <PackageReference Include="RichardSzalay.MockHttp" Version="7.0.0"/>
+    </ItemGroup>
+
+    <Import Project="$(EngRoot)\Tests.props"/>
+
+</Project>

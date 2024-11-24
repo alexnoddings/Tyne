@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Tyne.HttpMediator.Client</AssemblyName>
+        <RootNamespace>Tyne.HttpMediator.Client</RootNamespace>
+        <Description>Client implementation of Tyne's HTTP mediator.</Description>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Project Info">
+        <PackageTags>$(PackageTags), mediator</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="$(SrcRoot)\HttpMediator.Core\src\HttpMediator.Core.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions"/>
+        <PackageReference Include="Microsoft.Extensions.Options"/>
+    </ItemGroup>
+
+    <ItemGroup Label="Visibility for test projects">
+        <InternalsVisibleTo Include="Tyne.HttpMediator.Client.UnitTests"/>
+        <InternalsVisibleTo Include="Tyne.HttpMediator.IntegrationTests"/>
+    </ItemGroup>
+
+    <Import Project="$(EngRoot)\Packages.props"/>
+
+</Project>

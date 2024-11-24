@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Tyne.HttpMediator.Core.UnitTests</AssemblyName>
+        <RootNamespace>Tyne.HttpMediator</RootNamespace>
+        <IsTestProject>true</IsTestProject>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="$(SrcRoot)\HttpMediator.Core\src\HttpMediator.Core.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\HttpMediator.TestUtilities\HttpMediator.TestUtilities.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\TestUtilities\TestUtilities.csproj"/>
+    </ItemGroup>
+
+    <Import Project="$(EngRoot)\Tests.props"/>
+
+</Project>

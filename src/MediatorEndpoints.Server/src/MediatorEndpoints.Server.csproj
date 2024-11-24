@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Tyne.MediatorEndpoints.Server</AssemblyName>
+        <RootNamespace>Tyne.MediatorEndpoints</RootNamespace>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Project Info">
+        <Description>Server implementation of Tyne's mediator endpoints.</Description>
+        <PackageTags>$(PackageTags), aspnet, aspnetcore, api, endpoint</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FluentValidation"/>
+        <PackageReference Include="MediatR"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="$(SrcRoot)\Core\src\Core.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\HttpMediator.Server\src\HttpMediator.Server.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\MediatorEndpoints.Core\src\MediatorEndpoints.Core.csproj"/>
+    </ItemGroup>
+
+    <PropertyGroup Label="Warnings and errors">
+        <!--
+          CS1591: Missing XML comment for publicly visible type or member.
+          REASON: This library is not yet fully documented.
+        -->
+        <NoWarn>$(NoWarn);CS1591</NoWarn>
+    </PropertyGroup>
+
+    <Import Project="$(EngRoot)\Packages.props"/>
+
+</Project>

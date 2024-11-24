@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Tyne.Core.Tests</AssemblyName>
+        <RootNamespace>Tyne</RootNamespace>
+        <IsTestProject>true</IsTestProject>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="$(SrcRoot)\Core\src\Core.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\TestUtilities\TestUtilities.csproj"/>
+    </ItemGroup>
+
+    <Import Project="$(EngRoot)\Tests.props"/>
+
+</Project>

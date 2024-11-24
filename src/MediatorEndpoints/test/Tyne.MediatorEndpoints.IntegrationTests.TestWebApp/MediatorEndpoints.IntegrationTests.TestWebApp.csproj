@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <AssemblyName>Tyne.MediatorEndpoints.IntegrationTests.TestApp</AssemblyName>
+        <RootNamespace>Tyne.MediatorEndpoints</RootNamespace>
+        <IsTestProject>false</IsTestProject>
+        <!-- Prevents dotnet pack from trying to pack this, and then warning when it can't -->
+        <IsPackable>false</IsPackable>
+        <WarnOnPackingNonPackableProject>false</WarnOnPackingNonPackableProject>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="$(SrcRoot)\MediatorEndpoints.Client\src\MediatorEndpoints.Client.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\MediatorEndpoints.Server\src\MediatorEndpoints.Server.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FluentValidation"/>
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1"/>
+        <PackageReference Include="MediatR"/>
+    </ItemGroup>
+
+    <Import Project="$(EngRoot)\Tests.props"/>
+
+    <PropertyGroup>
+        <!--
+          S2094:  Classes should not be empty.
+          REASON: Some test request/response types don't need data.
+        -->
+        <NoWarn>$(NoWarn);S2094</NoWarn>
+    </PropertyGroup>
+
+</Project>

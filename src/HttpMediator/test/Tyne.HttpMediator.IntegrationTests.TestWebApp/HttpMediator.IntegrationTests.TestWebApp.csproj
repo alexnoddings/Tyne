@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <AssemblyName>Tyne.HttpMediator.IntegrationTests.TestApp</AssemblyName>
+        <RootNamespace>Tyne.HttpMediator</RootNamespace>
+        <IsTestProject>false</IsTestProject>
+        <!-- Prevents dotnet pack from trying to pack this, and then warning when it can't -->
+        <IsPackable>false</IsPackable>
+        <WarnOnPackingNonPackableProject>false</WarnOnPackingNonPackableProject>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="$(SrcRoot)\HttpMediator.Server.FluentValidation\src\HttpMediator.Server.FluentValidation.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\HttpMediator.Server.MediatR\src\HttpMediator.Server.MediatR.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\HttpMediator.Server\src\HttpMediator.Server.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\HttpMediator.TestUtilities\HttpMediator.TestUtilities.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FluentValidation"/>
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1"/>
+        <PackageReference Include="MediatR"/>
+    </ItemGroup>
+
+    <Import Project="$(EngRoot)\Tests.props"/>
+
+</Project>

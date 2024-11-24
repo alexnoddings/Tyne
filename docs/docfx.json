@@ -9,23 +9,23 @@
       "src": [
         {
           "files": [
-            "src/AspNetCore/AspNetCore.csproj",
-            "src/Blazor/Blazor.csproj",
-            "src/Core/Core.csproj",
-            "src/EntityFramework/EntityFramework.csproj",
-            "src/EntityFramework.ChangeAuditing/EntityFramework.ChangeAuditing.csproj",
-            "src/EntityFramework.ModificationTracking/EntityFramework.ModificationTracking.csproj",
-            "src/EntityFramework.UserService/EntityFramework.UserService.csproj",
-            "src/EntityFramework.UserService.Core/EntityFramework.UserService.Core.csproj",
-            "src/HttpMediator.Client/HttpMediator.Client.csproj",
-            "src/HttpMediator.Client.FluentValidation/HttpMediator.Client.FluentValidation.csproj",
-            "src/HttpMediator.Core/HttpMediator.Core.csproj",
-            "src/HttpMediator.Server/HttpMediator.Server.csproj",
-            "src/HttpMediator.Server.FluentValidation/HttpMediator.Server.FluentValidation.csproj",
-            "src/HttpMediator.Server.MediatR/HttpMediator.Server.MediatR.csproj",
-            "src/Testing/Testing.csproj"
+            "AspNetCore/src/AspNetCore.csproj",
+            "Core/src/Core.csproj",
+            "Blazor/src/Blazor.csproj",
+            "EntityFramework/src/EntityFramework.csproj",
+            "EntityFramework/src.ChangeAuditing/EntityFramework.ChangeAuditing.csproj",
+            "EntityFramework.ModificationTracking/src/EntityFramework.ModificationTracking.csproj",
+            "EntityFramework.UserService/src/EntityFramework.UserService.csproj",
+            "EntityFramework.UserService.Core/src/EntityFramework.UserService.Core.csproj",
+            "HttpMediator.Client/src/HttpMediator.Client.csproj",
+            "HttpMediator.Client.FluentValidation/src/HttpMediator.Client.FluentValidation.csproj",
+            "HttpMediator.Core/src/HttpMediator.Core.csproj",
+            "HttpMediator.Server/src/HttpMediator.Server.csproj",
+            "HttpMediator.Server.FluentValidation/src/HttpMediator.Server.FluentValidation.csproj",
+            "HttpMediator.Server.MediatR/src/HttpMediator.Server.MediatR.csproj",
+            "Testing/src/Testing.csproj"
           ],
-          "src": "../"
+          "src": "../src/"
         }
       ],
       "dest": "api",

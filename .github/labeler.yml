@@ -21,51 +21,44 @@ demo:
 source:
 - changed-files:
   - any-glob-to-any-file:
-    - src/**
+    - src/**/src/**
 
 tests:
 - changed-files:
   - any-glob-to-any-file:
-    - test/**
+    - src/**/test/**
 
 'area-AspNetCore':
 - changed-files:
   - any-glob-to-any-file:
     - src/AspNetCore/**
-    - test/AspNetCore/**
 
 'area-Blazor':
 - changed-files:
   - any-glob-to-any-file:
     - src/Blazor/**
-    - test/Blazor/**
 
 'area-Core':
 - changed-files:
   - any-glob-to-any-file:
     - src/Core/**
-    - test/Core/**
 
 'area-EntityFramework':
 - changed-files:
   - any-glob-to-any-file:
     - src/EntityFramework*/**
-    - test/EntityFramework*/**
 
 'area-HttpMediator':
 - changed-files:
   - any-glob-to-any-file:
     - src/HttpMediator*/**
-    - test/HttpMediator*/**
 
 'area-MediatorEndpoints':
 - changed-files:
   - any-glob-to-any-file:
     - src/MediatorEndpoints*/**
-    - test/MediatorEndpoints*/**
 
 'area-Testing':
 - changed-files:
   - any-glob-to-any-file:
     - src/Testing*/**
-    - test/Testing*/**

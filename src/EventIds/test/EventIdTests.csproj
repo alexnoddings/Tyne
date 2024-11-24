@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Tyne.EventIdTests</AssemblyName>
+        <RootNamespace>Tyne</RootNamespace>
+        <IsTestProject>true</IsTestProject>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="$(SrcRoot)\AspNetCore\src\AspNetCore.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\Blazor\src\Blazor.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\Core\src\Core.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\EntityFramework\src\EntityFramework.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\EntityFramework.ChangeAuditing\src\EntityFramework.ChangeAuditing.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\EntityFramework.ModificationTracking\src\EntityFramework.ModificationTracking.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\EntityFramework.UserService.Core\src\EntityFramework.UserService.Core.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\EntityFramework.UserService\src\EntityFramework.UserService.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\HttpMediator.Client\src\HttpMediator.Client.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\HttpMediator.Client.FluentValidation\src\HttpMediator.Client.FluentValidation.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\HttpMediator.Core\src\HttpMediator.Core.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\HttpMediator.Server\src\HttpMediator.Server.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\HttpMediator.Server.FluentValidation\src\HttpMediator.Server.FluentValidation.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\HttpMediator.Server.MediatR\src\HttpMediator.Server.MediatR.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\Testing\src\Testing.csproj"/>
+    </ItemGroup>
+
+    <Import Project="$(EngRoot)\Tests.props"/>
+
+</Project>
+
