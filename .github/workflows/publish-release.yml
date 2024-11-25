@@ -41,8 +41,8 @@ jobs:
         with:
           package-version: '${{ env.PACKAGE_VERSION }}'
 
-     - name: Publish packages
-       uses: ./.github/actions/publish-packages
+      - name: Publish packages
+        uses: ./.github/actions/publish-packages
 
-     - name: Publish docs
-       uses: ./.github/actions/publish-docs
+      - name: Publish docs
+        uses: ./.github/actions/publish-docs
