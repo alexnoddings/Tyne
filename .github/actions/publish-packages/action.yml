@@ -16,6 +16,6 @@ runs:
         NUGET_API: ${{ inputs.nuget_api }}
         NUGET_KEY: ${{ inputs.nuget_key }}
       run: |
-        dotnet nuget push *.nupkg -k "$NUGET_KEY" -s $"NUGET_API" --skip-duplicate
+        dotnet nuget push *.nupkg -k "$NUGET_KEY" -s "$NUGET_API" --skip-duplicate
         dotnet nuget push *.snupkg -k "$NUGET_KEY" -s "$NUGET_API" --skip-duplicate
       working-directory: ./artifacts/nupkgs
