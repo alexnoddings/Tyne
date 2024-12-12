@@ -43,6 +43,9 @@ jobs:
 
       - name: Publish packages
         uses: ./.github/actions/publish-packages
+        with:
+          nuget_api: "${{ secrets.NUGET_API }}"
+          nuget_key: "${{ secrets.NUGET_KEY }}"
 
       - name: Publish docs
         uses: ./.github/actions/publish-docs
