@@ -5,7 +5,10 @@ runs:
   steps:
     - name: Publish packages
       shell: bash
+      env:
+        NUGET_API: ${{ secrets.NUGET_API }}
+        NUGET_KEY: ${{ secrets.NUGET_KEY }}
       run: |
-        dotnet nuget push *.nupkg -k ${{ secrets.NUGET_KEY }} -s ${{ secrets.NUGET_API }} --skip-duplicate
-        dotnet nuget push *.snupkg -k ${{ secrets.NUGET_KEY }} -s ${{ secrets.NUGET_API }} --skip-duplicate
+        dotnet nuget push *.nupkg -k "$NUGET_KEY" -s $"NUGET_API" --skip-duplicate
+        dotnet nuget push *.snupkg -k "$NUGET_KEY" -s $"NUGET_API" --skip-duplicate
       working-directory: ./artifacts/nupkgs
