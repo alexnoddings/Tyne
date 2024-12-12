@@ -1,13 +1,20 @@
 name: "Publish packages"
 description: "Publishes solution packages"
+inputs:
+  nuget_api:
+    description: 'Nuget API to publish to'
+    required: true
+  nuget_key:
+    description: 'Nuget API key'
+    required: true
 runs:
   using: "composite"
   steps:
     - name: Publish packages
       shell: bash
       env:
-        NUGET_API: ${{ secrets.NUGET_API }}
-        NUGET_KEY: ${{ secrets.NUGET_KEY }}
+        NUGET_API: ${{ inputs.nuget_api }}
+        NUGET_KEY: ${{ inputs.nuget_key }}
       run: |
         dotnet nuget push *.nupkg -k "$NUGET_KEY" -s $"NUGET_API" --skip-duplicate
         dotnet nuget push *.snupkg -k "$NUGET_KEY" -s $"NUGET_API" --skip-duplicate
