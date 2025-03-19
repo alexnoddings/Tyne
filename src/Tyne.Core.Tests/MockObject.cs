@@ -16,7 +16,7 @@ internal sealed class MockObject
     public const string AsString = "xyz";
     public int ToStringInvocationCount { get; private set; }
 
-    public override string? ToString()
+    public override string ToString()
     {
         ToStringInvocationCount++;
         return AsString;

@@ -11,140 +11,140 @@ public class DateTimeConversionTests
     // Counter-intuitively, GMT-1 is UTC+1
     private static TimeZoneInfo TimeZoneUtc1 { get; } = TimeZoneInfo.FindSystemTimeZoneById("Etc/GMT-1");
 
-    [Fact]
-    public void ConvertFromUtc_NullTimeZone_Throws()
+    [Test]
+    public async Task ConvertFromUtc_NullTimeZone_Throws()
     {
         var utcDateTime = DefaultUtcDateTime;
-        _ = Assert.Throws<ArgumentNullException>(() => utcDateTime.ConvertFromUtc(null!));
+        await Assert.That(() => utcDateTime.ConvertFromUtc(null!)).Throws<ArgumentNullException>();
     }
 
-    [Fact]
-    public void ConvertFromUtc_LocalDateTime_Throws()
+    [Test]
+    public async Task ConvertFromUtc_LocalDateTime_Throws()
     {
         var utcDateTime = DefaultLocalDateTime;
         var timeZone = TimeZoneUtc1;
 
-        var exception = Assert.Throws<ArgumentException>(() => utcDateTime.ConvertFromUtc(timeZone));
-        Assert.Contains("Local", exception.Message, StringComparison.OrdinalIgnoreCase);
+        var exception = await Assert.That(() => utcDateTime.ConvertFromUtc(timeZone)).Throws<ArgumentException>();
+        await Assert.That(exception!.Message).Contains("Local", StringComparison.OrdinalIgnoreCase);
     }
 
-    [Fact]
-    public void ConvertFromUtc_UtcDateTime_ReturnsLocal()
+    [Test]
+    public async Task ConvertFromUtc_UtcDateTime_ReturnsLocal()
     {
         var utcDateTime = DefaultUtcDateTime;
         var timeZone = TimeZoneUtc1;
 
         var localDateTime = utcDateTime.ConvertFromUtc(timeZone);
-        Assert.Equal(utcDateTime.AddHours(1), localDateTime);
+        await Assert.That(utcDateTime.AddHours(1)).IsEqualTo(localDateTime);
     }
 
-    [Fact]
-    public void ConvertFromUtc_UnspecifiedDateTime_ReturnsLocal()
+    [Test]
+    public async Task ConvertFromUtc_UnspecifiedDateTime_ReturnsLocal()
     {
         var utcDateTime = DefaultUnspecifiedDateTime;
         var timeZone = TimeZoneUtc1;
 
         var localDateTime = utcDateTime.ConvertFromUtc(timeZone);
-        Assert.Equal(utcDateTime.AddHours(1), localDateTime);
+        await Assert.That(utcDateTime.AddHours(1)).IsEqualTo(localDateTime);
     }
 
-    [Fact]
-    public void ConvertFromUtcAsOffset_NullTimeZone_Throws()
+    [Test]
+    public async Task ConvertFromUtcAsOffset_NullTimeZone_Throws()
     {
         var utcDateTime = DefaultUtcDateTime;
-        _ = Assert.Throws<ArgumentNullException>(() => utcDateTime.ConvertFromUtcAsOffset(null!));
+        await Assert.That(() => utcDateTime.ConvertFromUtcAsOffset(null!)).Throws<ArgumentNullException>();
     }
 
-    [Fact]
-    public void ConvertFromUtcAsOffset_LocalDateTime_Throws()
+    [Test]
+    public async Task ConvertFromUtcAsOffset_LocalDateTime_Throws()
     {
         var utcDateTime = DefaultLocalDateTime;
         var timeZone = TimeZoneUtc1;
 
-        var exception = Assert.Throws<ArgumentException>(() => utcDateTime.ConvertFromUtcAsOffset(timeZone));
-        Assert.Contains("Local", exception.Message, StringComparison.OrdinalIgnoreCase);
+        var exception = await Assert.That(() => utcDateTime.ConvertFromUtcAsOffset(timeZone)).Throws<ArgumentException>();
+        await Assert.That(exception!.Message).Contains("Local", StringComparison.OrdinalIgnoreCase);
     }
 
-    [Fact]
-    public void ConvertFromUtcAsOffset_UtcDateTime_ReturnsLocal()
+    [Test]
+    public async Task ConvertFromUtcAsOffset_UtcDateTime_ReturnsLocal()
     {
         var utcDateTime = DefaultUtcDateTime;
         var timeZone = TimeZoneUtc1;
         var offset = timeZone.GetUtcOffset(utcDateTime);
 
         var localDateTimeOffset = utcDateTime.ConvertFromUtcAsOffset(timeZone);
-        Assert.Equal(utcDateTime, localDateTimeOffset.UtcDateTime);
-        Assert.Equal(utcDateTime.AddHours(1), localDateTimeOffset.DateTime);
-        Assert.Equal(offset, localDateTimeOffset.Offset);
+        await Assert.That(utcDateTime).IsEqualTo(localDateTimeOffset.UtcDateTime);
+        await Assert.That(utcDateTime.AddHours(1)).IsEqualTo(localDateTimeOffset.DateTime);
+        await Assert.That(offset).IsEqualTo(localDateTimeOffset.Offset);
     }
 
-    [Fact]
-    public void ConvertFromUtcAsOffset_UnspecifiedDateTime_ReturnsLocal()
+    [Test]
+    public async Task ConvertFromUtcAsOffset_UnspecifiedDateTime_ReturnsLocal()
     {
         var utcDateTime = DefaultUnspecifiedDateTime;
         var timeZone = TimeZoneUtc1;
         var offset = timeZone.GetUtcOffset(utcDateTime);
 
         var localDateTimeOffset = utcDateTime.ConvertFromUtcAsOffset(timeZone);
-        Assert.Equal(utcDateTime, localDateTimeOffset.UtcDateTime);
-        Assert.Equal(utcDateTime.AddHours(1), localDateTimeOffset.DateTime);
-        Assert.Equal(offset, localDateTimeOffset.Offset);
+        await Assert.That(utcDateTime).IsEqualTo(localDateTimeOffset.UtcDateTime);
+        await Assert.That(utcDateTime.AddHours(1)).IsEqualTo(localDateTimeOffset.DateTime);
+        await Assert.That(offset).IsEqualTo(localDateTimeOffset.Offset);
     }
 
-    [Fact]
-    public void ConvertToUtc_NullTimeZone_Throws()
+    [Test]
+    public async Task ConvertToUtc_NullTimeZone_Throws()
     {
         var localDateTime = DefaultLocalDateTime;
-        _ = Assert.Throws<ArgumentNullException>(() => localDateTime.ConvertToUtc(null!));
+        await Assert.That(() => localDateTime.ConvertToUtc(null!)).Throws<ArgumentNullException>();
     }
 
-    [Fact]
-    public void ConvertToUtc_UtcDateTime_Throws()
+    [Test]
+    public async Task ConvertToUtc_UtcDateTime_Throws()
     {
         var localDateTime = DefaultUtcDateTime;
         var timeZone = TimeZoneUtc1;
 
-        var exception = Assert.Throws<ArgumentException>(() => localDateTime.ConvertToUtc(timeZone));
-        Assert.Contains("Utc", exception.Message, StringComparison.OrdinalIgnoreCase);
+        var exception = await Assert.That(() => localDateTime.ConvertToUtc(timeZone)).Throws<ArgumentException>();
+        await Assert.That(exception!.Message).Contains("Utc", StringComparison.OrdinalIgnoreCase);
     }
 
-    [Fact]
-    public void ConvertToUtc_UnspecifiedDateTime_ReturnsUtc()
+    [Test]
+    public async Task ConvertToUtc_UnspecifiedDateTime_ReturnsUtc()
     {
         var localDateTime = DefaultUnspecifiedDateTime;
         var timeZone = TimeZoneUtc1;
 
         var utcDateTime = localDateTime.ConvertToUtc(timeZone);
-        Assert.Equal(localDateTime.AddHours(-1), utcDateTime);
+        await Assert.That(localDateTime.AddHours(-1)).IsEqualTo(utcDateTime);
     }
 
-    [Fact]
-    public void ConvertToUtcAsOffset_NullTimeZone_Throws()
+    [Test]
+    public async Task ConvertToUtcAsOffset_NullTimeZone_Throws()
     {
         var localDateTime = DefaultLocalDateTime;
-        _ = Assert.Throws<ArgumentNullException>(() => localDateTime.ConvertToUtcAsOffset(null!));
+        await Assert.That(() => localDateTime.ConvertToUtcAsOffset(null!)).Throws<ArgumentNullException>();
     }
 
-    [Fact]
-    public void ConvertToUtcAsOffset_UtcDateTime_Throws()
+    [Test]
+    public async Task ConvertToUtcAsOffset_UtcDateTime_Throws()
     {
         var localDateTime = DefaultUtcDateTime;
         var timeZone = TimeZoneUtc1;
 
-        var exception = Assert.Throws<ArgumentException>(() => localDateTime.ConvertToUtcAsOffset(timeZone));
-        Assert.Contains("Utc", exception.Message, StringComparison.OrdinalIgnoreCase);
+        var exception = await Assert.That(() => localDateTime.ConvertToUtcAsOffset(timeZone)).Throws<ArgumentException>();
+        await Assert.That(exception!.Message).Contains("Utc", StringComparison.OrdinalIgnoreCase);
     }
 
-    [Fact]
-    public void ConvertToUtcAsOffset_UnspecifiedDateTime_ReturnsUtc()
+    [Test]
+    public async Task ConvertToUtcAsOffset_UnspecifiedDateTime_ReturnsUtc()
     {
         var localDateTime = DefaultUnspecifiedDateTime;
         var timeZone = TimeZoneUtc1;
         var offset = timeZone.GetUtcOffset(localDateTime);
 
         var utcDateTimeOffset = localDateTime.ConvertToUtcAsOffset(timeZone);
-        Assert.Equal(localDateTime.AddHours(-1), utcDateTimeOffset.UtcDateTime);
-        Assert.Equal(localDateTime, utcDateTimeOffset.DateTime);
-        Assert.Equal(offset, utcDateTimeOffset.Offset);
+        await Assert.That(localDateTime.AddHours(-1)).IsEqualTo(utcDateTimeOffset.UtcDateTime);
+        await Assert.That(localDateTime).IsEqualTo(utcDateTimeOffset.DateTime);
+        await Assert.That(offset).IsEqualTo(utcDateTimeOffset.Offset);
     }
 }
