@@ -3,24 +3,26 @@
   <PropertyGroup>
     <TargetFrameworks>$(TyneSupportedFrameworks)</TargetFrameworks>
   </PropertyGroup>
-  
+
   <!-- Add common testing packages. -->
   <ItemGroup>
     <PackageReference Include="NSubstitute" />
     <PackageReference Include="NSubstitute.Analyzers.CSharp" PrivateAssets="all" />
-    <PackageReference Include="xunit" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(IsTestProject)' != 'true' ">
+    <PackageReference Include="TUnit.Core" />
+    <PackageReference Include="TUnit.Assertions" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(IsTestProject)' == 'true' ">
-    <PackageReference Include="coverlet.collector" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
+    <PackageReference Include="TUnit" />
   </ItemGroup>
 
   <!-- Configures global usings for very common namespaces in test projects. -->
   <ItemGroup Label="Global usings">
     <Using Include="NSubstitute" />
-    <Using Include="Xunit" />
+    <using Include="TUnit.Assertions.AssertConditions.Throws" />
   </ItemGroup>
 
   <!-- These warnings can be ignored for test code. -->
@@ -42,10 +44,20 @@
     -->
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <!--
+      CA1822: Mark members as static.
+      REASON: Test methods are conventionally instanced.
+    -->
+    <NoWarn>$(NoWarn);CA1822</NoWarn>
+    <!--
       CA1515: Because an application's API isn't typically referenced from outside the assembly, types can be made internal.
       REASON: Unit tests should be publically visible.
     -->
     <NoWarn>$(NoWarn);CA1515</NoWarn>
+    <!--
+      IDE0058: Remove unnecessary expression value
+      REASON:  Assertions return builders for chaining, and writing `_ = ` before every assertion is tedious.
+    -->
+    <NoWarn>$(NoWarn);IDE0058</NoWarn>
   </PropertyGroup>
 
 </Project>
