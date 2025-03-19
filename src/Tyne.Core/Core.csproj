@@ -13,8 +13,7 @@
   <PropertyGroup>
     <!--
       CA1716: Identifiers should not match keywords.
-      REASON: This analyser prevents usage of the term 'Error', which
-              is a core part of Tyne's functional results.
+      REASON: Too restrictive for common names.
     -->
     <NoWarn>$(NoWarn);CA1716</NoWarn>
     <!--
@@ -29,6 +28,6 @@
     <NoWarn>$(NoWarn);CS1591</NoWarn>
   </PropertyGroup>
 
-  <Import Project="$(EngRoot)\Packages.props" />
+  <Import Project="$(EngRoot)\Publishing.props" />
 
 </Project>

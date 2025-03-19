@@ -31,6 +31,6 @@
     <NoWarn>$(NoWarn);CS1591</NoWarn>
   </PropertyGroup>
 
-  <Import Project="$(EngRoot)\Packages.props" />
+  <Import Project="$(EngRoot)\Publishing.props" />
 
 </Project>
