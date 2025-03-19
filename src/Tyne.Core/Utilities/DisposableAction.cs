@@ -28,7 +28,9 @@ public sealed class DisposableAction : IDisposable
     /// <exception cref="ArgumentNullException">When <paramref name="action"/> is <see langword="null"/>.</exception>
     public DisposableAction(Action action, bool onlyCallOnce)
     {
-        _action = action ?? throw new ArgumentNullException(nameof(action));
+        ArgumentNullException.ThrowIfNull(action);
+
+        _action = action;
         _onlyCallOnce = onlyCallOnce;
     }
 

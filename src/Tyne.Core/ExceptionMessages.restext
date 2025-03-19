@@ -1,17 +1,7 @@
-ExceptionFactoryReturnedNull=Exception factory returned a null exception.
+JsonConverter_ConversionForTypeNotSupported=Conversion for type "{0}" is not supported by this factory.
+JsonConverter_FactoryCouldNotCreateConverter=Failed to create JsonConverter instance.
 
-JsonConversionForTypeNotSupported=Conversion for type "{0}" is not supported by this factory.
-JsonConverterFactoryCouldNotCreateConverter=Failed to create JsonConverter instance.
-
-Option_CannotUnwrapNone=Cannot unwrap None option.
-Option_Invalid=Invalid option. 
-Option_NoneHasNoValue=None option has no value.
-Option_SomeMustHaveValue=Some option must have a value.
-
-Result_CannotUnwrapErrorFromOk=Cannot unwrap error from Ok result.
-Result_CannotUnwrapValueFromError=Cannot unwrap value from Error result.
-Result_Invalid=Invalid result.
-Result_ErrorHasNoValue=Error result has no value.
-Result_ErrorMustHaveError=Error result must have an error.
-Result_OkHasNoError=Ok result has no error.
-Result_OkMustHaveValue=Ok result must have a value.
+Result_JsonConverter_NoResultType=No result type specified.
+Result_JsonConverter_InvalidType=Unknown result type "{0}".
+Result_JsonConverter_OkButNoValue=Result was Ok, but did not have a valid Value.
+Result_JsonConverter_ErrorButNoError=Result was Error, but did not have a valid Error.
