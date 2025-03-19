@@ -2,7 +2,7 @@ namespace Tyne;
 
 public static partial class ResultExtensions
 {
-    public static Result<T, E> Apply<T, E>(this Result<T, E> result, Action<T> ok)
+    public static Result<T, TE> Apply<T, TE>(this Result<T, TE> result, Action<T> ok)
     {
         ArgumentNullException.ThrowIfNull(result);
         ArgumentNullException.ThrowIfNull(ok);
@@ -13,7 +13,7 @@ public static partial class ResultExtensions
         return result;
     }
 
-    public static Result<T, E> Apply<T, E>(this Result<T, E> result, Action<T> ok, Action<E> error)
+    public static Result<T, TE> Apply<T, TE>(this Result<T, TE> result, Action<T> ok, Action<TE> error)
     {
         ArgumentNullException.ThrowIfNull(result);
         ArgumentNullException.ThrowIfNull(ok);

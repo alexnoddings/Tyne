@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Tyne;
 
-internal sealed class ResultJsonConverter<T, E> : JsonConverter<Result<T, E>>
+internal sealed class ResultJsonConverter<T, TE> : JsonConverter<Result<T, TE>>
 {
     private sealed class Proxy
     {
@@ -13,7 +13,7 @@ internal sealed class ResultJsonConverter<T, E> : JsonConverter<Result<T, E>>
 
         [JsonPropertyName("$")] public string? Type { get; set; }
         public T? Value { get; set; }
-        public E? Error { get; set; }
+        public TE? Error { get; set; }
     }
 
     private readonly JsonConverter<Proxy> _proxyTypeConverter;
@@ -28,7 +28,7 @@ internal sealed class ResultJsonConverter<T, E> : JsonConverter<Result<T, E>>
         "S2219: Runtime type checking should be simplified.",
         Justification = "False positive, wonky analyser."
     )]
-    public override Result<T, E>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override Result<T, TE>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         ArgumentNullException.ThrowIfNull(typeToConvert);
         ArgumentNullException.ThrowIfNull(options);
@@ -45,7 +45,7 @@ internal sealed class ResultJsonConverter<T, E> : JsonConverter<Result<T, E>>
                 if (value is null)
                     throw new JsonException(ExceptionMessages.Result_JsonConverter_OkButNoValue);
 
-                return Result.Ok<T, E>(value);
+                return Result.Ok<T, TE>(value);
             }
             case Proxy.ErrorType:
             {
@@ -53,7 +53,7 @@ internal sealed class ResultJsonConverter<T, E> : JsonConverter<Result<T, E>>
                 if (error is null)
                     throw new JsonException(ExceptionMessages.Result_JsonConverter_ErrorButNoError);
 
-                return Result.Error<T, E>(error);
+                return Result.Error<T, TE>(error);
             }
             case null or "":
                 throw new JsonException(ExceptionMessages.Result_JsonConverter_NoResultType);
@@ -62,7 +62,7 @@ internal sealed class ResultJsonConverter<T, E> : JsonConverter<Result<T, E>>
         }
     }
 
-    public override void Write(Utf8JsonWriter writer, Result<T, E> value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, Result<T, TE> value, JsonSerializerOptions options)
     {
         ArgumentNullException.ThrowIfNull(writer);
         ArgumentNullException.ThrowIfNull(value);

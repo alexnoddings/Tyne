@@ -8,21 +8,21 @@ using Tyne.Utilities;
 namespace Tyne;
 
 /// <summary>
-///     A result encapsulates either <c>Ok(<typeparamref name="T"/>)</c> or <c>Error(<typeparamref name="E"/>)</c>.
+///     A result encapsulates either <c>Ok(<typeparamref name="T"/>)</c> or <c>Error(<typeparamref name="TE"/>)</c>.
 /// </summary>
 /// <typeparam name="T">The type of value this result encapsulates.</typeparam>
-/// <typeparam name="E">The type of error this result encapsulates.</typeparam>
+/// <typeparam name="TE">The type of error this result encapsulates.</typeparam>
 /// <seealso cref="Result"/>
 /// <seealso cref="ResultExtensions"/>
 /// <seealso cref="ResultJsonConverterFactory"/>
 [DebuggerDisplay("{ToString(),nq}")]
 [DebuggerTypeProxy(typeof(Result<,>.DebuggerTypeProxy))]
 [JsonConverter(typeof(ResultJsonConverterFactory))]
-public sealed partial class Result<T, E> : IEquatable<Result<T, E>>
+public sealed partial class Result<T, TE> : IEquatable<Result<T, TE>>
 {
     private readonly bool _isOk;
     private readonly T? _value;
-    private readonly E? _error;
+    private readonly TE? _error;
 
     internal Result([DisallowNull] T value)
     {
@@ -30,7 +30,7 @@ public sealed partial class Result<T, E> : IEquatable<Result<T, E>>
         _value = value;
     }
 
-    internal Result([DisallowNull] E error)
+    internal Result([DisallowNull] TE error)
     {
         _isOk = false;
         _error = error;
@@ -39,7 +39,7 @@ public sealed partial class Result<T, E> : IEquatable<Result<T, E>>
     [Pure]
     public bool TryUnwrap(
         [NotNullWhen(true)] out T? ok,
-        [NotNullWhen(false)] out E? error
+        [NotNullWhen(false)] out TE? error
     )
     {
         if (_isOk)
@@ -63,7 +63,7 @@ public sealed partial class Result<T, E> : IEquatable<Result<T, E>>
     ///		</para>
     ///     <para>
     ///         If this is <c>Ok(<typeparamref name="T"/>)</c>, then this returns the <typeparamref name="T"/> value's hash code.
-    ///         Otherwise, if it is <c>Error(<typeparamref name="E"/>)</c>, it returns the <typeparamref name="E"/> error's hash code.
+    ///         Otherwise, if it is <c>Error(<typeparamref name="TE"/>)</c>, it returns the <typeparamref name="TE"/> error's hash code.
     ///     </para>
     /// </returns>
     [Pure]
@@ -87,53 +87,53 @@ public sealed partial class Result<T, E> : IEquatable<Result<T, E>>
             : TyneToStringHelpers.CreateStringFor("Error", _error!);
 
     /// <summary>
-    ///     Converts <paramref name="result"/> into a <see cref="Result{T, E}"/> of type <see cref="Unit"/>.
+    ///     Converts <paramref name="result"/> into a <see cref="Result{T, TE}"/> of type <see cref="Unit"/>.
     /// </summary>
-    /// <param name="result">The <see cref="Result{T, E}"/> to convert.</param>
+    /// <param name="result">The <see cref="Result{T, TE}"/> to convert.</param>
     /// <remarks>
     ///     This is useful to discard the generic value from a result,
     ///     such as when passing it into a method that only cares about success/failure.
     /// </remarks>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static implicit operator Result<Unit, E>(in Result<T, E> result)
+    public static implicit operator Result<Unit, TE>(in Result<T, TE> result)
     {
         ArgumentNullException.ThrowIfNull(result);
 
         if (result._isOk)
-            return Result.Cache<E>.OkUnit;
+            return Result.Cache<TE>.OkUnit;
 
-        return new Result<Unit, E>(result._error!);
+        return new Result<Unit, TE>(result._error!);
     }
 
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static implicit operator Result<T, E>([DisallowNull] in T value)
+    public static implicit operator Result<T, TE>([DisallowNull] in T value)
     {
         ArgumentNullException.ThrowIfNull(value);
 
-        return new Result<T, E>(value);
+        return new Result<T, TE>(value);
     }
 
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static implicit operator Result<T, E>([DisallowNull] in E error)
+    public static implicit operator Result<T, TE>([DisallowNull] in TE error)
     {
         ArgumentNullException.ThrowIfNull(error);
 
-        return new Result<T, E>(error);
+        return new Result<T, TE>(error);
     }
 
     /// <summary>
     ///     Converts <paramref name="result"/> into an <see cref="Option{T}"/>.
     /// </summary>
-    /// <param name="result">The <see cref="Result{T, E}"/> to convert.</param>
+    /// <param name="result">The <see cref="Result{T, TE}"/> to convert.</param>
     /// <remarks>
     ///     This is useful to discard the error value from a result.
     /// </remarks>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static implicit operator Option<T>(in Result<T, E>? result)
+    public static implicit operator Option<T>(in Result<T, TE>? result)
     {
         if (result?._isOk == true)
             return Option.Some(result._value!);
@@ -153,9 +153,9 @@ public sealed partial class Result<T, E> : IEquatable<Result<T, E>>
         public bool IsOk { get; }
 
         public T? Value { get; }
-        public E? Error { get; }
+        public TE? Error { get; }
 
-        public DebuggerTypeProxy(Result<T, E> result)
+        public DebuggerTypeProxy(Result<T, TE> result)
         {
             IsOk = result._isOk;
             Value = result._value;

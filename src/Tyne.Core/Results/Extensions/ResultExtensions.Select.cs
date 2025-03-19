@@ -8,22 +8,22 @@ namespace Tyne;
 // Earlier exceptions make more sense, and are better for diagnostics.
 public static partial class ResultExtensions
 {
-    public static Result<TResult, E> Select<T, E, TResult>(this Result<T, E> result, Func<T, TResult> selector)
+    public static Result<TResult, TE> Select<T, TE, TResult>(this Result<T, TE> result, Func<T, TResult> selector)
     {
         ArgumentNullException.ThrowIfNull(result);
         ArgumentNullException.ThrowIfNull(selector);
 
         if (!result.TryUnwrap(out var value, out var errorValue))
-            return Result.Error<TResult, E>(errorValue);
+            return Result.Error<TResult, TE>(errorValue);
 
         var newValue = selector(value);
         if (newValue is null)
             throw new ArgumentException("Selector returned a null value.", nameof(selector));
 
-        return Result.Ok<TResult, E>(newValue);
+        return Result.Ok<TResult, TE>(newValue);
     }
 
-    public static Task<Result<TResult, E>> Select<T, E, TResult>(this Result<T, E> result, Func<T, Task<TResult>> selector)
+    public static Task<Result<TResult, TE>> Select<T, TE, TResult>(this Result<T, TE> result, Func<T, Task<TResult>> selector)
     {
         ArgumentNullException.ThrowIfNull(result);
         ArgumentNullException.ThrowIfNull(selector);
@@ -31,10 +31,10 @@ public static partial class ResultExtensions
         return SelectImpl(result, selector);
     }
 
-    private static async Task<Result<TResult, E>> SelectImpl<T, E, TResult>(Result<T, E> result, Func<T, Task<TResult>> selector)
+    private static async Task<Result<TResult, TE>> SelectImpl<T, TE, TResult>(Result<T, TE> result, Func<T, Task<TResult>> selector)
     {
         if (!result.TryUnwrap(out var value, out var errorValue))
-            return Result.Error<TResult, E>(errorValue);
+            return Result.Error<TResult, TE>(errorValue);
 
         var task = selector(value);
         if (task is null)
@@ -44,10 +44,10 @@ public static partial class ResultExtensions
         if (newValue is null)
             throw new ArgumentException("Selector returned a null value.", nameof(selector));
 
-        return Result.Ok<TResult, E>(newValue);
+        return Result.Ok<TResult, TE>(newValue);
     }
 
-    public static Task<Result<TResult, E>> Select<T, E, TResult>(this Task<Result<T, E>> resultTask, Func<T, TResult> selector)
+    public static Task<Result<TResult, TE>> Select<T, TE, TResult>(this Task<Result<T, TE>> resultTask, Func<T, TResult> selector)
     {
         ArgumentNullException.ThrowIfNull(resultTask);
         ArgumentNullException.ThrowIfNull(selector);
@@ -55,20 +55,20 @@ public static partial class ResultExtensions
         return SelectImpl(resultTask, selector);
     }
 
-    private static async Task<Result<TResult, E>> SelectImpl<T, E, TResult>(Task<Result<T, E>> resultTask, Func<T, TResult> selector)
+    private static async Task<Result<TResult, TE>> SelectImpl<T, TE, TResult>(Task<Result<T, TE>> resultTask, Func<T, TResult> selector)
     {
         var result = await resultTask.ConfigureAwait(false);
         if (!result.TryUnwrap(out var value, out var errorValue))
-            return Result.Error<TResult, E>(errorValue);
+            return Result.Error<TResult, TE>(errorValue);
 
         var newValue = selector(value);
         if (newValue is null)
             throw new ArgumentException("Selector returned a null value.", nameof(selector));
 
-        return Result.Ok<TResult, E>(newValue);
+        return Result.Ok<TResult, TE>(newValue);
     }
 
-    public static Task<Result<TResult, E>> Select<T, E, TResult>(this Task<Result<T, E>> resultTask, Func<T, Task<TResult>> selector)
+    public static Task<Result<TResult, TE>> Select<T, TE, TResult>(this Task<Result<T, TE>> resultTask, Func<T, Task<TResult>> selector)
     {
         ArgumentNullException.ThrowIfNull(resultTask);
         ArgumentNullException.ThrowIfNull(selector);
@@ -76,11 +76,11 @@ public static partial class ResultExtensions
         return SelectImpl(resultTask, selector);
     }
 
-    private static async Task<Result<TResult, E>> SelectImpl<T, E, TResult>(Task<Result<T, E>> resultTask, Func<T, Task<TResult>> selector)
+    private static async Task<Result<TResult, TE>> SelectImpl<T, TE, TResult>(Task<Result<T, TE>> resultTask, Func<T, Task<TResult>> selector)
     {
         var result = await resultTask.ConfigureAwait(false);
         if (!result.TryUnwrap(out var value, out var errorValue))
-            return Result.Error<TResult, E>(errorValue);
+            return Result.Error<TResult, TE>(errorValue);
 
         var task = selector(value);
         if (task is null)
@@ -90,7 +90,7 @@ public static partial class ResultExtensions
         if (newValue is null)
             throw new ArgumentException("Selector returned a null value.", nameof(selector));
 
-        return Result.Ok<TResult, E>(newValue);
+        return Result.Ok<TResult, TE>(newValue);
     }
 }
 #pragma warning restore S4136

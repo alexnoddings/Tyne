@@ -7,7 +7,7 @@ public static partial class ResultExtensions
 {
     [Pure]
     [return: NotNullIfNotNull(nameof(value))]
-    public static T Or<T, E>(this Result<T, E> result, T value)
+    public static T Or<T, TE>(this Result<T, TE> result, T value)
     {
         ArgumentNullException.ThrowIfNull(result);
         ArgumentNullException.ThrowIfNull(value);
@@ -18,7 +18,7 @@ public static partial class ResultExtensions
         return value;
     }
 
-    public static T Or<T, E>(this Result<T, E> result, Func<T> valueFactory)
+    public static T Or<T, TE>(this Result<T, TE> result, Func<T> valueFactory)
     {
         ArgumentNullException.ThrowIfNull(result);
         ArgumentNullException.ThrowIfNull(valueFactory);
@@ -30,7 +30,7 @@ public static partial class ResultExtensions
     }
 
     [Pure]
-    public static T? OrDefault<T, E>(this Result<T, E> result)
+    public static T? OrDefault<T, TE>(this Result<T, TE> result)
     {
         ArgumentNullException.ThrowIfNull(result);
 
@@ -41,7 +41,7 @@ public static partial class ResultExtensions
     }
 
     [Pure]
-    public static T? OrNull<T, E>(this Result<T, E> result) where T : struct
+    public static T? OrNull<T, TE>(this Result<T, TE> result) where T : struct
     {
         ArgumentNullException.ThrowIfNull(result);
 

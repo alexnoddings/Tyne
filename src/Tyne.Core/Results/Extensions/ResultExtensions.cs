@@ -1,7 +1,7 @@
 namespace Tyne;
 
 /// <summary>
-///     Extensions for working with <see cref="Result{T, E}"/>s.
+///     Extensions for working with <see cref="Result{T, TE}"/>s.
 /// </summary>
 public static partial class ResultExtensions
 {

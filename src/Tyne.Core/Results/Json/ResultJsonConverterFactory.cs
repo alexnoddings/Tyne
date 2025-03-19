@@ -5,15 +5,15 @@ using System.Text.Json.Serialization;
 namespace Tyne;
 
 /// <summary>
-///     Supports converting <see cref="Result{T, E}"/>s to/from JSON using a factory pattern.
+///     Supports converting <see cref="Result{T, TE}"/>s to/from JSON using a factory pattern.
 /// </summary>
-/// <seealso cref="Result{T, E}"/>
+/// <seealso cref="Result{T, TE}"/>
 public sealed class ResultJsonConverterFactory : JsonConverterFactory
 {
     private const BindingFlags CreateInstanceBindingFlags = BindingFlags.Public | BindingFlags.Instance;
 
     /// <summary>
-    ///     Determines whether the <paramref name="typeToConvert"/> can be converted to a <see cref="Result{T, E}"/>.
+    ///     Determines whether the <paramref name="typeToConvert"/> can be converted to a <see cref="Result{T, TE}"/>.
     /// </summary>
     /// <param name="typeToConvert">The <see cref="Type"/> to be checked.</param>
     /// <returns><see langword="true"/> if the <paramref name="typeToConvert"/> can be converted; otherwise, <see langword="false"/>.</returns>

@@ -2,7 +2,7 @@ namespace Tyne;
 
 public static partial class ResultExtensions
 {
-    public static TResult Match<T, E, TResult>(this Result<T, E> result, Func<T, TResult> ok, Func<E, TResult> error)
+    public static TResult Match<T, TE, TResult>(this Result<T, TE> result, Func<T, TResult> ok, Func<TE, TResult> error)
     {
         ArgumentNullException.ThrowIfNull(result);
         ArgumentNullException.ThrowIfNull(ok);
@@ -14,9 +14,9 @@ public static partial class ResultExtensions
         return error(errorValue);
     }
 
-    public static Task MatchAsync<T, E>(this Result<T, E> result, Func<T, Task> ok, Func<E, Task> error) =>
+    public static Task MatchAsync<T, TE>(this Result<T, TE> result, Func<T, Task> ok, Func<TE, Task> error) =>
         Match(result, ok, error);
 
-    public static Task<TResult> MatchAsync<T, E, TResult>(this Result<T, E> result, Func<T, Task<TResult>> ok, Func<E, Task<TResult>> error) =>
+    public static Task<TResult> MatchAsync<T, TE, TResult>(this Result<T, TE> result, Func<T, Task<TResult>> ok, Func<TE, Task<TResult>> error) =>
         Match(result, ok, error);
 }
