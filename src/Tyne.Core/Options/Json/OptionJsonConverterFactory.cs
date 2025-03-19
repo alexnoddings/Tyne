@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -22,11 +21,14 @@ public sealed class OptionJsonConverterFactory : JsonConverterFactory
     {
         ArgumentNullException.ThrowIfNull(typeToConvert);
 
-        return typeToConvert.IsGenericType && typeToConvert.GetGenericTypeDefinition() == typeof(Option<>);
+        // Must be generic to be Option<,>
+        // Must be constructed (eg Option<int>) rather than unconstructed (eg Option<>) so the type params are concrete
+        return typeToConvert is { IsGenericType: true, IsConstructedGenericType: true }
+               && typeToConvert.GetGenericTypeDefinition() == typeof(Option<>);
     }
 
     /// <summary>
-    ///     Create a <see cref="JsonConverter"/> for the provided <paramref name="typeToConvert"/>.
+    ///     Creates a <see cref="JsonConverter"/> for the provided <paramref name="typeToConvert"/>.
     /// </summary>
     /// <param name="typeToConvert">The <see cref="Type"/> being converted.</param>
     /// <param name="options">The <see cref="JsonSerializerOptions"/> being used.</param>
@@ -38,13 +40,13 @@ public sealed class OptionJsonConverterFactory : JsonConverterFactory
     /// </remarks>
     /// <exception cref="ArgumentNullException">When <paramref name="typeToConvert"/> or <paramref name="options"/> are <see langword="null"/>.</exception>
     /// <exception cref="NotSupportedException">If <see cref="CanConvert(Type)"/> returns <see langword="false"/> for <paramref name="typeToConvert"/>.</exception>
-    public override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
+    public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options)
     {
         ArgumentNullException.ThrowIfNull(typeToConvert);
         ArgumentNullException.ThrowIfNull(options);
 
         if (!CanConvert(typeToConvert))
-            throw new NotSupportedException(ExceptionMessages.JsonConversionForTypeNotSupported(typeToConvert));
+            throw new NotSupportedException(ExceptionMessages.JsonConverter_ConversionForTypeNotSupported(typeToConvert));
 
         var converterConstructorArgs = new object[] { options };
         var typeT = typeToConvert.GetGenericArguments()[0];
@@ -57,46 +59,8 @@ public sealed class OptionJsonConverterFactory : JsonConverterFactory
             culture: null);
 
         if (converterInstance is not JsonConverter converter)
-            throw new InvalidOperationException(ExceptionMessages.JsonConverterFactoryCouldNotCreateConverter);
+            throw new InvalidOperationException(ExceptionMessages.JsonConverter_FactoryCouldNotCreateConverter);
 
         return converter;
-    }
-
-    [SuppressMessage("Performance", "CA1812: Avoid un-instantiated internal classes", Justification = "Class is instantiated by Activator.")]
-    [SuppressMessage("Major Code Smell", "S1144: Unused private types or members should be removed", Justification = "Constructor is used by Activator.")]
-    private sealed class OptionJsonConverter<T> : JsonConverter<Option<T>>
-    {
-        private readonly JsonConverter<T> _optionTConverter;
-
-        public OptionJsonConverter(JsonSerializerOptions options)
-        {
-            _optionTConverter = options.GetConverter<T>();
-        }
-
-        public override Option<T> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-        {
-            ArgumentNullException.ThrowIfNull(typeToConvert);
-            ArgumentNullException.ThrowIfNull(options);
-
-            if (reader.TokenType is JsonTokenType.Null)
-                return Option<T>.None;
-
-            var value = _optionTConverter.Read(ref reader, typeof(T), options);
-            if (value is null)
-                return Option<T>.None;
-
-            return Option.Some(value);
-        }
-
-        public override void Write(Utf8JsonWriter writer, Option<T> value, JsonSerializerOptions options)
-        {
-            ArgumentNullException.ThrowIfNull(writer);
-            ArgumentNullException.ThrowIfNull(options);
-
-            if (value.HasValue)
-                _optionTConverter.Write(writer, value.Value, options);
-            else
-                writer.WriteNullValue();
-        }
     }
 }
