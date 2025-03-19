@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 
@@ -9,6 +10,7 @@ namespace Tyne.Preludes.Core;
 /// <remarks>
 ///     See <see href="https://alexnoddings.github.io/Tyne/docs/preludes.html">preludes documentation</see>.
 /// </remarks>
+[ExcludeFromCodeCoverage(Justification = "These methods are just convenience methods over the Option type.")]
 public static class OptionPrelude
 {
     /// <inheritdoc cref="Option.None{T}()"/>
@@ -20,6 +22,6 @@ public static class OptionPrelude
     /// <inheritdoc cref="Option.Some{T}(T)"/>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Option<T> Some<T>(T value) =>
+    public static Option<T> Some<T>([DisallowNull] in T value) =>
         Option.Some(value);
 }

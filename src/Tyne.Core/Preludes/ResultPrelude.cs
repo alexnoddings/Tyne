@@ -1,43 +1,32 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 
 namespace Tyne.Preludes.Core;
 
 /// <summary>
-///     Preludes for <see cref="Result{T}"/>.
+///     Preludes for <see cref="Result{T, E}"/>.
 /// </summary>
 /// <remarks>
 ///     See <see href="https://alexnoddings.github.io/Tyne/docs/preludes.html">preludes documentation</see>.
 /// </remarks>
+[SuppressMessage("Naming", "CA1715: Identifiers should have correct prefix.")]
+[ExcludeFromCodeCoverage(Justification = "These methods are just convenience methods over the Result type.")]
 public static class ResultPrelude
 {
-    /// <inheritdoc cref="Result.Ok{T}(in T)"/>
+    /// <inheritdoc cref="Result.Ok{T, E}(in T)"/>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Result<T> Ok<T>(T value) =>
-        Result.Ok(value);
+    public static Result<T, E> Ok<T, E>([DisallowNull] in T value) =>
+        Result.Ok<T, E>(value);
 
-    /// <inheritdoc cref="Result.Error{T}(string)"/>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Result<T> Error<T>(string message) =>
-        Result.Error<T>(message);
+    public static Result<Unit, E> Ok<E>() => Result.Cache<E>.OkUnit;
 
-    /// <inheritdoc cref="Result.Error{T}(string, string)"/>
+    /// <inheritdoc cref="Result.Error{T, E}(in E)"/>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Result<T> Error<T>(string code, string message) =>
-        Result.Error<T>(code, message);
-
-    /// <inheritdoc cref="Result.Error{T}(string, string, Exception)"/>
-    [Pure]
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Result<T> Error<T>(string code, string message, Exception causedBy) =>
-        Result.Error<T>(code, message, causedBy);
-
-    /// <inheritdoc cref="Result.Error{T}(in Error)"/>
-    [Pure]
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Result<T> Error<T>(in Error error) =>
-        Result.Error<T>(error);
+    public static Result<T, E> Error<T, E>([DisallowNull] in E error) =>
+        Result.Error<T, E>(error);
 }
