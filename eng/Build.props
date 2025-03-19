@@ -3,7 +3,7 @@
   <PropertyGroup Label="Project Info">
     <Product>Tyne</Product>
     <Authors>Alex Noddings</Authors>
-    <Copyright>Copyright 2024 Alex Noddings</Copyright>
+    <Copyright>Copyright Alex Noddings</Copyright>
     <PackageTags>tyne</PackageTags>
     <StrongNameKeyId>AlexNTyne</StrongNameKeyId>
     <NeutralLanguage>en</NeutralLanguage>
@@ -15,7 +15,7 @@
       Defines the target frameworks which Tyne supports.
       This is designated once here rather than individually across multi-targeting projects.
     -->
-    <TyneSupportedFrameworks>net8.0;net9.0</TyneSupportedFrameworks>
+    <TyneSupportedFrameworks>net8.0;net9.0;net10.0</TyneSupportedFrameworks>
     <LangVersion>preview</LangVersion>
     <Features>$(Features);strict</Features>
     <Nullable>enable</Nullable>
@@ -51,18 +51,6 @@
     <AssemblyVersion>$(TyneMajorVersion).$(TyneMinorVersion).$(TynePatchVersion)</AssemblyVersion>
   </PropertyGroup>
 
-  <!-- Analysers included in every project. -->
-  <ItemGroup Label="Project analysers">
-    <PackageReference Include="AsyncFixer" Version="1.6.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.21.0.86780">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
   <PropertyGroup Label="Warnings and errors">
     <!--
       Forces the compiler to treat any warnings as errors.
@@ -90,8 +78,6 @@
       REASON: This is a reminder, it doesn't belong as an error.
     -->
     <WarningsNotAsErrors>$(WarningsNotAsErrors);S1133</WarningsNotAsErrors>
-    <!-- See https://github.com/alexnoddings/Tyne/issues/138 -->
-    <NoWarn>$(NoWarn);IDE0055</NoWarn>
   </PropertyGroup>
 
   <!--

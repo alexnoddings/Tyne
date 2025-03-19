@@ -1,86 +1,68 @@
 <Project>
 
   <PropertyGroup>
-    <TargetFrameworks>$(TyneSupportedFrameworks)</TargetFrameworks>
-    <!-- Mark the project as a package. -->
-    <IsPackable>true</IsPackable>
-    <!-- Ensure this is marked as a CI build if we're executing on a GitHub action. -->
-    <ContinuousIntegrationBuild Condition=" '$(GITHUB_ACTIONS)' == 'true' ">true</ContinuousIntegrationBuild>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
 
-  <!-- Packaging properties. -->
-  <PropertyGroup Label="Packaging">
-    <!-- Embed project source files that are not tracked by the source control or imported from a source package to the generated PDB. -->
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <!-- Generate a symbols file when building. -->
-    <IncludeSymbols>true</IncludeSymbols>
-    <!-- Use snupkgs for symbol packages. -->
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <!-- Generates an XML documentation file. -->
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <!-- Source repo info. -->
-    <RepositoryUrl>https://github.com/alexnoddings/Tyne</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <!-- The 'Project website' link on nuget.org. -->
-    <PackageProjectUrl>https://alexnoddings.github.io/Tyne</PackageProjectUrl>
-    <!-- Publish the repository URL along with the package. -->
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <!-- The SPDX license of the repo - ensures that nuget/vs/etc show the right license. -->
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <!--
-      Path to the Tyne icon - every package shares the same icon for ease.
-      Note that this file doesn't actually *exist* anywhere, instead the targets file includes it from the assets folder for each packable project.
-    -->
-    <PackageIcon>package.png</PackageIcon>
-    <!-- Path to the package's readme - every package has their own tailored readme. -->
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <!--
-      Causes the compiler to produce an assembly whose byte-for-byte output is identical across compilations for identical inputs.
-      This is important for builds to be verifiable.
-    -->
-    <Deterministic>true</Deterministic>
-  </PropertyGroup>
-
-  <!-- Package files. -->
-  <ItemGroup Label="Package files">
-    <None Include="README.md" Pack="true" PackagePath="./" />
-    <None Include="$(RepoRoot)\assets\logo.png" Pack="true" PackagePath="package.png" Visible="false" />
-    <None Include="Package.props" Pack="true" PackagePath="build\$(AssemblyName).props" Condition="Exists('Package.props')" />
-    <None Include="Package.targets" Pack="true" PackagePath="build\$(AssemblyName).targets" Condition="Exists('Package.targets')" />
+  <ItemGroup Label="Project analysers">
+    <GlobalPackageReference Include="AsyncFixer" Version="1.6.0"/>
+    <GlobalPackageReference Include="SonarAnalyzer.CSharp" Version="9.21.0.86780"/>
   </ItemGroup>
 
-  <!--
-    SourceLinking adds source control metadata to built assets, which improves the developer debugging experience.
-  -->
-  <ItemGroup Label="Packaging">
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
-  </ItemGroup>
-  
-  <!--
-    Makes internals available to:
-    - their *.Tests project counterpart
-    - the test utilities project
-  -->
-  <ItemGroup Label="Visibility for test projects">
-    <InternalsVisibleTo Include="$(AssemblyName).Tests" />
-    <InternalsVisibleTo Include="$(AssemblyName).UnitTests" />
-    <InternalsVisibleTo Include="Tyne.TestUtilities" />
-    <InternalsVisibleTo Include="Tyne.EventIdTests" />
+  <ItemGroup Label="Package versions (any .NET version)">
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.1.1"/>
+    <PackageVersion Include="MudBlazor" Version="8.4.0"/>
   </ItemGroup>
 
-  <!--
-    Ensures a <Description> property is set. If not, raise an error.
-  -->
-  <Target Name="EnsureDescriptionSet" BeforeTargets="Build">
-    <Error Code="TYNE_PKG_NO_DESCRIPTION" Text="No &lt;Description&gt; property set." Condition=" '$(Description)' == '' " />
-  </Target>
+  <ItemGroup Label="Test package versions (any .NET version)">
+    <PackageVersion Include="bunit" Version="1.36.0"/>
+    <PackageVersion Include="coverlet.collector" Version="6.0.2"/>
+    <PackageVersion Include="FluentValidation" Version="11.11.0"/>
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.9.0"/>
+    <PackageVersion Include="NSubstitute" Version="5.1.0"/>
+    <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.17"/>
+    <PackageVersion Include="TUnit.Core" Version="0.18.0"/>
+    <PackageVersion Include="TUnit.Assertions" Version="0.18.0"/>
+    <PackageVersion Include="TUnit" Version="0.18.0"/>
+  </ItemGroup>
 
-  <!--
-    Ensures the CI version matches the PackageVersion.
-    This only runs for packages if a CI version is set (i.e. by the build pipelines).
-  -->
-  <Target Name="EnsureCorrectCiVersion" BeforeTargets="Pack" Condition=" '$(CiVersion)' != '' ">
-    <Error Code="TYNE_CI_VERSION_MISMATCH" Text="The CI tag '$(CiVersion)' does not match the package version '$(Version)'." Condition=" '$(CiVersion)' != '' AND '$(CiVersion)' != '$(PackageVersion)' " />
-  </Target>
+  <ItemGroup Label="Package versions (.NET 8)" Condition=" '$(TargetFramework)' == 'net8.0' ">
+    <PackageVersion Include="Microsoft.AspNetCore.Components" Version="8.0.14"/>
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0"/>
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2"/>
+    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.1"/>
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3"/>
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="8.0.2"/>
+  </ItemGroup>
+
+  <ItemGroup Label="Package versions (.NET 9)" Condition=" '$(TargetFramework)' == 'net9.0' ">
+    <PackageVersion Include="Microsoft.AspNetCore.Components" Version="9.0.3"/>
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.3"/>
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.3"/>
+    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.3"/>
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.3"/>
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="9.0.3"/>
+  </ItemGroup>
+
+  <ItemGroup Label="Package versions (.NET 10)" Condition=" '$(TargetFramework)' == 'net10.0' ">
+    <!-- Currently targets .NET 9 packages, should be updated to .NET 10 -->
+    <PackageVersion Include="Microsoft.AspNetCore.Components" Version="9.0.3"/>
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.3"/>
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.3"/>
+    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.3"/>
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.3"/>
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="9.0.3"/>
+  </ItemGroup>
+
+  <ItemGroup Label="Example app">
+    <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
+    <PackageVersion Include="Humanizer.Core" Version="2.14.1"/>
+    <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="8.0.14"/>
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.14"/>
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.14"/>
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.7.0"/>
+    <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4"/>
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="8.0.0"/>
+  </ItemGroup>
 
 </Project>
