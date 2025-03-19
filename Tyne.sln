@@ -7,10 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".eng", ".eng", "{6F7AC836-F
 		eng\Build.props = eng\Build.props
 		eng\Build.targets = eng\Build.targets
 		eng\Packages.props = eng\Packages.props
-		eng\Tests.props = eng\Tests.props
 		eng\Version.props = eng\Version.props
-		Directory.Build.props = Directory.Build.props
-		Directory.Build.targets = Directory.Build.targets
+		eng\Testing.props = eng\Testing.props
+		global.json = global.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blazor", "Blazor", "{E83BDDD6-600F-B5F0-78FF-47929315255A}"
@@ -24,6 +23,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "src\Tyne.Core\Core.csproj", "{6A63CE54-01BA-4450-BA75-ABACD9E40B45}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Tests", "src\Tyne.Core.Tests\Core.Tests.csproj", "{8FEFA2E1-3A51-4C0C-BCDC-9AD31069287B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "stubs", "stubs", "{80C573AB-CA22-44A9-888C-CE8EB11E2439}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+		Directory.Build.targets = Directory.Build.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,5 +63,6 @@ Global
 		{FE76A5AE-0928-4B66-8AF6-76141BD24D54} = {E83BDDD6-600F-B5F0-78FF-47929315255A}
 		{6A63CE54-01BA-4450-BA75-ABACD9E40B45} = {FBF56CC3-7AE6-AD2D-3F14-7F97FD322CD6}
 		{8FEFA2E1-3A51-4C0C-BCDC-9AD31069287B} = {FBF56CC3-7AE6-AD2D-3F14-7F97FD322CD6}
+		{80C573AB-CA22-44A9-888C-CE8EB11E2439} = {6F7AC836-FB5A-E075-6D2A-914D68E5C66F}
 	EndGlobalSection
 EndGlobal
