@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <AssemblyName>Tyne.TestUtilities</AssemblyName>
+        <RootNamespace>Tyne</RootNamespace>
+        <IsTestProject>false</IsTestProject>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="$(SrcRoot)\Tyne.Core\Core.csproj"/>
+    </ItemGroup>
+
+    <PropertyGroup>
+        <!--
+          CA1716: Identifiers should have correct prefix.
+          REASON: Disabled to make working with Result<T, E> easier.
+        -->
+        <NoWarn>$(NoWarn);CA1715</NoWarn>
+    </PropertyGroup>
+
+    <Import Project="$(EngRoot)\Testing.props"/>
+
+</Project>
+
