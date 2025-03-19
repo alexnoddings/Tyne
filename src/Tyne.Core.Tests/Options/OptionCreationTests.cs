@@ -2,7 +2,7 @@ namespace Tyne;
 
 public class OptionCreationTests
 {
-#pragma warning disable TYN0001
+#pragma warning disable TYNE001
     [Test]
     public async Task EmptyConstructor_ValueType_IsNone()
     {
