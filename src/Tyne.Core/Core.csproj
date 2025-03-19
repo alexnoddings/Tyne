@@ -1,33 +1,33 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <AssemblyName>Tyne.Core</AssemblyName>
-    <RootNamespace>Tyne</RootNamespace>
-  </PropertyGroup>
+    <PropertyGroup>
+        <AssemblyName>Tyne.Core</AssemblyName>
+        <RootNamespace>Tyne</RootNamespace>
+    </PropertyGroup>
 
-  <PropertyGroup Label="Project Info">
-    <Description>Core functionality for other Tyne packages.</Description>
-    <PackageTags>$(PackageTags)</PackageTags>
-  </PropertyGroup>
+    <PropertyGroup Label="Project Info">
+        <Description>Core functionality for other Tyne packages.</Description>
+        <PackageTags>$(PackageTags)</PackageTags>
+    </PropertyGroup>
 
-  <PropertyGroup>
-    <!--
-      CA1716: Identifiers should not match keywords.
-      REASON: Too restrictive for common names.
-    -->
-    <NoWarn>$(NoWarn);CA1716</NoWarn>
-    <!--
-      CA2225: Operator overloads have named alternates.
-      REASON: Tyne is designed for C#, and these alternatives clutter up the API surface.
-    -->
-    <NoWarn>$(NoWarn);CA2225</NoWarn>
-    <!--
-      CS1591: Missing XML comment for publicly visible type or member.
-      REASON: This library is not yet fully documented.
-    -->
-    <NoWarn>$(NoWarn);CS1591</NoWarn>
-  </PropertyGroup>
+    <PropertyGroup>
+        <!--
+            CA1716: Identifiers should not match keywords.
+            REASON: Too restrictive for common names.
+        -->
+        <NoWarn>$(NoWarn);CA1716</NoWarn>
+        <!--
+            CA2225: Operator overloads have named alternates.
+            REASON: Tyne is designed for C#, and these alternatives clutter up the API surface.
+        -->
+        <NoWarn>$(NoWarn);CA2225</NoWarn>
+        <!--
+            CS1591: Missing XML comment for publicly visible type or member.
+            REASON: This library is not yet fully documented.
+        -->
+        <NoWarn>$(NoWarn);CS1591</NoWarn>
+    </PropertyGroup>
 
-  <Import Project="$(EngRoot)\Publishing.props" />
+    <Import Project="$(EngRoot)\Publishing.props"/>
 
 </Project>
