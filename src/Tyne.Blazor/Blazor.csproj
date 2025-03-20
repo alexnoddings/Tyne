@@ -29,6 +29,11 @@
           REASON: This library is not yet fully documented.
         -->
         <NoWarn>$(NoWarn);CS1591</NoWarn>
+        <!--
+            CA1716: Identifiers should not match keywords.
+            REASON: Too restrictive for common names.
+        -->
+        <NoWarn>$(NoWarn);CA1716</NoWarn>
     </PropertyGroup>
 
     <Import Project="$(EngRoot)\Publishing.props"/>
