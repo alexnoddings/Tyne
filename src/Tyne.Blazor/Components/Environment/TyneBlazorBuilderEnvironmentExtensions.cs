@@ -40,8 +40,8 @@ public static class TyneBlazorBuilderEnvironmentExtensions
         ArgumentNullException.ThrowIfNull(tyneBlazorBuilder);
         ArgumentException.ThrowIfNullOrEmpty(environmentName);
 
-        var environment = new DefaultEnvironmentImpl { EnvironmentName = environmentName };
-        tyneBlazorBuilder.Services.AddSingleton<IEnvironment>(environment);
+        var environmentInstance = new DefaultEnvironmentImpl { EnvironmentName = environmentName };
+        tyneBlazorBuilder.Services.AddScoped<IEnvironment>(_ => environmentInstance);
 
         return tyneBlazorBuilder;
     }
