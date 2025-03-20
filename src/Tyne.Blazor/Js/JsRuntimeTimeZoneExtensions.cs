@@ -1,6 +1,4 @@
-using Microsoft.JSInterop;
-
-namespace Tyne.Blazor;
+namespace Microsoft.JSInterop;
 
 /// <summary>
 ///     Tyne extensions for <see cref="IJSRuntime"/>.
@@ -12,7 +10,7 @@ namespace Tyne.Blazor;
 ///         &lt;script src="_content/Tyne.Blazor/Tyne.Blazor.js"&gt;&lt;/script&gt;
 ///     </code>
 /// </remarks>
-internal static class TyneJsRuntimeExtensions
+internal static class TyneJsRuntimeTimeZoneExtensions
 {
     internal const string GetTimeZoneNameFunctionName = "tyneGetTimeZoneName";
     internal const string GetTimeZoneOffsetFunctionName = "tyneGetTimeZoneOffset";
@@ -27,7 +25,7 @@ internal static class TyneJsRuntimeExtensions
     ///         Invokes the function <see cref="GetTimeZoneNameFunctionName"/>.
     ///     </para>
     ///     <para>
-    ///         See the remarks on <see cref="TyneJsRuntimeExtensions"/> for using this.
+    ///         See the remarks on <see cref="TyneJsRuntimeTimeZoneExtensions"/> for using this.
     ///     </para>
     /// </remarks>
     public static ValueTask<string> GetTyneTimeZoneNameAsync(this IJSRuntime jsRuntime) =>
@@ -43,7 +41,7 @@ internal static class TyneJsRuntimeExtensions
     ///         Invokes the function <see cref="GetTimeZoneOffsetFunctionName"/>.
     ///     </para>
     ///     <para>
-    ///         See the remarks on <see cref="TyneJsRuntimeExtensions"/> for using this.
+    ///         See the remarks on <see cref="TyneJsRuntimeTimeZoneExtensions"/> for using this.
     ///     </para>
     /// </remarks>
     public static ValueTask<int> GetTyneTimeZoneOffsetAsync(this IJSRuntime jsRuntime) =>
