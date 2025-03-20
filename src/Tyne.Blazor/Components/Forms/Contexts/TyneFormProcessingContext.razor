@@ -1,0 +1,18 @@
+@namespace Tyne.Blazor
+@inherits TyneFormComponentBase
+
+@if (_context is null)
+{
+    return;
+}
+
+@ChildContent?.Invoke(_context)
+
+@if (_context.IsProcessing)
+{
+    @Processing
+}
+else
+{
+    @NotProcessing
+}

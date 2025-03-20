@@ -1,20 +1,9 @@
-using Microsoft.AspNetCore.Components.Forms;
-
 namespace Tyne.Blazor;
 
 public interface ITyneForm
 {
-    public FormState State { get; }
-    /// <summary>
-	///		The <see cref="Microsoft.AspNetCore.Components.Forms.EditForm"/> instance.
-    ///		This may be null while the model is being loaded, as it requires a non-null object.
-	/// </summary>
-	public EditForm? EditForm { get; set; }
-
-    public Result<Unit>? InitialiseResult { get; }
-    public Result<Unit>? SaveResult { get; }
-
-    public IDisposable Attach(FormUpdatedCallback formUpdatedCallback);
-    public Task SaveAsync();
-    public Task CloseAsync(FormCloseTrigger closeTrigger);
+    public ITyneFormState State { get; }
+    public IDisposable WatchForStateChanges(TyneFormStateChanged stateChangedCallback);
 }
+
+public delegate Task TyneLoadForm<in TInput>(TInput input);

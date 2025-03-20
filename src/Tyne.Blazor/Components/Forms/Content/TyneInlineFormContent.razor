@@ -1,0 +1,40 @@
+@namespace Tyne.Blazor
+@typeparam TParams
+@typeparam TModel
+@using System.Diagnostics
+@typeparam TError
+
+@{
+    if (Form is null)
+        return;
+
+    var state = Form.State;
+}
+
+@if (state is TyneFormState.Uninitialised or TyneFormState.Initialising)
+{
+    @Initialising
+}
+else if (state is TyneFormState.Inactive)
+{
+    @Inactive
+}
+else if (state is TyneFormState.Loading)
+{
+    @Loading
+}
+else if (state is TyneFormState.Has.BlockingError<TError> blockingError)
+{
+    // InitialisationError, LoadingError
+    @Error?.Invoke(blockingError.Error)
+}
+else if (state is TyneFormState.Is.Ready<TParams, TModel, TError> ready)
+{
+    // Active, Saving
+    @Ready?.Invoke(ready)
+}
+else
+{
+    // Should have exhaustively checked all states by now
+    Debug.Fail($"Unexpected state {state.GetType().Name}.");
+}

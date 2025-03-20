@@ -1,0 +1,20 @@
+@namespace Tyne.Blazor
+@typeparam TModel
+@typeparam TError
+@inherits TyneFormComponentBase
+
+@if (_context is null)
+{
+    return;
+}
+
+@ChildContent?.Invoke(_context)
+
+@if (_context.CanMakeActive)
+{
+    @Supported?.Invoke(_context.MakeActiveAsync)
+}
+else
+{
+    @NotSupported
+}

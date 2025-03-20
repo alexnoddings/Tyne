@@ -1,0 +1,18 @@
+@namespace Tyne.Blazor
+@inherits TyneFormComponentBase
+
+@if (_context is null)
+{
+    return;
+}
+
+@ChildContent?.Invoke(_context)
+
+@if (_context.CanSave)
+{
+    @Supported?.Invoke(_context.SaveAsync)
+}
+else
+{
+    @NotSupported
+}
