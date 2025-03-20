@@ -13,7 +13,7 @@ namespace Tyne.Blazor;
 public partial class TyneButton : MudButton
 {
     // Whether the button is locked while running
-    private bool _isLocked;
+    private bool _isLockedByExecution;
 
     // Whether the button is disabled by a user-supplied parameter
     private bool _disabledParameter;
@@ -34,9 +34,18 @@ public partial class TyneButton : MudButton
     [Parameter]
     public ButtonLockVariant LockVariant { get; set; } = ButtonLockVariant.Bar;
 
+    /// <summary>
+    ///     Locks the button, forcing it to appear to be processing.
+    /// </summary>
+    [Parameter]
+    public bool Locked { get; set; }
+
+    private bool IsLocked => _isLockedByExecution || Locked;
+
     public override Task SetParametersAsync(ParameterView parameters)
     {
         // Keep track of the disabled parameter state
+        // This is done here rather than captured locally in OnClickHandler so that it can change while the button is executing
         if (parameters.TryGetValue(nameof(Disabled), out bool disabledParameter))
             _disabledParameter = disabledParameter;
 
@@ -46,7 +55,7 @@ public partial class TyneButton : MudButton
     protected override void OnParametersSet()
     {
         // If locked, ignore the disabled state that's been passed in
-        if (_isLocked)
+        if (IsLocked)
             Disabled = true;
 
         base.OnParametersSet();
@@ -55,11 +64,11 @@ public partial class TyneButton : MudButton
     protected override async Task OnClickHandler(MouseEventArgs ev)
     {
         // Ignore clicks if locked or disabled
-        if (_isLocked || GetDisabledState())
+        if (IsLocked || GetDisabledState())
             return;
 
         // Lock the button
-        _isLocked = true;
+        _isLockedByExecution = true;
         // Override the base disabled state, ignoring the user-specified parameter
         Disabled = true;
         // And re-render
@@ -75,7 +84,7 @@ public partial class TyneButton : MudButton
         finally
         {
             // Regardless of success/failure, unlock the button
-            _isLocked = false;
+            _isLockedByExecution = false;
             // Return to the disabled state specified by the parameter
             Disabled = _disabledParameter;
             // And re-render
