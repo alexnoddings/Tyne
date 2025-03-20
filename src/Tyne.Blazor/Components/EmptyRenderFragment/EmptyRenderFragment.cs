@@ -22,11 +22,9 @@ public static class EmptyRenderFragment
     /// <returns>An empty <see cref="RenderFragment{T}"/> which ignores the <typeparamref name="T"/> and does not write to the <see cref="RenderTreeBuilder"/>.</returns>
     public static RenderFragment<T> For<T>() => EmptyRenderFragmentT<T>.InstanceT;
 
+    // Caches instances per T
     private static class EmptyRenderFragmentT<T>
     {
-        /// <summary>
-        ///     An empty <see cref="RenderFragment{T}"/> which ignores the <typeparamref name="T"/> and does not write to the <see cref="RenderTreeBuilder"/>.
-        /// </summary>
         internal static readonly RenderFragment<T> InstanceT = _ => Instance;
     }
 }
