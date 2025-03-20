@@ -1,4 +1,3 @@
-using Tyne;
 using Tyne.Blazor;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -8,38 +7,41 @@ namespace Microsoft.Extensions.DependencyInjection;
 /// </summary>
 public static class TyneBlazorBuilderEnvironmentExtensions
 {
-    private sealed class SimpleEnvironment : IEnvironment
+    private sealed class DefaultEnvironmentImpl : IEnvironment
     {
         public required string EnvironmentName { get; init; }
     }
 
-    public static TyneBlazorBuilder AddEnvironmentService<TEnvironmentService>(this TyneBlazorBuilder tyneBlazorBuilder) where TEnvironmentService : class, IEnvironment
+    public static TyneBlazorBuilder AddEnvironment<TEnvironment>(this TyneBlazorBuilder tyneBlazorBuilder) where TEnvironment : class, IEnvironment
     {
         ArgumentNullException.ThrowIfNull(tyneBlazorBuilder);
 
-        _ = tyneBlazorBuilder.Services.AddScoped<IEnvironment, TEnvironmentService>();
+        tyneBlazorBuilder.Services.AddScoped<IEnvironment, TEnvironment>();
 
         return tyneBlazorBuilder;
     }
 
-    public static TyneBlazorBuilder AddEnvironmentService(this TyneBlazorBuilder tyneBlazorBuilder, Func<IServiceProvider, string> getEnvironmentName)
+    public static TyneBlazorBuilder AddEnvironment(this TyneBlazorBuilder tyneBlazorBuilder, Func<IServiceProvider, string> getEnvironmentName)
     {
         ArgumentNullException.ThrowIfNull(tyneBlazorBuilder);
         ArgumentNullException.ThrowIfNull(getEnvironmentName);
 
-        _ = tyneBlazorBuilder.Services.AddScoped<IEnvironment>(services =>
-            new SimpleEnvironment { EnvironmentName = getEnvironmentName(services) }
-        );
+        tyneBlazorBuilder.Services.AddScoped<IEnvironment>(services =>
+        {
+            var environmentName = getEnvironmentName(services);
+            return new DefaultEnvironmentImpl { EnvironmentName = environmentName };
+        });
 
         return tyneBlazorBuilder;
     }
 
-    public static TyneBlazorBuilder AddEnvironmentService(this TyneBlazorBuilder tyneBlazorBuilder, string environmentName)
+    public static TyneBlazorBuilder AddEnvironment(this TyneBlazorBuilder tyneBlazorBuilder, string environmentName)
     {
         ArgumentNullException.ThrowIfNull(tyneBlazorBuilder);
         ArgumentException.ThrowIfNullOrEmpty(environmentName);
 
-        _ = tyneBlazorBuilder.Services.AddSingleton<IEnvironment>(new SimpleEnvironment { EnvironmentName = environmentName });
+        var environment = new DefaultEnvironmentImpl { EnvironmentName = environmentName };
+        tyneBlazorBuilder.Services.AddSingleton<IEnvironment>(environment);
 
         return tyneBlazorBuilder;
     }
