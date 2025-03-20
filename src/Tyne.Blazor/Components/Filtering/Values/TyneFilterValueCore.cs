@@ -262,10 +262,9 @@ public abstract class TyneFilterValueCore<TRequest, TValue> : ComponentBase, IFi
             return false;
 
         var valueOption = Context.Persistence.GetValue<TValue>(persistAs.Key);
-        if (!valueOption.HasValue)
+        if (!valueOption.TryUnwrap(out var value))
             return false;
 
-        var value = valueOption.Value;
         await SetValueAsync(value, SetValueBehaviour.SetValue).ConfigureAwait(false);
         return true;
     }
