@@ -6,11 +6,9 @@ public class UrlQueryStringFormatter_GetUriWithQueryParameterTests
 {
     private const string QueryParameterKey = "testSetValue";
 
-    public static IEnumerable<object?[]> GetUriWithQueryParameterTests_Data => UrlUtilities_TestHelpers.ValueToString_Data;
-
-    [Theory]
-    [MemberData(nameof(GetUriWithQueryParameterTests_Data))]
-    public void GetUriWithQueryParameterTests_Works(object? input, string? expectedQueryParameterValue)
+    [Test]
+    [MethodDataSource<UrlUtilities_TestHelpers>(nameof(UrlUtilities_TestHelpers.GetValueToStringData))]
+    public async Task GetUriWithQueryParameterTests_Works(object? input, string? expectedQueryParameterValue)
     {
         var uri = "https://localhost/test/page";
 
@@ -20,28 +18,28 @@ public class UrlQueryStringFormatter_GetUriWithQueryParameterTests
         var query = new Uri(newUri).Query;
         var actualQueryParameterValue = HttpUtility.ParseQueryString(query).Get(QueryParameterKey);
 
-        Assert.Equal(expectedQueryParameterValue, actualQueryParameterValue);
+        await Assert.That(expectedQueryParameterValue).IsEqualTo(actualQueryParameterValue);
     }
 
-    [Fact]
-    public void SetValue_UpdatesParameter()
+    [Test]
+    public async Task SetValue_UpdatesParameter()
     {
         var uri = $"https://localhost/test/page?{QueryParameterKey}=42";
 
         var urlQueryStringFormatter = new UrlQueryStringFormatter();
         var newUri = urlQueryStringFormatter.GetUriWithQueryParameter(uri, QueryParameterKey, 101);
 
-        Assert.Equal($"https://localhost/test/page?{QueryParameterKey}=101", newUri);
+        await Assert.That(newUri).IsEqualTo($"https://localhost/test/page?{QueryParameterKey}=101");
     }
 
-    [Fact]
-    public void SetValue_Null_RemovesParameter()
+    [Test]
+    public async Task SetValue_Null_RemovesParameter()
     {
         var uri = $"https://localhost/test/page?{QueryParameterKey}=42";
 
         var urlQueryStringFormatter = new UrlQueryStringFormatter();
         var newUri = urlQueryStringFormatter.GetUriWithQueryParameter(uri, QueryParameterKey, null);
 
-        Assert.Equal("https://localhost/test/page", newUri);
+        await Assert.That(newUri).IsEqualTo("https://localhost/test/page");
     }
 }

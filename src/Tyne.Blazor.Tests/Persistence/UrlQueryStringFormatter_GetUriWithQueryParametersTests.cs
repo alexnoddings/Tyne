@@ -6,19 +6,19 @@ public class UrlQueryStringFormatter_GetUriWithQueryParametersTests
 {
     private const string QueryParameterKey = "testSetValue";
 
-    [Fact]
-    public void SetValue_Null_RemovesParameter()
+    [Test]
+    public async Task SetValue_Null_RemovesParameter()
     {
         var uri = $"https://localhost/test/page?{QueryParameterKey}=42";
 
         var urlQueryStringFormatter = new UrlQueryStringFormatter();
         var newUri = urlQueryStringFormatter.GetUriWithQueryParameter(uri, QueryParameterKey, null);
 
-        Assert.Equal("https://localhost/test/page", newUri);
+        await Assert.That(newUri).IsEqualTo("https://localhost/test/page");
     }
 
-    [Fact]
-    public void BulkSetValues_Dictionary_Works()
+    [Test]
+    public async Task BulkSetValues_Dictionary_Works()
     {
         var uri = "https://localhost/test/page?param1=123&param2=456&param3=789";
 
@@ -32,11 +32,11 @@ public class UrlQueryStringFormatter_GetUriWithQueryParametersTests
         var urlQueryStringFormatter = new UrlQueryStringFormatter();
         var newUri = urlQueryStringFormatter.GetUriWithQueryParameters(uri, queryParameters);
 
-        AssertParamsUpdated(newUri);
+        await AssertParamsUpdated(newUri);
     }
 
-    [Fact]
-    public void BulkSetValues_Object_Works()
+    [Test]
+    public async Task BulkSetValues_Object_Works()
     {
         var uri = "https://localhost/test/page?param1=123&param2=456&param3=789";
 
@@ -50,21 +50,21 @@ public class UrlQueryStringFormatter_GetUriWithQueryParametersTests
         var urlQueryStringFormatter = new UrlQueryStringFormatter();
         var newUri = urlQueryStringFormatter.GetUriWithQueryParameters(uri, queryParameters);
 
-        AssertParamsUpdated(newUri);
+        await AssertParamsUpdated(newUri);
     }
 
-    private static void AssertParamsUpdated(string uri)
+    private static async Task AssertParamsUpdated(string uri)
     {
         var newQueryString = new Uri(uri).Query;
         var newQuery = HttpUtility.ParseQueryString(newQueryString);
 
         // Param2 should be removed
-        Assert.Equal(3, newQuery.Keys.Count);
+        await Assert.That(newQuery.Keys.Count).IsEqualTo(3);
         // Param1 shouldn't be changed
-        Assert.Equal("123", newQuery["param1"]);
+        await Assert.That(newQuery["param1"]).IsEqualTo("123");
         // Param3 should be updated
-        Assert.Equal("aBc", newQuery["param3"]);
+        await Assert.That(newQuery["param3"]).IsEqualTo("aBc");
         // Param4 should be added
-        Assert.Equal(nameof(SomeEnumType.ValueTwo), newQuery["param4"]);
+        await Assert.That(newQuery["param4"]).IsEqualTo(nameof(SomeEnumType.ValueTwo));
     }
 }

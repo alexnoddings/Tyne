@@ -18,12 +18,10 @@ public class UrlUtilities_TryParse_Tests
         return method;
     }
 
-    public static IEnumerable<object?[]> TryParse_Data => UrlUtilities_TestHelpers.StringToValue_Data;
-
-    [Theory]
-    [MemberData(nameof(TryParse_Data))]
+    [Test]
+    [MethodDataSource<UrlUtilities_TestHelpers>(nameof(UrlUtilities_TestHelpers.GetStringToValueData))]
     [SuppressMessage("Blocker Code Smell", "S2699: Tests should include assertions", Justification = "Assertions are handled by the generic method invoked.")]
-    public void TryParse_ProducesCorrectValue(string input, object expectedOption)
+    public async Task TryParse_ProducesCorrectValue(string input, object expectedOption)
     {
         ArgumentNullException.ThrowIfNull(expectedOption);
 
@@ -32,44 +30,43 @@ public class UrlUtilities_TryParse_Tests
             throw new ArgumentException("Value was not an Option<>.", nameof(expectedOption));
 
         var optionType = expectedOptionType.GenericTypeArguments[0];
-        _ = _tryParseTMethodInfo
+        var taskObj = _tryParseTMethodInfo
             .MakeGenericMethod(optionType)
             .Invoke(null, [input, expectedOption]);
+
+        await (Task)taskObj!;
     }
 
-    private static void TryParseT<T>(string input, Option<T> expectedOption)
+    private static async Task TryParseT<T>(string input, Option<T> expectedOption)
     {
         var actualOption = UrlUtilities.TryParse<T>(input);
-        AssertOption.AreEqual(expectedOption, actualOption);
+        await Assert.That(actualOption).IsEqualTo(expectedOption);
     }
 
-    [Fact]
-    public void TryParse_IntArray_ProducesCorrectValue()
+    [Test]
+    public async Task TryParse_IntArray_ProducesCorrectValue()
     {
         var expected = new[] { 0, 101 };
         var actualOption = UrlUtilities.TryParse<int[]>("[0, 101]");
 
-        AssertOption.IsSome(actualOption);
-        Assert.Equal(expected, actualOption.Value);
+        await Assert.That(actualOption).IsSome(expected);
     }
 
-    [Fact]
-    public void TryParse_IntList_ProducesCorrectValue()
+    [Test]
+    public async Task TryParse_IntList_ProducesCorrectValue()
     {
         var expected = new List<int> { 0, 101 };
         var actualOption = UrlUtilities.TryParse<List<int>>("[0, 101]");
 
-        AssertOption.IsSome(actualOption);
-        Assert.Equal(expected, actualOption.Value);
+        await Assert.That(actualOption).IsSome(expected);
     }
 
-    [Fact]
-    public void TryParse_IntHashSet_ProducesCorrectValue()
+    [Test]
+    public async Task TryParse_IntHashSet_ProducesCorrectValue()
     {
         var expected = new HashSet<int> { 0, 101 };
         var actualOption = UrlUtilities.TryParse<HashSet<int>>("[0, 101]");
 
-        AssertOption.IsSome(actualOption);
-        Assert.Equal(expected, actualOption.Value);
+        await Assert.That(actualOption).IsSome(expected);
     }
 }

@@ -1,26 +1,23 @@
 using System.Web;
-using Bunit;
 using Bunit.TestDoubles;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Tyne.Blazor.Persistence;
 
-public class UrlPersistenceService_SetValueTests : TestContext
+public class UrlPersistenceService_SetValueTests : Bunit.TestContext
 {
     private const string QueryParameterKey = "testSetValue";
 
     public UrlPersistenceService_SetValueTests()
     {
-        _ = Services
-            .AddSingleton<IUrlQueryStringFormatter, UrlQueryStringFormatter>()
-            .AddScoped<UrlPersistenceService>();
+        Services
+        .AddSingleton<IUrlQueryStringFormatter, UrlQueryStringFormatter>()
+        .AddScoped<UrlPersistenceService>();
     }
 
-    public static IEnumerable<object?[]> SetValue_Data => UrlUtilities_TestHelpers.ValueToString_Data;
-
-    [Theory]
-    [MemberData(nameof(SetValue_Data))]
-    public void SetValue_Works(object? input, string? expectedQueryParameterValue)
+    [Test]
+    [MethodDataSource<UrlUtilities_TestHelpers>(nameof(UrlUtilities_TestHelpers.GetValueToStringData))]
+    public async Task SetValue_Works(object? input, string? expectedQueryParameterValue)
     {
         var navigationManager = Services.GetRequiredService<FakeNavigationManager>();
         navigationManager.NavigateTo("/test/page");
@@ -31,11 +28,11 @@ public class UrlPersistenceService_SetValueTests : TestContext
         var query = new Uri(navigationManager.Uri).Query;
         var actualQueryParameterValue = HttpUtility.ParseQueryString(query).Get(QueryParameterKey);
 
-        Assert.Equal(expectedQueryParameterValue, actualQueryParameterValue);
+        await Assert.That(expectedQueryParameterValue).IsEqualTo(actualQueryParameterValue);
     }
 
-    [Fact]
-    public void SetValue_UpdatesParameter()
+    [Test]
+    public async Task SetValue_UpdatesParameter()
     {
         var navigationManager = Services.GetRequiredService<FakeNavigationManager>();
         navigationManager.NavigateTo($"/test/page?{QueryParameterKey}=42");
@@ -43,11 +40,11 @@ public class UrlPersistenceService_SetValueTests : TestContext
         var persistenceService = Services.GetRequiredService<UrlPersistenceService>();
         persistenceService.SetValue(QueryParameterKey, 101);
 
-        Assert.Equal($"http://localhost/test/page?{QueryParameterKey}=101", navigationManager.Uri);
+        await Assert.That(navigationManager.Uri).IsEqualTo($"http://localhost/test/page?{QueryParameterKey}=101");
     }
 
-    [Fact]
-    public void SetValue_Null_RemovesParameter()
+    [Test]
+    public async Task SetValue_Null_RemovesParameter()
     {
         var navigationManager = Services.GetRequiredService<FakeNavigationManager>();
         navigationManager.NavigateTo($"/test/page?{QueryParameterKey}=42");
@@ -55,6 +52,6 @@ public class UrlPersistenceService_SetValueTests : TestContext
         var persistenceService = Services.GetRequiredService<UrlPersistenceService>();
         persistenceService.SetValue<int?>(QueryParameterKey, null);
 
-        Assert.Equal("http://localhost/test/page", navigationManager.Uri);
+        await Assert.That(navigationManager.Uri).IsEqualTo("http://localhost/test/page");
     }
 }

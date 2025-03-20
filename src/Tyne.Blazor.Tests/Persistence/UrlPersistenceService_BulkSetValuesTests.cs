@@ -1,11 +1,10 @@
 using System.Web;
-using Bunit;
 using Bunit.TestDoubles;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Tyne.Blazor.Persistence;
 
-public class UrlPersistenceService_BulkSetValuesTests : TestContext
+public class UrlPersistenceService_BulkSetValuesTests : Bunit.TestContext
 {
     public UrlPersistenceService_BulkSetValuesTests()
     {
@@ -14,8 +13,8 @@ public class UrlPersistenceService_BulkSetValuesTests : TestContext
             .AddScoped<UrlPersistenceService>();
     }
 
-    [Fact]
-    public void BulkSetValues_Dictionary_Works()
+    [Test]
+    public async Task BulkSetValues_Dictionary_Works()
     {
         var navigationManager = Services.GetRequiredService<FakeNavigationManager>();
 
@@ -32,11 +31,11 @@ public class UrlPersistenceService_BulkSetValuesTests : TestContext
         var persistenceService = Services.GetRequiredService<UrlPersistenceService>();
         persistenceService.BulkSetValues(queryParameters);
 
-        AssertParamsUpdated(navigationManager.Uri);
+        await AssertParamsUpdated(navigationManager.Uri);
     }
 
-    [Fact]
-    public void BulkSetValues_Object_Works()
+    [Test]
+    public async Task BulkSetValues_Object_Works()
     {
         var navigationManager = Services.GetRequiredService<FakeNavigationManager>();
 
@@ -53,21 +52,21 @@ public class UrlPersistenceService_BulkSetValuesTests : TestContext
         var persistenceService = Services.GetRequiredService<UrlPersistenceService>();
         persistenceService.BulkSetValues(queryParameters);
 
-        AssertParamsUpdated(navigationManager.Uri);
+        await AssertParamsUpdated(navigationManager.Uri);
     }
 
-    private static void AssertParamsUpdated(string uri)
+    private static async Task AssertParamsUpdated(string uri)
     {
         var newQueryString = new Uri(uri).Query;
         var newQuery = HttpUtility.ParseQueryString(newQueryString);
 
         // Param2 should be removed
-        Assert.Equal(3, newQuery.Keys.Count);
+        await Assert.That(newQuery.Keys.Count).IsEqualTo(3);
         // Param1 shouldn't be changed
-        Assert.Equal("123", newQuery["param1"]);
+        await Assert.That(newQuery["param1"]).IsEqualTo("123");
         // Param3 should be updated
-        Assert.Equal("aBc", newQuery["param3"]);
+        await Assert.That(newQuery["param3"]).IsEqualTo("aBc");
         // Param4 should be added
-        Assert.Equal(nameof(SomeEnumType.ValueTwo), newQuery["param4"]);
+        await Assert.That(newQuery["param4"]).IsEqualTo(nameof(SomeEnumType.ValueTwo));
     }
 }

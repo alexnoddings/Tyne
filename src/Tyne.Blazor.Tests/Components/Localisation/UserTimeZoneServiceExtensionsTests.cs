@@ -42,17 +42,17 @@ public class UserTimeZoneServiceExtensionsTests
         return userTimeZoneService;
     }
 
-    [Fact]
+    [Test]
     public async Task ConvertFromUtcAsync_Sync_Works()
     {
         var service = GetSyncUserTimeZoneService();
         var task = service.ConvertFromUtcAsync(DefaultUtcDateTime);
 
-        Assert.True(task.IsCompletedSuccessfully);
-        Assert.Equal(DefaultUtcDateTime.AddHours(1), await task);
+        await Assert.That(task.IsCompletedSuccessfully).IsTrue();
+        await Assert.That(DefaultUtcDateTime.AddHours(1)).IsEqualTo(await task);
     }
 
-    [Fact]
+    [Test]
     public async Task ConvertFromUtcAsync_Async_Works()
     {
         var tcs = new TaskCompletionSource();
@@ -61,22 +61,22 @@ public class UserTimeZoneServiceExtensionsTests
 
         tcs.SetResult();
         var dateTime = await task;
-        Assert.Equal(DefaultUtcDateTime.AddHours(1), dateTime);
+        await Assert.That(DefaultUtcDateTime.AddHours(1)).IsEqualTo(dateTime);
     }
 
-    [Fact]
+    [Test]
     public async Task ConvertFromUtcAsOffsetAsync_Sync_Works()
     {
         var service = GetSyncUserTimeZoneService();
         var task = service.ConvertFromUtcAsOffsetAsync(DefaultUtcDateTime);
 
-        Assert.True(task.IsCompletedSuccessfully);
+        await Assert.That(task.IsCompletedSuccessfully).IsTrue();
         var dateTimeOffset = await task;
-        Assert.Equal(DefaultUtcDateTime, dateTimeOffset.UtcDateTime);
-        Assert.Equal(DefaultUtcDateTime.AddHours(1), dateTimeOffset.DateTime);
+        await Assert.That(DefaultUtcDateTime).IsEqualTo(dateTimeOffset.UtcDateTime);
+        await Assert.That(DefaultUtcDateTime.AddHours(1)).IsEqualTo(dateTimeOffset.DateTime);
     }
 
-    [Fact]
+    [Test]
     public async Task ConvertFromUtcAsOffsetAsync_Async_Works()
     {
         var tcs = new TaskCompletionSource();
@@ -85,21 +85,21 @@ public class UserTimeZoneServiceExtensionsTests
 
         tcs.SetResult();
         var dateTimeOffset = await task;
-        Assert.Equal(DefaultUtcDateTime, dateTimeOffset.UtcDateTime);
-        Assert.Equal(DefaultUtcDateTime.AddHours(1), dateTimeOffset.DateTime);
+        await Assert.That(DefaultUtcDateTime).IsEqualTo(dateTimeOffset.UtcDateTime);
+        await Assert.That(DefaultUtcDateTime.AddHours(1)).IsEqualTo(dateTimeOffset.DateTime);
     }
 
-    [Fact]
+    [Test]
     public async Task ConvertToUtcAsync_Sync_Works()
     {
         var service = GetSyncUserTimeZoneService();
         var task = service.ConvertToUtcAsync(DefaultUnspecifiedDateTime);
 
-        Assert.True(task.IsCompletedSuccessfully);
-        Assert.Equal(DefaultUnspecifiedDateTime.AddHours(-1), await task);
+        await Assert.That(task.IsCompletedSuccessfully).IsTrue();
+        await Assert.That(DefaultUnspecifiedDateTime.AddHours(-1)).IsEqualTo(await task);
     }
 
-    [Fact]
+    [Test]
     public async Task ConvertToUtcAsync_Async_Works()
     {
         var tcs = new TaskCompletionSource();
@@ -108,22 +108,22 @@ public class UserTimeZoneServiceExtensionsTests
 
         tcs.SetResult();
         var dateTime = await task;
-        Assert.Equal(DefaultUnspecifiedDateTime.AddHours(-1), dateTime);
+        await Assert.That(DefaultUnspecifiedDateTime.AddHours(-1)).IsEqualTo(dateTime);
     }
 
-    [Fact]
+    [Test]
     public async Task ConvertToUtcAsOffsetAsync_Sync_Works()
     {
         var service = GetSyncUserTimeZoneService();
         var task = service.ConvertToUtcAsOffsetAsync(DefaultUnspecifiedDateTime);
 
-        Assert.True(task.IsCompletedSuccessfully);
+        await Assert.That(task.IsCompletedSuccessfully).IsTrue();
         var dateTimeOffset = await task;
-        Assert.Equal(DefaultUnspecifiedDateTime.AddHours(-1), dateTimeOffset.UtcDateTime);
-        Assert.Equal(DefaultUnspecifiedDateTime, dateTimeOffset.DateTime);
+        await Assert.That(DefaultUnspecifiedDateTime.AddHours(-1)).IsEqualTo(dateTimeOffset.UtcDateTime);
+        await Assert.That(DefaultUnspecifiedDateTime).IsEqualTo(dateTimeOffset.DateTime);
     }
 
-    [Fact]
+    [Test]
     public async Task ConvertToUtcAsOffsetAsync_Async_Works()
     {
         var tcs = new TaskCompletionSource();
@@ -132,7 +132,7 @@ public class UserTimeZoneServiceExtensionsTests
 
         tcs.SetResult();
         var dateTimeOffset = await task;
-        Assert.Equal(DefaultUnspecifiedDateTime.AddHours(-1), dateTimeOffset.UtcDateTime);
-        Assert.Equal(DefaultUnspecifiedDateTime, dateTimeOffset.DateTime);
+        await Assert.That(DefaultUnspecifiedDateTime.AddHours(-1)).IsEqualTo(dateTimeOffset.UtcDateTime);
+        await Assert.That(DefaultUnspecifiedDateTime).IsEqualTo(dateTimeOffset.DateTime);
     }
 }

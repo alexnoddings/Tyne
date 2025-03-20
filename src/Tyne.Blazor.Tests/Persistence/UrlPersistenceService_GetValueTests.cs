@@ -1,12 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using Bunit;
 using Bunit.TestDoubles;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Tyne.Blazor.Persistence;
 
-public class UrlPersistenceService_GetValueTests : TestContext
+public class UrlPersistenceService_GetValueTests : Bunit.TestContext
 {
     private const string QueryParameterKey = "testGetValue";
 
@@ -25,17 +24,15 @@ public class UrlPersistenceService_GetValueTests : TestContext
 
     public UrlPersistenceService_GetValueTests()
     {
-        _ = Services
+        Services
             .AddSingleton<IUrlQueryStringFormatter, UrlQueryStringFormatter>()
             .AddScoped<UrlPersistenceService>();
     }
 
-    public static IEnumerable<object?[]> GetValue_Data => UrlUtilities_TestHelpers.StringToValue_Data;
-
-    [Theory]
-    [MemberData(nameof(GetValue_Data))]
+    [Test]
+    [MethodDataSource<UrlUtilities_TestHelpers>(nameof(UrlUtilities_TestHelpers.GetStringToValueData))]
     [SuppressMessage("Blocker Code Smell", "S2699: Tests should include assertions.", Justification = "Assertions are handled by the generic method invoked.")]
-    public void GetValue_Works(string queryParameterValue, object expectedOption)
+    public async Task GetValue_Works(string queryParameterValue, object expectedOption)
     {
         ArgumentNullException.ThrowIfNull(expectedOption);
 
@@ -52,15 +49,18 @@ public class UrlPersistenceService_GetValueTests : TestContext
         navigationManager.NavigateTo($"/test/page?{QueryParameterKey}={queryParameterEncodedValue}");
 
         var optionType = expectedOptionType.GenericTypeArguments[0];
-        _ = _getValueTMethodInfo
+        var task =
+            _getValueTMethodInfo
             .MakeGenericMethod(optionType)
             .Invoke(this, [expectedOption]);
+
+        await (Task)task!;
     }
 
-    private void GetValueT_Works<T>(Option<T> expectedOption)
+    private async Task GetValueT_Works<T>(Option<T> expectedOption)
     {
         var persistenceService = Services.GetRequiredService<UrlPersistenceService>();
         var actualValue = persistenceService.GetValue<T>(QueryParameterKey);
-        Assert.Equal(expectedOption, actualValue);
+        await Assert.That(expectedOption).IsEqualTo(actualValue);
     }
 }

@@ -18,12 +18,10 @@ public class UrlQueryStringFormatter_GetValueTests
             ?? throw new InvalidOperationException($"Could not load method info for generic test method '{methodName}'.");
     }
 
-    public static IEnumerable<object?[]> GetValue_Data => UrlUtilities_TestHelpers.StringToValue_Data;
-
-    [Theory]
-    [MemberData(nameof(GetValue_Data))]
+    [Test]
+    [MethodDataSource<UrlUtilities_TestHelpers>(nameof(UrlUtilities_TestHelpers.GetStringToValueData))]
     [SuppressMessage("Blocker Code Smell", "S2699:Tests should include assertions", Justification = "Assertions are handled by the generic method invoked.")]
-    public void GetValue_Works(string queryParameterValue, object expectedOption)
+    public async Task GetValue_Works(string queryParameterValue, object expectedOption)
     {
         ArgumentNullException.ThrowIfNull(expectedOption);
 
@@ -31,23 +29,23 @@ public class UrlQueryStringFormatter_GetValueTests
         if (!expectedOptionType.IsGenericType || expectedOptionType.GetGenericTypeDefinition() != typeof(Option<>))
             throw new ArgumentException("Value was not an Option<>.", nameof(expectedOption));
 
-        var queryParameterEncodedValue =
-            queryParameterValue is not null
-            ? Uri.EscapeDataString(queryParameterValue)
-            : null;
+        var queryParameterEncodedValue = Uri.EscapeDataString(queryParameterValue);
 
         var uri = $"https://localhost/test/page?{QueryParameterKey}={queryParameterEncodedValue}";
 
         var optionType = expectedOptionType.GenericTypeArguments[0];
-        _ = _getValueTMethodInfo
-            .MakeGenericMethod(optionType)
-            .Invoke(null, [uri, expectedOption]);
+        var task =
+            _getValueTMethodInfo
+                .MakeGenericMethod(optionType)
+                .Invoke(null, [uri, expectedOption]);
+
+        await (Task)task!;
     }
 
-    private static void GetValueT_Works<T>(string uri, Option<T> expectedOption)
+    private static async Task GetValueT_Works<T>(string uri, Option<T> expectedOption)
     {
         var urlQueryStringFormatter = new UrlQueryStringFormatter();
         var actualValue = urlQueryStringFormatter.GetValue<T>(uri, QueryParameterKey);
-        Assert.Equal(expectedOption, actualValue);
+        await Assert.That(expectedOption).IsEqualTo(actualValue);
     }
 }

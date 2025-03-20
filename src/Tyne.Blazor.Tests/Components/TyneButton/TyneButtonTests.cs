@@ -1,21 +1,11 @@
-using AngleSharp.Dom;
 using Bunit;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace Tyne.Blazor;
 
-public class TyneButtonTests : TestContext
+public class TyneButtonTests : Bunit.TestContext
 {
-    private static class AssertButton
-    {
-        public static void Enabled(IElement buttonElement) =>
-            Assert.False(buttonElement.Matches("[disabled=\"\"]"), "Button should not be disabled.");
-
-        public static void Disabled(IElement buttonElement) =>
-            Assert.True(buttonElement.Matches("[disabled=\"\"]"), "Button should be disabled.");
-    }
-
-    [Fact]
+    [Test]
     public async Task Enabled_Click_LocksButton()
     {
         // Arrange
@@ -28,9 +18,8 @@ public class TyneButtonTests : TestContext
         );
 
         var buttonElement = cut.Find("button");
-        Assert.NotNull(buttonElement);
         // Button should start enabled
-        AssertButton.Enabled(buttonElement);
+        await Assert.That(buttonElement).IsEnabled();
 
         // Act
         var clickTask = buttonElement.ClickAsync(new MouseEventArgs());
@@ -38,17 +27,17 @@ public class TyneButtonTests : TestContext
         // Assert
         // Button should trigger a re-render and be disabled
         cut.WaitForState(() => buttonElement.HasAttribute("disabled"));
-        AssertButton.Disabled(buttonElement);
+        await Assert.That(buttonElement).IsDisabled();
 
         // Complete the task
         tcs.SetResult();
         await clickTask;
 
         // The button should trigger a re-render and be enabled after the click completes
-        AssertButton.Enabled(buttonElement);
+        await Assert.That(buttonElement).IsEnabled();
     }
 
-    [Fact]
+    [Test]
     public async Task Disabled_Click_DoesNothing()
     {
         // Arrange
@@ -65,22 +54,22 @@ public class TyneButtonTests : TestContext
         );
 
         var buttonElement = cut.Find("button");
-        Assert.NotNull(buttonElement);
+        await Assert.That(buttonElement).IsNotNull();
         // Button should start disabled
-        AssertButton.Disabled(buttonElement);
+        await Assert.That(buttonElement).IsDisabled();
 
         // Act
         await buttonElement.ClickAsync(new MouseEventArgs());
 
         // Assert
         // Button should still be disabled
-        AssertButton.Disabled(buttonElement);
+        await Assert.That(buttonElement).IsDisabled();
 
         // And the OnClick handler shouldn't have been invoked
-        Assert.False(wasOnClickInvoked);
+        await Assert.That(wasOnClickInvoked).IsFalse();
     }
 
-    [Fact]
+    [Test]
     public async Task StartsEnabled_DisabledDuringClick_EndsDisabled()
     {
         // Arrange
@@ -93,9 +82,9 @@ public class TyneButtonTests : TestContext
         );
 
         var buttonElement = cut.Find("button");
-        Assert.NotNull(buttonElement);
+        await Assert.That(buttonElement).IsNotNull();
         // Button should start enabled
-        AssertButton.Enabled(buttonElement);
+        await Assert.That(buttonElement).IsEnabled();
 
         // Act
         var clickTask = buttonElement.ClickAsync(new MouseEventArgs());
@@ -103,7 +92,7 @@ public class TyneButtonTests : TestContext
         // Assert
         // Button should trigger a re-render and be disabled
         cut.WaitForState(() => buttonElement.HasAttribute("disabled"));
-        AssertButton.Disabled(buttonElement);
+        await Assert.That(buttonElement).IsDisabled();
 
         // Update the button to be disabled
         cut.SetParametersAndRender(parameters => parameters
@@ -116,10 +105,10 @@ public class TyneButtonTests : TestContext
         await clickTask;
 
         // The button should trigger a re-render and still be disabled after the click completes
-        AssertButton.Disabled(buttonElement);
+        await Assert.That(buttonElement).IsDisabled();
     }
 
-    [Fact]
+    [Test]
     public async Task Enabled_DisabledChangesDuringClick_EndsEnabled()
     {
         // Arrange
@@ -132,9 +121,9 @@ public class TyneButtonTests : TestContext
         );
 
         var buttonElement = cut.Find("button");
-        Assert.NotNull(buttonElement);
+        await Assert.That(buttonElement).IsNotNull();
         // Button should start enabled
-        AssertButton.Enabled(buttonElement);
+        await Assert.That(buttonElement).IsEnabled();
 
         // Act
         var clickTask = buttonElement.ClickAsync(new MouseEventArgs());
@@ -142,7 +131,7 @@ public class TyneButtonTests : TestContext
         // Assert
         // Button should trigger a re-render and be disabled
         cut.WaitForState(() => buttonElement.HasAttribute("disabled"));
-        AssertButton.Disabled(buttonElement);
+        await Assert.That(buttonElement).IsDisabled();
 
         // Update the button to be disabled
         cut.SetParametersAndRender(parameters => parameters
@@ -157,20 +146,20 @@ public class TyneButtonTests : TestContext
         );
 
         // The button should still be disabled
-        AssertButton.Disabled(buttonElement);
+        await Assert.That(buttonElement).IsDisabled();
 
         // Complete the task
         tcs.SetResult();
         await clickTask;
 
         // The button should trigger a re-render and be enabled again after the click completes
-        AssertButton.Enabled(buttonElement);
+        await Assert.That(buttonElement).IsEnabled();
     }
 
-    [Theory]
-    [InlineData(ButtonLockVariant.SpinnerStart, ".tyne-button-locked-progress-circular")]
-    [InlineData(ButtonLockVariant.SpinnerEnd, ".tyne-button-locked-progress-circular")]
-    [InlineData(ButtonLockVariant.Bar, ".tyne-button-locked-progress-linear")]
+    [Test]
+    [Arguments(ButtonLockVariant.SpinnerStart, ".tyne-button-locked-progress-circular")]
+    [Arguments(ButtonLockVariant.SpinnerEnd, ".tyne-button-locked-progress-circular")]
+    [Arguments(ButtonLockVariant.Bar, ".tyne-button-locked-progress-linear")]
     public async Task Click_ShowsLoadingContent(ButtonLockVariant buttonLockVariant, string loadingContentClass)
     {
         // Arrange
@@ -183,9 +172,9 @@ public class TyneButtonTests : TestContext
         );
 
         var buttonElement = cut.Find("button");
-        Assert.NotNull(buttonElement);
+        await Assert.That(buttonElement).IsNotNull();
         // Button should start enabled
-        AssertButton.Enabled(buttonElement);
+        await Assert.That(buttonElement).IsEnabled();
 
         // Act
         var clickTask = buttonElement.ClickAsync(new MouseEventArgs());
@@ -193,7 +182,7 @@ public class TyneButtonTests : TestContext
         // Assert
         // Button should trigger a re-render and be disabled
         cut.WaitForState(() => buttonElement.HasAttribute("disabled"));
-        AssertButton.Disabled(buttonElement);
+        await Assert.That(buttonElement).IsDisabled();
 
         // Should be showing the loading content
         _ = cut.Find(loadingContentClass);
@@ -203,6 +192,6 @@ public class TyneButtonTests : TestContext
         await clickTask;
 
         // The button should trigger a re-render and be enabled again after the click completes
-        AssertButton.Enabled(buttonElement);
+        await Assert.That(buttonElement).IsEnabled();
     }
 }

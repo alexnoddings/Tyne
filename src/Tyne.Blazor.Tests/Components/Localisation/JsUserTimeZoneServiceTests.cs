@@ -30,13 +30,13 @@ public class JsUserTimeZoneServiceTests
         var jsRuntime = Substitute.For<IJSRuntime>();
 
         _ = jsRuntime
-            .InvokeAsync<string?>(TyneJsRuntimeExtensions.GetTimeZoneNameFunctionName, Arg.Is<object[]>(arr => arr.Length == 0))
+            .InvokeAsync<string?>(TyneJsRuntimeTimeZoneExtensions.GetTimeZoneNameFunctionName, Arg.Is<object[]>(arr => arr.Length == 0))
             .Returns(_ => getTimeZoneName());
 
         if (getTimeZoneOffset is not null)
         {
             _ = jsRuntime
-                .InvokeAsync<int>(TyneJsRuntimeExtensions.GetTimeZoneOffsetFunctionName, Arg.Is<object[]>(arr => arr.Length == 0))
+                .InvokeAsync<int>(TyneJsRuntimeTimeZoneExtensions.GetTimeZoneOffsetFunctionName, Arg.Is<object[]>(arr => arr.Length == 0))
                 .Returns(_ => getTimeZoneOffset());
         }
 
@@ -45,7 +45,7 @@ public class JsUserTimeZoneServiceTests
 
     private static ILogger<JsUserTimeZoneService> NullLogger { get; } = NullLogger<JsUserTimeZoneService>.Instance;
 
-    [Fact]
+    [Test]
     public async Task Gmt1_ReturnsCorrectTimeZone()
     {
         // Arrange
@@ -62,11 +62,11 @@ public class JsUserTimeZoneServiceTests
 
         // Assert
         var expectedTimeZoneOffset = TimeSpan.FromHours(-1);
-        Assert.Equal(expectedTimeZoneOffset, timeZoneInfo.BaseUtcOffset);
-        Assert.False(string.IsNullOrEmpty(timeZoneInfo.DisplayName));
+        await Assert.That(expectedTimeZoneOffset).IsEqualTo(timeZoneInfo.BaseUtcOffset);
+        await Assert.That(string.IsNullOrEmpty(timeZoneInfo.DisplayName)).IsFalse();
     }
 
-    [Fact]
+    [Test]
     public async Task NullTimeZone_ReturnsFallback()
     {
         const int fallbackOffsetMins = 180;
@@ -85,11 +85,11 @@ public class JsUserTimeZoneServiceTests
 
         // Assert
         var expectedTimeZoneOffset = TimeSpan.FromMinutes(fallbackOffsetMins);
-        Assert.Equal(expectedTimeZoneOffset, timeZoneInfo.BaseUtcOffset);
-        Assert.False(string.IsNullOrEmpty(timeZoneInfo.DisplayName));
+        await Assert.That(expectedTimeZoneOffset).IsEqualTo(timeZoneInfo.BaseUtcOffset);
+        await Assert.That(string.IsNullOrEmpty(timeZoneInfo.DisplayName)).IsFalse();
     }
 
-    [Fact]
+    [Test]
     public async Task InvalidTimeZone_ReturnsFallback()
     {
         const int fallbackOffsetMins = 180;
@@ -108,11 +108,11 @@ public class JsUserTimeZoneServiceTests
 
         // Assert
         var expectedTimeZoneOffset = TimeSpan.FromMinutes(fallbackOffsetMins);
-        Assert.Equal(expectedTimeZoneOffset, timeZoneInfo.BaseUtcOffset);
-        Assert.False(string.IsNullOrEmpty(timeZoneInfo.DisplayName));
+        await Assert.That(expectedTimeZoneOffset).IsEqualTo(timeZoneInfo.BaseUtcOffset);
+        await Assert.That(string.IsNullOrEmpty(timeZoneInfo.DisplayName)).IsFalse();
     }
 
-    [Fact]
+    [Test]
     [SuppressMessage("Reliability", "CA2012: Use ValueTasks correctly", Justification = "False positive.")]
     public async Task CachesSubsequentCalls()
     {
@@ -131,14 +131,14 @@ public class JsUserTimeZoneServiceTests
         var timeZoneInfoTask = service.GetUserTimeZoneInfoAsync();
 
         // Assert
-        Assert.True(timeZoneInfoTask.IsCompletedSuccessfully);
+        await Assert.That(timeZoneInfoTask.IsCompletedSuccessfully).IsTrue();
 
         _ = jsRuntime
             .Received(1)
-            .InvokeAsync<string?>(TyneJsRuntimeExtensions.GetTimeZoneNameFunctionName, Arg.Is<object[]>(arr => arr.Length == 0));
+            .InvokeAsync<string?>(TyneJsRuntimeTimeZoneExtensions.GetTimeZoneNameFunctionName, Arg.Is<object[]>(arr => arr.Length == 0));
     }
 
-    [Fact]
+    [Test]
     [SuppressMessage("Reliability", "CA2012: Use ValueTasks correctly", Justification = "False positive.")]
     public async Task OnlyCallsJsOnce()
     {
@@ -164,6 +164,6 @@ public class JsUserTimeZoneServiceTests
         // Assert
         _ = jsRuntime
             .Received(1)
-            .InvokeAsync<string?>(TyneJsRuntimeExtensions.GetTimeZoneNameFunctionName, Arg.Is<object[]>(arr => arr.Length == 0));
+            .InvokeAsync<string?>(TyneJsRuntimeTimeZoneExtensions.GetTimeZoneNameFunctionName, Arg.Is<object[]>(arr => arr.Length == 0));
     }
 }
