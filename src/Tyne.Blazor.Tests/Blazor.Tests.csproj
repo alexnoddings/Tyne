@@ -1,21 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <AssemblyName>Tyne.Blazor.Tests</AssemblyName>
-    <RootNamespace>Tyne.Blazor</RootNamespace>
-    <IsTestProject>true</IsTestProject>
-  </PropertyGroup>
+    <PropertyGroup>
+        <AssemblyName>Tyne.Blazor.Tests</AssemblyName>
+        <RootNamespace>Tyne.Blazor</RootNamespace>
+        <IsTestProject>true</IsTestProject>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="$(SrcRoot)\Blazor\src\Blazor.csproj" />
-    <ProjectReference Include="$(SrcRoot)\TestUtilities\TestUtilities.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="$(SrcRoot)\Tyne.Blazor.csproj"/>
+        <ProjectReference Include="$(SrcRoot)\Tyne.Core.TestUtilities.csproj"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="bunit" />
-    <PackageReference Include="System.Text.Json" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="bunit"/>
+        <PackageReference Include="System.Text.Json"/>
+    </ItemGroup>
 
-  <Import Project="$(EngRoot)\Tests.props" />
+    <Import Project="$(EngRoot)\Testing.props"/>
 
 </Project>
