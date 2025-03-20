@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Configuration;
-using Tyne;
 using Tyne.Blazor;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -21,7 +20,7 @@ public static class TyneBlazorBuilderPageTitleExtensions
         ArgumentNullException.ThrowIfNull(tyneBlazorBuilder);
         ArgumentNullException.ThrowIfNull(configSectionPath);
 
-        _ = tyneBlazorBuilder
+        tyneBlazorBuilder
             .Services
             .AddOptions<TynePageTitleOptions>()
             .Configure<IConfiguration>((options, configuration) => configuration.Bind(configSectionPath, options));
@@ -41,7 +40,7 @@ public static class TyneBlazorBuilderPageTitleExtensions
         ArgumentNullException.ThrowIfNull(tyneBlazorBuilder);
         ArgumentNullException.ThrowIfNull(configSection);
 
-        _ = tyneBlazorBuilder
+        tyneBlazorBuilder
             .Services
             .AddOptions<TynePageTitleOptions>()
             .Configure(configSection.Bind);
@@ -61,7 +60,7 @@ public static class TyneBlazorBuilderPageTitleExtensions
         ArgumentNullException.ThrowIfNull(tyneBlazorBuilder);
         ArgumentNullException.ThrowIfNull(configure);
 
-        _ = tyneBlazorBuilder
+        tyneBlazorBuilder
             .Services
             .AddOptions<TynePageTitleOptions>()
             .Configure(configure);
