@@ -87,7 +87,7 @@ public class ResultMiscellaneousTests
         // Assert
         await Assert.That(result1Unit).IsSome(42);
         await Assert.That(result2Unit).IsSome(42);
-        await Assert.That(result3Unit).IsSome("abc");
+        await Assert.That(result3Unit).IsSome(expectedValue: "abc");
     }
 
     [Test]

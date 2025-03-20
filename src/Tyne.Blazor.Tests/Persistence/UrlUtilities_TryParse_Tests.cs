@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
@@ -49,7 +50,9 @@ public class UrlUtilities_TryParse_Tests
         var expected = new[] { 0, 101 };
         var actualOption = UrlUtilities.TryParse<int[]>("[0, 101]");
 
-        await Assert.That(actualOption).IsSome(expected);
+        await Assert.That(actualOption).IsSome();
+        var value = actualOption.Or(() => throw new UnreachableException());
+        await Assert.That(value).IsEquivalentTo(expected);
     }
 
     [Test]
@@ -58,7 +61,9 @@ public class UrlUtilities_TryParse_Tests
         var expected = new List<int> { 0, 101 };
         var actualOption = UrlUtilities.TryParse<List<int>>("[0, 101]");
 
-        await Assert.That(actualOption).IsSome(expected);
+        await Assert.That(actualOption).IsSome();
+        var value = actualOption.Or(() => throw new UnreachableException());
+        await Assert.That(value).IsEquivalentTo(expected);
     }
 
     [Test]
@@ -67,6 +72,8 @@ public class UrlUtilities_TryParse_Tests
         var expected = new HashSet<int> { 0, 101 };
         var actualOption = UrlUtilities.TryParse<HashSet<int>>("[0, 101]");
 
-        await Assert.That(actualOption).IsSome(expected);
+        await Assert.That(actualOption).IsSome();
+        var value = actualOption.Or(() => throw new UnreachableException());
+        await Assert.That(value).IsEquivalentTo(expected);
     }
 }

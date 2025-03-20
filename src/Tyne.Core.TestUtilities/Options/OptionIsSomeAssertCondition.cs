@@ -2,9 +2,9 @@ using TUnit.Assertions.AssertConditions;
 
 namespace Tyne.Assertions;
 
-internal sealed class OptionIsNoneExpectedValueAssertCondition<T> : BaseAssertCondition<Option<T>>
+internal sealed class OptionIsSomeAssertCondition<T> : BaseAssertCondition<Option<T>>
 {
-    protected override string GetExpectation() => "to be None";
+    protected override string GetExpectation() => $"to be Some({typeof(T).Name})";
 
     protected override ValueTask<AssertionResult> GetResult(
         Option<T> actualValue,
@@ -12,7 +12,7 @@ internal sealed class OptionIsNoneExpectedValueAssertCondition<T> : BaseAssertCo
         AssertionMetadata assertionMetadata
     )
     {
-        if (actualValue.TryUnwrap(out _))
+        if (!actualValue.TryUnwrap(out _))
             return AssertionResult.Fail($"it was {actualValue}");
 
         return AssertionResult.Passed;

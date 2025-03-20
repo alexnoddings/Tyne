@@ -21,13 +21,24 @@ public static class OptionAssertionExtensions
         );
     }
 
+    public static InvokableValueAssertionBuilder<Option<T>> IsSome<T>(
+        this IValueSource<Option<T>> valueSource,
+        [CallerArgumentExpression(nameof(valueSource))] string valueSourceExpression = ""
+    )
+    {
+        return valueSource.RegisterAssertion(
+            assertCondition: new OptionIsSomeAssertCondition<T>(),
+            argumentExpressions: [valueSourceExpression]
+        );
+    }
+
     public static InvokableValueAssertionBuilder<Option<T>> IsNone<T>(
         this IValueSource<Option<T>> valueSource,
         [CallerArgumentExpression(nameof(valueSource))] string valueSourceExpression = ""
     )
     {
         return valueSource.RegisterAssertion(
-            assertCondition: new OptionIsNoneExpectedValueAssertCondition<T>(),
+            assertCondition: new OptionIsNoneAssertCondition<T>(),
             argumentExpressions: [valueSourceExpression]
         );
     }
