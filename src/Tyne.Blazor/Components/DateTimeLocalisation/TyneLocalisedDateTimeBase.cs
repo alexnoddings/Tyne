@@ -15,7 +15,7 @@ namespace Tyne.Blazor.Localisation;
 ///     </para>
 ///     <para>
 ///         How the user's time zone is loaded is based on the <see cref="IUserTimeZoneService"/> implementation.
-///         A JavaScript implementation is available through <see cref="TyneBuilderDateTimeLocalisationExtensions.AddUserTimeZoneFromJavascript(TyneBuilder)"/>.
+///         A JavaScript implementation is available through <see cref="TyneBlazorBuilderDateTimeLocalisationExtensions.AddUserTimeZoneFromJavascript(TyneBlazorBuilder)"/>.
 ///     </para>
 /// </remarks>
 public abstract class TyneLocalisedDateTimeBase : ComponentBase

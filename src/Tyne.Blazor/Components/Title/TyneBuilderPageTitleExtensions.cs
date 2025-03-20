@@ -5,67 +5,67 @@ using Tyne.Blazor;
 namespace Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
-///     Page title extensions for <see cref="TyneBuilder"/>.
+///     Page title extensions for <see cref="TyneBlazorBuilder"/>.
 /// </summary>
-public static class TyneBuilderPageTitleExtensions
+public static class TyneBlazorBuilderPageTitleExtensions
 {
     /// <summary>
     ///     Configures <see cref="TynePageTitleOptions"/> by binding it to the configuration section named <paramref name="configSectionPath"/>.
     /// </summary>
-    /// <param name="tyneBuilder">The <see cref="TyneBuilder"/>.</param>
+    /// <param name="tyneBlazorBuilder">The <see cref="TyneBlazorBuilder"/>.</param>
     /// <param name="configSectionPath">The name of the configuration section to configure the <see cref="TynePageTitleOptions"/> with.</param>
-    /// <returns>The <paramref name="tyneBuilder"/> to allow for chaining.</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="tyneBuilder"/> is null.</exception>
-    public static TyneBuilder ConfigurePageTitle(this TyneBuilder tyneBuilder, string configSectionPath)
+    /// <returns>The <paramref name="tyneBlazorBuilder"/> to allow for chaining.</returns>
+    /// <exception cref="ArgumentNullException">When <paramref name="tyneBlazorBuilder"/> is null.</exception>
+    public static TyneBlazorBuilder ConfigurePageTitle(this TyneBlazorBuilder tyneBlazorBuilder, string configSectionPath)
     {
-        ArgumentNullException.ThrowIfNull(tyneBuilder);
+        ArgumentNullException.ThrowIfNull(tyneBlazorBuilder);
         ArgumentNullException.ThrowIfNull(configSectionPath);
 
-        _ = tyneBuilder
+        _ = tyneBlazorBuilder
             .Services
             .AddOptions<TynePageTitleOptions>()
             .Configure<IConfiguration>((options, configuration) => configuration.Bind(configSectionPath, options));
 
-        return tyneBuilder;
+        return tyneBlazorBuilder;
     }
 
     /// <summary>
     ///     Configures <see cref="TynePageTitleOptions"/> by binding it to the <paramref name="configSection"/>.
     /// </summary>
-    /// <param name="tyneBuilder">The <see cref="TyneBuilder"/>.</param>
+    /// <param name="tyneBlazorBuilder">The <see cref="TyneBlazorBuilder"/>.</param>
     /// <param name="configSection">The configuration section to configure the <see cref="TynePageTitleOptions"/> with.</param>
-    /// <returns>The <paramref name="tyneBuilder"/> to allow for chaining.</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="tyneBuilder"/> is null.</exception>
-    public static TyneBuilder ConfigurePageTitle(this TyneBuilder tyneBuilder, IConfigurationSection configSection)
+    /// <returns>The <paramref name="tyneBlazorBuilder"/> to allow for chaining.</returns>
+    /// <exception cref="ArgumentNullException">When <paramref name="tyneBlazorBuilder"/> is null.</exception>
+    public static TyneBlazorBuilder ConfigurePageTitle(this TyneBlazorBuilder tyneBlazorBuilder, IConfigurationSection configSection)
     {
-        ArgumentNullException.ThrowIfNull(tyneBuilder);
+        ArgumentNullException.ThrowIfNull(tyneBlazorBuilder);
         ArgumentNullException.ThrowIfNull(configSection);
 
-        _ = tyneBuilder
+        _ = tyneBlazorBuilder
             .Services
             .AddOptions<TynePageTitleOptions>()
             .Configure(configSection.Bind);
 
-        return tyneBuilder;
+        return tyneBlazorBuilder;
     }
 
     /// <summary>
     ///     Configures <see cref="TynePageTitleOptions"/> using <paramref name="configure"/>.
     /// </summary>
-    /// <param name="tyneBuilder">The <see cref="TyneBuilder"/>.</param>
+    /// <param name="tyneBlazorBuilder">The <see cref="TyneBlazorBuilder"/>.</param>
     /// <param name="configure">An <see cref="Action{T}"/> which configures the <see cref="TynePageTitleOptions"/>.</param>
-    /// <returns>The <paramref name="tyneBuilder"/> to allow for chaining.</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="tyneBuilder"/> or <paramref name="configure"/> are null.</exception>
-    public static TyneBuilder ConfigurePageTitle(this TyneBuilder tyneBuilder, Action<TynePageTitleOptions> configure)
+    /// <returns>The <paramref name="tyneBlazorBuilder"/> to allow for chaining.</returns>
+    /// <exception cref="ArgumentNullException">When <paramref name="tyneBlazorBuilder"/> or <paramref name="configure"/> are null.</exception>
+    public static TyneBlazorBuilder ConfigurePageTitle(this TyneBlazorBuilder tyneBlazorBuilder, Action<TynePageTitleOptions> configure)
     {
-        ArgumentNullException.ThrowIfNull(tyneBuilder);
+        ArgumentNullException.ThrowIfNull(tyneBlazorBuilder);
         ArgumentNullException.ThrowIfNull(configure);
 
-        _ = tyneBuilder
+        _ = tyneBlazorBuilder
             .Services
             .AddOptions<TynePageTitleOptions>()
             .Configure(configure);
 
-        return tyneBuilder;
+        return tyneBlazorBuilder;
     }
 }

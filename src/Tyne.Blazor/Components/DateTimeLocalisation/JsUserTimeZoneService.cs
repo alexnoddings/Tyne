@@ -9,7 +9,7 @@ namespace Tyne.Blazor.Localisation;
 ///     from their browser using <see cref="IJSRuntime"/>.
 /// </summary>
 /// <remarks>
-///     This should be registered through <see cref="TyneBuilderDateTimeLocalisationExtensions.AddUserTimeZoneFromJavascript(TyneBuilder)"/>.
+///     This should be registered through <see cref="TyneBlazorBuilderDateTimeLocalisationExtensions.AddUserTimeZoneFromJavascript(TyneBlazorBuilder)"/>.
 /// </remarks>
 public sealed class JsUserTimeZoneService : IUserTimeZoneService, IDisposable
 {

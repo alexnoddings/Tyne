@@ -14,9 +14,9 @@ namespace Tyne.Blazor;
 /// <remarks>
 ///		<para>
 ///			The <see cref="TynePageTitleOptions"/> can be registered using
-///			<see cref="TyneBuilderPageTitleExtensions.ConfigurePageTitle(TyneBuilder, string)"/>,
-///			<see cref="TyneBuilderPageTitleExtensions.ConfigurePageTitle(TyneBuilder, IConfigurationSection)"/>,
-///			or <see cref="TyneBuilderPageTitleExtensions.ConfigurePageTitle(TyneBuilder, Action{TynePageTitleOptions})"/>.
+///			<see cref="TyneBlazorBuilderPageTitleExtensions.ConfigurePageTitle(TyneBlazorBuilder, string)"/>,
+///			<see cref="TyneBlazorBuilderPageTitleExtensions.ConfigurePageTitle(TyneBlazorBuilder, IConfigurationSection)"/>,
+///			or <see cref="TyneBlazorBuilderPageTitleExtensions.ConfigurePageTitle(TyneBlazorBuilder, Action{TynePageTitleOptions})"/>.
 ///		</para>
 ///		<para>
 ///			This wraps <see cref="PageTitle"/>.

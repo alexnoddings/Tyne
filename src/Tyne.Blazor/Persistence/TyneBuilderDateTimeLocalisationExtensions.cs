@@ -3,37 +3,37 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Tyne.Blazor.Persistence;
 
 /// <summary>
-///     Extensions for registering <see cref="IUrlPersistenceService"/>s with <see cref="TyneBuilder"/>s.
+///     Extensions for registering <see cref="IUrlPersistenceService"/>s with <see cref="TyneBlazorBuilder"/>s.
 /// </summary>
-public static class TyneBuilderPersistenceExtensions
+public static class TyneBlazorBuilderPersistenceExtensions
 {
     /// <summary>
     ///     Adds an <see cref="IUrlPersistenceService"/> implementation.
     /// </summary>
-    /// <param name="tyneBuilder">The <see cref="TyneBuilder"/>.</param>
-    /// <returns><paramref name="tyneBuilder"/> for chaining.</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="tyneBuilder"/> is <see langword="null"/>.</exception>
-    public static TyneBuilder AddUrlPersistenceService(this TyneBuilder tyneBuilder)
+    /// <param name="tyneBlazorBuilder">The <see cref="TyneBlazorBuilder"/>.</param>
+    /// <returns><paramref name="tyneBlazorBuilder"/> for chaining.</returns>
+    /// <exception cref="ArgumentNullException">When <paramref name="tyneBlazorBuilder"/> is <see langword="null"/>.</exception>
+    public static TyneBlazorBuilder AddUrlPersistenceService(this TyneBlazorBuilder tyneBlazorBuilder)
     {
-        ArgumentNullException.ThrowIfNull(tyneBuilder);
+        ArgumentNullException.ThrowIfNull(tyneBlazorBuilder);
 
-        _ = tyneBuilder.Services.AddScoped<IUrlPersistenceService, UrlPersistenceService>();
+        _ = tyneBlazorBuilder.Services.AddScoped<IUrlPersistenceService, UrlPersistenceService>();
 
-        return tyneBuilder;
+        return tyneBlazorBuilder;
     }
 
     /// <summary>
     ///     Adds an <see cref="IUrlQueryStringFormatter"/> implementation.
     /// </summary>
-    /// <param name="tyneBuilder">The <see cref="TyneBuilder"/>.</param>
-    /// <returns><paramref name="tyneBuilder"/> for chaining.</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="tyneBuilder"/> is <see langword="null"/>.</exception>
-    public static TyneBuilder AddUrlQueryStringFormatter(this TyneBuilder tyneBuilder)
+    /// <param name="tyneBlazorBuilder">The <see cref="TyneBlazorBuilder"/>.</param>
+    /// <returns><paramref name="tyneBlazorBuilder"/> for chaining.</returns>
+    /// <exception cref="ArgumentNullException">When <paramref name="tyneBlazorBuilder"/> is <see langword="null"/>.</exception>
+    public static TyneBlazorBuilder AddUrlQueryStringFormatter(this TyneBlazorBuilder tyneBlazorBuilder)
     {
-        ArgumentNullException.ThrowIfNull(tyneBuilder);
+        ArgumentNullException.ThrowIfNull(tyneBlazorBuilder);
 
-        _ = tyneBuilder.Services.AddScoped<IUrlQueryStringFormatter, UrlQueryStringFormatter>();
+        _ = tyneBlazorBuilder.Services.AddScoped<IUrlQueryStringFormatter, UrlQueryStringFormatter>();
 
-        return tyneBuilder;
+        return tyneBlazorBuilder;
     }
 }
