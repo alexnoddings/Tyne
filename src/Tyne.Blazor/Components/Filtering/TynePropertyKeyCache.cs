@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using System.Reflection;
+using Tyne.Blazor.Utilities;
 
 namespace Tyne.Blazor.Filtering;
 
@@ -46,7 +47,7 @@ public sealed class TynePropertyKeyCache<TSource, TProperty>
     /// </summary>
     /// <remarks>
     ///     This constructor allows for the cache to be updated more than once.
-    ///     See <see cref="TynePropertyKeyCache{TSource, TProperty}.TynePropertyKeyCache(bool)"/>.
+    ///     See <see cref="TynePropertyKeyCache{TSource,TProperty}"/>.
     /// </remarks>
     public TynePropertyKeyCache() : this(false)
     {
@@ -80,11 +81,10 @@ public sealed class TynePropertyKeyCache<TSource, TProperty>
     ///         based on the property which <paramref name="propertyAccessor"/> points too.
     ///         If <paramref name="propertyAccessor"/> is <see langword="null"/>,
     ///         then <see cref="Key"/> will be <see cref="TyneKey.Empty"/>,
-    ///         and <see cref="PropertyInfo"/> will be be <see langword="null"/>.
+    ///         and <see cref="PropertyInfo"/> will be <see langword="null"/>.
     ///     </para>
     ///     <para>
     ///         If this cache is only set to update once
-    ///         (see <see cref="TynePropertyKeyCache{TSource, TProperty}.TynePropertyKeyCache(bool)"/>),
     ///         then this call will be ignored if <see cref="Key"/> has already been set.
     ///     </para>
     /// </remarks>
