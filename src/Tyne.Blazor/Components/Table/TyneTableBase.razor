@@ -1,7 +1,6 @@
 ﻿@using Tyne.Blazor.Filtering.Context
-@using Tyne.Searching
 @namespace Tyne.Blazor.Tables
-@typeparam TRequest where TRequest : ISearchQuery, new()
+@typeparam TRequest
 @typeparam TResponse
 @inherits MudTable<TResponse>
 @implements ITyneTable

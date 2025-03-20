@@ -5,7 +5,6 @@ using MudBlazor;
 using Tyne.Blazor.Filtering.Context;
 using Tyne.Blazor.Filtering.Values;
 using Tyne.Blazor.Persistence;
-using Tyne.Searching;
 
 namespace Tyne.Blazor.Tables;
 
@@ -22,14 +21,14 @@ namespace Tyne.Blazor.Tables;
 [CascadingTypeParameter(nameof(TResponse))]
 public abstract partial class TyneTableBase<TRequest, TResponse>
 {
-    private const string ServerDataErrorMessage = $"ServerData should not be used on {nameof(TyneTableBase<TRequest, TResponse>)}s as this is how Tyne overrides Mud's data loading.";
+    private const string ServerDataErrorMessage = $"ServerData should not be used on {nameof(TyneTableBase<,>)}s as this is how Tyne overrides Mud's data loading.";
     /// <summary>
     ///     Do not use this property.
     /// </summary>
     /// <remarks>
     ///     This is a new property to prevent users from accidentally overriding it and breaking Tyne functionality.
     /// </remarks>
-    [Obsolete(ServerDataErrorMessage, error: true, DiagnosticId = "TY0001")]
+    [Obsolete(ServerDataErrorMessage, error: true, DiagnosticId = "TYNE002")]
     [SuppressMessage("Info Code Smell", "S1133: Deprecated code should be removed", Justification = "[Obsolete] is used to stop users from using this property.")]
     public new Unit ServerData
     {
@@ -105,56 +104,22 @@ public abstract partial class TyneTableBase<TRequest, TResponse>
     }
 
     /// <summary>
-    ///     Creates a <typeparamref name="TRequest"/> and configures it based on the arguments and the tables <see cref="IFilterContext{TRequest}"/>.
-    /// </summary>
-    /// <param name="page">The page number.</param>
-    /// <param name="pageSize">The page size.</param>
-    /// <param name="orderBy">Which property, if any, to order by.</param>
-    /// <param name="orderByDescending">
-    ///     <see langword="true"/> to order <paramref name="orderBy"/> descending; otherwise, <see langword="false"/>.
-    ///     This will be ignored if no <paramref name="orderBy"/> is specified.
-    /// </param>
-    /// <returns>
-    ///     A <typeparamref name="TRequest"/> configured based on the arguments and the tables <see cref="IFilterContext{TRequest}"/>.
-    ///     This may be <see langword="null"/> if a request could not be created, such as if the filter context has faulted.
-    /// </returns>
-    protected virtual async Task<TRequest?> CreateRequestAsync(int page, int pageSize, string? orderBy, bool orderByDescending)
-    {
-        if (_filterContext.IsFaulted)
-        {
-            Logger.LogDebug("Cannot create table request - filter context is faulted.");
-            return default;
-        }
-
-        var request = new TRequest
-        {
-            PageIndex = page,
-            PageSize = pageSize,
-            OrderBy = orderBy,
-            OrderByDescending = orderByDescending
-        };
-
-        await _filterContext.WaitForInitialisedAsync().ConfigureAwait(true);
-        await _filterContext.ConfigureRequestAsync(request).ConfigureAwait(true);
-
-        return request;
-    }
-
-    /// <summary>
-    ///     Creates a <typeparamref name="TRequest"/> and configures it based on based on <paramref name="state"/> and the tables <see cref="IFilterContext{TRequest}"/>.
+    ///     Creates a <typeparamref name="TRequest"/> and configures it based on <paramref name="state"/> and the tables <see cref="IFilterContext{TRequest}"/>.
     /// </summary>
     /// <param name="state">The current <see cref="TableState"/>.</param>
     /// <returns>
     ///     A <typeparamref name="TRequest"/> configured based on the <paramref name="state"/> and the tables <see cref="IFilterContext{TRequest}"/>.
     ///     This may be <see langword="null"/> if a request could not be created, such as if the filter context has faulted.
     /// </returns>
-    /// <remarks>
-    ///     This simply transforms <paramref name="state"/> into parameters for <see cref="CreateRequestAsync(int, int, string?, bool)"/>.
-    ///     See that method for the actual request creation and configuration.
-    /// </remarks>
-    protected Task<TRequest?> CreateRequestAsync(TableState state)
+    protected async Task<TRequest?> CreateRequestAsync(TableState state)
     {
         ArgumentNullException.ThrowIfNull(state);
+
+        if (_filterContext.IsFaulted)
+        {
+            Logger.LogDebug("Cannot create table request - filter context is faulted.");
+            return default;
+        }
 
         string? orderBy;
         bool orderByDescending;
@@ -175,8 +140,27 @@ public abstract partial class TyneTableBase<TRequest, TResponse>
             orderByDescending = false;
         }
 
-        return CreateRequestAsync(state.Page, state.PageSize, orderBy, orderByDescending);
+        var request = await CreateRequestAsync(state.Page, state.PageSize, orderBy, orderByDescending).ConfigureAwait(false);
+        if (request is null)
+            throw new InvalidOperationException($"{nameof(CreateRequestAsync)} should not return null.");
+
+        await _filterContext.WaitForInitialisedAsync().ConfigureAwait(true);
+        await _filterContext.ConfigureRequestAsync(request).ConfigureAwait(true);
+
+        return request;
     }
+
+    /// <summary>
+    ///     Creates a <typeparamref name="TRequest"/>.
+    /// </summary>
+    /// <param name="page">The page number.</param>
+    /// <param name="pageSize">The page size.</param>
+    /// <param name="orderBy">Which property, if any, to order by.</param>
+    /// <param name="orderByDescending">
+    ///     <see langword="true"/> to order <paramref name="orderBy"/> descending; otherwise, <see langword="false"/>.
+    ///     This can be ignored if no <paramref name="orderBy"/> is specified.
+    /// </param>
+    protected abstract ValueTask<TRequest> CreateRequestAsync(int page, int pageSize, string? orderBy, bool orderByDescending);
 
     [SuppressMessage("Design", "CA1031: Do not catch general exception types", Justification = "Any uncaught exceptions are swallowed, this ensures they get logged.")]
     private async Task<TableData<TResponse>> LoadTableDataAsync(TableState state, CancellationToken cancellationToken)
@@ -199,11 +183,11 @@ public abstract partial class TyneTableBase<TRequest, TResponse>
             return EmptyTableData();
         }
 
-        Logger.LogDebug("Executing search.");
-        SearchResults<TResponse> searchResults;
+        Logger.LogDebug("Loading data.");
+        TableData<TResponse> tableData;
         try
         {
-            searchResults = await LoadDataAsync(request, cancellationToken).ConfigureAwait(true);
+            tableData = await LoadDataAsync(request, cancellationToken).ConfigureAwait(true);
         }
         catch (Exception exception)
         {
@@ -211,20 +195,16 @@ public abstract partial class TyneTableBase<TRequest, TResponse>
             return EmptyTableData();
         }
 
-        return new TableData<TResponse>
-        {
-            TotalItems = searchResults.TotalCount,
-            Items = searchResults
-        };
-
-        static TableData<TResponse> EmptyTableData() => new()
-        {
-            TotalItems = 0,
-            Items = [],
-        };
+        return tableData;
     }
 
-    protected abstract Task<SearchResults<TResponse>> LoadDataAsync(TRequest request, CancellationToken cancellationToken);
+    protected abstract Task<TableData<TResponse>> LoadDataAsync(TRequest request, CancellationToken cancellationToken);
+
+    private static TableData<TResponse> EmptyTableData() => new()
+    {
+        TotalItems = 0,
+        Items = []
+    };
 
     protected override void Dispose(bool disposing)
     {
