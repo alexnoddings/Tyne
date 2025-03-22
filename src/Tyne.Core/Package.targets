@@ -3,10 +3,8 @@
   <PropertyGroup>
     <!-- Enable prelude by default -->
     <_UseTyneCorePrelude>true</_UseTyneCorePrelude>
-    <!-- Disable if disabled across Tyne -->
+    <!-- If disabled -->
     <_UseTyneCorePrelude Condition=" '$(TynePrelude)' == 'disable' ">false</_UseTyneCorePrelude>
-    <!-- Disable if disabled specifically -->
-    <_UseTyneCorePrelude Condition=" $(TyneCorePrelude) == 'disable' ">false</_UseTyneCorePrelude>
   </PropertyGroup>
 
   <ItemGroup Condition="$(_UseTyneCorePrelude)">
