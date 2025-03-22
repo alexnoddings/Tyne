@@ -33,7 +33,7 @@ runs:
     - name: Setup package version
       shell: bash
       run: |
-        PACKAGE_VERSION_FIND="${{ inputs.package-version }}"
+        PACKAGE_VERSION_FIND='${PACKAGE_VERSION}'
         PACKAGE_VERSION_REPLACE="${{ inputs.package-version }}"
         find ./docs/ -type f -exec sed -i "s@${PACKAGE_VERSION_FIND}@${PACKAGE_VERSION_REPLACE}@g" {} +
 
