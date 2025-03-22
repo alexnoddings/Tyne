@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace Tyne.Blazor.Filtering.Values;
+namespace Tyne.Blazor.Filtering;
 
 /// <inheritdoc/>
 public abstract class TyneFilterSelectValue<TRequest, TValue, TSelectValue> : TyneFilterSelectValueBase<TRequest, TValue, TSelectValue>, IFilterSelectValueContext<TSelectValue>

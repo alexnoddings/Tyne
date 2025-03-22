@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace Tyne.Blazor.Tables.Columns;
+namespace Tyne.Blazor.Tables;
 
 /// <inheritdoc/>
 public class TyneColumnPopoverHeader<TResponse> : TyneColumnPopoverHeaderBase<TResponse>

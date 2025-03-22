@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace Tyne.Blazor.Filtering.Controllers;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     A controller which attaches to a <see cref="string"/> property.

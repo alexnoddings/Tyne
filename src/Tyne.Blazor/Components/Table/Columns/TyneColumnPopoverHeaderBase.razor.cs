@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace Tyne.Blazor.Tables.Columns;
+namespace Tyne.Blazor.Tables;
 
 /// <summary>
 ///     Renders a <see cref="MudTh"/> containing <see cref="Header"/>, which has a button to open a popover with <see cref="Content"/> in.

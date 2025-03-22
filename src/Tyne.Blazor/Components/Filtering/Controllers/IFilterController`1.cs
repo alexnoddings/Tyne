@@ -1,4 +1,4 @@
-namespace Tyne.Blazor.Filtering.Controllers;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     A filter controller.

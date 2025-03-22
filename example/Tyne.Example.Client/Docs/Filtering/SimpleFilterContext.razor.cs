@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
+using Tyne.Blazor.Persistence;
 
 namespace Tyne.Example.Client.Docs.Filtering;
 

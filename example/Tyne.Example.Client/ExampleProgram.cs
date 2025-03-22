@@ -2,9 +2,9 @@ using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
+using Tyne.Blazor.Persistence;
 using Tyne.Example.Client.Infrastructure;
 using Tyne.Example.Client.Infrastructure.Layouts;
-using Tyne.Example.Client;
 
 namespace Tyne.Example.Client;
 

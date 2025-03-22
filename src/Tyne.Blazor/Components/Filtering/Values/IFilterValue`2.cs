@@ -1,4 +1,4 @@
-namespace Tyne.Blazor.Filtering.Values;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     A combined <see cref="IFilter{TRequest}"/> and <see cref="IFilterValue{TValue}"/>.

@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor.Utilities;
-using Tyne.Blazor.Filtering.Values;
 
-namespace Tyne.Blazor.Filtering.Controllers;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     A single-selection controller which renders <see cref="IFilterSelectValue{TValue}"/>s as radio options in a list.

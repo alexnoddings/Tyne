@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace Tyne.Blazor.Filtering.Controllers;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     The context passed to the <see cref="RenderFragment"/> content

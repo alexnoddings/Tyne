@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace Tyne.Blazor.Tables.Columns;
+namespace Tyne.Blazor.Tables;
 
 /// <summary>
 ///     A column for use in a <see cref="TyneTableBase{TRequest, TResponse}"/>.

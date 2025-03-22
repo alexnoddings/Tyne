@@ -1,10 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
-using Tyne.Blazor.Filtering.Context;
-using Tyne.Blazor.Filtering.Controllers;
 
-namespace Tyne.Blazor.Filtering.Values;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     The core of the <see cref="IFilterValue{TRequest, TValue}"/> implementation.

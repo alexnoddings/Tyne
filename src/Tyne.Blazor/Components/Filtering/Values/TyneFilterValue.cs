@@ -1,7 +1,7 @@
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Components;
 
-namespace Tyne.Blazor.Filtering.Values;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     A <see cref="IFilterValue{TRequest, TValue}"/> which is

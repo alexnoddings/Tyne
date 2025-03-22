@@ -1,4 +1,4 @@
-namespace Tyne.Blazor.Filtering.Values;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     A <see cref="TyneFilterValueCore{TRequest, TValue}"/> which also implements <see cref="IFilterSearchValue{TSearchValue}"/>.

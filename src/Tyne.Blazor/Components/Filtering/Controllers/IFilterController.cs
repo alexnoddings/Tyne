@@ -1,4 +1,4 @@
-namespace Tyne.Blazor.Filtering.Controllers;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     Non-generic base for <see cref="IFilterController{TValue}"/>.

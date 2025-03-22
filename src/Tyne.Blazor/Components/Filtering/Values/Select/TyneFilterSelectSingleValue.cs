@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace Tyne.Blazor.Filtering.Values;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     A <see cref="TyneFilterValue{TRequest, TValue}"/> which supports single-item selection through <see cref="IFilterSelectValue{TValue}"/>.

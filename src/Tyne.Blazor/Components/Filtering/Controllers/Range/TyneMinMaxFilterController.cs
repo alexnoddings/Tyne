@@ -1,7 +1,7 @@
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Components;
 
-namespace Tyne.Blazor.Filtering.Controllers;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     A controller which attaches to a min and a max <typeparamref name="TValue"/> on <typeparamref name="TRequest"/>.

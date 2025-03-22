@@ -2,8 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
 using MudBlazor;
-using Tyne.Blazor.Filtering.Context;
-using Tyne.Blazor.Filtering.Values;
+using Tyne.Blazor.Filtering;
 using Tyne.Blazor.Persistence;
 
 namespace Tyne.Blazor.Tables;

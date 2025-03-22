@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Components;
-using Tyne.Blazor.Filtering.Context;
-using Tyne.Blazor.Filtering.Values;
 
-namespace Tyne.Blazor.Filtering.Controllers;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     Base implementation of <see cref="IFilterController{TValue}"/>.

@@ -1,4 +1,4 @@
-namespace Tyne.Blazor.Filtering.Values;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     A delegate which, when executed, updates a value on <paramref name="request"/> with <paramref name="value"/>.

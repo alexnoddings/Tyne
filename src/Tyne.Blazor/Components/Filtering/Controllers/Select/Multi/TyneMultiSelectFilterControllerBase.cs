@@ -1,7 +1,7 @@
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Components;
 
-namespace Tyne.Blazor.Filtering.Controllers;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     Base class for multi-selection controllers.

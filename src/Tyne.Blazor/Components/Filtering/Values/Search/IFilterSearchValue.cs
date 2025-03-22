@@ -1,4 +1,4 @@
-namespace Tyne.Blazor.Filtering.Values;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     A filter which supports searching for <typeparamref name="TSearchValue"/>s via <see cref="SearchAsync(string, CancellationToken)"/>.

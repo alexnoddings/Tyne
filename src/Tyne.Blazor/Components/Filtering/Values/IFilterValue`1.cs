@@ -1,6 +1,4 @@
-using Tyne.Blazor.Filtering.Controllers;
-
-namespace Tyne.Blazor.Filtering.Values;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     A filter value.

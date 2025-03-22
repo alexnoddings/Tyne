@@ -1,7 +1,7 @@
 using System.Reflection;
 using Tyne.Blazor.Persistence;
 
-namespace Tyne.Blazor.Filtering.Context;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     Wraps <see cref="IFilterContext{TRequest}.Persistence"/> to defer calls to a

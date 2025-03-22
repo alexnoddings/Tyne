@@ -19,7 +19,13 @@
       We hack an import here to run these targets - normal projects referencing Tyne packages don't need this.
     -->
     <Import Project="$(SrcRoot)\Tyne.Core\Package.targets"/>
-    <Import Project="$(SrcRoot)\Tyne.Blazor\Package.targets"/>
+
+    <ItemGroup>
+        <Using Include="Tyne.Blazor" />
+        <Using Include="Tyne.Blazor.Localisation" />
+        <Using Include="Tyne.Blazor.Filtering" />
+        <Using Include="Tyne.Blazor.Tables" />
+    </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="$(SrcRoot)\Tyne.Blazor\Blazor.csproj"/>

@@ -1,8 +1,6 @@
-using Tyne.Blazor.Filtering.Controllers;
-using Tyne.Blazor.Filtering.Values;
 using Tyne.Blazor.Persistence;
 
-namespace Tyne.Blazor.Filtering.Context;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     The context which Tyne rich interactive filtering runs inside of.

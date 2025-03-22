@@ -1,4 +1,4 @@
-namespace Tyne.Blazor.Filtering.Context;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     Tracks calls made to a <see cref="TyneFilterContext{TRequest}"/> during a batch update,

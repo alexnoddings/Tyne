@@ -1,7 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
-using Tyne.Blazor.Filtering.Controllers;
 
-namespace Tyne.Blazor.Filtering.Context;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     Base class for <see cref="FilterControllerHandle{TRequest, TValue}"/>

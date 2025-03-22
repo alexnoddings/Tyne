@@ -1,4 +1,4 @@
-namespace Tyne.Blazor.Filtering.Values;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     An extension of <see cref="FilterSelectItem{TValue}"/> with <see cref="Metadata"/>.

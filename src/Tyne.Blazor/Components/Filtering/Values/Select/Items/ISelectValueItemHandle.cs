@@ -1,4 +1,4 @@
-namespace Tyne.Blazor.Filtering.Values;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     A handle given to a <see cref="IFilterSelectItem{TValue}"/> when it attaches to a <see cref="IFilterSelectValueContext{TValue}"/>.

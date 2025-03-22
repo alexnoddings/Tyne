@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace Tyne.Blazor.Filtering.Values;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     A context representing an <see cref="IFilterSelectValue{TValue}"/>

@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace Tyne.Blazor.Filtering.Context;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     Base class for <see cref="FilterValueHandle{TRequest, TValue}"/> which provides

@@ -1,8 +1,7 @@
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Components;
-using Tyne.Blazor.Filtering.Values;
 
-namespace Tyne.Blazor.Filtering.Controllers;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     A base implementation of a search controller.

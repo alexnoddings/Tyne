@@ -1,4 +1,4 @@
-namespace Tyne.Blazor.Filtering.Context;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     A delegate which will trigger data to be reloaded

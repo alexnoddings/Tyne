@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor.Utilities;
-using Tyne.Blazor.Filtering.Values;
 
-namespace Tyne.Blazor.Filtering.Controllers;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     A multi-selection controller which renders <see cref="IFilterSelectValue{TValue}"/>s as checkboxes in a list.

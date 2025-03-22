@@ -1,4 +1,4 @@
-namespace Tyne.Blazor.Filtering.Values;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     A <see cref="IFilterSelectItem{TValue}"/> with <typeparamref name="TMetadata"/>.

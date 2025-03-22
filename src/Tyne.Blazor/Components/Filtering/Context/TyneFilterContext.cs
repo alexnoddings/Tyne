@@ -1,11 +1,9 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Logging;
-using Tyne.Blazor.Filtering.Controllers;
-using Tyne.Blazor.Filtering.Values;
 using Tyne.Blazor.Persistence;
 
-namespace Tyne.Blazor.Filtering.Context;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     The default implementation of a context for Tyne's rich interactive filtering to run inside of.

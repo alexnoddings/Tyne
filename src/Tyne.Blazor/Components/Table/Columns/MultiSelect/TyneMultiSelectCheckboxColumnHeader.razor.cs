@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
-using Tyne.Blazor.Filtering.Controllers;
+using Tyne.Blazor.Filtering;
 
-namespace Tyne.Blazor.Tables.Columns;
+namespace Tyne.Blazor.Tables;
 
 /// <summary>
 ///     A table column header which renders a

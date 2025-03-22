@@ -1,7 +1,4 @@
-using Tyne.Blazor.Filtering.Context;
-using Tyne.Blazor.Filtering.Values;
-
-namespace Tyne.Blazor.Filtering.Controllers;
+namespace Tyne.Blazor.Filtering;
 
 /// <summary>
 ///     A handle given to a <see cref="IFilterController{TValue}"/> when it attaches to an <see cref="IFilterContext{TRequest}"/>.
