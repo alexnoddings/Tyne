@@ -7,37 +7,48 @@ namespace Tyne;
 public class UnitTests
 {
     [Test]
-    public async Task AsTask_CompletesSuccessfully()
-    {
-        var task1 = Unit.AsTask;
-
-        // Task should already be completed
-        await Assert.That(task1.IsCompleted).IsTrue();
-        _ = await task1;
-    }
-
-    [Test]
     public async Task AsTask_IsCached()
     {
 #pragma warning disable AsyncFixer05
+        // Act
         var task1 = Unit.AsTask;
         var task2 = Unit.AsTask;
+
+        // Assert
         await Assert.That<Task<Unit>>(task1).IsEqualTo(task2);
 #pragma warning restore AsyncFixer05
     }
 
     [Test]
-    public async Task AsValueTask_CompletesSuccessfully()
+    public async Task AsTask_CompletesSuccessfully()
     {
-        var task1 = Unit.AsValueTask;
-        // ValueTask should already be completed
-        await Assert.That(task1.IsCompleted).IsTrue();
-        _ = await task1;
+        // Act
+        var task = Unit.AsTask;
+
+        // Assert
+        // Task should already be completed
+        await Assert.That(task.IsCompleted).IsTrue();
+        var unit = await task;
+        await Assert.That(unit).IsEqualTo(Unit.Value);
+    }
+
+    [Test]
+    public async Task AsTask_Implicit_ReturnsUnit()
+    {
+        // Act
+        Task<Unit> task = Unit.Value;
+
+        // Assert
+        // Task should already be completed
+        await Assert.That(task.IsCompleted).IsTrue();
+        var unit = await task;
+        await Assert.That(unit).IsEqualTo(Unit.Value);
     }
 
     [Test]
     public async Task AsValueTask_IsNotCached()
     {
+        // Act
         // Multiple calls should return multiple ValueTasks
         // (a ValueTask can only be awaited once, so this would throw if it was the same one)
         _ = await Unit.AsValueTask;
@@ -45,11 +56,39 @@ public class UnitTests
     }
 
     [Test]
+    public async Task AsValueTask_CompletesSuccessfully()
+    {
+        // Act
+        var task = Unit.AsValueTask;
+
+        // Assert
+        // ValueTask should already be completed
+        await Assert.That(task.IsCompleted).IsTrue();
+        var unit = await task;
+        await Assert.That(unit).IsEqualTo(Unit.Value);
+    }
+
+    [Test]
+    public async Task AsValueTask_Implicit_ReturnsUnit()
+    {
+        // Act
+        ValueTask<Unit> valueTask = Unit.Value;
+
+        // Assert
+        // ValueTask should already be completed
+        await Assert.That(valueTask.IsCompleted).IsTrue();
+        var unit = await valueTask;
+        await Assert.That(unit).IsEqualTo(Unit.Value);
+    }
+
+    [Test]
     public async Task Equals_Unit_AlwaysTrue()
     {
+        // Arrange
         var unit1 = UnitPrelude.unit;
         var unit2 = Unit.Value;
 
+        // Act/assert
         await Assert.That(unit1).IsEqualTo(unit2);
         await Assert.That(unit2).IsEqualTo(unit1);
 
@@ -87,8 +126,10 @@ public class UnitTests
     [MethodDataSource(nameof(NotEqualData))]
     public async Task Equals_NotUnit_AlwaysFalse(object? value)
     {
+        // Arrange
         var unit1 = Unit.Value;
 
+        // Act/assert
         // Assert.NotEqual(unit, value) uses CompareTo, which will always return 0
         await Assert.That(unit1.Equals(value)).IsFalse();
     }
@@ -96,9 +137,11 @@ public class UnitTests
     [Test]
     public async Task CompareTo_AlwaysZero()
     {
+        // Arrange
         var unit1 = Unit.Value;
         var unit2 = Unit.Value;
 
+        // Act/assert
         await Assert.That(unit1.CompareTo(unit2)).IsEqualTo(0);
         await Assert.That(unit1.CompareTo(unit2 as object)).IsEqualTo(0);
 
@@ -121,6 +164,7 @@ public class UnitTests
         // Act
         var hashCode = Unit.Value.GetHashCode();
 
+        // Assert
         await Assert.That(hashCode).IsEqualTo(0);
     }
 }

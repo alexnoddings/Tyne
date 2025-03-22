@@ -145,6 +145,20 @@ public readonly struct Unit : IEquatable<Unit>, IComparable<Unit>, IComparable
     public static bool operator >=(Unit _1, Unit _2) => true;
 
     /// <summary>
+    ///     Implicitly returns a <see cref="Task{TResult}"/> whose result is <see cref="Value"/>.
+    /// </summary>
+    /// <param name="_">Ignored.</param>
+    /// <returns><see cref="AsTask"/></returns>
+    public static implicit operator Task<Unit>(Unit _) => AsTask;
+
+    /// <summary>
+    ///     Implicitly creates a <see cref="ValueTask{TResult}"/> whose result is <see cref="Value"/>.
+    /// </summary>
+    /// <param name="_">Ignored.</param>
+    /// <returns><see cref="AsValueTask"/></returns>
+    public static implicit operator ValueTask<Unit>(Unit _) => AsValueTask;
+
+    /// <summary>
     ///		Returns a <see cref="string" /> that represents this instance.
     /// </summary>
     /// <returns>A <see cref="string" /> that represents this instance.</returns>
