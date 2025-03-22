@@ -3,7 +3,7 @@ namespace Tyne;
 // S4136:  Method overloads should be grouped together.
 // REASON: Select/SelectImpl pairs are grouped together for ease of reading.
 #pragma warning disable S4136
-// All Select methods which support have a Synchronous Select method, which returns an Asynchronous SelectImpl method.
+// All Select methods which support Async have a Synchronous Select method, which returns an Asynchronous SelectImpl method.
 // This is done so ArgumentNullExceptions are thrown sync when the method is called, rather than async when the returned Task is awaited.
 // Earlier exceptions make more sense, and are better for diagnostics.
 public static partial class ResultExtensions
