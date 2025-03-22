@@ -1,9 +1,0 @@
-﻿@inherits DocLayout
-
-@((RenderFragment)base.BuildRenderTree)
-
-@code
-{
-    protected override RenderFragment RenderBreadcrumbs() =>
-        @<SystemsBreadcrumbs PageName="@PageTitle" />;
-}

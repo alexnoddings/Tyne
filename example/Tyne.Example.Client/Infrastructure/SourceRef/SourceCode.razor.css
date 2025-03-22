@@ -1,0 +1,7 @@
+.tex-source-code {
+    display: none;
+}
+
+.tex-source-code[data-tex-visible=""] {
+    display: block;
+}

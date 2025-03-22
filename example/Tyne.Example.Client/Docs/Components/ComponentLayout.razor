@@ -1,0 +1,16 @@
+﻿@namespace Tyne.Example.Client.Docs.Components
+@typeparam TComponent
+@inherits DocLayout
+
+@((RenderFragment)base.BuildRenderTree)
+
+@code
+{
+    protected override string PageTitle => typeof(TComponent).Name;
+
+    protected override RenderFragment RenderTitle =>
+        @<div class="d-flex align-center">
+            <code>@PageTitle</code>
+            <ComponentDocLink T="TComponent" />
+        </div>;
+}

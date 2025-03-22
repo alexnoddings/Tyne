@@ -1,0 +1,11 @@
+﻿@namespace Tyne.Example.Client.Components
+
+<MudItem xs="12" md="10" lg="12" Class="py-0 mt-6">
+    <MudText Typo="Typo.h3">@ChildContent</MudText>
+</MudItem>
+
+@code
+{
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = null!;
+}

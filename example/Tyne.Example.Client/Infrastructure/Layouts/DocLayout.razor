@@ -1,0 +1,21 @@
+﻿@namespace Tyne.Example.Client.Infrastructure
+@inherits LayoutComponentBase
+@layout MainLayout
+
+<TynePageTitle Value="@PageTitle" />
+
+<MudContainer MaxWidth="@(MaxWidth ?? DefaultMaxWidth)" Class="pt-6 d-flex flex-column gap-2" Style="padding-bottom: 15vh;">
+    @if (!DisableBack)
+    {
+        <div class="d-flex justify-start">
+            <a href="./" class="mud-primary-text d-flex flex-row align-center pa-2 gap-2">
+                <MudIcon Icon="@Icons.Material.Filled.ArrowBack" Size="Size.Small"/>
+                <span>back to examples</span>
+            </a>
+        </div>
+    }
+    <MudText Class="mx-3" Typo="Typo.h2">
+        @RenderTitle
+    </MudText>
+    @Body
+</MudContainer>

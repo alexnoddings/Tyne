@@ -1,0 +1,66 @@
+﻿@using Tyne.Example.Client.Docs.Forms.Spacecraft
+@inherits TyneFormComponentBase
+
+<div class="px-4 py-2">
+    <TyneInlineFormContent TParams="Unit" TModel="Satellite" TError="string">
+        <Initialising>
+            <MudSkeleton Height="145px"/>
+        </Initialising>
+        <Inactive>
+            <div class="d-flex flex-column gap-1">
+                <MudTextField T="string" Label="Name" Disabled="true"/>
+                <MudNumericField T="int?" HideSpinButtons="true" Label="Apoapsis (KM)" Disabled="true"/>
+                <MudNumericField T="int?" HideSpinButtons="true" Label="Periapsis (KM)" Disabled="true"/>
+            </div>
+        </Inactive>
+        <Error Context="error">
+            <MudAlert Variant="Variant.Text" Severity="Severity.Error">
+                Error: @error
+            </MudAlert>
+        </Error>
+        <Loading>
+            <div class="d-flex flex-column gap-1">
+                <MudTextField T="string" Label="Name" Disabled="true"/>
+                <MudNumericField T="int?" HideSpinButtons="true" Label="Apoapsis (KM)" Disabled="true"/>
+                <MudNumericField T="int?" HideSpinButtons="true" Label="Periapsis (KM)" Disabled="true"/>
+            </div>
+        </Loading>
+        <Ready Context="state">
+            <div class="d-flex flex-column gap-1">
+                @{
+                    var isSaving = state is TyneFormState.Is.Saving;
+                }
+                <MudTextField @bind-Value="state.Model.Name" Label="Name" Disabled="@isSaving"/>
+                <MudNumericField @bind-Value="state.Model.ApogeeKm" HideSpinButtons="true" Label="Apoapsis (KM)"
+                                 Disabled="@isSaving"/>
+                <MudNumericField @bind-Value="state.Model.PerigeeKm" HideSpinButtons="true" Label="Periapsis (KM)"
+                                 Disabled="@isSaving"/>
+                @if (state.Error is not null)
+                {
+                    <MudAlert Variant="Variant.Text" Severity="Severity.Error" ShowCloseIcon="true"
+                              CloseIconClicked="() => state.UpdateErrorAsync(null)">
+                        Error: @state.Error
+                    </MudAlert>
+                }
+            </div>
+        </Ready>
+    </TyneInlineFormContent>
+</div>
+<div class="d-flex flex-row gap-2 px-4 my-4 justify-end">
+    <TyneFormMakeInactiveContext>
+        <TyneButton OnClick="context.MakeInactiveAsync"
+                    Disabled="!context.CanMakeInactive"
+                    Variant="Variant.Outlined"
+                    Color="Color.Secondary">
+            Cancel
+        </TyneButton>
+    </TyneFormMakeInactiveContext>
+    <TyneFormSaveContext>
+        <TyneButton OnClick="context.SaveAsync"
+                    Disabled="!context.CanSave"
+                    Variant="Variant.Filled"
+                    Color="Color.Primary">
+            Save
+        </TyneButton>
+    </TyneFormSaveContext>
+</div>

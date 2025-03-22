@@ -1,0 +1,58 @@
+﻿@page "/forms/state-controlled"
+@using Tyne.Example.Client.Docs.Forms.Spacecraft
+@using Tyne.Example.Client.Docs.Forms.Simple
+@using Tyne.Example.Client.Common.Forms
+@layout DocLayout
+@attribute [PageTitle("Manual state transition form")]
+
+<div class="d-flex">
+    <StateControlledSatelliteForm Context="form" Operation="_operationTcs.Task">
+        <div class="mx-auto d-flex flex-row gap-8 align-start">
+            <div class="d-flex flex-column gap-4">
+                <MudCard Class="mx-auto">
+                    <div class="mud-theme-dark rounded-t">
+                        <MudText Typo="Typo.h5" Class="mx-4">
+                            Satellite editor
+                        </MudText>
+                    </div>
+                    <SimpleSatelliteFormContent/>
+                </MudCard>
+                <TyneFormMakeActiveContext TModel="Satellite" TError="string">
+                    <Supported>
+                        <TyneButton OnClick="() => context(LoadSatelliteAsync)"
+                                    Variant="Variant.Filled"
+                                    Color="Color.Primary">
+                            Load data
+                        </TyneButton>
+                    </Supported>
+                </TyneFormMakeActiveContext>
+                <OperationFormDebugView CompleteOperation="CompleteOperation"/>
+            </div>
+            <FormStateMachineDebugView/>
+        </div>
+    </StateControlledSatelliteForm>
+</div>
+
+@code {
+    private TaskCompletionSource<Result<Unit, string>> _operationTcs = new();
+
+    private void CompleteOperation(bool? success)
+    {
+        if (success is null)
+            _operationTcs.SetException(new InvalidOperationException("Some exception went wrong."));
+        else if (success is true)
+            _operationTcs.SetResult(unit);
+        else
+            _operationTcs.SetResult("something went wrong");
+
+        _operationTcs = new();
+        StateHasChanged();
+    }
+
+    private async Task<Result<Satellite, string>> LoadSatelliteAsync(CancellationToken cancellationToken)
+    {
+        var result = await _operationTcs.Task.WaitAsync(cancellationToken);
+        return result.Select(_ => new Satellite { Name = "Explorer 1", PerigeeKm = 358, ApogeeKm = 2_550, IsAlive = false });
+    }
+
+}

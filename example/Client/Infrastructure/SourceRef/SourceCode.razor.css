@@ -1,7 +1,0 @@
-.ta-source-code {
-    display: none;
-}
-
-.ta-source-code[data-ta-visible=""] {
-    display: block;
-}

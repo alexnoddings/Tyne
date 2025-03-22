@@ -1,0 +1,82 @@
+﻿@namespace Tyne.Example.Client
+@using Tyne.Example.Client.Infrastructure.Layouts
+@inherits LayoutComponentBase
+@inject ThemeService ThemeService
+
+<MudThemeProvider Theme="ThemeService.Theme" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+<MudPopoverProvider/>
+
+<MudLayout>
+    <MudAppBar Elevation="1" Dense="true" Gutters="false">
+        <MudContainer Class="d-flex flex-row align-center gap-5" MaxWidth="MaxWidth.Large">
+            <MudLink Href="./"
+                     Typo="Typo.h4"
+                     Color="Color.Inherit"
+                     Underline="Underline.None"
+                     Class="d-flex flex-row align-center">
+                <img src="./_content/TyneExampleClient/tyne.svg" alt="Tyne logo" height="36px" />
+            </MudLink>
+            <a href="https://alexnoddings.github.io/Tyne/docs/" class="mud-typography mud-link mud-inherit-text mud-typography-body1">
+                Docs
+            </a>
+            <a href="https://alexnoddings.github.io/Tyne/api/" class="mud-typography mud-link mud-inherit-text mud-typography-body1">
+                API
+            </a>
+            <a href="./" class="mud-typography mud-link mud-inherit-text mud-typography-body1 mud-link-underline-always">
+                Blazor examples
+            </a>
+            <MudSpacer />
+            <Environment Mode="EnvironmentMode.Exclude" Matching="EnvironmentMatching.Exact" Filter="Production" Context="environmentName">
+                <MudText Typo="Typo.body1"
+                         Class="pointer-events-none"
+                         Style="opacity: 67%;">
+                    @environmentName
+                </MudText>
+                <MudDivider Vertical="true"
+                            FlexItem="true"
+                            Class="my-2"
+                            Style="opacity: 67%;" />
+            </Environment>
+            <BuildTagContent Context="buildTag">
+                <MudText Typo="Typo.body1"
+                         Class="pointer-events-none"
+                         Style="opacity: 67%;">
+                    @buildTag
+                </MudText>
+            </BuildTagContent>
+            <MudDivider Vertical="true"
+                        FlexItem="true"
+                        Class="my-2"
+                        Style="opacity: 67%;" />
+            <MudMenu AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight">
+                <ActivatorContent>
+                    <div class="d-flex flex-row align-center">
+                        <MudIcon Icon="@Icons.Material.Filled.Architecture" />
+                    </div>
+                </ActivatorContent>
+                <ChildContent>
+                    <MudMenuItem Href="./theme" Icon="@Icons.Material.Filled.Palette" IconColor="Color.Primary">
+                        Theme
+                    </MudMenuItem>
+                    <MudDivider Light="true" Class="my-2" />
+                    <MudMenuItem Disabled="true">
+                        <div class="d-inline-flex gap-1 ms-n8">
+                            <span>Breakpoint:</span>
+                            <code class="d-block d-sm-none">xs</code>
+                            <code class="d-none d-sm-block d-md-none">sm</code>
+                            <code class="d-none d-md-block d-lg-none">md</code>
+                            <code class="d-none d-lg-block d-xl-none">lg</code>
+                            <code class="d-none d-xl-block d-xxl-none">xl</code>
+                            <code class="d-none d-xxl-block">xxl</code>
+                        </div>
+                    </MudMenuItem>
+                </ChildContent>
+            </MudMenu>
+        </MudContainer>
+    </MudAppBar>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>

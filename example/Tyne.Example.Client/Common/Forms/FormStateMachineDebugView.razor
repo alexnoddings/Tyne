@@ -1,0 +1,137 @@
+@namespace Tyne.Example.Client.Common.Forms
+@inherits TyneFormComponentBase
+
+<MudCard Class="flex-grow-0">
+    <div class="px-4 rounded-t mud-theme-warning mud-elevation-1" style="background: repeating-linear-gradient(-65deg, transparent, transparent 10px, #dc622e 10px, #dc622e 20px);">
+        <MudText Typo="Typo.h5" HtmlTag="h1">
+            Debug state machine view
+        </MudText>
+    </div>
+    <svg width="100%" viewBox="10 0 95 153" style="font-size: .4rem;">
+        <defs>
+            <filter x="-.1" y="-.05" width="1.2" height="1.1" id="labelBgInactive">
+                <feFlood flood-color="#575757BB"/>
+                <feComposite in="SourceGraphic" operator="xor" />
+            </filter>
+            <filter x="-.1" y="-.05" width="1.2" height="1.1" id="labelBgTransition">
+                <feFlood flood-color="#AA1D63BB"/>
+                <feComposite in="SourceGraphic" operator="xor" />
+            </filter>
+            <filter x="-.1" y="-.05" width="1.2" height="1.1" id="labelBgActive">
+                <feFlood flood-color="#207FBABB"/>
+                <feComposite in="SourceGraphic" operator="xor" />
+            </filter>
+        </defs>
+        @{
+            var currentKey = GetStateDebugName(Form.State);
+            foreach (var parentNode in _transitions.Keys)
+            {
+                // Current staet is painted last to ensure it's on top of other states
+                if (parentNode.Key == currentKey)
+                    continue;
+
+                foreach (var childNode in _transitions[parentNode])
+                {
+                    @RenderTransition(parentNode, childNode, false)
+                }
+            }
+
+            var currentNode = CurrentNode;
+            foreach (var childNode in _transitions[currentNode])
+            {
+                @RenderTransition(currentNode, childNode, true)
+            }
+        }
+        @RenderStateNode(Nodes.Uninitialised)
+        @RenderStateNode(Nodes.Initialising)
+        @RenderStateNode(Nodes.InitialisingError)
+        @RenderStateNode(Nodes.Inactive)
+        @RenderStateNode(Nodes.Loading)
+        @RenderStateNode(Nodes.LoadingError)
+        @RenderStateNode(Nodes.Active)
+        @RenderStateNode(Nodes.Saving)
+    </svg>
+    <div class="ms-2 mt-n5">
+        Key:
+    </div>
+    <div class="d-flex flex-row mud-elevation-1">
+        <div class="mud-theme-dark flex-1 px-2 py-1 text-center">
+            inactive
+        </div>
+        <div class="mud-theme-tertiary flex-1 px-2 py-1 text-center">
+            transition
+        </div>
+        <div class="mud-theme-primary flex-1 px-2 py-1 text-center font-bold">
+            active
+        </div>
+    </div>
+    <div class="rounded-b mud-theme-warning" style="height: 12px; background: repeating-linear-gradient(-65deg, transparent, transparent 10px, #dc622e 10px, #dc622e 20px);">
+    </div>
+</MudCard>
+
+@code
+{
+    // These renderers are appallingly ugly, but they get the job done
+
+    private RenderFragment RenderStateNode(Node node)
+    {
+        string bg, filter, weight;
+        var isActive = GetStateDebugName(Form.State) == node.Key;
+        if (isActive)
+        {
+            bg = "#207fba";
+            filter = "labelBgActive";
+            weight = "bold";
+        }
+        else
+        {
+            weight = "normal";
+            var canTransitionTo = _transitions[CurrentNode].Contains(node);
+            if (canTransitionTo)
+            {
+                bg = "#aa1d63";
+                filter = "labelBgTransition";
+            }
+            else
+            {
+                bg = "#2E2E2E";
+                filter = "labelBgInactive";
+            }
+        }
+
+        return @<text>
+                    <circle cx="@node.X" cy="@node.Y" r="6" fill="@bg" />
+                    <text x="@node.X"
+                          y="@(node.Y + 14)"
+                          text-anchor="middle"
+                          filter="url(#@filter)"
+                          font-weight="@weight">
+                        @node.DisplayName
+                    </text>
+                    <text x="@node.X"
+                          y="@(node.Y + 14)"
+                          fill="#fff"
+                          text-anchor="middle"
+                          font-weight="@weight">
+                        @node.DisplayName
+                    </text>
+                </text>;
+    }
+
+    private RenderFragment RenderTransition(Node from, Node to, bool isTraversable)
+    {
+        var colour = isTraversable
+            ? "#aa1d63"
+            : "#424242";
+        var width = isTraversable
+            ? "2.5px"
+            : "1.5px";
+
+        return @<line x1="@from.X"
+                      y1="@from.Y"
+                      x2="@to.X"
+                      y2="@to.Y"
+                      stroke="@colour"
+                      stroke-width="@width"/>;
+    }
+}

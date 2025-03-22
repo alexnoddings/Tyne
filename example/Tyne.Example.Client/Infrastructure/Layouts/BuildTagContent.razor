@@ -1,0 +1,16 @@
+﻿@using Microsoft.Extensions.Options
+@inject IOptions<BuildTag> BuildTagOptions
+
+@{
+    var buildTag = BuildTagOptions.Value.Tag;
+    if (!string.IsNullOrEmpty(buildTag))
+    {
+        @ChildContent?.Invoke(buildTag)
+    }
+}
+
+@code
+{
+    [Parameter]
+    public RenderFragment<string>? ChildContent { get; set; }
+}

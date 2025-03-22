@@ -1,0 +1,30 @@
+﻿@using System.Security.Cryptography
+
+<SimpleFilterContext TRequest="SimpleCustomControllerExampleRequest">
+    <FilterValues>
+        <TyneFilterValue For="m => m.LaunchCode" Default="0451" />
+    </FilterValues>
+    <ChildContent Context="ConfiguredRequest">
+        <MudText Typo="Typo.h4" Class="mb-n4">
+            Launch code
+        </MudText>
+        <MudText Typo="Typo.h1">
+            <code>@ConfiguredRequest.LaunchCode.ToString("0000")</code>
+        </MudText>
+        <div>
+            @* Controller usage *@
+            <TyneCustomFilterController For="m => m.LaunchCode" Context="valueContext">
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           OnClick="() => valueContext.SetFilterValueAsync(RandomNumberGenerator.GetInt32(0, 10_000))">
+                    Randomise
+                </MudButton>
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Secondary"
+                           OnClick="() => valueContext.SetFilterValueAsync(0)">
+                    Reset
+                </MudButton>
+            </TyneCustomFilterController>
+        </div>
+    </ChildContent>
+</SimpleFilterContext>

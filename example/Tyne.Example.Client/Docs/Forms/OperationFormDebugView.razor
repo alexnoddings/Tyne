@@ -1,0 +1,45 @@
+@namespace Tyne.Example.Client.Docs.Forms.Spacecraft
+@inherits TyneFormComponentBase
+
+<MudCard Class="mx-auto mb-3 pb-4">
+    <div class="px-4 rounded-t mud-theme-warning mb-2 mud-elevation-1" style="background: repeating-linear-gradient(-65deg, transparent, transparent 10px, #dc622e 10px, #dc622e 20px);">
+        <MudText Typo="Typo.h5" HtmlTag="h1">
+            Result controller
+        </MudText>
+    </div>
+    <div class="px-4">
+        <div class="d-flex flex-column gap-2 justify-center">
+            @{
+                var canComplete = Form.State is TyneFormState.Initialising or TyneFormState.Loading or TyneFormState.Saving;
+                var operationName = Form.State switch
+                {
+                    TyneFormState.Initialising => "initialisation",
+                    TyneFormState.Loading => "loading",
+                    TyneFormState.Saving => "saving",
+                    _ => "operation"
+                };
+            }
+            <MudText>
+                Set @operationName result:
+            </MudText>
+            <TyneButton OnClick="() => CompleteOperation(true)"
+                        Disabled="!canComplete"
+                        Variant="Variant.Filled"
+                        Color="Color.Success">
+                ok
+            </TyneButton>
+            <TyneButton OnClick="() => CompleteOperation(false)"
+                        Disabled="!canComplete"
+                        Variant="Variant.Filled"
+                        Color="Color.Warning">
+                error
+            </TyneButton>
+            <TyneButton OnClick="() => CompleteOperation(null)"
+                        Disabled="!canComplete"
+                        Variant="Variant.Filled"
+                        Color="Color.Error">
+                throw
+            </TyneButton>
+        </div>
+    </div>
+</MudCard>

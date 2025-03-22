@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".eng", ".eng", "{6F7AC836-F
 		eng\Version.props = eng\Version.props
 		eng\Testing.props = eng\Testing.props
 		global.json = global.json
+		eng\Publishing.props = eng\Publishing.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blazor", "Blazor", "{E83BDDD6-600F-B5F0-78FF-47929315255A}"
@@ -32,6 +33,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "stubs", "stubs", "{80C573AB
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.TestUtilities", "src\Tyne.Core.TestUtilities\Core.TestUtilities.csproj", "{991908F1-401D-4DDA-9E00-18936104B3FA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Example", "Example", "{9A9A8491-DCE6-4769-8580-A6E2CC9982A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Client", "example\Tyne.Example.Client\Example.Client.csproj", "{96A3876C-4688-4F9B-A53F-69F9D6D51937}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceRef.SourceGenerators", "example\Tyne.Example.SourceRef.SourceGenerators\SourceRef.SourceGenerators.csproj", "{B91700D1-7C2E-43E7-BF68-4DBB3F7B74C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Host.Server", "example\Tyne.Example.Host.Server\Example.Host.Server.csproj", "{0044AD34-4F11-4EB3-AAFB-28C7E4E32A7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Host.Wasm", "example\Tyne.Example.Host.Wasm\Example.Host.Wasm.csproj", "{82C0587B-2C8A-4540-99B1-80D666AB68F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +74,22 @@ Global
 		{991908F1-401D-4DDA-9E00-18936104B3FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{991908F1-401D-4DDA-9E00-18936104B3FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{991908F1-401D-4DDA-9E00-18936104B3FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96A3876C-4688-4F9B-A53F-69F9D6D51937}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96A3876C-4688-4F9B-A53F-69F9D6D51937}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96A3876C-4688-4F9B-A53F-69F9D6D51937}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96A3876C-4688-4F9B-A53F-69F9D6D51937}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B91700D1-7C2E-43E7-BF68-4DBB3F7B74C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B91700D1-7C2E-43E7-BF68-4DBB3F7B74C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B91700D1-7C2E-43E7-BF68-4DBB3F7B74C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B91700D1-7C2E-43E7-BF68-4DBB3F7B74C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0044AD34-4F11-4EB3-AAFB-28C7E4E32A7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0044AD34-4F11-4EB3-AAFB-28C7E4E32A7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0044AD34-4F11-4EB3-AAFB-28C7E4E32A7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0044AD34-4F11-4EB3-AAFB-28C7E4E32A7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82C0587B-2C8A-4540-99B1-80D666AB68F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82C0587B-2C8A-4540-99B1-80D666AB68F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82C0587B-2C8A-4540-99B1-80D666AB68F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82C0587B-2C8A-4540-99B1-80D666AB68F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7908F7DB-C4EC-4D2C-BC0D-AD28AD91010F} = {E83BDDD6-600F-B5F0-78FF-47929315255A}
@@ -71,5 +98,9 @@ Global
 		{8FEFA2E1-3A51-4C0C-BCDC-9AD31069287B} = {FBF56CC3-7AE6-AD2D-3F14-7F97FD322CD6}
 		{80C573AB-CA22-44A9-888C-CE8EB11E2439} = {6F7AC836-FB5A-E075-6D2A-914D68E5C66F}
 		{991908F1-401D-4DDA-9E00-18936104B3FA} = {FBF56CC3-7AE6-AD2D-3F14-7F97FD322CD6}
+		{96A3876C-4688-4F9B-A53F-69F9D6D51937} = {9A9A8491-DCE6-4769-8580-A6E2CC9982A3}
+		{B91700D1-7C2E-43E7-BF68-4DBB3F7B74C7} = {9A9A8491-DCE6-4769-8580-A6E2CC9982A3}
+		{0044AD34-4F11-4EB3-AAFB-28C7E4E32A7D} = {9A9A8491-DCE6-4769-8580-A6E2CC9982A3}
+		{82C0587B-2C8A-4540-99B1-80D666AB68F7} = {9A9A8491-DCE6-4769-8580-A6E2CC9982A3}
 	EndGlobalSection
 EndGlobal

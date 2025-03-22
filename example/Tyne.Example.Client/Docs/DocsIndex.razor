@@ -1,0 +1,23 @@
+﻿@page "/"
+@using Tyne.Example.Client.Docs.Components
+@using Tyne.Example.Client.Docs.Forms
+@using Tyne.Example.Client.Docs.Filtering
+@using Tyne.Example.Client.Docs.Tables
+@using Tyne.Example.Client.Infrastructure.Layouts
+@layout DocLayout
+@attribute [PageMaxWidth(MaxWidth.Large)]
+@attribute [DisableBackLink]
+
+<TynePageTitle Value="Tyne Blazor examples" />
+
+<MudText Typo="Typo.h2" Class="mt-6">
+    Tyne Blazor examples
+</MudText>
+
+<ComponentsDocsIndex />
+
+<FormsDocsIndex/>
+
+<FilteringDocsIndex/>
+
+<TablesDocsIndex/>

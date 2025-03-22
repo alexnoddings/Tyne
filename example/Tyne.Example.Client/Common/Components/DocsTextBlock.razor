@@ -1,0 +1,28 @@
+﻿@using MudBlazor.Utilities
+@namespace Tyne.Example.Client.Components
+
+<MudPaper Class="@ClassName">
+    @ChildContent
+</MudPaper>
+
+@code
+{
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = EmptyRenderFragment.Instance;
+
+    [Parameter]
+    public bool TopMargin { get; set; }
+
+    [Parameter]
+    public bool MultiLine { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    private string ClassName =>
+        new CssBuilder("px-4 py-2")
+            .AddClass(Class)
+            .AddClass("d-flex flex-column gap-2", MultiLine)
+            .AddClass("mt-6", TopMargin)
+            .ToString();
+}

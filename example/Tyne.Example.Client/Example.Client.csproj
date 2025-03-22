@@ -1,0 +1,57 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <AssemblyName>TyneExampleClient</AssemblyName>
+        <RootNamespace>Tyne.Example.Client</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <SupportedPlatform Include="browser"/>
+    </ItemGroup>
+
+    <PropertyGroup>
+        <TynePrelude>enable</TynePrelude>
+    </PropertyGroup>
+
+    <!--
+      Package.targets only work with published NuGet packages, not locally referenced projects.
+      We hack an import here to run these targets - normal projects referencing Tyne packages don't need this.
+    -->
+    <Import Project="$(SrcRoot)\Tyne.Core\Package.targets"/>
+    <Import Project="$(SrcRoot)\Tyne.Blazor\Package.targets"/>
+
+    <ItemGroup>
+        <ProjectReference Include="$(SrcRoot)\Tyne.Blazor\Blazor.csproj"/>
+        <!-- Imports the SourceRef source generators. -->
+        <ProjectReference Include="$(ExampleRoot)\Tyne.Example.SourceRef.SourceGenerators\SourceRef.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+        <PackageReference Include="Humanizer.Core" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" />
+        <PackageReference Include="MudBlazor"/>
+    </ItemGroup>
+
+    <PropertyGroup Label="Warnings and Errors">
+        <!--
+          CA!716: Identifiers should not match keywords.
+          REASON: It really gets in the way of sensible naming for example namespaces/pages.
+        -->
+        <NoWarn>$(NoWarn);CA1716</NoWarn>
+        <!--
+          CA1034: Parameter names should match base declaration.
+          REASON: More specific names can be useful in app code.
+        -->
+        <NoWarn>$(NoWarn);CA1725</NoWarn>
+        <!--
+          CS1591: Missing XML comment for publicly visible type or member.
+          REASON: Client isn't shipped so we don't care about missing XML comments.
+                  See Build.props for why this is surfaced.
+        -->
+        <NoWarn>$(NoWarn);CS1591</NoWarn>
+    </PropertyGroup>
+
+</Project>

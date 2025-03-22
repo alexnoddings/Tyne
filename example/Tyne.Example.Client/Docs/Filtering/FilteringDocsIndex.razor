@@ -1,0 +1,83 @@
+﻿<MudText Typo="Typo.h3" Class="mt-6 ms-4">
+    Filtering
+</MudText>
+
+<MudPaper Class="mx-4 my-2">
+    <MudAlert Variant="Variant.Text" Severity="Severity.Info">
+        The following examples use Tyne's filtering.
+        For an intro and more detailed look at how the filtering works, see the
+        <MudLink Underline="Underline.Always" Href="/packages/Blazor/Filtering/intro.html">filtering docs</MudLink>.
+    </MudAlert>
+</MudPaper>
+
+<LinkSection>
+    @**** Intro ****@
+    <LinkSectionHeader>
+        <MudText Typo="Typo.h5" Class="ms-2">Intro</MudText>
+    </LinkSectionHeader>
+    <LinkCard Title="Simple filter" Href="./filtering/intro/simple" Icon="@Icons.Material.Filled.Search">
+        A simple filtering context with one string property
+    </LinkCard>
+    <LinkCard Title="Default value" Href="./filtering/intro/default" Icon="@Icons.Material.Outlined.IndeterminateCheckBox">
+        Filter values can have with default initial values
+    </LinkCard>
+    <LinkCard Title="Synchronisation" Href="./filtering/intro/syncing" Icon="@Icons.Material.Filled.SyncAlt">
+        Filter controllers stay in sync with each other
+    </LinkCard>
+
+    @**** Controllers ****@
+    <LinkSectionHeader>
+        <MudText Typo="Typo.h5" Class="ms-2">Controllers</MudText>
+    </LinkSectionHeader>
+    <LinkSubSectionHeader>
+        <MudText Typo="Typo.h6" Class="ms-4 mt-3">General</MudText>
+    </LinkSubSectionHeader>
+    <LinkCard Title="String" Href="./filtering/controllers/string" Icon="@Icons.Material.Filled.Input">
+        Simple string filter
+    </LinkCard>
+    <LinkCard Title="Custom (simple)" Href="./filtering/controllers/custom-simple" Icon="@Icons.Material.Outlined.SettingsApplications">
+        Simple, one-off custom controller
+    </LinkCard>
+    <LinkCard Title="Custom (advanced)" Href="./filtering/controllers/custom-advanced" Icon="@Icons.Material.Outlined.Tune">
+        Advanced, reusable custom controller
+    </LinkCard>
+
+    <LinkSubSectionHeader>
+        <MudText Typo="Typo.h6" Class="ms-4 mt-3">Ranges</MudText>
+    </LinkSubSectionHeader>
+    <LinkCard Title="DateTime range" Href="./filtering/controllers/date-time" Icon="@Icons.Material.Filled.Autorenew">
+        DateTime range filter
+    </LinkCard>
+    <LinkCard Title="Custom range (simple)" Href="./filtering/controllers/range-custom-simple" Icon="@Icons.Material.Outlined.SettingsApplications">
+        Simpler, one-off custom range controller
+    </LinkCard>
+    <LinkCard Title="Custom range (advanced)" Href="./filtering/controllers/range-custom-advanced" Icon="@Icons.Material.Filled.Tune">
+        Advanced, reusable custom range controller
+    </LinkCard>
+
+    @**** Values ****@
+    <LinkSubSectionHeader>
+        <MudText Typo="Typo.h5" Class="ms-2 mt-3">Values</MudText>
+    </LinkSubSectionHeader>
+    <LinkCard Title="Single select inline" Href="./filtering/values/select/single/inline" Icon="@Icons.Material.Outlined.RadioButtonUnchecked">
+        Simple, inline single-select values
+    </LinkCard>
+    <LinkCard Title="Multi select inline" Href="./filtering/values/select/multi/inline" Icon="@Icons.Material.Outlined.CheckBoxOutlineBlank">
+        Simple, inline multi-select values
+    </LinkCard>
+    <LinkCard Title="Search values" Href="./filtering/values/search" Icon="@Icons.Material.Outlined.Pageview">
+        Searching for available values
+    </LinkCard>
+    <LinkCard Title="Single select custom" Href="./filtering/values/select/single/custom" Icon="@Icons.Material.Outlined.RadioButtonChecked">
+        Custom source single-select values
+    </LinkCard>
+    <LinkCard Title="Multi select custom" Href="./filtering/values/select/multi/custom" Icon="@Icons.Material.Outlined.CheckBox">
+        Custom source multi-select values
+    </LinkCard>
+    <LinkCard Title="Update select values" Href="./filtering/values/select/single/update" Icon="@Icons.Material.Filled.SystemUpdateAlt">
+        Programatically updating a select available values
+    </LinkCard>
+    <LinkCard Title="Select value metadata" Href="./filtering/values/select/single/metadata" Icon="@Icons.Material.Filled.NoteAdd">
+        Adding metadata to select values
+    </LinkCard>
+</LinkSection>

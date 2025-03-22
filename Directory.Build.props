@@ -4,6 +4,7 @@
     <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
     <EngRoot>$(MSBuildThisFileDirectory)\eng</EngRoot>
     <SrcRoot>$(MSBuildThisFileDirectory)\src</SrcRoot>
+    <ExampleRoot>$(MSBuildThisFileDirectory)\example</ExampleRoot>
   </PropertyGroup>
 
   <Import Project="$(EngRoot)\Build.props" />

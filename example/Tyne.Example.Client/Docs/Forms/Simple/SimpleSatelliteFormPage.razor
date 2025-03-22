@@ -1,0 +1,51 @@
+﻿@page "/forms/simple"
+@using Tyne.Example.Client.Docs.Forms.Spacecraft
+@using Tyne.Example.Client.Common.Forms
+@layout DocLayout
+@attribute [PageTitle("Simple table")]
+
+<SourceCode T="SimpleSatelliteFormContent" SourceType="SourceCodeType.Component" Name="Form" ShowSourceByDefault="false">
+    <div class="d-flex">
+        <SimpleSatelliteForm Context="form">
+            <div class="mx-auto d-flex flex-row gap-8 align-start">
+                <div class="d-flex flex-column">
+                    <MudCard Class="mx-auto">
+                        <div class="mud-theme-dark rounded-t">
+                            <MudText Typo="Typo.h5" Class="mx-4">
+                                Satellite editor
+                            </MudText>
+                        </div>
+                        <SimpleSatelliteFormContent/>
+                    </MudCard>
+                    <TyneFormMakeActiveContext TModel="Satellite" TError="string">
+                        <Supported>
+                            <TyneButton OnClick="() => context(LoadSatelliteAsync)"
+                                        Variant="Variant.Filled"
+                                        Color="Color.Primary"
+                                        Class="mt-4">
+                                Load data
+                            </TyneButton>
+                        </Supported>
+                    </TyneFormMakeActiveContext>
+                </div>
+                <FormStateMachineDebugView/>
+            </div>
+        </SimpleSatelliteForm>
+    </div>
+</SourceCode>
+
+@code {
+    private async Task<Result<Satellite, string>> LoadSatelliteAsync(CancellationToken cancellationToken)
+    {
+        await Task.Delay(1_000, cancellationToken);
+        var satellite = new Satellite
+        {
+            Name = "Explorer 1",
+            PerigeeKm = 358,
+            ApogeeKm = 2_550,
+            IsAlive = false
+        };
+        return satellite;
+    }
+
+}
