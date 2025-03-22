@@ -2,7 +2,7 @@
 
 # Tyne ([docs](https://alexnoddings.github.io/Tyne/docs/)) ([demo](https://alexnoddings.github.io/Tyne/demo/))
 
-[![Main branch build/test](https://img.shields.io/github/actions/workflow/status/alexnoddings/Tyne/build-and-test-main.yml?branch=main&logo=github&label=Main%20build)](https://github.com/alexnoddings/Tyne/actions/workflows/build-and-test-main.yml)
+[![Main branch build/test](https://img.shields.io/github/actions/workflow/status/alexnoddings/Tyne/publish-release.yml?branch=main&logo=github&label=Main%20build)](https://github.com/alexnoddings/Tyne/actions/workflows/publish-release.yml)
 [![License](https://img.shields.io/github/license/alexnoddings/Tyne?logo=github&label=License)](https://github.com/alexnoddings/Tyne/blob/main/LICENSE)
 [![Nuget downloads](https://img.shields.io/nuget/dt/Tyne.Core?label=NuGet%20downloads&logo=nuget)](https://www.nuget.org/packages/Tyne.Core/)
 [![Latest stable Nuget version](https://img.shields.io/nuget/v/Tyne.Core?label=Stable%20NuGet%20version&logo=nuget)](https://www.nuget.org/packages/Tyne.Core/)
