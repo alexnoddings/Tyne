@@ -36,6 +36,23 @@ public sealed partial class Result<T, TE> : IEquatable<Result<T, TE>>
         _error = error;
     }
 
+    /// <summary>
+    ///     Tries to unwrap this result.
+    /// </summary>
+    /// <param name="ok">
+    ///     This result's Ok value if it is Ok(<typeparamref name="T"/>); otherwise, <see langword="default"/> when it is Error(<typeparamref name="TE"/>).
+    /// </param>
+    /// <param name="error">
+    ///     This result's Error value if it is Error(<typeparamref name="TE"/>); otherwise, <see langword="default"/> when it is Ok(<typeparamref name="T"/>).
+    /// </param>
+    /// <returns>
+    ///     <see langword="true"/> if this is Ok(<typeparamref name="T"/>);
+    ///     otherwise, <see langword="false"/> when it is Error(<typeparamref name="TE"/>).
+    /// </returns>
+    /// <remarks>
+    ///     If this is Ok(<typeparamref name="T"/>), then <paramref name="ok"/> is set and this returns <see langword="true"/>.
+    ///     Otherwise, when this is Error(<typeparamref name="TE"/>), then <paramref name="error"/> will be set and this returns <see langword="false"/>.
+    /// </remarks>
     [Pure]
     public bool TryUnwrap(
         [NotNullWhen(true)] out T? ok,
@@ -87,7 +104,7 @@ public sealed partial class Result<T, TE> : IEquatable<Result<T, TE>>
             : TyneToStringHelpers.CreateStringFor("Error", _error!);
 
     /// <summary>
-    ///     Converts <paramref name="result"/> into a <see cref="Result{T, TE}"/> of type <see cref="Unit"/>.
+    ///     Implicitly converts <paramref name="result"/> into a <see cref="Result{T, TE}"/> of type <see cref="Unit"/>.
     /// </summary>
     /// <param name="result">The <see cref="Result{T, TE}"/> to convert.</param>
     /// <remarks>
@@ -106,6 +123,16 @@ public sealed partial class Result<T, TE> : IEquatable<Result<T, TE>>
         return new Result<Unit, TE>(result._error!);
     }
 
+    /// <summary>
+    ///     Implicitly converts <paramref name="value"/> into an Ok(<typeparamref name="T"/>) <see cref="Result{T, TE}"/>.
+    /// </summary>
+    /// <param name="value">
+    ///     The Ok value to encapsulate.
+    /// </param>
+    /// <returns>
+    ///     An Ok(<typeparamref name="T"/>) result which encapsulates <paramref name="value"/>.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">When <paramref name="value"/> is <see langword="null"/>.</exception>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static implicit operator Result<T, TE>([DisallowNull] in T value)
@@ -115,6 +142,16 @@ public sealed partial class Result<T, TE> : IEquatable<Result<T, TE>>
         return new Result<T, TE>(value);
     }
 
+    /// <summary>
+    ///     Implicitly converts <paramref name="error"/> into an Error(<typeparamref name="TE"/>) <see cref="Result{T, TE}"/>.
+    /// </summary>
+    /// <param name="error">
+    ///     The Error value to encapsulate.
+    /// </param>
+    /// <returns>
+    ///     An Error(<typeparamref name="TE"/>) result which encapsulates <paramref name="error"/>.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">When <paramref name="error"/> is <see langword="null"/>.</exception>
     [Pure]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static implicit operator Result<T, TE>([DisallowNull] in TE error)

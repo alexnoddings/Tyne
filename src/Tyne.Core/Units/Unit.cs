@@ -9,6 +9,16 @@ namespace Tyne;
 ///     the <see cref="Unit"/> type has only a single value, which acts as a placeholder when no other value exists or is needed.
 ///     Represents <see langword="void"/> since that is not a valid <see cref="Type"/> in C#.
 /// </summary>
+/// <remarks>
+///     Useful to normalise APIs, especially when using generic types.
+///     For example, consider designing an API surface with a method that optionally takes a <c>TIn</c>, and optionally returns a <c>TOut</c>.
+///     <list>
+///         <item><c>Action</c> is equivalent to <c>Func&lt;Unit, Unit&gt;</c></item>
+///         <item><c>Action&lt;int&gt;</c> is equivalent to <c>Func&lt;int, Unit&gt;</c></item>
+///         <item><c>Func&lt;int&gt;</c> is equivalent to <c>Func&lt;Unit, int&gt;</c></item>
+///         <item><c>Func&lt;int, int&gt;</c> is equivalent to <c>Func&lt;int, int&gt;</c></item>
+///     </list>
+/// </remarks>
 // Implementation heavily inspired by MediatR's Unit implementation.
 // https://github.com/jbogard/MediatR/blob/master/src/MediatR.Contracts/Unit.cs
 [DebuggerDisplay("()")]
@@ -91,12 +101,10 @@ public readonly struct Unit : IEquatable<Unit>, IComparable<Unit>, IComparable
     public override int GetHashCode() => 0;
 
     /// <inheritdoc />
-    /// <param name="_">The other <see cref="Unit"/>. This is ignored.</param>
     /// <remarks>This is always <c>0</c>.</remarks>
     public int CompareTo(Unit _) => 0;
 
     /// <inheritdoc />
-    /// <param name="obj">The other <see cref="object"/>. This is ignored.</param>
     /// <remarks>This is always <c>0</c>.</remarks>
     public int CompareTo(object? obj) => 0;
 

@@ -63,6 +63,20 @@ public readonly partial struct Option<T> : IEquatable<Option<T>>, IEquatable<T>
         _value = value;
     }
 
+    /// <summary>
+    ///     Tries to unwrap this option.
+    /// </summary>
+    /// <param name="value">
+    ///     This option's value if it is Some(<typeparamref name="T"/>); otherwise, <see langword="default"/> when it is None.
+    /// </param>
+    /// <returns>
+    ///     <see langword="true"/> if this is Some(<typeparamref name="T"/>);
+    ///     otherwise, <see langword="false"/> when it is None.
+    /// </returns>
+    /// <remarks>
+    ///     If this is Some(<typeparamref name="T"/>), then <paramref name="value"/> is set and this returns <see langword="true"/>.
+    ///     Otherwise, when this is None, then <paramref name="value"/> will be <see langword="default"/> and this returns <see langword="false"/>.
+    /// </remarks>
     [Pure]
     public bool TryUnwrap([NotNullWhen(true)] out T? value)
     {
