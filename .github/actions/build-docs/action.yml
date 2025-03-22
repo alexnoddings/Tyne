@@ -44,7 +44,7 @@ runs:
     - name: Publish demo site
       shell: bash
       run: |
-        dotnet publish ./example/Host.Wasm/ --configuration Release --output ./artifacts/demo/
+        dotnet publish ./example/Tyne.Example.Host.Wasm/ --configuration Release --output ./artifacts/demo/
         mkdir ./artifacts/docs/demo
         mv ./artifacts/demo/wwwroot/* ./artifacts/docs/demo/
         sed -i 's@<base href="/" />@<base href="/demo/" />@g' ./artifacts/docs/demo/index.html
