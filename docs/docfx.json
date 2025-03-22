@@ -10,7 +10,7 @@
         {
           "files": [
             "Tyne.Core/Core.csproj",
-            "Tyne.Blazor/Blazor.csproj"
+//            "Tyne.Blazor/Blazor.csproj"
           ],
           "src": "../src/"
         }
