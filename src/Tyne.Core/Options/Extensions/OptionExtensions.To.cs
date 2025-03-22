@@ -1,10 +1,14 @@
+using System.Runtime.CompilerServices;
+
 namespace Tyne;
 
 public static partial class OptionExtensions
 {
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ValueTask<Option<T>> ToValueTask<T>(this Option<T> option) =>
         ValueTask.FromResult(option);
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Task<Option<T>> ToTask<T>(this Option<T> option) =>
         Task.FromResult(option);
 
