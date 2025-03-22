@@ -4,7 +4,7 @@
     <TyneMajorVersion>4</TyneMajorVersion>
     <TyneMinorVersion>0</TyneMinorVersion>
     <TynePatchVersion>0</TynePatchVersion>
-    <TynePreReleaseTag>preview1</TynePreReleaseTag>
+    <TynePreReleaseTag>rc1</TynePreReleaseTag>
   </PropertyGroup>
 
 </Project>
