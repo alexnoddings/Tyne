@@ -47,6 +47,6 @@ runs:
         dotnet publish ./example/Host.Wasm/ --configuration Release --output ./artifacts/demo/
         mkdir ./artifacts/docs/demo
         mv ./artifacts/demo/wwwroot/* ./artifacts/docs/demo/
-        sed -i 's@<base href="/" />@<base href="/Tyne/demo/" />@g' ./artifacts/docs/demo/index.html
+        sed -i 's@<base href="/" />@<base href="/demo/" />@g' ./artifacts/docs/demo/index.html
         cp ./artifacts/docs/demo/index.html ./artifacts/docs/404.html
         sed -i 's@var deployed = false;@var deployed = true;@g' ./artifacts/docs/404.html

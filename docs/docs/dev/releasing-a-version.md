@@ -11,7 +11,7 @@ title: Releasing a version
 - Update the version info in [Version.props](gitfile://eng/Version.props)
     - Increment `TyneMajorVersion`/`TyneMinorVersion`/`TynePatchVersion`/`TynePreReleaseTag` as appropriate
     - `TynePreReleaseTag` should be set to `rc.N` (e.g. `rc.1`) for RC versions, or not set for full release versions
-- Ensure you have a changes doc under [/docs/docs/changes/](gitfile://docs/docs/changes)
+- Ensure you have a changes doc under [/docs/changes/](gitfile://docs/changes)
     - You should have a page per release version, e.g. `v3.2.0.md` includes changes from `v3.2.0-rc.1`, `v3.2.0-rc.2`, and `v3.2.0`)
     - Remember to add new pages to the `toc.yml`
     - If the version is not a full release, include a warning at the top of the doc page:\

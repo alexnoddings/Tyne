@@ -32,12 +32,15 @@ The `Build.props` is imported late in the MSBuild sequence by [Directory.Build.t
 - Configures warnings and errors based on the project
 
 ### [eng/Packages.props](gitfile://eng/Packages.props)
+- Defines common package versions used across the solution
+
+### [eng/Publishing.props](gitfile://eng/Publishing.props)
 - Marks projects to be published as packages
 - Configures packaging properties
 - This is imported at the end of the `.csproj`
 - Sanity checks the projects
 
-### [eng/Tests.props](gitfile://eng/Tests.props)
+### [eng/Testing.props](gitfile://eng/Testing.props)
 - Configures testing-based global usings
 - Ignores some warnings not relevant to tests
 

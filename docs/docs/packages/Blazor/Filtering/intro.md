@@ -6,7 +6,7 @@ title: Filtering intro
 Tyne.Blazor provides a set of components for rich, interactive data filtering.
 
 > [!NOTE]
-> The demo app contains [companion examples](/Tyne/demo/examples/filtering/intro).
+> The demo app contains [companion examples](/demo/examples/filtering/intro).
 
 ## Overview
 Filtering components come in one of two flavours:

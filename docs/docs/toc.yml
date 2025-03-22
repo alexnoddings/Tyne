@@ -1,33 +1,19 @@
 - name: Getting started
 - name: Overview
   href: index.md
-- name: Preludes
-  href: preludes.md
 
 - name: Packages
 - name: Package index
   href: packages/index.md
-- name: Tyne.AspNetCore
-  href: packages/AspNetCore.md
 - name: Tyne.Blazor
   href: packages/Blazor/toc.yml
   homepage: packages/Blazor.md
 - name: Tyne.Core
   href: packages/Core.md
-- name: Tyne.EntityFramework
-  href: packages/EntityFramework/toc.yml
-  homepage: packages/EntityFramework.md
-- name: Tyne.HttpMediator
-  href: packages/HttpMediator/toc.yml
-  homepage: packages/HttpMediator.md
-- name: Tyne.Testing
-  href: packages/Testing.md
 
 - name: Developing
 - name: Docs
   href: dev/docs.md
-- name: EventIds
-  href: dev/event-ids.md
 - name: Package upgrades
   href: dev/package-upgrades.md
 - name: Releasing a version

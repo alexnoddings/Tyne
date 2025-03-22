@@ -31,33 +31,47 @@ Install-Package Tyne.Core -Version ${PACKAGE_VERSION}
 </div>
 
 ### Prelude
-Tyne's common core types can be shortened using Tyne's [prelude system](../preludes.md):
+Tyne's common core types can be shortened using Tyne's prelude system, which is designed to make using common types more ergonomic.
+
+Tyne's core prelude is enabled by default, but can be controlled with the `TynePrelude` property:
 
 ```xml
 <PropertyGroup>
-    <!-- Enables every Tyne prelude -->
+    <!-- Disables the Tyne prelude -->
+    <TynePrelude>disable</TynePrelude>
+    <!-- Enables the Tyne prelude (default setting) -->
     <TynePrelude>enable</TynePrelude>
-    <!------------  OR  ------------>
-    <!-- Enables just Tyne's Core prelude -->
-    <TyneCorePrelude>enable</TyneCorePrelude>
 </PropertyGroup>
 ```
 
-Once enabled:
-- [`Result`](xref:Tyne.Result), [`Option`](xref:Tyne.Option), and [`Error`](xref:Tyne.Error) creation methods are imported statically:
-    ```cs
-    var okResult = Ok(42);
-    var errorResult = Error<int>("No value");
-
-    var some = Some(101);
-    var none = None<int>();
-
-    var error = Error("Nothing");
-    ```
+Preludes come enabled by default. When enabled:
 - [`Unit.Value`](xref:Tyne.Unit.Value) is imported statically as `unit`:
     ```cs
     // Without prelude
     return Unit.Value;
+
     // With prelude
     return unit;
+    ```
+
+- [`Result`](xref:Tyne.Result`2) creation methods are imported statically:
+    ```cs
+    // Without prelude
+    var okResult = Result.Ok<int, string>(42);
+    var errorResult = Result.Error<int, string>("some error");
+
+    // With prelude
+    var okResult = Ok<int, string>(42);
+    var errorResult = Error<int, string>("No value");
+    ```
+
+- [`Option`](xref:Tyne.Option`1) creation methods are imported statically:
+    ```cs
+    // Without prelude
+    var some = Option.Some(101);
+    var none = Option.None<int>();
+
+    // With prelude
+    var some = Some(101);
+    var none = None<int>();
     ```

@@ -9,21 +9,8 @@
       "src": [
         {
           "files": [
-            "AspNetCore/src/AspNetCore.csproj",
-            "Core/src/Core.csproj",
-            "Blazor/src/Blazor.csproj",
-            "EntityFramework/src/EntityFramework.csproj",
-            "EntityFramework/src.ChangeAuditing/EntityFramework.ChangeAuditing.csproj",
-            "EntityFramework.ModificationTracking/src/EntityFramework.ModificationTracking.csproj",
-            "EntityFramework.UserService/src/EntityFramework.UserService.csproj",
-            "EntityFramework.UserService.Core/src/EntityFramework.UserService.Core.csproj",
-            "HttpMediator.Client/src/HttpMediator.Client.csproj",
-            "HttpMediator.Client.FluentValidation/src/HttpMediator.Client.FluentValidation.csproj",
-            "HttpMediator.Core/src/HttpMediator.Core.csproj",
-            "HttpMediator.Server/src/HttpMediator.Server.csproj",
-            "HttpMediator.Server.FluentValidation/src/HttpMediator.Server.FluentValidation.csproj",
-            "HttpMediator.Server.MediatR/src/HttpMediator.Server.MediatR.csproj",
-            "Testing/src/Testing.csproj"
+            "Tyne.Core/Core.csproj",
+            "Tyne.Blazor/Blazor.csproj"
           ],
           "src": "../src/"
         }

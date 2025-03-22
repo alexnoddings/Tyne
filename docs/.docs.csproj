@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.Build.NoTargets">
 
     <PropertyGroup>
-        <!-- Docs targets the latest SDK. -->
-        <TargetFramework>net9.0</TargetFramework>
+        <!-- Docs targets the latest LTS SDK. -->
+        <TargetFramework>net8.0</TargetFramework>
         <!-- This project doesn't contain any .NET code. -->
         <EnableNETAnalyzers>false</EnableNETAnalyzers>
     </PropertyGroup>
